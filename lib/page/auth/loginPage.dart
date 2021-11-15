@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 margin: EdgeInsets.only(top: 8),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(color: Colors.grey.withOpacity(0.1), borderRadius: BorderRadius.circular(8), border: Border.all(color: Config.buttonGrey)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                 child: Column(
                   children: <Widget>[
                     Container(
