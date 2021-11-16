@@ -10,24 +10,31 @@ class MapelProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getMapels(token) async {
+  Future<bool> getMapels(token) async {
     try {
       List<MapelModel> mapels = await MapelService().getData(token);
       _mapels = mapels;
       // for (var item in _mapels) {
       //   print(item.mapel);
       // }
+      // notifyListeners();
+      return true;
     } catch (e) {
       print(e);
+      return false;
     }
   }
 
-  Future<void> tambahMapel(String token, String namaMapel) async {
+  Future<bool> tambahMapel(String token, String namaMapel) async {
     try {
       bool status = await MapelService().tambahMapel(token, namaMapel);
-      print(status);
+      List<MapelModel> mapels = await MapelService().getData(token);
+      _mapels = mapels;
+      notifyListeners();
+      return status;
     } catch (e) {
       print(e);
+      return false;
     }
   }
 }

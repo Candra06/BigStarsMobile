@@ -12,7 +12,8 @@ class MapelService {
     var response = await http.get(Uri.parse(urlMapel), headers: {
       "Authorization": token,
     });
-
+    // print(urlMapel);
+    // print(token);
     // print(response.body);
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)["data"];
@@ -36,7 +37,6 @@ class MapelService {
     };
     var response =
         await http.post(Uri.parse(urlCreate), headers: header, body: body);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       return true;
     } else {

@@ -14,6 +14,7 @@ class ItemListMapel extends StatefulWidget {
 }
 
 class _ItemListMapelState extends State<ItemListMapel> {
+  hapusMapel() {}
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +25,13 @@ class _ItemListMapelState extends State<ItemListMapel> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(widget.mapelModel.mapel),
+              Expanded(
+                child: Text(
+                  widget.mapelModel.mapel,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
               Row(
                 children: [
                   IconButton(

@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/helper/loadingButton.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/homePage.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
+import 'package:bigstars_mobile/provider/mapel_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_transition/page_transition.dart';
@@ -21,7 +23,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   var obsuced = true;
-  Color alertColor = Color(0xffED6363);
   bool isLoading = false;
   Map<dynamic, dynamic> data;
   UserModel user;
@@ -46,7 +47,10 @@ class _LoginPageState extends State<LoginPage> {
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setString('token', user.token);
         pref.setString('user', json.encode(user.toJson()));
-        // print(authProvider.user.token);
+        setState(() {
+          Provider.of<MapelProvider>(context, listen: false)
+              .getMapels(user.token);
+        });
         if (authProvider.user.role == 'Admin') {
           Navigator.pushReplacement(
             context,
@@ -65,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: alertColor,
+            backgroundColor: Config.alertColor,
             content: Text(
               "gagal login, cek ulang inputan !",
               textAlign: TextAlign.center,
@@ -77,39 +81,6 @@ class _LoginPageState extends State<LoginPage> {
           isLoading = false;
         });
       }
-    }
-
-    Widget loadingButton() {
-      return ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          fixedSize: Size(MediaQuery.of(context).size.width, 50),
-          primary: Config.primary,
-          onPrimary: Config.textWhite,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Text(
-              "Tunggu...",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          ],
-        ),
-      );
     }
 
     Widget signIn() {
@@ -172,9 +143,8 @@ class _LoginPageState extends State<LoginPage> {
                 margin: EdgeInsets.only(top: 8),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                 decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Config.buttonGrey)),
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -217,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: 30,
               ),
               // signIn(),
-              !isLoading ? signIn() : loadingButton(),
+              !isLoading ? signIn() : LoadingButton(),
               SizedBox(
                 height: 20,
               ),

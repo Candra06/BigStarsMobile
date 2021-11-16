@@ -1,8 +1,11 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/helper/loadingButton.dart';
 import 'package:bigstars_mobile/helper/pref.dart';
+import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/provider/mapel_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddMapel extends StatefulWidget {
   final String id;
@@ -14,12 +17,57 @@ class AddMapel extends StatefulWidget {
 
 class _AddMapelState extends State<AddMapel> {
   TextEditingController txtMapel = new TextEditingController();
+  bool isLoading = false;
   List status = ['Active', 'Inactive'];
   String valStatus;
-  void addMapel() async {
-    var token = await Pref.getToken();
-    await MapelProvider().tambahMapel(token, txtMapel.text);
-    print(txtMapel.text);
+  var token;
+
+  void getData() async {
+    token = await Pref.getToken();
+  }
+
+  addMapel(context) {
+    setState(() {
+      isLoading = true;
+    });
+    Provider.of<MapelProvider>(context, listen: false)
+        .tambahMapel(token, txtMapel.text)
+        .then((value) {
+      if (value) {
+        txtMapel.text = "";
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Config.primary,
+            content: Text(
+              "Data Mapel Berhasil ditambah",
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      } else {
+        txtMapel.text = "";
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Config.alertColor,
+            content: Text(
+              "Data Mapel Gagal ditambah",
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+    });
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
   }
 
   @override
@@ -86,30 +134,28 @@ class _AddMapelState extends State<AddMapel> {
             SizedBox(
               height: 20,
             ),
-            addMapelButton(context),
+            isLoading
+                ? LoadingButton()
+                : ElevatedButton(
+                    onPressed: () {
+                      // aksi simpan
+                      addMapel(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(MediaQuery.of(context).size.width, 50),
+                      primary: Config.primary,
+                      onPrimary: Config.textWhite,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    child: Text(
+                      "Simpan",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  ),
           ],
         ),
-      ),
-    );
-  }
-
-  ElevatedButton addMapelButton(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        // aksi simpan
-        addMapel();
-      },
-      style: ElevatedButton.styleFrom(
-        fixedSize: Size(MediaQuery.of(context).size.width, 50),
-        primary: Config.primary,
-        onPrimary: Config.textWhite,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-      ),
-      child: Text(
-        "Simpan",
-        style: TextStyle(color: Colors.white, fontSize: 20),
       ),
     );
   }
