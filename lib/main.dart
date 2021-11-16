@@ -14,7 +14,7 @@ void main() {
   runApp(AppConfig(
       appName: "BigStars",
       flavorName: "dev",
-      // initialRoute: ,
+      initialRoute: Routes.SPLASH,
       child: MyApp()));
 }
 
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: Routes.generateRoute,
-        initialRoute: Routes.SPLASH,
+        initialRoute: initialRoute,
         title: 'BigStars App',
       ),
     );
