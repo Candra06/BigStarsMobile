@@ -1,5 +1,7 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/helper/pref.dart';
+import 'package:bigstars_mobile/provider/mapel_provider.dart';
 import 'package:flutter/material.dart';
 
 class AddMapel extends StatefulWidget {
@@ -14,6 +16,12 @@ class _AddMapelState extends State<AddMapel> {
   TextEditingController txtMapel = new TextEditingController();
   List status = ['Active', 'Inactive'];
   String valStatus;
+  void addMapel() async {
+    var token = await Pref.getToken();
+    await MapelProvider().tambahMapel(token, txtMapel.text);
+    print(txtMapel.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +56,9 @@ class _AddMapelState extends State<AddMapel> {
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
@@ -76,25 +86,30 @@ class _AddMapelState extends State<AddMapel> {
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              onPressed: () {
-                // aksi simpan
-              },
-              style: ElevatedButton.styleFrom(
-                fixedSize: Size(MediaQuery.of(context).size.width, 50),
-                primary: Config.primary,
-                onPrimary: Config.textWhite,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-              child: Text(
-                "Simpan",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-            ),
+            addMapelButton(context),
           ],
         ),
+      ),
+    );
+  }
+
+  ElevatedButton addMapelButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        // aksi simpan
+        addMapel();
+      },
+      style: ElevatedButton.styleFrom(
+        fixedSize: Size(MediaQuery.of(context).size.width, 50),
+        primary: Config.primary,
+        onPrimary: Config.textWhite,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+      ),
+      child: Text(
+        "Simpan",
+        style: TextStyle(color: Colors.white, fontSize: 20),
       ),
     );
   }

@@ -105,7 +105,7 @@ packages:
     source: hosted
     version: "1.0.11"
   flutter_spinkit:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_spinkit
       url: "https://pub.dartlang.org"
@@ -122,28 +122,28 @@ packages:
     source: sdk
     version: "0.0.0"
   fluttertoast:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: fluttertoast
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.1.8"
   font_awesome_flutter:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: font_awesome_flutter
       url: "https://pub.dartlang.org"
     source: hosted
     version: "8.12.0"
   google_fonts:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: google_fonts
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.2"
   http:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -157,7 +157,7 @@ packages:
     source: hosted
     version: "3.1.4"
   image_picker:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: image_picker
       url: "https://pub.dartlang.org"
@@ -171,7 +171,7 @@ packages:
     source: hosted
     version: "1.1.6"
   intl:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: intl
       url: "https://pub.dartlang.org"
@@ -205,8 +205,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   page_transition:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: page_transition
       url: "https://pub.dartlang.org"
@@ -255,7 +262,7 @@ packages:
     source: hosted
     version: "0.0.5"
   pattern_formatter:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: pattern_formatter
       url: "https://pub.dartlang.org"
@@ -289,8 +296,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.3"
+  provider:
+    dependency: "direct main"
+    description:
+      name: provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.3.3"
   shared_preferences:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"
@@ -332,7 +346,7 @@ packages:
     source: hosted
     version: "0.0.2+3"
   simple_animations:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: simple_animations
       url: "https://pub.dartlang.org"
