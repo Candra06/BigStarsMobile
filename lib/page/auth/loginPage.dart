@@ -1,10 +1,18 @@
+import 'dart:convert';
+
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/helper/loadingButton.dart';
+import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/homePage.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
+import 'package:bigstars_mobile/provider/auth_provider.dart';
+import 'package:bigstars_mobile/provider/mapel_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -15,21 +23,92 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   var obsuced = true;
-
-  void submitLogin() {
-    Navigator.pushReplacement(
-        context,
-        PageTransition(
-            child: AdminMain(
-              indexPage: '0',
-            ),
-            type: PageTransitionType.fade));
-  }
-
+  bool isLoading = false;
+  Map<dynamic, dynamic> data;
+  UserModel user;
   TextEditingController txtUsername = new TextEditingController();
   TextEditingController txtPassword = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    submitLogin() async {
+      setState(() {
+        isLoading = true;
+      });
+      data = await authProvider.login(
+          username: txtUsername.text, password: txtPassword.text);
+      user = authProvider.user;
+      if (data["status"]) {
+        setState(() {
+          print(data["message"]);
+          isLoading = false;
+        });
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setString('token', user.token);
+        pref.setString('user', json.encode(user.toJson()));
+        setState(() {
+          Provider.of<MapelProvider>(context, listen: false)
+              .getMapels(user.token);
+        });
+        if (authProvider.user.role == 'Admin') {
+          Navigator.pushReplacement(
+            context,
+            PageTransition(
+              child: AdminMain(
+                indexPage: '0',
+              ),
+              type: PageTransitionType.fade,
+            ),
+          );
+        } else if (authProvider.user.role == 'Guru') {
+          print("guru");
+        } else {
+          print("Walimurid");
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Config.alertColor,
+            content: Text(
+              "gagal login, cek ulang inputan !",
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+        setState(() {
+          print(data["message"]);
+          isLoading = false;
+        });
+      }
+    }
+
+    Widget signIn() {
+      return ElevatedButton(
+        onPressed: () {
+          // if (txtUsername.text.isEmpty) {
+          //   return Config.alert(0, 'Username tidak boleh kosong');
+          // } else if (txtPassword.text.isEmpty) {
+          //   return Config.alert(0, 'Password tidak boleh kosong');
+          // } else {
+          submitLogin();
+          // }
+        },
+        style: ElevatedButton.styleFrom(
+          fixedSize: Size(MediaQuery.of(context).size.width, 50),
+          primary: Config.primary,
+          onPrimary: Config.textWhite,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+        ),
+        child: Text(
+          "Masuk",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+      );
+    }
+
     return Scaffold(
       body: Container(
         margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -63,7 +142,11 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 margin: EdgeInsets.only(top: 8),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
+
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -77,7 +160,9 @@ class _LoginPageState extends State<LoginPage> {
                             fillColor: Colors.black54,
                             suffixIcon: IconButton(
                               color: Config.primary,
-                              icon: obsuced ? Icon(Icons.lock_outline_rounded) : Icon(Icons.lock_open),
+                              icon: obsuced
+                                  ? Icon(Icons.lock_outline_rounded)
+                                  : Icon(Icons.lock_open),
                               onPressed: () {
                                 if (obsuced == true) {
                                   setState(() {
@@ -103,29 +188,8 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 30,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  // if (txtUsername.text.isEmpty) {
-                  //   return Config.alert(0, 'Username tidak boleh kosong');
-                  // } else if (txtPassword.text.isEmpty) {
-                  //   return Config.alert(0, 'Password tidak boleh kosong');
-                  // } else {
-                  submitLogin();
-                  // }
-                },
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size(MediaQuery.of(context).size.width, 50),
-                  primary: Config.primary,
-                  onPrimary: Config.textWhite,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-                child: Text(
-                  "Masuk",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              ),
+              // signIn(),
+              !isLoading ? signIn() : LoadingButton(),
               SizedBox(
                 height: 20,
               ),
