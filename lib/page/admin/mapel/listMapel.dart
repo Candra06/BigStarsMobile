@@ -4,18 +4,29 @@ import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/mapel_model.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListMapel.dart';
 import 'package:bigstars_mobile/provider/mapel_provider.dart';
-import 'package:bigstars_mobile/service/mapel_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ListMapel extends StatelessWidget {
-  List<MapelModel> mapels;
+class ListMapel extends StatefulWidget {
+  @override
+  _ListMapelState createState() => _ListMapelState();
+}
+
+class _ListMapelState extends State<ListMapel> {
+  var token;
+  void getData() async {
+    token = await Pref.getToken();
+    print(token);
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    MapelProvider mapelProvider = Provider.of<MapelProvider>(context);
-    mapels = mapelProvider.mapels;
-    // print(mapels);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Config.textWhite,
@@ -33,38 +44,41 @@ class ListMapel extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          backgroundColor: Config.primary,
-          onPressed: () {
-            Navigator.pushNamed(context, Routes.ADD_MAPEL, arguments: '0');
-          },
-          child: Icon(
-            Icons.add,
-            color: Config.textWhite,
-          )),
-      // body: Container(
-      //   margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
-      //   child: ListView.builder(
-      //     itemCount: 3,
-      //     itemBuilder: (BuildContext context, int i) {
-      //       return ItemListMapel(
-      //         id: 1,
-      //         mapel: 'Calistung',
-      //       );
-      //     },
-      //   ),
-      // ),
+        backgroundColor: Config.primary,
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.ADD_MAPEL, arguments: '0');
+        },
+        child: Icon(
+          Icons.add,
+          color: Config.textWhite,
+        ),
+      ),
       body: Container(
         margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
-        child: ListView(
-          children: [
-            ...mapels.map(
-              (mapel) => ItemListMapel(
-                // id: 1,
-                // mapel: 'Calistung',
-                mapelModel: mapel,
+        child: FutureBuilder(
+          future: Provider.of<MapelProvider>(context, listen: false)
+              .getMapels(token),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+            return RefreshIndicator(
+              onRefresh: () async {
+                token = await Pref.getToken();
+                return Provider.of<MapelProvider>(context, listen: false)
+                    .getMapels(token);
+              },
+              child: Consumer<MapelProvider>(
+                builder: (context, data, _) => ListView.builder(
+                    itemCount: data.mapels.length,
+                    itemBuilder: (BuildContext context, int i) {
+                      return ItemListMapel(
+                        mapelModel: data.mapels[i],
+                      );
+                    }),
               ),
-            )
-          ],
+            );
+          },
         ),
       ),
     );
