@@ -12,6 +12,7 @@ class ListGuru extends StatefulWidget {
 
 class _ListGuruState extends State<ListGuru> {
   bool load = false;
+  String searchString = "";
   @override
   void initState() {
     super.initState();
@@ -36,14 +37,63 @@ class _ListGuruState extends State<ListGuru> {
             )
           : Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
-              child: ListView.builder(
-                  itemCount: 2,
-                  itemBuilder: (BuildContext context, int i) {
-                    var data = {"id": '1', "nama": "Orel Revo", "phone": "087757898666"};
-                    return ItemListGuru(
-                      data: data,
-                    );
-                  }),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          child: TextFormField(
+                              style: TextStyle(color: Colors.black54),
+                              obscureText: false,
+                              keyboardType: TextInputType.text,
+                              onChanged: (value) {
+                                setState(() {
+                                  searchString = value;
+                                });
+                              },
+                              // controller: controller,
+                              decoration: InputDecoration(
+                                alignLabelWithHint: true,
+                                fillColor: Colors.black54,
+                                suffixIcon: Icon(
+                                  Icons.search,
+                                  color: Config.textGrey,
+                                ),
+                                hintText: 'Cari Nama',
+                                hintStyle: TextStyle(
+                                    // color: Config.textWhite,
+                                    fontSize: 16),
+                                border: InputBorder.none,
+                              )),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: 2,
+                        itemBuilder: (BuildContext context, int i) {
+                          var data = {"id": '1', "nama": "Orel Revo", "phone": "087757898666"};
+                          if (searchString != '') {
+                            return Container();
+                            // logic ketika pencarian berdasarkan nama
+                          } else {
+                            return ItemListGuru(
+                              data: data,
+                            );
+                          }
+                        }),
+                  ),
+                ],
+              ),
             ),
     );
   }

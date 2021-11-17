@@ -13,46 +13,51 @@ class ItemListGuru extends StatefulWidget {
 class _ItemListGuruState extends State<ItemListGuru> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 8),
-      child: Card(
-        child: Container(
-          margin: EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.data['nama'],
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
-                  ),
-                  Text(
-                    widget.data["phone"],
-                    style: TextStyle(fontSize: 13, color: Config.textGrey),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, Routes.ADD_GURU, arguments: widget.data['id'].toString());
-                      },
-                      icon: Icon(
-                        Icons.edit,
-                        color: Config.primary,
-                      )),
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.delete,
-                        color: Config.textRed,
-                      ))
-                ],
-              )
-            ],
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, Routes.DETAIL_GURU, arguments: widget.data['id']);
+      },
+      child: Container(
+        margin: EdgeInsets.only(top: 8),
+        child: Card(
+          child: Container(
+            margin: EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.data['nama'],
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                    ),
+                    Text(
+                      widget.data["phone"],
+                      style: TextStyle(fontSize: 13, color: Config.textGrey),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.ADD_GURU, arguments: widget.data['id'].toString());
+                        },
+                        icon: Icon(
+                          Icons.edit,
+                          color: Config.primary,
+                        )),
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.delete,
+                          color: Config.textRed,
+                        ))
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
