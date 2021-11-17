@@ -6,4 +6,7 @@ class EndPoint {
   // mapel
   static final String mapel = api + 'mapel/data';
   static final String mCreate = api + 'mapel/create';
+  static final String mDelete = api + 'mapel/delete/';
+  static final String mDetail = api + 'mapel/detail/';
+  static final String mUpdate = api + 'mapel/update/';
 }
