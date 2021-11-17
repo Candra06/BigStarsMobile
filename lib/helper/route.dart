@@ -1,5 +1,6 @@
 import 'package:bigstars_mobile/page/admin/mapel/addMapel.dart';
 import 'package:bigstars_mobile/page/admin/mapel/listMapel.dart';
+import 'package:bigstars_mobile/page/admin/pengguna/guru/addGuru.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
 import 'package:bigstars_mobile/page/auth/splash.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class Routes {
   static const String LOGIN = '/login';
   static const String LIST_MAPEL = '/list_mapel';
   static const String ADD_MAPEL = '/add_mapel';
+  static const String ADD_GURU = '/add_guru';
   static const String HOME = '/home';
   static const String AKUN = '/akun';
 
@@ -36,6 +38,7 @@ class Routes {
         return PageTransition(
             child: ListMapel(), type: PageTransitionType.leftToRight);
       case ADD_MAPEL:
+
         Map<String, dynamic> data = settings.arguments;
         return PageTransition(
             child: AddMapel(
@@ -43,6 +46,7 @@ class Routes {
               mapel: data["mapel"],
             ),
             type: PageTransitionType.bottomToTop);
+
 
       // case AKUN:
       //   var data = settings.arguments;
