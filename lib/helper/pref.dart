@@ -1,3 +1,4 @@
+import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Pref {
@@ -5,6 +6,12 @@ class Pref {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String token = preferences.getString('token');
     return token;
+  }
+
+  static getUserModel() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String user = preferences.getString('user');
+    return user;
   }
 
   static isDiagnosa() async {
