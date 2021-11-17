@@ -30,11 +30,19 @@ class Routes {
       case SPLASH:
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case LOGIN:
-        return PageTransition(child: LoginPage(), type: PageTransitionType.leftToRight);
+        return PageTransition(
+            child: LoginPage(), type: PageTransitionType.leftToRight);
       case LIST_MAPEL:
-        return PageTransition(child: ListMapel(), type: PageTransitionType.leftToRight);
+        return PageTransition(
+            child: ListMapel(), type: PageTransitionType.leftToRight);
       case ADD_MAPEL:
-        return PageTransition(child: AddMapel(id: settings.arguments), type: PageTransitionType.bottomToTop);
+        Map<String, dynamic> data = settings.arguments;
+        return PageTransition(
+            child: AddMapel(
+              id: data["id"],
+              mapel: data["mapel"],
+            ),
+            type: PageTransitionType.bottomToTop);
 
       // case AKUN:
       //   var data = settings.arguments;
