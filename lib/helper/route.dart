@@ -1,6 +1,12 @@
 import 'package:bigstars_mobile/page/admin/mapel/addMapel.dart';
 import 'package:bigstars_mobile/page/admin/mapel/listMapel.dart';
 import 'package:bigstars_mobile/page/admin/pengguna/guru/addGuru.dart';
+import 'package:bigstars_mobile/page/admin/pengguna/guru/detailGuru.dart';
+import 'package:bigstars_mobile/page/admin/pengguna/siswa/addSiswa.dart';
+import 'package:bigstars_mobile/page/admin/pengguna/siswa/detailSiswa.dart';
+import 'package:bigstars_mobile/page/admin/pengguna/siswa/editSiswa.dart';
+import 'package:bigstars_mobile/page/admin/pengguna/wali/detailWali.dart';
+import 'package:bigstars_mobile/page/admin/pengguna/wali/editWali.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
 import 'package:bigstars_mobile/page/auth/splash.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +30,12 @@ class Routes {
   static const String LIST_MAPEL = '/list_mapel';
   static const String ADD_MAPEL = '/add_mapel';
   static const String ADD_GURU = '/add_guru';
+  static const String ADD_SISWA = '/add_siswa';
+  static const String DETAIL_GURU = '/detail_guru';
+  static const String DETAIL_SISWA = '/detail_siswa';
+  static const String EDIT_SISWA = '/edit_siswa';
+  static const String EDIT_WALI = '/edit_wali';
+  static const String DETAIL_WALI = '/detail_wali';
   static const String HOME = '/home';
   static const String AKUN = '/akun';
 
@@ -38,16 +50,27 @@ class Routes {
         return PageTransition(
             child: ListMapel(), type: PageTransitionType.leftToRight);
       case ADD_MAPEL:
-
-        Map<String, dynamic> data = settings.arguments;
+         Map<String, dynamic> data = settings.arguments;
         return PageTransition(
             child: AddMapel(
               id: data["id"],
               mapel: data["mapel"],
             ),
             type: PageTransitionType.bottomToTop);
-
-
+      case ADD_GURU:
+        return PageTransition(child: AddGuru(id: settings.arguments), type: PageTransitionType.bottomToTop);
+      case ADD_SISWA:
+        return PageTransition(child: AddSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
+      case DETAIL_SISWA:
+        return PageTransition(child: DetailSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
+      case DETAIL_WALI:
+        return PageTransition(child: DetailWaliSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
+      case DETAIL_GURU:
+        return PageTransition(child: DetailGuru(id: settings.arguments), type: PageTransitionType.bottomToTop);
+      case EDIT_SISWA:
+        return PageTransition(child: EditSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
+      case EDIT_WALI:
+        return PageTransition(child: EditWali(id: settings.arguments), type: PageTransitionType.bottomToTop);
       // case AKUN:
       //   var data = settings.arguments;
       //   return PageTransition(

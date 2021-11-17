@@ -65,6 +65,28 @@ class Config {
         });
   }
 
+  static itemDetail(String title, konten) {
+    return Column(
+      children: [
+        Container(
+          color: Config.textWhite,
+          padding: EdgeInsets.all(16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(title),
+              Text(
+                konten,
+                style: TextStyle(color: Config.textGrey),
+              ),
+            ],
+          ),
+        ),
+        Divider(height: 1)
+      ],
+    );
+  }
+
   static emptyData(String pesan, context) {
     return Center(
       child: Column(

@@ -1,6 +1,7 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/page/admin/pengguna/guru/listGuru.dart';
 import 'package:bigstars_mobile/page/admin/pengguna/siswa/listSiswa.dart';
+import 'package:bigstars_mobile/page/admin/pengguna/wali/listWali.dart';
 import 'package:flutter/material.dart';
 
 class PagePengguna extends StatefulWidget {
@@ -54,7 +55,7 @@ class _PagePenggunaState extends State<PagePengguna> with SingleTickerProviderSt
       ),
       body: TabBarView(controller: controller, children: <Widget>[
         ListGuru(),
-        ListGuru(),
+        ListWali(),
         ListSiswa(),
       ]),
     );
