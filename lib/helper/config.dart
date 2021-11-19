@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 
 class Config {
   static final HexColor primary = new HexColor('#FF7F00');
+  static final HexColor secondary = new HexColor('#f4a427');
   static final HexColor darkPrimary = new HexColor('#00A2E9');
   static final HexColor textWhite = new HexColor('#ffffff');
   static final HexColor textAuth = new HexColor('#407a9d');
