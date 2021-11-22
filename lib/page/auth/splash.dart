@@ -4,6 +4,7 @@ import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
+import 'package:bigstars_mobile/page/maps.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/provider/mapel_provider.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,7 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with TickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _animation;
   String token = '';
@@ -38,19 +38,17 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     getData();
-    _controller = AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this, value: 0.1);
+    _controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this, value: 0.1);
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
 
     _controller.forward();
 
     Future.delayed(Duration(seconds: 3), () async {
-      // Navigator.of(context).pushReplacement(PageTransition(child: LoginPage(), type: PageTransitionType.fade));
+      // Navigator.of(context).pushReplacement(PageTransition(child: GoogleMapsView(), type: PageTransitionType.fade));
       String token = await Pref.getToken();
 
       if (token == '' || token == null) {
-        Navigator.of(context).pushReplacement(
-            PageTransition(child: LoginPage(), type: PageTransitionType.fade));
+        Navigator.of(context).pushReplacement(PageTransition(child: LoginPage(), type: PageTransitionType.fade));
       } else {
         Navigator.pushReplacement(
           context,
