@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/provider/guru_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class AddGuru extends StatefulWidget {
   final String id;
@@ -20,6 +25,21 @@ class _AddGuruState extends State<AddGuru> {
   TextEditingController txtPhone = new TextEditingController();
   TextEditingController txtPassword = new TextEditingController();
   TextEditingController txtTglLahir = new TextEditingController();
+
+  saveGuru() {
+    Provider.of<GuruProvider>(context, listen: false).tambahGuru({
+      'nama': txtNama.text,
+      'alamat': txtAlamat.text,
+      'birth_date': tglLahir,
+      'username': txtUsername.text,
+      'password': txtPassword.text,
+      'foto': '-',
+      'phone': txtPassword.text
+    });
+
+    print(tglLahir);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +73,9 @@ class _AddGuruState extends State<AddGuru> {
               Container(
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -68,12 +90,22 @@ class _AddGuruState extends State<AddGuru> {
                                   color: Config.textGrey,
                                 ),
                                 onPressed: () {
-                                  showDatePicker(context: context, initialDate: _dateTime == null ? DateTime.now() : _dateTime, firstDate: DateTime(2020), lastDate: DateTime.now()).then((date) {
+                                  showDatePicker(
+                                          context: context,
+                                          initialDate: _dateTime == null
+                                              ? DateTime.now()
+                                              : _dateTime,
+                                          firstDate: DateTime(2020),
+                                          lastDate: DateTime.now())
+                                      .then((date) {
                                     if (date != null) {
                                       setState(() {
                                         _dateTime = date;
-                                        txtTglLahir.text = Config.formatDateInput(date.toString());
-                                        var tgl = _dateTime.toString().split(' ');
+                                        txtTglLahir.text =
+                                            Config.formatDateInput(
+                                                date.toString());
+                                        var tgl =
+                                            _dateTime.toString().split(' ');
                                         tglLahir = tgl[0].toString();
                                       });
                                     }
@@ -93,7 +125,7 @@ class _AddGuruState extends State<AddGuru> {
                 ),
               ),
               Text('Nomor Telepon'),
-              formInputType(txtNama, 'Telepon/WA', TextInputType.number),
+              formInputType(txtPhone, 'Telepon/WA', TextInputType.number),
               SizedBox(
                 height: 10,
               ),
@@ -111,7 +143,9 @@ class _AddGuruState extends State<AddGuru> {
               Container(
                 margin: EdgeInsets.only(top: 8),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -125,7 +159,9 @@ class _AddGuruState extends State<AddGuru> {
                             fillColor: Colors.black54,
                             suffixIcon: IconButton(
                               color: Config.primary,
-                              icon: obsecured ? Icon(Icons.lock_outline_rounded) : Icon(Icons.lock_open),
+                              icon: obsecured
+                                  ? Icon(Icons.lock_outline_rounded)
+                                  : Icon(Icons.lock_open),
                               onPressed: () {
                                 if (obsecured == true) {
                                   setState(() {
@@ -151,7 +187,8 @@ class _AddGuruState extends State<AddGuru> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                 // submit proses
+                  // submit proses
+                  saveGuru();
                 },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(MediaQuery.of(context).size.width, 50),

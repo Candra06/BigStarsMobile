@@ -57,17 +57,16 @@ class _ListMapelState extends State<ListMapel> {
       body: Container(
         margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: FutureBuilder(
-          future: Provider.of<MapelProvider>(context, listen: false)
-              .getMapels(token),
+          future:
+              Provider.of<MapelProvider>(context, listen: false).getMapels(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             }
             return RefreshIndicator(
-              onRefresh: () async {
-                token = await Pref.getToken();
+              onRefresh: () {
                 return Provider.of<MapelProvider>(context, listen: false)
-                    .getMapels(token);
+                    .getMapels();
               },
               child: Consumer<MapelProvider>(
                 builder: (context, data, _) => ListView.builder(

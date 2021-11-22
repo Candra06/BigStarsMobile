@@ -1,5 +1,4 @@
 import 'package:bigstars_mobile/helper/config.dart';
-import 'package:bigstars_mobile/page/admin/pengguna/siswa/addSiswa.dart';
 import 'package:bigstars_mobile/page/modal/addSiswaByWali.dart';
 import 'package:flutter/material.dart';
 
@@ -47,7 +46,8 @@ class _DetailWaliSiswaState extends State<DetailWaliSiswa> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(padding: EdgeInsets.all(16), child: Text('Data Wali Siswa')),
+          Container(
+              padding: EdgeInsets.all(16), child: Text('Data Wali Siswa')),
           Config.itemDetail('Nama', 'Akexandria Angle'),
           Config.itemDetail('Alamat', 'Jember'),
           Config.itemDetail('Status', 'Active'),

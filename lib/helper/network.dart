@@ -9,4 +9,14 @@ class EndPoint {
   static final String mDelete = api + 'mapel/delete/';
   static final String mDetail = api + 'mapel/detail/';
   static final String mUpdate = api + 'mapel/update/';
+  // guru
+  static final String guru = api + 'guru/data/';
+  static final String gCreate = api + 'guru/create';
+
+  // wali
+  static final wali = api + 'siswa/show-wali';
+
+  // siswa
+  static final siswa = api + 'siswa/list';
+  static final sDelete = api + 'siswa/delete/';
 }

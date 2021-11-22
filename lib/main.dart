@@ -2,7 +2,11 @@ import 'package:bigstars_mobile/helper/appConfig.dart';
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
+import 'package:bigstars_mobile/provider/guru_provider.dart';
 import 'package:bigstars_mobile/provider/mapel_provider.dart';
+import 'package:bigstars_mobile/provider/siswa_provider.dart';
+import 'package:bigstars_mobile/provider/wali_provider.dart';
+import 'package:bigstars_mobile/service/siswa_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,7 +33,16 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<MapelProvider>(
           create: (context) => MapelProvider(),
-        )
+        ),
+        ChangeNotifierProvider<GuruProvider>(
+          create: (context) => GuruProvider(),
+        ),
+        ChangeNotifierProvider<WaliProvider>(
+          create: (context) => WaliProvider(),
+        ),
+        ChangeNotifierProvider<SiswaProvider>(
+          create: (context) => SiswaProvider(),
+        ),
       ],
       child: MaterialApp(
         theme: ThemeData(

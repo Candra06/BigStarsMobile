@@ -1,6 +1,10 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/page/admin/listItem/listItemGuru.dart';
 import 'package:bigstars_mobile/page/admin/listItem/listItemWali.dart';
+import 'package:bigstars_mobile/provider/guru_provider.dart';
+import 'package:bigstars_mobile/provider/wali_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ListWali extends StatefulWidget {
   const ListWali({Key key}) : super(key: key);
@@ -35,7 +39,9 @@ class _ListWaliState extends State<ListWali> {
                   Container(
                     margin: EdgeInsets.only(top: 8),
                     padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Config.borderInput)),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -66,15 +72,39 @@ class _ListWaliState extends State<ListWali> {
                       ],
                     ),
                   ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: 2,
-                      itemBuilder: (BuildContext context, int i) {
-                        var data = {"id": '1', 'nama': 'Wali 1', 'phone': '087757654999', 'status': 'Active'};
-                        return ItemListWali(
-                          data: data,
+                  Expanded(
+                    child: FutureBuilder(
+                      future: Provider.of<WaliProvider>(context, listen: false)
+                          .getWalis(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        return Consumer<WaliProvider>(
+                          builder: (conatext, data, _) {
+                            if (data.waliModels.length == 0) {
+                              return Center(
+                                child: Text("Kosong"),
+                              );
+                            } else {
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: data.waliModels.length,
+                                itemBuilder: (BuildContext context, int i) {
+                                  return ItemListWali(
+                                    wali: data.waliModels[i],
+                                  );
+                                },
+                              );
+                            }
+                          },
                         );
-                      }),
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -1,10 +1,11 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/model/wali_model.dart';
 import 'package:flutter/material.dart';
 
 class ItemListWali extends StatefulWidget {
-  final dynamic data;
-  const ItemListWali({Key key, this.data}) : super(key: key);
+  final WaliModel wali;
+  const ItemListWali({Key key, this.wali}) : super(key: key);
 
   @override
   _ItemListWaliState createState() => _ItemListWaliState();
@@ -15,7 +16,8 @@ class _ItemListWaliState extends State<ItemListWali> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.DETAIL_WALI, arguments: widget.data['id'].toString());
+        Navigator.pushNamed(context, Routes.DETAIL_WALI,
+            arguments: widget.wali.id.toString());
       },
       child: Container(
         margin: EdgeInsets.only(top: 8),
@@ -32,8 +34,9 @@ class _ItemListWaliState extends State<ItemListWali> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          widget.data['nama'],
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                          widget.wali.nama,
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w800),
                         ),
                       ],
                     ),
@@ -41,8 +44,9 @@ class _ItemListWaliState extends State<ItemListWali> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          widget.data['status'],
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                          widget.wali.status,
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w800),
                         ),
                       ],
                     )
@@ -56,8 +60,9 @@ class _ItemListWaliState extends State<ItemListWali> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          widget.data["phone"],
-                          style: TextStyle(fontSize: 13, color: Config.textGrey),
+                          widget.wali.phone,
+                          style:
+                              TextStyle(fontSize: 13, color: Config.textGrey),
                         ),
                       ],
                     ),
@@ -66,7 +71,8 @@ class _ItemListWaliState extends State<ItemListWali> {
                       children: [
                         IconButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, Routes.EDIT_WALI, arguments: widget.data['id'].toString());
+                              Navigator.pushNamed(context, Routes.EDIT_WALI,
+                                  arguments: widget.wali.id.toString());
                             },
                             icon: Icon(
                               Icons.edit,
