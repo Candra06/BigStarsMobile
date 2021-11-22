@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/page/admin/finance/financePage.dart';
 import 'package:bigstars_mobile/page/admin/homePage.dart';
+import 'package:bigstars_mobile/page/admin/kelas/listKelas.dart';
 import 'package:bigstars_mobile/page/admin/pengguna/mainPengguna.dart';
 import 'package:flutter/material.dart';
 
@@ -59,8 +61,8 @@ class _AdminMainState extends State<AdminMain> {
 
   final List<Widget> screens = [
     HomeAdmin(),
-    Container(),
-    Container(),
+    ListKelas(),
+    FinancePage(),
     PagePengguna(),
   ];
   Widget currentScreen = HomeAdmin();
@@ -85,17 +87,17 @@ class _AdminMainState extends State<AdminMain> {
                       style: TextStyle(),
                     )),
                 BottomNavigationBarItem(
-                    icon: FaIcon(FontAwesomeIcons.fileInvoiceDollar),
-                    title: new Text(
-                      'Finance',
-                      style: TextStyle(),
-                    )),
-                BottomNavigationBarItem(
                     icon: FaIcon(
                       FontAwesomeIcons.graduationCap,
                     ),
                     title: new Text(
                       'Kelas',
+                      style: TextStyle(),
+                    )),
+                BottomNavigationBarItem(
+                    icon: FaIcon(FontAwesomeIcons.fileInvoiceDollar),
+                    title: new Text(
+                      'Finance',
                       style: TextStyle(),
                     )),
                 BottomNavigationBarItem(
