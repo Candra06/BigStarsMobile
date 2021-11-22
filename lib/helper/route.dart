@@ -1,5 +1,7 @@
 import 'package:bigstars_mobile/page/admin/finance/listFeeGuru.dart';
 import 'package:bigstars_mobile/page/admin/finance/listSppMurid.dart';
+import 'package:bigstars_mobile/page/admin/kelas/addKelas.dart';
+import 'package:bigstars_mobile/page/admin/kelas/detailKelas.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
 import 'package:bigstars_mobile/page/admin/mapel/addMapel.dart';
 import 'package:bigstars_mobile/page/admin/mapel/listMapel.dart';
@@ -47,6 +49,8 @@ class Routes {
   static const String EDIT_PROFILE_ADMIN = '/edit_profile_admin';
   static const String LIST_SPP = '/list_spp';
   static const String LIST_FEE = '/list_fee';
+  static const String ADD_KELAS = '/add_kelas';
+  static const String DETAIL_KELAS = '/detail_kelas';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -92,6 +96,10 @@ class Routes {
         return PageTransition(child: ListSppMurid(), type: PageTransitionType.bottomToTop);
       case LIST_FEE:
         return PageTransition(child: ListFeeGuru(), type: PageTransitionType.bottomToTop);
+      case ADD_KELAS:
+        return PageTransition(child: AddKelasAdmin(), type: PageTransitionType.leftToRight);
+      case DETAIL_KELAS:
+        return PageTransition(child: DetailKelas(id: settings.arguments,), type: PageTransitionType.leftToRight);
 
       default:
         return MaterialPageRoute(

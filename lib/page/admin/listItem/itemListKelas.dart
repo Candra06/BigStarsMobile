@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/route.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -15,7 +16,7 @@ class _ItemKelasState extends State<ItemKelas> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print(widget.data['id_kelas']);
+        Navigator.pushNamed(context, Routes.DETAIL_KELAS);
       },
       child: Container(
         margin: EdgeInsets.only(top: 8),
@@ -42,12 +43,24 @@ class _ItemKelasState extends State<ItemKelas> {
             Divider(
               height: 1,
             ),
-            Container(
-              margin: EdgeInsets.all(8),
-              child: Text(
-                widget.data['guru'],
-                style: TextStyle(fontWeight: FontWeight.w200, fontSize: 13),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  margin: EdgeInsets.all(8),
+                  child: Text(
+                    widget.data['guru'],
+                    style: TextStyle(fontWeight: FontWeight.w200, fontSize: 13),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(8),
+                  child: Text(
+                    'Aktif',
+                    style: TextStyle(fontWeight: FontWeight.w200, fontSize: 13, color: Config.boxGreen),
+                  ),
+                ),
+              ],
             ),
             Container(
               margin: EdgeInsets.fromLTRB(8, 0, 8, 8),
