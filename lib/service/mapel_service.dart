@@ -34,7 +34,7 @@ class MapelService {
     var body = {
       "mapel": namaMapel,
     };
-    var header = {
+    Map<String, String> header = {
       "Authorization": token,
     };
     var response =
@@ -81,9 +81,6 @@ class MapelService {
 
     var response = await http.post(Uri.parse(urlUpdate + id),
         headers: {'Authorization': token}, body: data);
-    print(id);
-    print(data);
-    print(jsonDecode(response.body));
     if (response.statusCode == 200 &&
         jsonDecode(response.body)["message"] == "Success") {
       return true;

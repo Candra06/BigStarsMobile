@@ -46,7 +46,8 @@ class _ListMapelState extends State<ListMapel> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Config.primary,
         onPressed: () {
-          Navigator.pushNamed(context, Routes.ADD_MAPEL, arguments: '0');
+          var data = {"id": "0", "mapel": MapelModel()};
+          Navigator.pushNamed(context, Routes.ADD_MAPEL, arguments: data);
         },
         child: Icon(
           Icons.add,

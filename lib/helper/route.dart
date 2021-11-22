@@ -75,17 +75,29 @@ class Routes {
             ),
             type: PageTransitionType.bottomToTop);
       case ADD_GURU:
-        return PageTransition(child: AddGuru(id: settings.arguments), type: PageTransitionType.bottomToTop);
+        return PageTransition(
+            child: AddGuru(id: settings.arguments),
+            type: PageTransitionType.bottomToTop);
       case ADD_SISWA:
-        return PageTransition(child: AddSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
+        return PageTransition(
+            child: AddSiswa(id: settings.arguments),
+            type: PageTransitionType.bottomToTop);
       case DETAIL_SISWA:
-        return PageTransition(child: DetailSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
+        return PageTransition(
+            child: DetailSiswa(id: settings.arguments),
+            type: PageTransitionType.bottomToTop);
       case DETAIL_WALI:
-        return PageTransition(child: DetailWaliSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
+        return PageTransition(
+            child: DetailWaliSiswa(id: settings.arguments),
+            type: PageTransitionType.bottomToTop);
       case DETAIL_GURU:
-        return PageTransition(child: DetailGuru(id: settings.arguments), type: PageTransitionType.bottomToTop);
+        return PageTransition(
+            child: DetailGuru(id: settings.arguments),
+            type: PageTransitionType.bottomToTop);
       case EDIT_SISWA:
-        return PageTransition(child: EditSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
+        return PageTransition(
+            child: EditSiswa(id: settings.arguments),
+            type: PageTransitionType.bottomToTop);
       case EDIT_WALI:
         return PageTransition(child: EditWali(id: settings.arguments), type: PageTransitionType.bottomToTop);
       case PROFILE_ADMIN:

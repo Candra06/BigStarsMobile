@@ -146,7 +146,6 @@ class _AddMapelState extends State<AddMapel> {
                     onChanged: (value) {
                       setState(() {
                         valStatus = value;
-                        print(valStatus);
                       });
                     },
                   ),
