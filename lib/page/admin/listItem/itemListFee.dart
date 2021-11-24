@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/route.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -14,6 +15,9 @@ class _ItemListFeeState extends State<ItemListFee> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, Routes.DETAIL_FEE, arguments: '1');
+      },
       child: Container(
         color: Config.textWhite,
         width: MediaQuery.of(context).size.width,
