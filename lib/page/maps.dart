@@ -43,6 +43,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
                 Marker(
                   markerId:
                       MarkerId("${position.latitude}, ${position.longitude}"),
+
                   icon: BitmapDescriptor.defaultMarker,
                   position: position,
                 ),

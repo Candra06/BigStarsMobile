@@ -26,6 +26,8 @@ class GuruService {
     var response = await http.get(Uri.parse(EndPoint.gDelete + id.toString()),
         headers: {'Authorization': token});
     // print(EndPoint.gDelete + id.toString());
+    print(jsonDecode(response.body));
+    print(id);
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;

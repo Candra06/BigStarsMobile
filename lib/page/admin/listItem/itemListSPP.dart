@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/route.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -14,6 +15,9 @@ class _ItemListSPPState extends State<ItemListSPP> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, Routes.DETAIL_SPP, arguments: '1');
+      },
       child: Container(
         color: Config.textWhite,
         width: MediaQuery.of(context).size.width,
@@ -22,7 +26,7 @@ class _ItemListSPPState extends State<ItemListSPP> {
             Container(
               padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
               margin: EdgeInsets.only(bottom: 8),
-              // width: MediaQuery.of(context).size.width,
+              width: MediaQuery.of(context).size.width,
               child: Row(
                 children: [
                   Icon(
@@ -35,6 +39,7 @@ class _ItemListSPPState extends State<ItemListSPP> {
                   ),
                   Expanded(
                     child: Container(
+                      constraints: BoxConstraints(minWidth: 120, maxWidth: 310),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -45,11 +50,8 @@ class _ItemListSPPState extends State<ItemListSPP> {
                                 Text(
                                   'Rizky Hermawan',
                                   style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w800),
                                 ),
                                 SizedBox(
                                   height: 8,

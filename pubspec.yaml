@@ -40,7 +40,6 @@ dependencies:
   pattern_formatter: ^2.0.0
   intl: ^0.17.0
   provider: ^4.3.3
-  dependencies:
   lottie: ^0.7.0+1
   google_maps_flutter: ^1.2.0
 

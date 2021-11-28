@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/page/admin/finance/financePage.dart';
 import 'package:bigstars_mobile/page/admin/homePage.dart';
+import 'package:bigstars_mobile/page/admin/kelas/listKelas.dart';
 import 'package:bigstars_mobile/page/admin/pengguna/mainPengguna.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +61,7 @@ class _AdminMainState extends State<AdminMain> {
 
   final List<Widget> screens = [
     HomeAdmin(),
-    Container(),
+    ListKelas(),
     FinancePage(),
     PagePengguna(),
   ];
