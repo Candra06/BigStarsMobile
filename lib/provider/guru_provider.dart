@@ -38,6 +38,7 @@ class GuruProvider with ChangeNotifier {
 
       _listGuru = await GuruService().getdata();
       notifyListeners();
+
       return status;
     } catch (e) {
       print(e);

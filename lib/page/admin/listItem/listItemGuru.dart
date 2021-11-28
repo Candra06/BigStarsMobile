@@ -18,6 +18,7 @@ class _ItemListGuruState extends State<ItemListGuru> {
   handleHapus() async {
     bool status = await Provider.of<GuruProvider>(context, listen: false)
         .delete(widget.guru.id);
+    print(status);
     if (status) {
       _showSuccesHapus();
     }
