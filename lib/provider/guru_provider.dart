@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/model/guru_model.dart';
+import 'package:bigstars_mobile/model/wali_model.dart';
 import 'package:bigstars_mobile/service/guru_service.dart';
 import 'package:flutter/widgets.dart';
 
@@ -12,6 +13,10 @@ class GuruProvider with ChangeNotifier {
   Future<List<GuruModel>> getData() async {
     try {
       _listGuru = await GuruService().getdata();
+      // _listGuru.add(_guruModel);
+      // for (var row in _listGuru) {
+      //   print(row.nama);
+      // }
       notifyListeners();
       return _listGuru;
     } catch (e) {
@@ -25,5 +30,18 @@ class GuruProvider with ChangeNotifier {
     _listGuru = await GuruService().getdata();
     notifyListeners();
     return message;
+  }
+
+  Future<bool> delete(var id) async {
+    try {
+      bool status = await GuruService().deleteGuru(id);
+
+      _listGuru = await GuruService().getdata();
+      notifyListeners();
+      return status;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 }

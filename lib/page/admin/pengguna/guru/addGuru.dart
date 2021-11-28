@@ -5,6 +5,7 @@ import 'package:bigstars_mobile/helper/input.dart';
 import 'package:bigstars_mobile/provider/guru_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class AddGuru extends StatefulWidget {
@@ -26,6 +27,50 @@ class _AddGuruState extends State<AddGuru> {
   TextEditingController txtPassword = new TextEditingController();
   TextEditingController txtTglLahir = new TextEditingController();
 
+  _showSuccesHapus() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              // height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset('assets/lottie/success-delete.json'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('Data has been deleted!'),
+                ],
+              ),
+            ),
+            actions: [
+              Container(
+                width: double.infinity - 30,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Config.boxGreen,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: TextButton(
+                  // textColor: Color(0xFF6200EE),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ACCEPT',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
   saveGuru() {
     Provider.of<GuruProvider>(context, listen: false).tambahGuru({
       'nama': txtNama.text,
@@ -34,10 +79,10 @@ class _AddGuruState extends State<AddGuru> {
       'username': txtUsername.text,
       'password': txtPassword.text,
       'foto': '-',
-      'phone': txtPassword.text
-    });
+      'phone': txtPhone.text
+    }).then((value) => _showSuccesHapus());
 
-    print(tglLahir);
+    // print(tglLahir);
   }
 
   @override

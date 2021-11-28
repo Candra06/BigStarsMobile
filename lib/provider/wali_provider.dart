@@ -18,4 +18,8 @@ class WaliProvider with ChangeNotifier {
       return [];
     }
   }
+
+  Future addSiswaBywali(String id, Map<String, dynamic> data) async {
+    return WaliService().addSiswaByWali(id, data);
+  }
 }

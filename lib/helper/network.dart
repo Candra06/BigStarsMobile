@@ -12,6 +12,7 @@ class EndPoint {
   // guru
   static final String guru = api + 'guru/data/';
   static final String gCreate = api + 'guru/create';
+  static final String gDelete = api + 'guru/delete/';
 
   // wali
   static final wali = api + 'siswa/show-wali';
@@ -19,4 +20,6 @@ class EndPoint {
   // siswa
   static final siswa = api + 'siswa/list';
   static final sDelete = api + 'siswa/delete/';
+  static final sCreate = api + 'siswa/create-wali';
+  static final wCreate = api + 'siswa/create-siswa';
 }

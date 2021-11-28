@@ -1,6 +1,10 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/helper/loadingButton.dart';
+import 'package:bigstars_mobile/provider/siswa_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class AddSiswa extends StatefulWidget {
   final String id;
@@ -11,6 +15,7 @@ class AddSiswa extends StatefulWidget {
 }
 
 class _AddSiswaState extends State<AddSiswa> {
+  bool isloading = false;
   DateTime _dateTime;
   String tglLahir;
   bool obsecured = true;
@@ -21,6 +26,85 @@ class _AddSiswaState extends State<AddSiswa> {
   TextEditingController txtPhone = new TextEditingController();
   TextEditingController txtPassword = new TextEditingController();
   TextEditingController txtTglLahir = new TextEditingController();
+  _showSuccesCreate() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              // height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset('assets/lottie/success-delete.json'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('Data has been Created!'),
+                ],
+              ),
+            ),
+            actions: [
+              Container(
+                width: double.infinity - 30,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Config.boxGreen,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: TextButton(
+                  // textColor: Color(0xFF6200EE),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ACCEPT',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  addProcess() async {
+    setState(() {
+      isloading = true;
+    });
+    Map<String, dynamic> data = {
+      'nama_siswa': txtNama.text,
+      'birth_date': tglLahir,
+      'nama_wali': txtNamaWali.text,
+      'phone': txtPhone.text,
+      'alamat': txtAlamat.text,
+      'username': txtUsername.text,
+      'password': txtPassword.text
+    };
+    await Provider.of<SiswaProvider>(context, listen: false)
+        .addSiswa(data)
+        .then((value) => {
+              if (value["message"] == "Success")
+                {_showSuccesCreate()}
+              else
+                {print("gagal")}
+            });
+    // print(data);
+    txtNama.text = '';
+    txtAlamat.text = '';
+    txtNamaWali.text = '';
+    txtPassword.text = '';
+    txtPhone.text = '';
+    txtTglLahir.text = '';
+    txtUsername.text = '';
+
+    setState(() {
+      isloading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +138,9 @@ class _AddSiswaState extends State<AddSiswa> {
               Container(
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -69,12 +155,22 @@ class _AddSiswaState extends State<AddSiswa> {
                                   color: Config.textGrey,
                                 ),
                                 onPressed: () {
-                                  showDatePicker(context: context, initialDate: _dateTime == null ? DateTime.now() : _dateTime, firstDate: DateTime(2020), lastDate: DateTime.now()).then((date) {
+                                  showDatePicker(
+                                          context: context,
+                                          initialDate: _dateTime == null
+                                              ? DateTime.now()
+                                              : _dateTime,
+                                          firstDate: DateTime(2020),
+                                          lastDate: DateTime.now())
+                                      .then((date) {
                                     if (date != null) {
                                       setState(() {
                                         _dateTime = date;
-                                        txtTglLahir.text = Config.formatDateInput(date.toString());
-                                        var tgl = _dateTime.toString().split(' ');
+                                        txtTglLahir.text =
+                                            Config.formatDateInput(
+                                                date.toString());
+                                        var tgl =
+                                            _dateTime.toString().split(' ');
                                         tglLahir = tgl[0].toString();
                                       });
                                     }
@@ -117,7 +213,9 @@ class _AddSiswaState extends State<AddSiswa> {
               Container(
                 margin: EdgeInsets.only(top: 8),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -131,7 +229,9 @@ class _AddSiswaState extends State<AddSiswa> {
                             fillColor: Colors.black54,
                             suffixIcon: IconButton(
                               color: Config.primary,
-                              icon: obsecured ? Icon(Icons.lock_outline_rounded) : Icon(Icons.lock_open),
+                              icon: obsecured
+                                  ? Icon(Icons.lock_outline_rounded)
+                                  : Icon(Icons.lock_open),
                               onPressed: () {
                                 if (obsecured == true) {
                                   setState(() {
@@ -155,23 +255,27 @@ class _AddSiswaState extends State<AddSiswa> {
                 ),
               ),
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // submit proses
-                },
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size(MediaQuery.of(context).size.width, 50),
-                  primary: Config.primary,
-                  onPrimary: Config.textWhite,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-                child: Text(
-                  "Simpan",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              ),
+              isloading
+                  ? LoadingButton()
+                  : ElevatedButton(
+                      onPressed: () {
+                        // submit proses
+                        print("ok");
+                        addProcess();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: Size(MediaQuery.of(context).size.width, 50),
+                        primary: Config.primary,
+                        onPrimary: Config.textWhite,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                      child: Text(
+                        "Simpan",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                    ),
             ],
           ),
         ),

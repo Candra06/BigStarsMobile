@@ -86,7 +86,7 @@ class Routes {
             type: PageTransitionType.bottomToTop);
       case DETAIL_WALI:
         return PageTransition(
-            child: DetailWaliSiswa(id: settings.arguments),
+            child: DetailWaliSiswa(wali: settings.arguments),
             type: PageTransitionType.bottomToTop);
       case DETAIL_GURU:
         return PageTransition(

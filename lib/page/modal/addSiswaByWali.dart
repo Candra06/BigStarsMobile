@@ -1,6 +1,10 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/helper/loadingButton.dart';
+import 'package:bigstars_mobile/provider/siswa_provider.dart';
+import 'package:bigstars_mobile/provider/wali_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ModalTambahSiswa extends StatefulWidget {
   final String idWali;
@@ -15,12 +19,39 @@ class _ModalTambahSiswaState extends State<ModalTambahSiswa> {
   TextEditingController txtTglLahir = new TextEditingController();
   DateTime _dateTime;
   String tglLahir;
+  bool isloading = false;
+
+  dataResquest() async {
+    print(txtNama.text);
+    print(tglLahir);
+    setState(() {
+      isloading = true;
+    });
+    Map<String, dynamic> data = {
+      'nama': txtNama.text,
+      'birth_date': tglLahir,
+      'id_wali': widget.idWali
+    };
+    await Provider.of<WaliProvider>(context, listen: false)
+        .addSiswaBywali(widget.idWali, data)
+        .then((value) => print(value));
+    // print()
+    setState(() {
+      isloading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       // padding: EdgeInsets.all(16),
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      decoration: BoxDecoration(color: Config.background, borderRadius: new BorderRadius.only(topLeft: const Radius.circular(10.0), topRight: const Radius.circular(10.0))),
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      decoration: BoxDecoration(
+          color: Config.background,
+          borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(10.0),
+              topRight: const Radius.circular(10.0))),
       child: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(16),
@@ -31,7 +62,11 @@ class _ModalTambahSiswaState extends State<ModalTambahSiswa> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: [Text('Tambah Siswa', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))],
+                    children: [
+                      Text('Tambah Siswa',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold))
+                    ],
                   ),
                   InkWell(
                     onTap: () {
@@ -55,7 +90,9 @@ class _ModalTambahSiswaState extends State<ModalTambahSiswa> {
               Container(
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -70,12 +107,22 @@ class _ModalTambahSiswaState extends State<ModalTambahSiswa> {
                                   color: Config.textGrey,
                                 ),
                                 onPressed: () {
-                                  showDatePicker(context: context, initialDate: _dateTime == null ? DateTime.now() : _dateTime, firstDate: DateTime(2020), lastDate: DateTime.now()).then((date) {
+                                  showDatePicker(
+                                          context: context,
+                                          initialDate: _dateTime == null
+                                              ? DateTime.now()
+                                              : _dateTime,
+                                          firstDate: DateTime(2020),
+                                          lastDate: DateTime.now())
+                                      .then((date) {
                                     if (date != null) {
                                       setState(() {
                                         _dateTime = date;
-                                        txtTglLahir.text = Config.formatDateInput(date.toString());
-                                        var tgl = _dateTime.toString().split(' ');
+                                        txtTglLahir.text =
+                                            Config.formatDateInput(
+                                                date.toString());
+                                        var tgl =
+                                            _dateTime.toString().split(' ');
                                         tglLahir = tgl[0].toString();
                                       });
                                     }
@@ -104,12 +151,21 @@ class _ModalTambahSiswaState extends State<ModalTambahSiswa> {
                   Expanded(
                       child: Container(
                     margin: EdgeInsets.only(left: 4, top: 8),
-                    decoration: BoxDecoration(color: Config.primary, borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text('SIMPAN', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Config.textWhite))),
+                    decoration: BoxDecoration(
+                        color: Config.primary,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: isloading
+                        ? LoadingButton()
+                        : TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              dataResquest();
+                            },
+                            child: Text('SIMPAN',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: Config.textWhite))),
                   ))
                 ],
               )

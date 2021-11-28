@@ -17,7 +17,7 @@ class _ItemListWaliState extends State<ItemListWali> {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, Routes.DETAIL_WALI,
-            arguments: widget.wali.id.toString());
+            arguments: widget.wali);
       },
       child: Container(
         margin: EdgeInsets.only(top: 8),
@@ -72,7 +72,7 @@ class _ItemListWaliState extends State<ItemListWali> {
                         IconButton(
                             onPressed: () {
                               Navigator.pushNamed(context, Routes.EDIT_WALI,
-                                  arguments: widget.wali.id.toString());
+                                  arguments: widget.wali);
                             },
                             icon: Icon(
                               Icons.edit,

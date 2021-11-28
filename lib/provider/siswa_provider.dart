@@ -23,4 +23,17 @@ class SiswaProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future addSiswa(Map<String, dynamic> data) async {
+    try {
+      var hasil = await SiswaService().addSiswa(data);
+
+      List<SiswaModel> temp = await SiswaService().getSiswas();
+      _listSiswa = temp;
+      notifyListeners();
+      return hasil;
+    } catch (e) {
+      return false;
+    }
+  }
 }

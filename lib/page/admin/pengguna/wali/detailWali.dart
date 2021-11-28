@@ -1,17 +1,18 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/model/wali_model.dart';
 import 'package:bigstars_mobile/page/modal/addSiswaByWali.dart';
 import 'package:flutter/material.dart';
 
 class DetailWaliSiswa extends StatefulWidget {
-  final String id;
-  const DetailWaliSiswa({Key key, this.id}) : super(key: key);
+  final WaliModel wali;
+  const DetailWaliSiswa({Key key, this.wali}) : super(key: key);
 
   @override
   _DetailWaliSiswaState createState() => _DetailWaliSiswaState();
 }
 
 class _DetailWaliSiswaState extends State<DetailWaliSiswa> {
-  void _addNewSiswa(BuildContext context, String id) {
+  void _addNewSiswa(BuildContext context) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -20,7 +21,7 @@ class _DetailWaliSiswaState extends State<DetailWaliSiswa> {
         isScrollControlled: true,
         builder: (builder) {
           return ModalTambahSiswa(
-            idWali: id,
+            idWali: widget.wali.id.toString(),
           );
         });
   }
@@ -48,24 +49,24 @@ class _DetailWaliSiswaState extends State<DetailWaliSiswa> {
         children: [
           Container(
               padding: EdgeInsets.all(16), child: Text('Data Wali Siswa')),
-          Config.itemDetail('Nama', 'Akexandria Angle'),
-          Config.itemDetail('Alamat', 'Jember'),
-          Config.itemDetail('Status', 'Active'),
+          Config.itemDetail('Nama', widget.wali.nama),
+          Config.itemDetail('Alamat', widget.wali.alamat),
+          Config.itemDetail('Status', widget.wali.status),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(padding: EdgeInsets.all(16), child: Text('Data Akun')),
             ],
           ),
-          Config.itemDetail('Username', 'alex_andria'),
-          Config.itemDetail('Phone', '08983368286'),
+          Config.itemDetail('Username', widget.wali.username),
+          Config.itemDetail('Phone', widget.wali.phone),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(padding: EdgeInsets.all(16), child: Text('Data Siswa')),
               InkWell(
                 onTap: () {
-                  _addNewSiswa(context, widget.id);
+                  _addNewSiswa(context);
                 },
                 child: Container(
                     padding: EdgeInsets.all(16),

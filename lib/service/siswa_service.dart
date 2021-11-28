@@ -35,4 +35,15 @@ class SiswaService {
       return false;
     }
   }
+
+  Future addSiswa(Map<String, dynamic> data) async {
+    var token = await Pref.getToken();
+    var response = await http.post(Uri.parse(EndPoint.sCreate),
+        headers: {'Authorization': token}, body: data);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      return {"message": "Failed"};
+    }
+  }
 }

@@ -19,4 +19,14 @@ class WaliService {
       return [];
     }
   }
+
+  Future addSiswaByWali(String id, Map<String, dynamic> data) async {
+    var token = await Pref.getToken();
+    var response = await http.post(Uri.parse(EndPoint.wCreate),
+        headers: {'Authorization': token}, body: data);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    }
+    return data;
+  }
 }
