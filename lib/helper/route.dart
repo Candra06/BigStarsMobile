@@ -1,3 +1,5 @@
+import 'package:bigstars_mobile/page/admin/finance/listFeeGuru.dart';
+import 'package:bigstars_mobile/page/admin/finance/listSppMurid.dart';
 import 'package:bigstars_mobile/page/admin/finance/detailInvoiceFee.dart';
 import 'package:bigstars_mobile/page/admin/finance/detailInvoiceSpp.dart';
 import 'package:bigstars_mobile/page/admin/finance/listFeeGuru.dart';
@@ -61,6 +63,7 @@ class Routes {
       case SPLASH:
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case HOME_ADMIN:
+
         return PageTransition(
             child: AdminMain(
               indexPage: '0',
@@ -83,11 +86,18 @@ class Routes {
       case ADD_SISWA:
         return PageTransition(child: AddSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
       case DETAIL_SISWA:
-        return PageTransition(child: DetailSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
+        return PageTransition(
+            child: DetailSiswa(siswa: settings.arguments),
+            type: PageTransitionType.bottomToTop);
       case DETAIL_WALI:
-        return PageTransition(child: DetailWaliSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
+        return PageTransition(
+            child: DetailWaliSiswa(wali: settings.arguments),
+            type: PageTransitionType.bottomToTop);
       case DETAIL_GURU:
-        return PageTransition(child: DetailGuru(id: settings.arguments), type: PageTransitionType.bottomToTop);
+        return PageTransition(
+            child: DetailGuru(guru: settings.arguments),
+            type: PageTransitionType.bottomToTop);
+
       case EDIT_SISWA:
         return PageTransition(child: EditSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
       case EDIT_WALI:
@@ -104,6 +114,20 @@ class Routes {
         return PageTransition(child: AddKelasAdmin(), type: PageTransitionType.leftToRight);
       case DETAIL_KELAS:
         return PageTransition(
+            child: EditWali(id: settings.arguments),
+            type: PageTransitionType.bottomToTop);
+      case PROFILE_ADMIN:
+        return PageTransition(
+            child: ProfilAdmin(), type: PageTransitionType.bottomToTop);
+      case EDIT_PROFILE_ADMIN:
+        return PageTransition(
+            child: EditAkunAdmin(), type: PageTransitionType.bottomToTop);
+      case LIST_SPP:
+        return PageTransition(
+            child: ListSppMurid(), type: PageTransitionType.bottomToTop);
+      case LIST_FEE:
+        return PageTransition(
+            child: ListFeeGuru(), type: PageTransitionType.bottomToTop);
             child: DetailKelas(
               id: settings.arguments,
             ),

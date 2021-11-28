@@ -1,7 +1,10 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/model/siswa_model.dart';
 import 'package:bigstars_mobile/page/admin/listItem/listItemSiswa.dart';
+import 'package:bigstars_mobile/provider/siswa_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ListSiswa extends StatefulWidget {
   const ListSiswa({Key key}) : super(key: key);
@@ -13,6 +16,7 @@ class ListSiswa extends StatefulWidget {
 class _ListSiswaState extends State<ListSiswa> {
   bool load = false;
   String searchString = "";
+
   @override
   void initState() {
     super.initState();
@@ -45,7 +49,9 @@ class _ListSiswaState extends State<ListSiswa> {
                   Container(
                     margin: EdgeInsets.only(top: 8),
                     padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Config.borderInput)),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -76,15 +82,35 @@ class _ListSiswaState extends State<ListSiswa> {
                       ],
                     ),
                   ),
-                  ListView.builder(
-                      itemCount: 2,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int i) {
-                        var data = {"id": "1", "nama": "Kekeyi", "birth_date": "2007-05-06", "alamat": "Jl. Dr.Soutomo"};
-                        return ItemListSiswa(
-                          data: data,
+                  Expanded(
+                    child: FutureBuilder(
+                      future: Provider.of<SiswaProvider>(context, listen: false)
+                          .getSiswa(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Container(
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
+                        return Consumer<SiswaProvider>(
+                          builder: (context, data, _) {
+                            return ListView.builder(
+                              itemCount: data.listSiswa.length,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int i) {
+                                return ItemListSiswa(
+                                  data: data.listSiswa[i],
+                                );
+                              },
+                            );
+                          },
                         );
-                      }),
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),

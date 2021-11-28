@@ -41,7 +41,9 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
             setState(() {
               _markers.add(
                 Marker(
-                  markerId: MarkerId("${position.latitude}, ${position.longitude}"),
+                  markerId:
+                      MarkerId("${position.latitude}, ${position.longitude}"),
+
                   icon: BitmapDescriptor.defaultMarker,
                   position: position,
                 ),

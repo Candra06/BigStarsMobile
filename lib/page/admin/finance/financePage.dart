@@ -26,7 +26,9 @@ class _FinancePageState extends State<FinancePage> {
         child: Column(
           children: [
             Container(
-              decoration: BoxDecoration(color: Config.primary, borderRadius: BorderRadius.all(Radius.circular(10))),
+              decoration: BoxDecoration(
+                  color: Config.primary,
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.all(16),
               child: Column(
@@ -34,6 +36,10 @@ class _FinancePageState extends State<FinancePage> {
                 children: [
                   Text(
                     'Laba Bersih',
+                    style: TextStyle(
+                        color: Config.textWhite,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700),
                     style: TextStyle(color: Config.textWhite, fontSize: 16, fontWeight: FontWeight.w700),
                   ),
                   SizedBox(
@@ -41,6 +47,10 @@ class _FinancePageState extends State<FinancePage> {
                   ),
                   Text(
                     Config.formatRupiah(33000000),
+                    style: TextStyle(
+                        color: Config.textWhite,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w900),
                     style: TextStyle(color: Config.textWhite, fontSize: 24, fontWeight: FontWeight.w900),
                   )
                 ],
@@ -75,6 +85,12 @@ class _FinancePageState extends State<FinancePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            Expanded(
+                              child: Text(
+                                'SPP Siswa',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w700),
+                              ),
                             Text(
                               'SPP Siswa',
                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
@@ -91,6 +107,8 @@ class _FinancePageState extends State<FinancePage> {
                         ),
                         Text(
                           Config.formatRupiah(33000000),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w900),
                           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
                         )
                       ],
@@ -121,9 +139,12 @@ class _FinancePageState extends State<FinancePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Fee Guru',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                            Expanded(
+                              child: Text(
+                                'Fee Guru',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w700),
+                              ),
                             ),
                             Icon(
                               Icons.arrow_drop_up_sharp,
@@ -137,7 +158,9 @@ class _FinancePageState extends State<FinancePage> {
                         ),
                         Text(
                           Config.formatRupiah(33000000),
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w900),
+           
                         )
                       ],
                     ),
@@ -160,6 +183,7 @@ class _FinancePageState extends State<FinancePage> {
                   child: Container(
                       height: 90,
                       margin: EdgeInsets.all(4),
+
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -179,7 +203,10 @@ class _FinancePageState extends State<FinancePage> {
                   child: Container(
                       height: 90,
                       margin: EdgeInsets.all(4),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border:
+                              Border.all(color: Config.borderInput, width: 1)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -194,7 +221,12 @@ class _FinancePageState extends State<FinancePage> {
                 Container(
                     height: 90,
                     margin: EdgeInsets.all(4),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
+
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border:
+                            Border.all(color: Config.borderInput, width: 1)),
+
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

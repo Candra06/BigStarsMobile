@@ -1,9 +1,10 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/model/siswa_model.dart';
 import 'package:flutter/material.dart';
 
 class DetailSiswa extends StatefulWidget {
-  final String id;
-  const DetailSiswa({Key key, this.id}) : super(key: key);
+  final SiswaModel siswa;
+  const DetailSiswa({Key key, this.siswa}) : super(key: key);
 
   @override
   _DetailSiswaState createState() => _DetailSiswaState();
@@ -32,10 +33,11 @@ class _DetailSiswaState extends State<DetailSiswa> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(padding: EdgeInsets.all(16), child: Text('Data Siswa')),
-          Config.itemDetail('Nama', 'Akexandria Angle'),
-          Config.itemDetail('Tanggal Lahir', Config.formatDateInput('2003-02-02')),
-          Config.itemDetail('Alamat', 'Jember'),
-          Config.itemDetail('Wali Siswa', 'John Jake'),
+          Config.itemDetail('Nama', widget.siswa.nama),
+          Config.itemDetail(
+              'Tanggal Lahir', Config.formatDateInput(widget.siswa.birthDate)),
+          Config.itemDetail('Alamat', widget.siswa.alamat),
+          Config.itemDetail('Wali Siswa', widget.siswa.wali),
         ],
       ),
     );

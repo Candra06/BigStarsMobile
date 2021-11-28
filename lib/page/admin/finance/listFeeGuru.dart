@@ -12,6 +12,7 @@ class ListFeeGuru extends StatefulWidget {
 }
 
 class _ListFeeGuruState extends State<ListFeeGuru> {
+  List<dynamic> _listSPP = [
   void _filter(BuildContext context, String id) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -46,6 +47,7 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
         actions: [
           IconButton(
             onPressed: () {
+              Navigator.pop(context);
               _filter(context, '0');
             },
             icon: Icon(
@@ -63,6 +65,11 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
       ),
       body: Container(
         margin: EdgeInsets.only(top: 16, bottom: 16),
+        child: ListView.builder(
+            itemCount: 3,
+            itemBuilder: (BuildContext bc, int i) {
+              return ItemListFee();
+            }),
         child: Column(
           children: [
             Container(

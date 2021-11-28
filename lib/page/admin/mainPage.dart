@@ -61,6 +61,7 @@ class _AdminMainState extends State<AdminMain> {
 
   final List<Widget> screens = [
     HomeAdmin(),
+    Container(),
     ListKelas(),
     FinancePage(),
     PagePengguna(),

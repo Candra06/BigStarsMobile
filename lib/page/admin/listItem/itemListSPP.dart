@@ -37,6 +37,56 @@ class _ItemListSPPState extends State<ItemListSPP> {
                   SizedBox(
                     width: 16,
                   ),
+                  Expanded(
+                    child: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Rizky Hermawan',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  Config.formatDateInput("2021-10-21"),
+                                  style: TextStyle(color: Config.textGrey),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  Config.formatRupiah(1000000),
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w800),
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  "Lunas",
+                                  style: TextStyle(color: Colors.green),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                   Container(
                     constraints: BoxConstraints(minWidth: 120, maxWidth: 310),
                     child: Row(

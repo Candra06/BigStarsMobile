@@ -12,6 +12,7 @@ class ListSppMurid extends StatefulWidget {
 }
 
 class _ListSppMuridState extends State<ListSppMurid> {
+
   void _filter(BuildContext context, String id) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -46,6 +47,7 @@ class _ListSppMuridState extends State<ListSppMurid> {
         actions: [
           IconButton(
             onPressed: () {
+              Navigator.pop(context);
               _filter(context, 'id');
             },
             icon: Icon(
@@ -63,6 +65,11 @@ class _ListSppMuridState extends State<ListSppMurid> {
       ),
       body: Container(
         margin: EdgeInsets.only(top: 16, bottom: 16),
+        child: ListView.builder(
+            itemCount: 3,
+            itemBuilder: (BuildContext bc, int i) {
+              return ItemListSPP();
+            }),
         child: Column(
           children: [
             Container(

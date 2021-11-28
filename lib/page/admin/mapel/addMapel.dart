@@ -1,8 +1,6 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
 import 'package:bigstars_mobile/helper/loadingButton.dart';
-import 'package:bigstars_mobile/helper/pref.dart';
-import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/mapel_model.dart';
 import 'package:bigstars_mobile/provider/mapel_provider.dart';
 import 'package:flutter/material.dart';
