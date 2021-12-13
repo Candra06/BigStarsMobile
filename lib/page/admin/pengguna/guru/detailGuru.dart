@@ -1,9 +1,10 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/model/guru_model.dart';
 import 'package:flutter/material.dart';
 
 class DetailGuru extends StatefulWidget {
-  final String id;
-  const DetailGuru({Key key, this.id}) : super(key: key);
+  final GuruModel guru;
+  const DetailGuru({Key key, this.guru}) : super(key: key);
 
   @override
   _DetailGuruState createState() => _DetailGuruState();
@@ -32,12 +33,13 @@ class _DetailGuruState extends State<DetailGuru> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(padding: EdgeInsets.all(16), child: Text('Data Guru')),
-          Config.itemDetail('Nama', 'Akexandria Angle'),
-          Config.itemDetail('Tanggal Lahir', Config.formatDateInput('2003-02-02')),
-          Config.itemDetail('Alamat', 'Jember'),
+          Config.itemDetail('Nama', widget.guru.nama),
+          Config.itemDetail(
+              'Tanggal Lahir', Config.formatDateInput(widget.guru.birthDate)),
+          Config.itemDetail('Alamat', widget.guru.alamat),
           Container(padding: EdgeInsets.all(16), child: Text('Data Akun')),
-          Config.itemDetail('Username', 'John Jake'),
-          Config.itemDetail('Telepon', '08983368286'),
+          Config.itemDetail('Username', widget.guru.username),
+          Config.itemDetail('Telepon', widget.guru.phone),
         ],
       ),
     );

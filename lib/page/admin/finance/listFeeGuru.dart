@@ -12,6 +12,7 @@ class ListFeeGuru extends StatefulWidget {
 }
 
 class _ListFeeGuruState extends State<ListFeeGuru> {
+  List<dynamic> _listSPP = [];
   void _filter(BuildContext context, String id) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -27,8 +28,20 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
   }
 
   List<dynamic> _listFEE = [
-    {"id": 1, "nama_siswa": "Ridho Ilahi", "spp": 1500000, "tanggal": "13-10-2021", "status": "Belum Lunas"},
-    {"id": 2, "nama_siswa": "Inayah Larasati", "spp": 1500000, "tanggal": "13-10-2021", "status": "Lunas"},
+    {
+      "id": 1,
+      "nama_siswa": "Ridho Ilahi",
+      "spp": 1500000,
+      "tanggal": "13-10-2021",
+      "status": "Belum Lunas"
+    },
+    {
+      "id": 2,
+      "nama_siswa": "Inayah Larasati",
+      "spp": 1500000,
+      "tanggal": "13-10-2021",
+      "status": "Lunas"
+    },
   ];
   @override
   Widget build(BuildContext context) {
@@ -46,6 +59,7 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
         actions: [
           IconButton(
             onPressed: () {
+              Navigator.pop(context);
               _filter(context, '0');
             },
             icon: Icon(
@@ -63,6 +77,11 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
       ),
       body: Container(
         margin: EdgeInsets.only(top: 16, bottom: 16),
+        // child: ListView.builder(
+        //     itemCount: 3,
+        //     itemBuilder: (BuildContext bc, int i) {
+        //       return ItemListFee();
+        //     }),
         child: Column(
           children: [
             Container(

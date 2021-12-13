@@ -27,8 +27,20 @@ class _ListSppMuridState extends State<ListSppMurid> {
   }
 
   List<dynamic> _listSPP = [
-    {"id": 1, "nama_siswa": "Ridho Ilahi", "spp": 1500000, "tanggal": "13-10-2021", "status": "Belum Lunas"},
-    {"id": 2, "nama_siswa": "Inayah Larasati", "spp": 1500000, "tanggal": "13-10-2021", "status": "Lunas"},
+    {
+      "id": 1,
+      "nama_siswa": "Ridho Ilahi",
+      "spp": 1500000,
+      "tanggal": "13-10-2021",
+      "status": "Belum Lunas"
+    },
+    {
+      "id": 2,
+      "nama_siswa": "Inayah Larasati",
+      "spp": 1500000,
+      "tanggal": "13-10-2021",
+      "status": "Lunas"
+    },
   ];
   @override
   Widget build(BuildContext context) {
@@ -46,6 +58,7 @@ class _ListSppMuridState extends State<ListSppMurid> {
         actions: [
           IconButton(
             onPressed: () {
+              Navigator.pop(context);
               _filter(context, 'id');
             },
             icon: Icon(
@@ -63,6 +76,11 @@ class _ListSppMuridState extends State<ListSppMurid> {
       ),
       body: Container(
         margin: EdgeInsets.only(top: 16, bottom: 16),
+        // child: ListView.builder(
+        //     itemCount: 3,
+        //     itemBuilder: (BuildContext bc, int i) {
+        //       return ItemListSPP();
+        //     }),
         child: Column(
           children: [
             Container(

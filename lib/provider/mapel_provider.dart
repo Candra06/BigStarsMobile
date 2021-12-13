@@ -1,4 +1,3 @@
-import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/model/mapel_model.dart';
 import 'package:bigstars_mobile/service/mapel_service.dart';
 import 'package:flutter/widgets.dart';
@@ -24,7 +23,7 @@ class MapelProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> getMapels(token) async {
+  Future<bool> getMapels() async {
     try {
       List<MapelModel> mapels = await MapelService().getData();
       _mapels = mapels;
@@ -53,7 +52,6 @@ class MapelProvider with ChangeNotifier {
   }
 
   Future<bool> hapusMapel(String id) async {
-    var token = await Pref.getToken();
     bool status = await MapelService().hapusMapel(id);
     if (status) {
       try {

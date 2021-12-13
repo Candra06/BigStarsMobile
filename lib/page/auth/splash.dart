@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:bigstars_mobile/helper/pref.dart';
-import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
@@ -30,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     var user = await Pref.getUserModel();
     // print(tmpToken);
     if (tmpToken != null) {
-      Provider.of<MapelProvider>(context, listen: false).getMapels(tmpToken);
+      Provider.of<MapelProvider>(context, listen: false).getMapels();
       userModel = UserModel.fromJson(json.decode(user));
       Provider.of<AuthProvider>(context, listen: false).setUser(userModel);
     }

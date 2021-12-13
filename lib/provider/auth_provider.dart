@@ -34,7 +34,6 @@ class AuthProvider with ChangeNotifier {
         "status": false,
         "message": e.toString(),
       };
-      ;
     }
   }
 }

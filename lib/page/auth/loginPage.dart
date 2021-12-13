@@ -4,7 +4,6 @@ import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
 import 'package:bigstars_mobile/helper/loadingButton.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
-import 'package:bigstars_mobile/page/admin/homePage.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
 import 'package:bigstars_mobile/page/guru/mainPage.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
@@ -48,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
         pref.setString('token', user.token);
         pref.setString('user', json.encode(user.toJson()));
         setState(() {
-          Provider.of<MapelProvider>(context, listen: false).getMapels(user.token);
+          Provider.of<MapelProvider>(context, listen: false).getMapels();
         });
         if (authProvider.user.role == 'Admin') {
           Navigator.pushReplacement(

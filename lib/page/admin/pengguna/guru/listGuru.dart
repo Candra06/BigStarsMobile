@@ -1,7 +1,11 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/model/guru_model.dart';
 import 'package:bigstars_mobile/page/admin/listItem/listItemGuru.dart';
+import 'package:bigstars_mobile/provider/guru_provider.dart';
+import 'package:bigstars_mobile/provider/mapel_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ListGuru extends StatefulWidget {
   const ListGuru({Key key}) : super(key: key);
@@ -13,8 +17,14 @@ class ListGuru extends StatefulWidget {
 class _ListGuruState extends State<ListGuru> {
   bool load = false;
   String searchString = "";
+  List<GuruModel> guru;
+  // getData() async {
+  //   guru = await Provider.of<GuruProvider>(context, listen: false).getData();
+  // }
+
   @override
   void initState() {
+    // getData();
     super.initState();
   }
 
@@ -45,7 +55,9 @@ class _ListGuruState extends State<ListGuru> {
                   Container(
                     margin: EdgeInsets.only(top: 8),
                     padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Config.borderInput)),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -76,22 +88,59 @@ class _ListGuruState extends State<ListGuru> {
                       ],
                     ),
                   ),
-                  Container(
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: 2,
-                        itemBuilder: (BuildContext context, int i) {
-                          var data = {"id": '1', "nama": "Orel Revo", "phone": "087757898666"};
-                          if (searchString != '') {
-                            return Container();
-                            // logic ketika pencarian berdasarkan nama
-                          } else {
-                            return ItemListGuru(
-                              data: data,
-                            );
-                          }
-                        }),
+                  Expanded(
+                    child: FutureBuilder(
+                      future: Provider.of<GuruProvider>(context, listen: false)
+                          .getData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        return Container(
+                          child: Consumer<GuruProvider>(
+                            builder: (context, data, _) {
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: data.listGuru.length,
+                                itemBuilder: (context, int i) {
+                                  if (searchString != '') {
+                                    return Container();
+                                    // logic ketika pencarian berdasarkan nama
+                                  } else {
+                                    return ItemListGuru(
+                                      guru: data.listGuru[i],
+                                    );
+                                  }
+                                },
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
                   ),
+                  // Container(
+                  //   child: FutureBuilder(
+                  //     future: Provider.of<MapelProvider>(context, listen: false)
+                  //         .getMapels(),
+                  //     builder: (context, snapshot) {
+                  //       if (snapshot.connectionState ==
+                  //           ConnectionState.waiting) {
+                  //         return Center(child: CircularProgressIndicator());
+                  //       }
+                  //       return Consumer<MapelProvider>(
+                  //         builder: (context, data, _) => ListView.builder(
+                  //             itemCount: data.mapels.length,
+                  //             itemBuilder: (BuildContext context, int i) {
+                  //               return ItemListMapel(
+                  //                 mapelModel: data.mapels[i],
+                  //               );
+                  //             }),
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                 ],
               ),
             ),
