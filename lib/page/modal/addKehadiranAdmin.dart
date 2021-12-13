@@ -1,26 +1,21 @@
 import 'package:bigstars_mobile/helper/config.dart';
-import 'package:bigstars_mobile/helper/fileUpload.dart';
 import 'package:bigstars_mobile/helper/input.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
-class ModalTambahKehadiranGuru extends StatefulWidget {
+class ModalTambahKehadiran extends StatefulWidget {
   final String id;
-  final String tipe;
-  const ModalTambahKehadiranGuru({Key key, this.id, this.tipe}) : super(key: key);
+  const ModalTambahKehadiran({Key key, this.id}) : super(key: key);
 
   @override
-  _ModalTambahKehadiranGuruState createState() => _ModalTambahKehadiranGuruState();
+  _ModalTambahKehadiranState createState() => _ModalTambahKehadiranState();
 }
 
-class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
+class _ModalTambahKehadiranState extends State<ModalTambahKehadiran> {
   TextEditingController txtMateri = new TextEditingController();
   TextEditingController txtJurnal = new TextEditingController();
-  TextEditingController txtPoin = new TextEditingController();
-  List<String> statusKelas = ['Done', 'Cancel'];
-  PlatformFile _fileMateri;
-  FileUpload _upload = new FileUpload();
-  String status;
+  TextEditingController txtTanggalKelas = new TextEditingController();
+  DateTime _dateTime;
+  String tglKelas;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +32,7 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: [Text(widget.tipe == 'Update' ? 'Update Kehadiran' : 'Tambah Kehadiran', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))],
+                    children: [Text('Tambah Kehadiran', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))],
                   ),
                   InkWell(
                     onTap: () {
@@ -63,73 +58,51 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
                   )),
               formInputMultiline(txtJurnal, 'Deskripsi materi yang diajarkan'),
               SizedBox(height: 8),
-              Text('Poin'),
-              formInputType(txtMateri, 'Poin', TextInputType.number),
-              SizedBox(
-                height: 8,
-              ),
-              Text('Status Kelas'),
+              Text('Tanggal Kelas'),
               Container(
                 margin: EdgeInsets.only(top: 8, bottom: 10),
-                width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
-                child: DropdownButton(
-                  underline: SizedBox(),
-                  hint: Text(
-                    "Pilih Status",
-                    style: TextStyle(
-                      color: Config.textGrey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: TextField(
+                          readOnly: true,
+                          controller: txtTanggalKelas,
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                icon: Icon(
+                                  Icons.calendar_today,
+                                  color: Config.textGrey,
+                                ),
+                                onPressed: () {
+                                  showDatePicker(context: context, initialDate: _dateTime == null ? DateTime.now() : _dateTime, firstDate: DateTime(2020), lastDate: DateTime.now()).then((date) {
+                                    if (date != null) {
+                                      setState(() {
+                                        _dateTime = date;
+                                        txtTanggalKelas.text = Config.formatDateInput(date.toString());
+                                        var tgl = _dateTime.toString().split(' ');
+                                        tglKelas = tgl[0].toString();
+                                      });
+                                    }
+                                  });
+                                }),
+                            border: InputBorder.none,
+                            hintText: 'Tanggal Kelas',
+                            hintStyle: TextStyle(color: Config.textGrey),
+                          )),
                     ),
-                  ),
-                  isExpanded: true,
-                  value: status,
-                  items: statusKelas.map((value) {
-                    return DropdownMenuItem(
-                      child: Text(value),
-                      value: value,
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      status = value;
-                      print(status);
-                    });
-                  },
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 1,
+                      color: Colors.white,
+                    )
+                  ],
                 ),
               ),
               SizedBox(
                 height: 8,
-              ),
-              Text('File Materi'),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.075),
-                child: Column(
-                  children: [
-                    FormInputFile(
-                      onTap: () async {
-                        _fileMateri = await _upload.uploadFile(
-                          allowedExtensions: [
-                            'pdf',
-                            'doc',
-                            'docx',
-                            'xlsx',
-                            'xls',
-                            'pptx',
-                          ],
-                        );
-                        setState(() {
-                          // for (var item in _fileAssigment) {
-                          //   addFile(item);
-                          // }
-                        });
-                        // setState(() async{
-                        //
-                        // });
-                      },
-                    ),
-                  ],
-                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,

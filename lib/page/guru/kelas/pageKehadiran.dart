@@ -1,17 +1,17 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListKehadiran.dart';
-import 'package:bigstars_mobile/page/modal/addKehadiranAdmin.dart';
+import 'package:bigstars_mobile/page/modal/addKehadiranGuru.dart';
 import 'package:flutter/material.dart';
 
-class KehadiranKelas extends StatefulWidget {
+class KehadiranKelasGuru extends StatefulWidget {
   final String id;
-  const KehadiranKelas({Key key, this.id}) : super(key: key);
+  const KehadiranKelasGuru({Key key, this.id}) : super(key: key);
 
   @override
-  _KehadiranKelasState createState() => _KehadiranKelasState();
+  _KehadiranKelasGuruState createState() => _KehadiranKelasGuruState();
 }
 
-class _KehadiranKelasState extends State<KehadiranKelas> {
+class _KehadiranKelasGuruState extends State<KehadiranKelasGuru> {
   bool load = false;
   void _addNewKehadiran(BuildContext context, String id) {
     showModalBottomSheet(
@@ -21,7 +21,7 @@ class _KehadiranKelasState extends State<KehadiranKelas> {
         context: context,
         isScrollControlled: true,
         builder: (builder) {
-          return ModalTambahKehadiran(
+          return ModalTambahKehadiranGuru(
             id: id,
           );
         });
