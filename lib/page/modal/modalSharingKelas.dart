@@ -2,19 +2,17 @@ import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
 import 'package:flutter/material.dart';
 
-class ModalFilterKelas extends StatefulWidget {
-  final String idWali;
-  const ModalFilterKelas({Key key, this.idWali}) : super(key: key);
+class ModalSharingKelas extends StatefulWidget {
+  final String id;
+  const ModalSharingKelas({Key key, this.id}) : super(key: key);
 
   @override
-  _ModalFilterKelasState createState() => _ModalFilterKelasState();
+  _ModalSharingKelasState createState() => _ModalSharingKelasState();
 }
 
-class _ModalFilterKelasState extends State<ModalFilterKelas> {
-  TextEditingController txtNamaSiswa = new TextEditingController();
-  TextEditingController txtNamaGuru = new TextEditingController();
-  List<String> statusKelas = ['Active', 'Inactive'];
-  String status;
+class _ModalSharingKelasState extends State<ModalSharingKelas> {
+  String tglKelas, idGuru;
+  List<String> listGuru = ['Done', 'Cancel'];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +29,7 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: [Text('Filter Kelas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))],
+                    children: [Text('Sharing Kelas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))],
                   ),
                   InkWell(
                     onTap: () {
@@ -45,21 +43,7 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
                 height: 22,
               ),
               SizedBox(height: 8),
-              //Jika role wali di hide inputan nama siswa
-              Text('Nama Siswa',
-                  style: TextStyle(
-                    fontSize: 14,
-                  )),
-              formInputType(txtNamaSiswa, 'Nama Siswa', TextInputType.text),
-              SizedBox(height: 8),
-              //Jika role guru di hide inputan nama guru
-              Text('Nama Guru',
-                  style: TextStyle(
-                    fontSize: 14,
-                  )),
-              formInputType(txtNamaSiswa, 'Nama Guru', TextInputType.text),
-              SizedBox(height: 8),
-              Text('Status Kelas'),
+              Text('Guru'),
               Container(
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 width: MediaQuery.of(context).size.width,
@@ -68,14 +52,14 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
-                    "Pilih Status",
+                    "Pilih Guru",
                     style: TextStyle(
                       color: Config.textGrey,
                     ),
                   ),
                   isExpanded: true,
-                  value: status,
-                  items: statusKelas.map((value) {
+                  value: idGuru,
+                  items: listGuru.map((value) {
                     return DropdownMenuItem(
                       child: Text(value),
                       value: value,
@@ -83,12 +67,13 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
                   }).toList(),
                   onChanged: (value) {
                     setState(() {
-                      status = value;
-                      print(status);
+                      idGuru = value;
+                      print(idGuru);
                     });
                   },
                 ),
               ),
+              SizedBox(height: 8),
               SizedBox(
                 height: 8,
               ),
@@ -104,7 +89,7 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text('Terapkan', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Config.textWhite))),
+                        child: Text('SIMPAN', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Config.textWhite))),
                   ))
                 ],
               )

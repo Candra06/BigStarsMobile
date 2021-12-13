@@ -6,6 +6,7 @@ import 'package:bigstars_mobile/helper/loadingButton.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/homePage.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
+import 'package:bigstars_mobile/page/guru/mainPage.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/provider/mapel_provider.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         isLoading = true;
       });
-      data = await authProvider.login(
-          username: txtUsername.text, password: txtPassword.text);
+      data = await authProvider.login(username: txtUsername.text, password: txtPassword.text);
       user = authProvider.user;
       if (data["status"]) {
         setState(() {
@@ -48,8 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         pref.setString('token', user.token);
         pref.setString('user', json.encode(user.toJson()));
         setState(() {
-          Provider.of<MapelProvider>(context, listen: false)
-              .getMapels(user.token);
+          Provider.of<MapelProvider>(context, listen: false).getMapels(user.token);
         });
         if (authProvider.user.role == 'Admin') {
           Navigator.pushReplacement(
@@ -62,7 +61,15 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else if (authProvider.user.role == 'Guru') {
-          print("guru");
+          Navigator.pushReplacement(
+            context,
+            PageTransition(
+              child: GuruMain(
+                indexPage: '0',
+              ),
+              type: PageTransitionType.fade,
+            ),
+          );
         } else {
           print("Walimurid");
         }
@@ -142,9 +149,7 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 margin: EdgeInsets.only(top: 8),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -158,9 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                             fillColor: Colors.black54,
                             suffixIcon: IconButton(
                               color: Config.primary,
-                              icon: obsuced
-                                  ? Icon(Icons.lock_outline_rounded)
-                                  : Icon(Icons.lock_open),
+                              icon: obsuced ? Icon(Icons.lock_outline_rounded) : Icon(Icons.lock_open),
                               onPressed: () {
                                 if (obsuced == true) {
                                   setState(() {
