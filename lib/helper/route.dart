@@ -18,8 +18,12 @@ import 'package:bigstars_mobile/page/admin/pengguna/wali/detailWali.dart';
 import 'package:bigstars_mobile/page/admin/pengguna/wali/editWali.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
 import 'package:bigstars_mobile/page/auth/splash.dart';
+import 'package:bigstars_mobile/page/guru/kelas/detailKelas.dart';
+import 'package:bigstars_mobile/page/guru/mainPage.dart';
 import 'package:bigstars_mobile/page/profile/adminProfile.dart';
 import 'package:bigstars_mobile/page/profile/editAkunAdmin.dart';
+import 'package:bigstars_mobile/page/profile/editAkunGuru.dart';
+import 'package:bigstars_mobile/page/profile/guruProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
@@ -58,6 +62,12 @@ class Routes {
   static const String DETAIL_SPP = '/detail_spp';
   static const String DETAIL_FEE = '/detail_fee';
 
+  //Guru
+  static const String HOME_GURU = '/home_guru';
+  static const String PROFILE_GURU = '/profile_guru';
+  static const String EDIT_PROFILE_GURU = '/edit_profile_guru';
+  static const String DETAIL_KELAS_GURU = '/detail_kelas_guru';
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case SPLASH:
@@ -65,6 +75,12 @@ class Routes {
       case HOME_ADMIN:
         return PageTransition(
             child: AdminMain(
+              indexPage: '0',
+            ),
+            type: PageTransitionType.leftToRight);
+      case HOME_GURU:
+        return PageTransition(
+            child: GuruMain(
               indexPage: '0',
             ),
             type: PageTransitionType.leftToRight);
@@ -155,7 +171,16 @@ class Routes {
               id: settings.arguments,
             ),
             type: PageTransitionType.leftToRight);
-
+      case PROFILE_GURU:
+        return PageTransition(child: ProfilGuru(), type: PageTransitionType.leftToRight);
+      case EDIT_PROFILE_GURU:
+        return PageTransition(child: EditAkunGuru(), type: PageTransitionType.leftToRight);
+      case DETAIL_KELAS_GURU:
+        return PageTransition(
+            child: DetailKelasGuru(
+              id: settings.arguments,
+            ),
+            type: PageTransitionType.leftToRight);
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

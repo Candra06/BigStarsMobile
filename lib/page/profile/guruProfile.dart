@@ -5,14 +5,14 @@ import 'package:bigstars_mobile/page/modal/changePhotoProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-class ProfilAdmin extends StatefulWidget {
-  const ProfilAdmin({Key key}) : super(key: key);
+class ProfilGuru extends StatefulWidget {
+  const ProfilGuru({Key key}) : super(key: key);
 
   @override
-  _ProfilAdminState createState() => _ProfilAdminState();
+  _ProfilGuruState createState() => _ProfilGuruState();
 }
 
-class _ProfilAdminState extends State<ProfilAdmin> {
+class _ProfilGuruState extends State<ProfilGuru> {
   void _logOut() async {
     return await showDialog(
       context: context,
@@ -53,7 +53,7 @@ class _ProfilAdminState extends State<ProfilAdmin> {
                       children: [
                         InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '0');
+                            Navigator.pushNamed(context, Routes.HOME_GURU, arguments: '0');
                           },
                           child: Icon(
                             Icons.arrow_back,
@@ -88,14 +88,14 @@ class _ProfilAdminState extends State<ProfilAdmin> {
                       height: 10,
                     ),
                     Text(
-                      'Admin',
+                      'Guru Bigstars',
                       style: TextStyle(color: Config.textWhite, fontSize: 24, fontWeight: FontWeight.w900),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
-                      'admin@bigstars.com',
+                      'guru@bigstars.com',
                       style: TextStyle(color: Config.textWhite, fontSize: 18),
                     ),
                     Text(
@@ -150,7 +150,7 @@ class _ProfilAdminState extends State<ProfilAdmin> {
                 margin: EdgeInsets.only(left: 16, right: 16),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, Routes.EDIT_PROFILE_ADMIN);
+                    Navigator.pushNamed(context, Routes.EDIT_PROFILE_GURU);
                   },
                   style: ElevatedButton.styleFrom(
                     // side: BorderSide(width: 1, color: Config.primary),
