@@ -22,4 +22,10 @@ class EndPoint {
   static final sDelete = api + 'siswa/delete/';
   static final sCreate = api + 'siswa/create-wali';
   static final wCreate = api + 'siswa/create-siswa';
+
+  // finance
+  static final finance = api + 'finance/index/';
+
+  // kelas
+  static final kelas = api + 'kelas/list-all';
 }

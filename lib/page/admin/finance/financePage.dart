@@ -1,6 +1,10 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/model/finance_model.dart';
+import 'package:bigstars_mobile/provider/finance_provider.dart';
+import 'package:bigstars_mobile/service/finance_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FinancePage extends StatefulWidget {
   const FinancePage({Key key}) : super(key: key);
@@ -10,6 +14,22 @@ class FinancePage extends StatefulWidget {
 }
 
 class _FinancePageState extends State<FinancePage> {
+  FinanceModel financeModel = FinanceModel();
+  int laba;
+  int total_spp;
+  int total_fee;
+  getData() {
+    FinanceProvider financeProvider =
+        Provider.of<FinanceProvider>(context, listen: false);
+    financeModel = financeProvider.Finance;
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +65,7 @@ class _FinancePageState extends State<FinancePage> {
                     height: 10,
                   ),
                   Text(
-                    Config.formatRupiah(33000000),
+                    Config.formatRupiah(financeModel.laba),
                     style: TextStyle(
                         color: Config.textWhite,
                         fontSize: 24,
@@ -101,7 +121,7 @@ class _FinancePageState extends State<FinancePage> {
                           height: 10,
                         ),
                         Text(
-                          Config.formatRupiah(33000000),
+                          Config.formatRupiah(financeModel.totalSpp),
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w900),
                         )
@@ -151,7 +171,7 @@ class _FinancePageState extends State<FinancePage> {
                           height: 10,
                         ),
                         Text(
-                          Config.formatRupiah(33000000),
+                          Config.formatRupiah(financeModel.totalFee),
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w900),
                         )

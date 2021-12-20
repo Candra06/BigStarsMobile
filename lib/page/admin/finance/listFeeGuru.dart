@@ -1,8 +1,11 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListFee.dart';
 import 'package:bigstars_mobile/page/modal/modalFilterFee.dart';
+import 'package:bigstars_mobile/provider/finance_provider.dart';
+import 'package:bigstars_mobile/service/finance_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class ListFeeGuru extends StatefulWidget {
   const ListFeeGuru({Key key}) : super(key: key);
@@ -43,6 +46,17 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
       "status": "Lunas"
     },
   ];
+
+  getData() async {
+    await FinanceService().feeGuru();
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,12 +119,27 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
             SizedBox(
               height: 20,
             ),
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: _listFEE.length,
-                itemBuilder: (BuildContext bc, int i) {
-                  return ItemListFee();
-                }),
+            FutureBuilder(
+              future: Provider.of<FinanceProvider>(context, listen: false)
+                  .getFeeGuru(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Consumer<FinanceProvider>(
+                  builder: (context, data, _) => ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: data.ListFeeGuru.length,
+                      itemBuilder: (BuildContext bc, int i) {
+                        return ItemListFee(
+                          fee: data.ListFeeGuru[i],
+                        );
+                      }),
+                );
+              },
+            ),
           ],
         ),
       ),
