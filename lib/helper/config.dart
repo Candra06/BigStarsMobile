@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/helper/hexcolor.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -42,14 +43,12 @@ class Config {
         builder: (BuildContext context) {
           return Dialog(
               // backgroundColor: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
               child: Container(
                   height: 200.0,
                   width: 200.0,
                   padding: EdgeInsets.all(18),
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
                   child: Column(
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -64,6 +63,17 @@ class Config {
                     ],
                   )));
         });
+  }
+
+  static bedgeStatus(String status) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
+      decoration: BoxDecoration(color: status == 'Aktif' || status == 'Active' ? Config.boxGreen : Config.boxRed, borderRadius: BorderRadius.all(Radius.circular(10))),
+      child: Text(
+        status,
+        style: TextStyle(color: Config.textWhite),
+      ),
+    );
   }
 
   static itemDetail(String title, konten) {
@@ -92,10 +102,7 @@ class Config {
     return Center(
       child: Column(
         children: <Widget>[
-          Container(
-              width: MediaQuery.of(context).size.width * 0.5,
-              margin: EdgeInsets.only(top: 20, bottom: 10),
-              child: Image.asset('assets/images/box.png')),
+          Container(width: MediaQuery.of(context).size.width * 0.5, margin: EdgeInsets.only(top: 20, bottom: 10), child: Image.asset('assets/images/box.png')),
           Text(
             pesan,
             style: GoogleFonts.lato(fontSize: 20, fontWeight: FontWeight.bold),
@@ -112,8 +119,7 @@ class Config {
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 2,
-        backgroundColor:
-            (tipe == 1 ? Colors.green : Colors.red), // 1 untuk berhasil
+        backgroundColor: (tipe == 1 ? Colors.green : Colors.red), // 1 untuk berhasil
         textColor: Colors.white,
         fontSize: 16.0);
   }
@@ -150,24 +156,9 @@ class Config {
   static formatDateInput(tgl) {
     try {
       var date = tgl.split(" ");
-      var bln = [
-        '',
-        'Januari',
-        'Februari',
-        'Maret',
-        'April',
-        'Mei',
-        'Juni',
-        'Juli',
-        'Agustus',
-        'September',
-        'Oktober',
-        'November',
-        'Desember'
-      ];
+      var bln = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
       var bulan = date[0].toString().split('-');
-      String tanggal =
-          bulan[2] + ' ' + bln[int.parse(bulan[1])] + ' ' + bulan[0];
+      String tanggal = bulan[2] + ' ' + bln[int.parse(bulan[1])] + ' ' + bulan[0];
       return tanggal;
     } catch (e) {
       return tgl.toString();
@@ -185,4 +176,6 @@ class Config {
       return nominal.toString();
     }
   }
+
+  
 }

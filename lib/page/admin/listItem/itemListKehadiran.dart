@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/page/modal/addKehadiranGuru.dart';
 import 'package:flutter/material.dart';
 
 class ItemListKehadiran extends StatefulWidget {
@@ -10,6 +11,21 @@ class ItemListKehadiran extends StatefulWidget {
 }
 
 class _ItemListKehadiranState extends State<ItemListKehadiran> {
+  void _updateKehadiran(BuildContext context, String id) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        context: context,
+        isScrollControlled: true,
+        builder: (builder) {
+          return ModalTambahKehadiranGuru(
+            id: id,
+            tipe: 'Update',
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -75,6 +91,24 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
               ),
               child: Text(
                 "Unduh Materi",
+                style: TextStyle(color: Colors.white, fontSize: 14),
+              ),
+            ),
+            // jika belum done / status waiting ketika sharing kelas button update absensi muncul
+            ElevatedButton(
+              onPressed: () {
+                _updateKehadiran(context, '1');
+              },
+              style: ElevatedButton.styleFrom(
+                fixedSize: Size(MediaQuery.of(context).size.width, 30),
+                primary: Config.boxGreen,
+                onPrimary: Config.textWhite,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              child: Text(
+                "Perbarui Kehadiran",
                 style: TextStyle(color: Colors.white, fontSize: 14),
               ),
             )
