@@ -1,11 +1,16 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/model/guru/kelas.dart';
+import 'package:bigstars_mobile/model/jadwal_model.dart';
 import 'package:bigstars_mobile/page/modal/addJadwal.dart';
 import 'package:bigstars_mobile/page/modal/addKehadiranAdmin.dart';
+import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class DetailKelasPage extends StatefulWidget {
-  final String id;
-  const DetailKelasPage({Key key, this.id}) : super(key: key);
+  final KelasModel kelas;
+  const DetailKelasPage({Key key, this.kelas}) : super(key: key);
 
   @override
   _DetailKelasPageState createState() => _DetailKelasPageState();
@@ -28,6 +33,161 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
   }
 
   bool load = false;
+  List<JadwalModel> jadwalModels = [];
+  _showSuccesHapus() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              // height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset('assets/lottie/success-delete.json'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('Data has been deleted!'),
+                ],
+              ),
+            ),
+            actions: [
+              Container(
+                width: double.infinity - 30,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Config.boxGreen,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: TextButton(
+                  // textColor: Color(0xFF6200EE),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ACCEPT',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  _showConfirmHapus(int id) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    'assets/lottie/warning-animation.json',
+                    width: 150,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                    child: Text('Are you sure to delete ?'),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    // width: double.infinity - 30,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 1,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Config.alertColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Container(
+                    // width: double.infinity - 30,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 1,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Config.boxGreen,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: TextButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        // handleHapus();
+                        var ids = await Provider.of<KelasProvider>(context,
+                                listen: false)
+                            .deleteJadwal(id)
+                            .then((value) {
+                          if (value) {
+                            _showSuccesHapus();
+                            getData();
+                          }
+                        });
+                      },
+                      child: Text(
+                        'Accept',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
+  }
+
+  void getData() async {
+    setState(() {
+      load = true;
+    });
+    jadwalModels = await Provider.of<KelasProvider>(context, listen: false)
+        .getDetail(widget.kelas.id);
+
+    setState(() {
+      load = false;
+    });
+  }
+
+  @override
+  void initState() {
+    getData();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,20 +200,25 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(padding: EdgeInsets.all(16), child: Text('Data Kelas')),
-                  Config.itemDetail('Nama Siswa', 'Akexandria Angle'),
-                  Config.itemDetail('Nama Guru', 'Jember'),
-                  Config.itemDetail('Mata Pelajaran', 'Active'),
-                  Config.itemDetail('SPP', Config.formatRupiah(30000)),
-                  Config.itemDetail('Fee Guru', Config.formatRupiah(30000)),
-                  Config.itemDetail('Status', 'Active'),
+                  Container(
+                      padding: EdgeInsets.all(16), child: Text('Data Kelas')),
+                  Config.itemDetail('Nama Siswa', widget.kelas.siswa),
+                  Config.itemDetail('Nama Guru', widget.kelas.guru),
+                  Config.itemDetail('Mata Pelajaran', widget.kelas.mapel),
+                  Config.itemDetail(
+                      'SPP', Config.formatRupiah(widget.kelas.spp)),
+                  Config.itemDetail(
+                      'Fee Guru', Config.formatRupiah(widget.kelas.feeGuru)),
+                  Config.itemDetail('Status', widget.kelas.status),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(padding: EdgeInsets.all(16), child: Text('Jadwal')),
+                      Container(
+                          padding: EdgeInsets.all(16), child: Text('Jadwal')),
                       InkWell(
                         onTap: () {
-                          _addNewJadwal(context, widget.id, '0');
+                          _addNewJadwal(
+                              context, widget.kelas.id.toString(), '0');
                         },
                         child: Container(
                             padding: EdgeInsets.all(16),
@@ -72,10 +237,11 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                       ),
                     ],
                   ),
-                  for (var i = 0; i < 2; i++) ...{
+                  for (var i = 0; i < jadwalModels.length; i++) ...{
                     InkWell(
                       onTap: () {
-                        _addNewJadwal(context, widget.id, i.toString());
+                        _addNewJadwal(
+                            context, widget.kelas.id.toString(), i.toString());
                       },
                       child: Column(
                         children: [
@@ -85,11 +251,13 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Senin'),
+                                Text(jadwalModels[i].hari),
                                 Row(
                                   children: [
                                     Text(
-                                      '15.00 - 16.00',
+                                      jadwalModels[i].jamMulai +
+                                          ' - ' +
+                                          jadwalModels[i].jamSelesai,
                                       style: TextStyle(color: Config.textGrey),
                                     ),
                                     SizedBox(
@@ -98,6 +266,7 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                                     InkWell(
                                       onTap: () {
                                         // aksi delete
+                                        _showConfirmHapus(jadwalModels[i].id);
                                       },
                                       child: Icon(
                                         Icons.delete_forever,

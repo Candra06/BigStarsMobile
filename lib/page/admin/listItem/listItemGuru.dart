@@ -18,6 +18,7 @@ class _ItemListGuruState extends State<ItemListGuru> {
   handleHapus() async {
     bool status = await Provider.of<GuruProvider>(context, listen: false)
         .delete(widget.guru.id);
+    print(status);
     if (status) {
       _showSuccesHapus();
     }
@@ -183,8 +184,9 @@ class _ItemListGuruState extends State<ItemListGuru> {
                   children: [
                     IconButton(
                         onPressed: () {
+                          var data = {"id": "1", "guru": widget.guru};
                           Navigator.pushNamed(context, Routes.ADD_GURU,
-                              arguments: widget.guru.id.toString());
+                              arguments: data);
                         },
                         icon: Icon(
                           Icons.edit,

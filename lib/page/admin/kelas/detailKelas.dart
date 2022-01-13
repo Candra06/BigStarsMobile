@@ -1,18 +1,20 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/page/admin/kelas/pageDetail.dart';
 import 'package:bigstars_mobile/page/admin/kelas/pageKehadiran.dart';
 import 'package:bigstars_mobile/page/modal/addSiswaByWali.dart';
 import 'package:flutter/material.dart';
 
 class DetailKelas extends StatefulWidget {
-  final String id;
-  const DetailKelas({Key key, this.id}) : super(key: key);
+  final KelasModel kelas;
+  const DetailKelas({Key key, this.kelas}) : super(key: key);
 
   @override
   _DetailKelasState createState() => _DetailKelasState();
 }
 
-class _DetailKelasState extends State<DetailKelas> with SingleTickerProviderStateMixin {
+class _DetailKelasState extends State<DetailKelas>
+    with SingleTickerProviderStateMixin {
   TabController controller;
   void _addNewSiswa(BuildContext context, String id) {
     showModalBottomSheet(
@@ -68,10 +70,10 @@ class _DetailKelasState extends State<DetailKelas> with SingleTickerProviderStat
         ),
         body: TabBarView(controller: controller, children: <Widget>[
           DetailKelasPage(
-            id: widget.id,
+            kelas: widget.kelas,
           ),
           KehadiranKelas(
-            id: widget.id,
+            kelas: widget.kelas,
           ),
         ]));
   }

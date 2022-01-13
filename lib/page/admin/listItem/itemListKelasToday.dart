@@ -1,18 +1,19 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
+import 'package:bigstars_mobile/model/kelasToday_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ItemKelas extends StatefulWidget {
-  final KelasModel data;
-  const ItemKelas({Key key, this.data}) : super(key: key);
+class ItemKelasToday extends StatefulWidget {
+  final KelasTodayModel data;
+  const ItemKelasToday({Key key, this.data}) : super(key: key);
 
   @override
-  _ItemKelasState createState() => _ItemKelasState();
+  _ItemKelasTodayState createState() => _ItemKelasTodayState();
 }
 
-class _ItemKelasState extends State<ItemKelas> {
+class _ItemKelasTodayState extends State<ItemKelasToday> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -95,14 +96,14 @@ class _ItemKelasState extends State<ItemKelas> {
                   ),
                   Row(
                     children: [
-                      Text(
-                        widget.data.jamMulai + '-' + widget.data.jamSelesai,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 13,
-                          color: Config.boxRed,
-                        ),
-                      ),
+                      // Text(
+                      //   widget.data.guru + '-' + widget.data.guru,
+                      //   style: TextStyle(
+                      //     fontWeight: FontWeight.w900,
+                      //     fontSize: 13,
+                      //     color: Config.boxRed,
+                      //   ),
+                      // ),
                       SizedBox(
                         width: 8,
                       ),

@@ -13,10 +13,6 @@ class GuruProvider with ChangeNotifier {
   Future<List<GuruModel>> getData() async {
     try {
       _listGuru = await GuruService().getdata();
-      // _listGuru.add(_guruModel);
-      // for (var row in _listGuru) {
-      //   print(row.nama);
-      // }
       notifyListeners();
       return _listGuru;
     } catch (e) {
@@ -38,7 +34,17 @@ class GuruProvider with ChangeNotifier {
 
       _listGuru = await GuruService().getdata();
       notifyListeners();
+
       return status;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future editGuru(int id, Map<String, dynamic> data) async {
+    try {
+      return await GuruService().editGuru(id, data);
     } catch (e) {
       print(e);
       return false;

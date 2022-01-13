@@ -2,11 +2,12 @@ import 'package:bigstars_mobile/helper/appConfig.dart';
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
+import 'package:bigstars_mobile/provider/finance_provider.dart';
+import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:bigstars_mobile/provider/guru_provider.dart';
 import 'package:bigstars_mobile/provider/mapel_provider.dart';
 import 'package:bigstars_mobile/provider/siswa_provider.dart';
 import 'package:bigstars_mobile/provider/wali_provider.dart';
-import 'package:bigstars_mobile/service/siswa_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,6 +24,14 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  static void initSystemDefault() {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Config.primary,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var initialRoute = AppConfig.of(context).initialRoute;
@@ -43,6 +52,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<SiswaProvider>(
           create: (context) => SiswaProvider(),
         ),
+        ChangeNotifierProvider<FinanceProvider>(
+          create: (contex) => FinanceProvider(),
+        ),
+        ChangeNotifierProvider<KelasProvider>(
+          create: (contex) => KelasProvider(),
+        ),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -54,14 +69,6 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: Routes.generateRoute,
         initialRoute: initialRoute,
         title: 'BigStars App',
-      ),
-    );
-  }
-
-  static void initSystemDefault() {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Config.primary,
       ),
     );
   }

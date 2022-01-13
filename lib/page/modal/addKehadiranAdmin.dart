@@ -1,6 +1,10 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/helper/loadingButton.dart';
+import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class ModalTambahKehadiran extends StatefulWidget {
   final String id;
@@ -16,12 +20,89 @@ class _ModalTambahKehadiranState extends State<ModalTambahKehadiran> {
   TextEditingController txtTanggalKelas = new TextEditingController();
   DateTime _dateTime;
   String tglKelas;
+  bool isLoading = false;
+  void _showSuccesAdd() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              // height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset('assets/lottie/success-delete.json'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('Data has been created!'),
+                ],
+              ),
+            ),
+            actions: [
+              Container(
+                width: double.infinity - 30,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Config.boxGreen,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: TextButton(
+                  // textColor: Color(0xFF6200EE),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ACCEPT',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  void success() {
+    txtJurnal.text = "";
+    txtMateri.text = "";
+    txtTanggalKelas.text = "";
+    _showSuccesAdd();
+  }
+
+  void addMateri() async {
+    setState(() {
+      isLoading = true;
+    });
+    Provider.of<KelasProvider>(context, listen: false).addKehadiran(
+      widget.id,
+      {
+        "materi": txtMateri.text,
+        "jurnal": txtJurnal.text,
+        "tglKelas": tglKelas
+      },
+    ).then((value) => {
+          if (value) {success()}
+        });
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       // padding: EdgeInsets.all(16),
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      decoration: BoxDecoration(color: Config.background, borderRadius: new BorderRadius.only(topLeft: const Radius.circular(10.0), topRight: const Radius.circular(10.0))),
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      decoration: BoxDecoration(
+          color: Config.background,
+          borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(10.0),
+              topRight: const Radius.circular(10.0))),
       child: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(16),
@@ -32,7 +113,11 @@ class _ModalTambahKehadiranState extends State<ModalTambahKehadiran> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: [Text('Tambah Kehadiran', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))],
+                    children: [
+                      Text('Tambah Kehadiran',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold))
+                    ],
                   ),
                   InkWell(
                     onTap: () {
@@ -62,7 +147,9 @@ class _ModalTambahKehadiranState extends State<ModalTambahKehadiran> {
               Container(
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -77,12 +164,22 @@ class _ModalTambahKehadiranState extends State<ModalTambahKehadiran> {
                                   color: Config.textGrey,
                                 ),
                                 onPressed: () {
-                                  showDatePicker(context: context, initialDate: _dateTime == null ? DateTime.now() : _dateTime, firstDate: DateTime(2020), lastDate: DateTime.now()).then((date) {
+                                  showDatePicker(
+                                          context: context,
+                                          initialDate: _dateTime == null
+                                              ? DateTime.now()
+                                              : _dateTime,
+                                          firstDate: DateTime(2020),
+                                          lastDate: DateTime.now())
+                                      .then((date) {
                                     if (date != null) {
                                       setState(() {
                                         _dateTime = date;
-                                        txtTanggalKelas.text = Config.formatDateInput(date.toString());
-                                        var tgl = _dateTime.toString().split(' ');
+                                        txtTanggalKelas.text =
+                                            Config.formatDateInput(
+                                                date.toString());
+                                        var tgl =
+                                            _dateTime.toString().split(' ');
                                         tglKelas = tgl[0].toString();
                                       });
                                     }
@@ -109,15 +206,28 @@ class _ModalTambahKehadiranState extends State<ModalTambahKehadiran> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                      child: Container(
-                    margin: EdgeInsets.only(left: 4, top: 8),
-                    decoration: BoxDecoration(color: Config.primary, borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text('SIMPAN', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Config.textWhite))),
-                  ))
+                    child: Container(
+                      margin: EdgeInsets.only(left: 4, top: 8),
+                      decoration: BoxDecoration(
+                          color: Config.primary,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: isLoading
+                          ? LoadingButton()
+                          : TextButton(
+                              onPressed: () {
+                                addMateri();
+                                // Navigator.pop(context);
+                              },
+                              child: Text(
+                                'SIMPAN',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: Config.textWhite),
+                              ),
+                            ),
+                    ),
+                  ),
                 ],
               )
             ],

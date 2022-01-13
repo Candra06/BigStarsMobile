@@ -1,6 +1,15 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/model/guru_model.dart';
+import 'package:bigstars_mobile/model/mapel_model.dart';
+import 'package:bigstars_mobile/model/siswa_model.dart';
+import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
+import 'package:bigstars_mobile/provider/guru_provider.dart';
+import 'package:bigstars_mobile/provider/mapel_provider.dart';
+import 'package:bigstars_mobile/provider/siswa_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class AddKelasAdmin extends StatefulWidget {
   const AddKelasAdmin({Key key}) : super(key: key);
@@ -12,14 +21,141 @@ class AddKelasAdmin extends StatefulWidget {
 class _AddKelasAdminState extends State<AddKelasAdmin> {
   DateTime _dateTime;
   String jamMulai, jamSelesai;
-  List<String> mapel = [];
-  List<String> guru = [];
-  List<String> siswa = [];
+  List<Map<String, dynamic>> mapels = [];
+  List<Map<String, dynamic>> guru = [];
+  List<Map<String, dynamic>> siswa = [];
+
   TextEditingController txtFee = new TextEditingController();
   TextEditingController txtSpp = new TextEditingController();
   TextEditingController txtMulai = new TextEditingController();
   TextEditingController txtSelesai = new TextEditingController();
-  bool isChecked = false;
+  int valMapel, valGuru, valSiswa;
+  String valHari;
+
+  List<bool> checkHari = [false, false, false, false, false, false, false];
+  List<String> dataHari = [
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jum'at",
+    "Sabtu",
+    "Minggu"
+  ];
+
+  void _showSuccesAdd() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              // height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset('assets/lottie/success-delete.json'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('Data has been created!'),
+                ],
+              ),
+            ),
+            actions: [
+              Container(
+                width: double.infinity - 30,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Config.boxGreen,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: TextButton(
+                  // textColor: Color(0xFF6200EE),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ACCEPT',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  void addKelas() async {
+    List temp = [];
+    for (var i = 0; i < checkHari.length; i++) {
+      if (checkHari[i]) {
+        temp.add(dataHari[i]);
+      }
+    }
+    valHari = temp.join(",");
+    Map<String, dynamic> data = {
+      "id_mapel": valMapel.toString(),
+      "id_guru": valGuru.toString(),
+      "id_siswa": valSiswa.toString(),
+      "spp": txtSpp.text,
+      "fee_guru": txtFee.text,
+      "hari": valHari,
+      "jam_mulai": txtMulai.text,
+      "jam_selesai": txtSelesai.text,
+    };
+    print(data);
+    await Provider.of<KelasProvider>(context, listen: false)
+        .addKelas(data)
+        .then((value) {
+      if (value) {
+        _showSuccesAdd();
+      }
+    });
+    // print(valHari);
+    setState(() {
+      temp = [];
+      checkHari = [false, false, false, false, false, false, false];
+    });
+  }
+
+  void getData() {
+    MapelProvider mapelProvider =
+        Provider.of<MapelProvider>(context, listen: false);
+    List<MapelModel> mapelModels = mapelProvider.mapels;
+    GuruProvider guruProvider =
+        Provider.of<GuruProvider>(context, listen: false);
+    List<GuruModel> guruModels = guruProvider.listGuru;
+    SiswaProvider siswaProvider =
+        Provider.of<SiswaProvider>(context, listen: false);
+    List<SiswaModel> siswaModels = siswaProvider.listSiswa;
+    for (var i = 0; i < mapelModels.length; i++) {
+      mapels.add({
+        "id": mapelModels[i].id,
+        "nama": mapelModels[i].mapel,
+      });
+    }
+    for (var i = 0; i < guruModels.length; i++) {
+      guru.add({
+        "id": guruModels[i].id,
+        "nama": guruModels[i].nama,
+      });
+    }
+    for (var i = 0; i < siswaModels.length; i++) {
+      siswa.add({
+        "id": siswaModels[i].id,
+        "nama": siswaModels[i].nama,
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,29 +186,31 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
-                    "Pilih Mata Pelajaran",
+                    "Pilih Pelajaran",
                     style: TextStyle(
                       color: Config.textGrey,
                     ),
                   ),
                   isExpanded: true,
-                  // value: valStatus,
-                  items: mapel.map((value) {
+                  value: valMapel,
+                  items: mapels.map((value) {
                     return DropdownMenuItem(
-                      child: Text(value),
-                      value: value,
+                      child: Text(value["nama"]),
+                      value: value["id"],
                     );
                   }).toList(),
-                  // onChanged: (value) {
-                  //   setState(() {
-                  //     valStatus = value;
-                  //     print(valStatus);
-                  //   });
-                  // },
+                  onChanged: (value) {
+                    setState(() {
+                      valMapel = value;
+                      print(valMapel);
+                    });
+                  },
                 ),
               ),
               SizedBox(
@@ -83,7 +221,9 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
@@ -93,19 +233,19 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                     ),
                   ),
                   isExpanded: true,
-                  // value: valStatus,
-                  items: mapel.map((value) {
+                  value: valGuru,
+                  items: guru.map((value) {
                     return DropdownMenuItem(
-                      child: Text(value),
-                      value: value,
+                      child: Text(value["nama"]),
+                      value: value["id"],
                     );
                   }).toList(),
-                  // onChanged: (value) {
-                  //   setState(() {
-                  //     valStatus = value;
-                  //     print(valStatus);
-                  //   });
-                  // },
+                  onChanged: (value) {
+                    setState(() {
+                      valGuru = value;
+                      print(valGuru);
+                    });
+                  },
                 ),
               ),
               SizedBox(
@@ -116,7 +256,9 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
@@ -126,19 +268,19 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                     ),
                   ),
                   isExpanded: true,
-                  // value: valStatus,
-                  items: mapel.map((value) {
+                  value: valSiswa,
+                  items: siswa.map((value) {
                     return DropdownMenuItem(
-                      child: Text(value),
-                      value: value,
+                      child: Text(value["nama"]),
+                      value: value["id"],
                     );
                   }).toList(),
-                  // onChanged: (value) {
-                  //   setState(() {
-                  //     valStatus = value;
-                  //     print(valStatus);
-                  //   });
-                  // },
+                  onChanged: (value) {
+                    setState(() {
+                      valSiswa = value;
+                      print(valSiswa);
+                    });
+                  },
                 ),
               ),
               Row(
@@ -175,10 +317,10 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                         Checkbox(
                           checkColor: Colors.white,
                           activeColor: Config.primary,
-                          value: isChecked,
+                          value: checkHari[0],
                           onChanged: (bool value) {
                             setState(() {
-                              isChecked = !isChecked;
+                              checkHari[0] = !checkHari[0];
                             });
                           },
                         ),
@@ -192,10 +334,10 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                         Checkbox(
                           checkColor: Colors.white,
                           activeColor: Config.primary,
-                          value: isChecked,
+                          value: checkHari[1],
                           onChanged: (bool value) {
                             setState(() {
-                              isChecked = !isChecked;
+                              checkHari[1] = !checkHari[1];
                             });
                           },
                         ),
@@ -209,10 +351,10 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                         Checkbox(
                           checkColor: Colors.white,
                           activeColor: Config.primary,
-                          value: isChecked,
+                          value: checkHari[2],
                           onChanged: (bool value) {
                             setState(() {
-                              isChecked = !isChecked;
+                              checkHari[2] = !checkHari[2];
                             });
                           },
                         ),
@@ -230,10 +372,10 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                         Checkbox(
                           checkColor: Colors.white,
                           activeColor: Config.primary,
-                          value: isChecked,
+                          value: checkHari[3],
                           onChanged: (bool value) {
                             setState(() {
-                              isChecked = !isChecked;
+                              checkHari[3] = !checkHari[3];
                             });
                           },
                         ),
@@ -247,10 +389,10 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                         Checkbox(
                           checkColor: Colors.white,
                           activeColor: Config.primary,
-                          value: isChecked,
+                          value: checkHari[4],
                           onChanged: (bool value) {
                             setState(() {
-                              isChecked = !isChecked;
+                              checkHari[4] = !checkHari[4];
                             });
                           },
                         ),
@@ -264,10 +406,10 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                         Checkbox(
                           checkColor: Colors.white,
                           activeColor: Config.primary,
-                          value: isChecked,
+                          value: checkHari[5],
                           onChanged: (bool value) {
                             setState(() {
-                              isChecked = !isChecked;
+                              checkHari[5] = !checkHari[5];
                             });
                           },
                         ),
@@ -282,10 +424,10 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                   Checkbox(
                     checkColor: Colors.white,
                     activeColor: Config.primary,
-                    value: isChecked,
+                    value: checkHari[6],
                     onChanged: (bool value) {
                       setState(() {
-                        isChecked = !isChecked;
+                        checkHari[6] = !checkHari[6];
                       });
                     },
                   ),
@@ -300,9 +442,13 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(top: 8),
-                    constraints: BoxConstraints(minWidth: 75, maxWidth: MediaQuery.of(context).size.width * 0.4),
+                    constraints: BoxConstraints(
+                        minWidth: 75,
+                        maxWidth: MediaQuery.of(context).size.width * 0.4),
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Config.borderInput)),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -324,13 +470,20 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                             onTap: () async {
                               showTimePicker(
                                 context: context,
-                                initialTime: _dateTime == null ? TimeOfDay.now() : _dateTime,
+                                initialTime: _dateTime == null
+                                    ? TimeOfDay.now()
+                                    : _dateTime,
                               ).then((time) {
                                 if (time != null) {
                                   setState(() {
                                     // _dateTime = time;
-                                    txtMulai.text = time.hour.toString() + ':' + time.minute.toString();
-                                    jamMulai = time.hour.toString() + ':' + time.minute.toString() + ":00"; //value ini yg disimpan
+                                    txtMulai.text = time.hour.toString() +
+                                        ':' +
+                                        time.minute.toString();
+                                    jamMulai = time.hour.toString() +
+                                        ':' +
+                                        time.minute.toString() +
+                                        ":00"; //value ini yg disimpan
                                   });
                                 }
                               });
@@ -346,9 +499,13 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 8),
-                    constraints: BoxConstraints(minWidth: 75, maxWidth: MediaQuery.of(context).size.width * 0.4),
+                    constraints: BoxConstraints(
+                        minWidth: 75,
+                        maxWidth: MediaQuery.of(context).size.width * 0.4),
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Config.borderInput)),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -370,15 +527,22 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                             onTap: () async {
                               showTimePicker(
                                 context: context,
-                                initialTime: _dateTime == null ? TimeOfDay.now() : _dateTime,
+                                initialTime: _dateTime == null
+                                    ? TimeOfDay.now()
+                                    : _dateTime,
                               ).then((time) {
                                 if (time != null) {
                                   setState(() {
                                     // _dateTime = time;
-                                    txtSelesai.text = time.hour.toString() + ':' + time.minute.toString();
+                                    txtSelesai.text = time.hour.toString() +
+                                        ':' +
+                                        time.minute.toString();
                                     print(txtSelesai.text.toString());
                                     // var tgl = _dateTime.toString().split(' ');
-                                    jamSelesai = time.hour.toString() + ':' + time.minute.toString() + ":00"; //value ini yg disimpan
+                                    jamSelesai = time.hour.toString() +
+                                        ':' +
+                                        time.minute.toString() +
+                                        ":00"; //value ini yg disimpan
                                   });
                                 }
                               });
@@ -394,7 +558,9 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  addKelas();
+                },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(MediaQuery.of(context).size.width, 50),
                   primary: Config.primary,

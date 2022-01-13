@@ -79,33 +79,25 @@ class _AdminMainState extends State<AdminMain> {
               fixedColor: Config.primary,
               items: [
                 BottomNavigationBarItem(
-                    icon: FaIcon(
-                      FontAwesomeIcons.home,
-                    ),
-                    title: new Text(
-                      'Beranda',
-                      style: TextStyle(),
-                    )),
+                  icon: FaIcon(
+                    FontAwesomeIcons.home,
+                  ),
+                  label: "Beranda",
+                ),
                 BottomNavigationBarItem(
-                    icon: FaIcon(
-                      FontAwesomeIcons.graduationCap,
-                    ),
-                    title: new Text(
-                      'Kelas',
-                      style: TextStyle(),
-                    )),
+                  icon: FaIcon(
+                    FontAwesomeIcons.graduationCap,
+                  ),
+                  label: "Kelas",
+                ),
                 BottomNavigationBarItem(
-                    icon: FaIcon(FontAwesomeIcons.fileInvoiceDollar),
-                    title: new Text(
-                      'Finance',
-                      style: TextStyle(),
-                    )),
+                  icon: FaIcon(FontAwesomeIcons.fileInvoiceDollar),
+                  label: "Finance",
+                ),
                 BottomNavigationBarItem(
-                    icon: FaIcon(FontAwesomeIcons.users),
-                    title: new Text(
-                      'Userrs',
-                      style: TextStyle(),
-                    ))
+                  icon: FaIcon(FontAwesomeIcons.users),
+                  label: "Users",
+                )
               ],
               onTap: (index) {
                 setState(() {

@@ -1,10 +1,11 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ItemKelasGuru extends StatefulWidget {
-  final dynamic data;
+  final KelasModel data;
   const ItemKelasGuru({Key key, this.data}) : super(key: key);
 
   @override
@@ -16,11 +17,14 @@ class _ItemKelasGuruState extends State<ItemKelasGuru> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.DETAIL_KELAS_GURU);
+        Navigator.pushNamed(context, Routes.DETAIL_KELAS_GURU,
+            arguments: widget.data);
       },
       child: Container(
         margin: EdgeInsets.only(top: 8),
-        decoration: BoxDecoration(border: Border.all(width: 1, color: Config.borderInput), borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(
+            border: Border.all(width: 1, color: Config.borderInput),
+            borderRadius: BorderRadius.circular(10)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -30,11 +34,11 @@ class _ItemKelasGuruState extends State<ItemKelasGuru> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    widget.data['siswa'],
+                    widget.data.siswa,
                     style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
                   ),
                   Text(
-                    widget.data['mapel'],
+                    widget.data.mapel,
                     style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
                   )
                 ],
@@ -49,7 +53,7 @@ class _ItemKelasGuruState extends State<ItemKelasGuru> {
                 Container(
                   margin: EdgeInsets.all(8),
                   child: Text(
-                    widget.data['guru'],
+                    widget.data.guru,
                     style: TextStyle(fontWeight: FontWeight.w200, fontSize: 13),
                   ),
                 ),
@@ -70,7 +74,7 @@ class _ItemKelasGuruState extends State<ItemKelasGuru> {
                         width: 8,
                       ),
                       Text(
-                        widget.data['jam_mulai'] + '-' + widget.data['jam_selesai'],
+                        widget.data.jamMulai + '-' + widget.data.jamSelesai,
                         style: TextStyle(
                           fontWeight: FontWeight.w900,
                           fontSize: 13,
@@ -79,7 +83,7 @@ class _ItemKelasGuruState extends State<ItemKelasGuru> {
                       ),
                     ],
                   ),
-                  Config.bedgeStatus('Inactive')
+                  Config.bedgeStatus(widget.data.status)
                 ],
               ),
             ),
