@@ -20,10 +20,14 @@ import 'package:bigstars_mobile/page/auth/loginPage.dart';
 import 'package:bigstars_mobile/page/auth/splash.dart';
 import 'package:bigstars_mobile/page/guru/kelas/detailKelas.dart';
 import 'package:bigstars_mobile/page/guru/mainPage.dart';
+import 'package:bigstars_mobile/page/notifikasi/notifikasi.dart';
 import 'package:bigstars_mobile/page/profile/adminProfile.dart';
 import 'package:bigstars_mobile/page/profile/editAkunAdmin.dart';
 import 'package:bigstars_mobile/page/profile/editAkunGuru.dart';
+import 'package:bigstars_mobile/page/profile/editAkunWali.dart';
 import 'package:bigstars_mobile/page/profile/guruProfile.dart';
+import 'package:bigstars_mobile/page/profile/waliProfile.dart';
+import 'package:bigstars_mobile/page/wali/kelas/detailKelas.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
@@ -61,12 +65,19 @@ class Routes {
   static const String DETAIL_KELAS = '/detail_kelas';
   static const String DETAIL_SPP = '/detail_spp';
   static const String DETAIL_FEE = '/detail_fee';
+  static const String NOTIFIKASI = '/notifikasi';
 
   //Guru
   static const String HOME_GURU = '/home_guru';
   static const String PROFILE_GURU = '/profile_guru';
   static const String EDIT_PROFILE_GURU = '/edit_profile_guru';
   static const String DETAIL_KELAS_GURU = '/detail_kelas_guru';
+
+  //Wali
+  static const String HOME_WALI = '/home_wali';
+  static const String PROFILE_WALI = '/profile_wali';
+  static const String EDIT_PROFILE_WALI = '/edit_profile_wali';
+  static const String DETAIL_KELAS_WALI = '/detail_kelas_wali';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -85,11 +96,9 @@ class Routes {
             ),
             type: PageTransitionType.leftToRight);
       case LOGIN:
-        return PageTransition(
-            child: LoginPage(), type: PageTransitionType.leftToRight);
+        return PageTransition(child: LoginPage(), type: PageTransitionType.leftToRight);
       case LIST_MAPEL:
-        return PageTransition(
-            child: ListMapel(), type: PageTransitionType.leftToRight);
+        return PageTransition(child: ListMapel(), type: PageTransitionType.leftToRight);
       case ADD_MAPEL:
         Map<String, dynamic> data = settings.arguments;
         return PageTransition(
@@ -99,65 +108,40 @@ class Routes {
             ),
             type: PageTransitionType.bottomToTop);
       case ADD_GURU:
-        return PageTransition(
-            child: AddGuru(id: settings.arguments),
-            type: PageTransitionType.bottomToTop);
+        return PageTransition(child: AddGuru(id: settings.arguments), type: PageTransitionType.bottomToTop);
       case ADD_SISWA:
-        return PageTransition(
-            child: AddSiswa(id: settings.arguments),
-            type: PageTransitionType.bottomToTop);
+        return PageTransition(child: AddSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
       case DETAIL_SISWA:
-        return PageTransition(
-            child: DetailSiswa(siswa: settings.arguments),
-            type: PageTransitionType.bottomToTop);
+        return PageTransition(child: DetailSiswa(siswa: settings.arguments), type: PageTransitionType.bottomToTop);
       case DETAIL_WALI:
-        return PageTransition(
-            child: DetailWaliSiswa(wali: settings.arguments),
-            type: PageTransitionType.bottomToTop);
+        return PageTransition(child: DetailWaliSiswa(wali: settings.arguments), type: PageTransitionType.bottomToTop);
       case DETAIL_GURU:
-        return PageTransition(
-            child: DetailGuru(guru: settings.arguments),
-            type: PageTransitionType.bottomToTop);
+        return PageTransition(child: DetailGuru(guru: settings.arguments), type: PageTransitionType.bottomToTop);
 
       case EDIT_SISWA:
-        return PageTransition(
-            child: EditSiswa(id: settings.arguments),
-            type: PageTransitionType.bottomToTop);
+        return PageTransition(child: EditSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
       case EDIT_WALI:
-        return PageTransition(
-            child: EditWali(id: settings.arguments),
-            type: PageTransitionType.bottomToTop);
+        return PageTransition(child: EditWali(id: settings.arguments), type: PageTransitionType.bottomToTop);
       case PROFILE_ADMIN:
-        return PageTransition(
-            child: ProfilAdmin(), type: PageTransitionType.bottomToTop);
+        return PageTransition(child: ProfilAdmin(), type: PageTransitionType.bottomToTop);
       case EDIT_PROFILE_ADMIN:
-        return PageTransition(
-            child: EditAkunAdmin(), type: PageTransitionType.bottomToTop);
+        return PageTransition(child: EditAkunAdmin(), type: PageTransitionType.bottomToTop);
       case LIST_SPP:
-        return PageTransition(
-            child: ListSppMurid(), type: PageTransitionType.bottomToTop);
+        return PageTransition(child: ListSppMurid(), type: PageTransitionType.bottomToTop);
       case LIST_FEE:
-        return PageTransition(
-            child: ListFeeGuru(), type: PageTransitionType.bottomToTop);
+        return PageTransition(child: ListFeeGuru(), type: PageTransitionType.bottomToTop);
       case ADD_KELAS:
-        return PageTransition(
-            child: AddKelasAdmin(), type: PageTransitionType.leftToRight);
+        return PageTransition(child: AddKelasAdmin(), type: PageTransitionType.leftToRight);
       case DETAIL_KELAS:
-        return PageTransition(
-            child: EditWali(id: settings.arguments),
-            type: PageTransitionType.bottomToTop);
+        return PageTransition(child: EditWali(id: settings.arguments), type: PageTransitionType.bottomToTop);
       case PROFILE_ADMIN:
-        return PageTransition(
-            child: ProfilAdmin(), type: PageTransitionType.bottomToTop);
+        return PageTransition(child: ProfilAdmin(), type: PageTransitionType.bottomToTop);
       case EDIT_PROFILE_ADMIN:
-        return PageTransition(
-            child: EditAkunAdmin(), type: PageTransitionType.bottomToTop);
+        return PageTransition(child: EditAkunAdmin(), type: PageTransitionType.bottomToTop);
       case LIST_SPP:
-        return PageTransition(
-            child: ListSppMurid(), type: PageTransitionType.bottomToTop);
+        return PageTransition(child: ListSppMurid(), type: PageTransitionType.bottomToTop);
       case LIST_FEE:
-        return PageTransition(
-            child: ListFeeGuru(), type: PageTransitionType.bottomToTop);
+        return PageTransition(child: ListFeeGuru(), type: PageTransitionType.bottomToTop);
 
       case DETAIL_SPP:
         return PageTransition(
@@ -181,6 +165,18 @@ class Routes {
               id: settings.arguments,
             ),
             type: PageTransitionType.leftToRight);
+      case DETAIL_KELAS_WALI:
+        return PageTransition(
+            child: DetailKelasWali(
+              id: settings.arguments,
+            ),
+            type: PageTransitionType.leftToRight);
+      case PROFILE_WALI:
+        return PageTransition(child: ProfilWali(), type: PageTransitionType.leftToRight);
+      case EDIT_PROFILE_WALI:
+        return PageTransition(child: EditAkunWali(), type: PageTransitionType.leftToRight);
+      case NOTIFIKASI:
+        return PageTransition(child: NotificationPage(), type: PageTransitionType.bottomToTop);
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

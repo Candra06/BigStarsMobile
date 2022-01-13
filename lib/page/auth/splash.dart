@@ -5,6 +5,7 @@ import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
 import 'package:bigstars_mobile/page/maps.dart';
+import 'package:bigstars_mobile/page/wali/mainPage.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/provider/mapel_provider.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         Navigator.pushReplacement(
           context,
           PageTransition(
-            child: AdminMain(
+            child: WaliMain(
               indexPage: '0',
             ),
             type: PageTransitionType.fade,
