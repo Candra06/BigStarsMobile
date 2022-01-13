@@ -34,7 +34,8 @@ class _ListGuruState extends State<ListGuru> {
       floatingActionButton: FloatingActionButton(
           backgroundColor: Config.primary,
           onPressed: () {
-            Navigator.pushNamed(context, Routes.ADD_GURU, arguments: '0');
+            var data = {"id": "0", "guru": GuruModel()};
+            Navigator.pushNamed(context, Routes.ADD_GURU, arguments: data);
           },
           child: Icon(
             Icons.add,
@@ -120,27 +121,6 @@ class _ListGuruState extends State<ListGuru> {
                       },
                     ),
                   ),
-                  // Container(
-                  //   child: FutureBuilder(
-                  //     future: Provider.of<MapelProvider>(context, listen: false)
-                  //         .getMapels(),
-                  //     builder: (context, snapshot) {
-                  //       if (snapshot.connectionState ==
-                  //           ConnectionState.waiting) {
-                  //         return Center(child: CircularProgressIndicator());
-                  //       }
-                  //       return Consumer<MapelProvider>(
-                  //         builder: (context, data, _) => ListView.builder(
-                  //             itemCount: data.mapels.length,
-                  //             itemBuilder: (BuildContext context, int i) {
-                  //               return ItemListMapel(
-                  //                 mapelModel: data.mapels[i],
-                  //               );
-                  //             }),
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
                 ],
               ),
             ),

@@ -5,6 +5,7 @@ import 'package:bigstars_mobile/provider/finance_provider.dart';
 import 'package:bigstars_mobile/service/finance_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class ListFeeGuru extends StatefulWidget {
@@ -16,6 +17,70 @@ class ListFeeGuru extends StatefulWidget {
 
 class _ListFeeGuruState extends State<ListFeeGuru> {
   List<dynamic> _listSPP = [];
+  bool isLoading = false;
+
+  void _showSuccesAdd() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              // height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset('assets/lottie/success-delete.json'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('Generated Successfull!'),
+                ],
+              ),
+            ),
+            actions: [
+              Container(
+                width: double.infinity - 30,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Config.boxGreen,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: TextButton(
+                  // textColor: Color(0xFF6200EE),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ACCEPT',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  void generateFee() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await Provider.of<FinanceProvider>(context, listen: false)
+        .generateFEE()
+        .then((value) {
+      if (value) {
+        _showSuccesAdd();
+      }
+    });
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   void _filter(BuildContext context, String id) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -59,6 +124,65 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
 
   @override
   Widget build(BuildContext context) {
+    Widget generateFeebtn() {
+      return Container(
+        margin: EdgeInsets.only(left: 16, right: 16),
+        child: ElevatedButton(
+          onPressed: () {
+            generateFee();
+          },
+          style: ElevatedButton.styleFrom(
+            fixedSize: Size(MediaQuery.of(context).size.width, 30),
+            primary: Config.primary,
+            onPrimary: Config.textWhite,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ),
+          child: Text(
+            "Generate Fee Guru",
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ),
+      );
+    }
+
+    Widget loadGenerateFeebtn() {
+      return Container(
+        margin: EdgeInsets.only(left: 16, right: 16),
+        child: ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            fixedSize: Size(MediaQuery.of(context).size.width, 30),
+            primary: Config.primary,
+            onPrimary: Config.textWhite,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                "Loading",
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -98,24 +222,7 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
         //     }),
         child: Column(
           children: [
-            Container(
-              margin: EdgeInsets.only(left: 16, right: 16),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size(MediaQuery.of(context).size.width, 30),
-                  primary: Config.primary,
-                  onPrimary: Config.textWhite,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-                child: Text(
-                  "Generate Fee Guru",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              ),
-            ),
+            isLoading ? loadGenerateFeebtn() : generateFeebtn(),
             SizedBox(
               height: 20,
             ),

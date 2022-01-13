@@ -1,10 +1,14 @@
 import 'package:bigstars_mobile/helper/config.dart';
-import 'package:bigstars_mobile/helper/route.dart';
-import 'package:bigstars_mobile/page/admin/listItem/itemListKelas.dart';
-import 'package:bigstars_mobile/page/admin/listItem/itemListKelasGuru.dart';
+// import 'package:bigstars_mobile/helper/route.dart';
+// import 'package:bigstars_mobile/model/guru/kelas.dart';
+// import 'package:bigstars_mobile/page/admin/listItem/itemListKelas.dart';
+// import 'package:bigstars_mobile/page/admin/listItem/itemListKelasGuru.dart';
+import 'package:bigstars_mobile/page/guru/kelas/listItem.dart';
 import 'package:bigstars_mobile/page/modal/modalFilterKelas.dart';
+// import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:provider/provider.dart';
 
 class ListKelasGuru extends StatefulWidget {
   const ListKelasGuru({Key key}) : super(key: key);
@@ -24,6 +28,11 @@ class _ListKelasGuruState extends State<ListKelasGuru> {
         builder: (builder) {
           return ModalFilterKelas();
         });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -50,14 +59,7 @@ class _ListKelasGuruState extends State<ListKelasGuru> {
       ),
       body: Container(
         margin: EdgeInsets.all(16),
-        child: ListView.builder(
-            itemCount: 5,
-            itemBuilder: (BuildContext bc, int i) {
-              var data = {"id_kelas": 1, "siswa": "Kekeyi", "mapel": "Calistung", "spp": 32000, "jam_mulai": "15.00", "jam_selesai": "16.00", "guru": "Mr. Revo"};
-              return ItemKelasGuru(
-                data: data,
-              );
-            }),
+        child: TileKelas(),
       ),
     );
   }

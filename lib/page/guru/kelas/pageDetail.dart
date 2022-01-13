@@ -1,10 +1,11 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/page/modal/modalSharingKelas.dart';
 import 'package:flutter/material.dart';
 
 class DetailKelasPageGuru extends StatefulWidget {
-  final String id;
-  const DetailKelasPageGuru({Key key, this.id}) : super(key: key);
+  final KelasModel kelas;
+  const DetailKelasPageGuru({Key key, this.kelas}) : super(key: key);
 
   @override
   _DetailKelasPageGuruState createState() => _DetailKelasPageGuruState();
@@ -38,11 +39,12 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(padding: EdgeInsets.all(16), child: Text('Data Kelas')),
-                  Config.itemDetail('Nama Siswa', 'Akexandria Angle'),
-                  Config.itemDetail('Nama Guru', 'Jember'),
-                  Config.itemDetail('Mata Pelajaran', 'Calistung'),
-                  Config.itemDetail('Status', 'Active'),
+                  Container(
+                      padding: EdgeInsets.all(16), child: Text('Data Kelas')),
+                  Config.itemDetail('Nama Siswa', widget.kelas.siswa),
+                  Config.itemDetail('Nama Guru', widget.kelas.guru),
+                  Config.itemDetail('Mata Pelajaran', widget.kelas.mapel),
+                  Config.itemDetail('Status', widget.kelas.status),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: ElevatedButton(
@@ -76,7 +78,8 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(padding: EdgeInsets.all(16), child: Text('Jadwal')),
+                      Container(
+                          padding: EdgeInsets.all(16), child: Text('Jadwal')),
                     ],
                   ),
                   for (var i = 0; i < 2; i++) ...{

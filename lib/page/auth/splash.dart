@@ -1,13 +1,18 @@
 import 'dart:convert';
 
 import 'package:bigstars_mobile/helper/pref.dart';
+import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
+import 'package:bigstars_mobile/page/guru/mainPage.dart';
 import 'package:bigstars_mobile/page/maps.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/provider/finance_provider.dart';
+import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
+import 'package:bigstars_mobile/provider/guru_provider.dart';
 import 'package:bigstars_mobile/provider/mapel_provider.dart';
+import 'package:bigstars_mobile/provider/siswa_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +40,9 @@ class _SplashScreenState extends State<SplashScreen>
       userModel = UserModel.fromJson(json.decode(user));
       Provider.of<AuthProvider>(context, listen: false).setUser(userModel);
       await Provider.of<FinanceProvider>(context, listen: false).getFinance();
+      await Provider.of<AuthProvider>(context, listen: false).getDashboard();
+      await Provider.of<GuruProvider>(context, listen: false).getData();
+      await Provider.of<SiswaProvider>(context, listen: false).getSiswa();
     }
   }
 
@@ -55,15 +63,36 @@ class _SplashScreenState extends State<SplashScreen>
         Navigator.of(context).pushReplacement(
             PageTransition(child: LoginPage(), type: PageTransitionType.fade));
       } else {
-        Navigator.pushReplacement(
-          context,
-          PageTransition(
-            child: AdminMain(
-              indexPage: '0',
+        var user = await Pref.getUserModel();
+        userModel = UserModel.fromJson(json.decode(user));
+        print(userModel.role);
+        if (userModel.role == 'Admin') {
+          Navigator.pushReplacement(
+            context,
+            PageTransition(
+              child: AdminMain(
+                indexPage: '0',
+              ),
+              type: PageTransitionType.fade,
             ),
-            type: PageTransitionType.fade,
-          ),
-        );
+          );
+        } else if (userModel.role == 'Guru') {
+          List<KelasModel> kelas =
+              await Provider.of<KelasProvider>(context, listen: false)
+                  .getKelas();
+
+          Navigator.pushReplacement(
+            context,
+            PageTransition(
+              child: GuruMain(
+                indexPage: '0',
+              ),
+              type: PageTransitionType.fade,
+            ),
+          );
+        } else {
+          print("Walimurid");
+        }
       }
     });
     super.initState();
