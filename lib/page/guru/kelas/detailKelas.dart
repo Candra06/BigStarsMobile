@@ -1,17 +1,19 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/page/guru/kelas/pageDetail.dart';
 import 'package:bigstars_mobile/page/guru/kelas/pageKehadiran.dart';
 import 'package:flutter/material.dart';
 
 class DetailKelasGuru extends StatefulWidget {
-  final String id;
-  const DetailKelasGuru({Key key, this.id}) : super(key: key);
+  final KelasModel kelas;
+  const DetailKelasGuru({Key key, this.kelas}) : super(key: key);
 
   @override
   _DetailKelasGuruState createState() => _DetailKelasGuruState();
 }
 
-class _DetailKelasGuruState extends State<DetailKelasGuru> with SingleTickerProviderStateMixin {
+class _DetailKelasGuruState extends State<DetailKelasGuru>
+    with SingleTickerProviderStateMixin {
   TabController controller;
 
   @override
@@ -54,10 +56,10 @@ class _DetailKelasGuruState extends State<DetailKelasGuru> with SingleTickerProv
         ),
         body: TabBarView(controller: controller, children: <Widget>[
           DetailKelasPageGuru(
-            id: widget.id,
+            kelas: widget.kelas,
           ),
           KehadiranKelasGuru(
-            id: widget.id,
+            id: widget.kelas,
           ),
         ]));
   }

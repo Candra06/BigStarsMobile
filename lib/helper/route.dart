@@ -108,7 +108,13 @@ class Routes {
             ),
             type: PageTransitionType.bottomToTop);
       case ADD_GURU:
-        return PageTransition(child: AddGuru(id: settings.arguments), type: PageTransitionType.bottomToTop);
+        Map<String, dynamic> data = settings.arguments;
+        return PageTransition(
+            child: AddGuru(
+              id: data["id"],
+              guru: data["guru"],
+            ),
+            type: PageTransitionType.bottomToTop);
       case ADD_SISWA:
         return PageTransition(child: AddSiswa(id: settings.arguments), type: PageTransitionType.bottomToTop);
       case DETAIL_SISWA:
@@ -133,7 +139,9 @@ class Routes {
       case ADD_KELAS:
         return PageTransition(child: AddKelasAdmin(), type: PageTransitionType.leftToRight);
       case DETAIL_KELAS:
-        return PageTransition(child: EditWali(id: settings.arguments), type: PageTransitionType.bottomToTop);
+        return PageTransition(
+            child: DetailKelas(kelas: settings.arguments),
+            type: PageTransitionType.bottomToTop);
       case PROFILE_ADMIN:
         return PageTransition(child: ProfilAdmin(), type: PageTransitionType.bottomToTop);
       case EDIT_PROFILE_ADMIN:
@@ -152,17 +160,19 @@ class Routes {
       case DETAIL_FEE:
         return PageTransition(
             child: InvoiceFee(
-              id: settings.arguments,
+              fee: settings.arguments,
             ),
             type: PageTransitionType.leftToRight);
       case PROFILE_GURU:
-        return PageTransition(child: ProfilGuru(), type: PageTransitionType.leftToRight);
+        return PageTransition(
+            child: ProfilGuru(), type: PageTransitionType.leftToRight);
       case EDIT_PROFILE_GURU:
-        return PageTransition(child: EditAkunGuru(), type: PageTransitionType.leftToRight);
+        return PageTransition(
+            child: EditAkunGuru(), type: PageTransitionType.leftToRight);
       case DETAIL_KELAS_GURU:
         return PageTransition(
             child: DetailKelasGuru(
-              id: settings.arguments,
+              kelas: settings.arguments,
             ),
             type: PageTransitionType.leftToRight);
       case DETAIL_KELAS_WALI:

@@ -1,9 +1,10 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/model/kehadiran_model.dart';
 import 'package:bigstars_mobile/page/modal/addKehadiranGuru.dart';
 import 'package:flutter/material.dart';
 
 class ItemListKehadiran extends StatefulWidget {
-  final Map<dynamic, String> data;
+  final KehadiranModel data;
   const ItemListKehadiran({Key key, this.data}) : super(key: key);
 
   @override
@@ -41,11 +42,11 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.data['nama'],
+                  widget.data.nama,
                   style: TextStyle(fontWeight: FontWeight.w900),
                 ),
                 Text(
-                  widget.data['hari'],
+                  widget.data.tipe,
                   style: TextStyle(fontWeight: FontWeight.w900),
                 ),
               ],
@@ -57,10 +58,10 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.data['materi'],
+                  widget.data.materi,
                 ),
                 Text(
-                  widget.data['status'],
+                  widget.data.status,
                 ),
               ],
             ),
@@ -71,7 +72,7 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
               'Jurnal',
             ),
             Text(
-              widget.data['jurnal'],
+              widget.data.jurnal,
               maxLines: 3,
             ),
             SizedBox(
@@ -79,7 +80,7 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             ),
             ElevatedButton(
               onPressed: () {
-                print(widget.data['file_materi']);
+                print(widget.data.fileMateri);
               },
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(MediaQuery.of(context).size.width, 30),

@@ -4,11 +4,12 @@ import 'package:bigstars_mobile/helper/appConfig.dart';
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
+import 'package:bigstars_mobile/provider/finance_provider.dart';
+import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:bigstars_mobile/provider/guru_provider.dart';
 import 'package:bigstars_mobile/provider/mapel_provider.dart';
 import 'package:bigstars_mobile/provider/siswa_provider.dart';
 import 'package:bigstars_mobile/provider/wali_provider.dart';
-import 'package:bigstars_mobile/service/siswa_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -143,6 +144,12 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider<SiswaProvider>(
           create: (context) => SiswaProvider(),
+        ),
+        ChangeNotifierProvider<FinanceProvider>(
+          create: (contex) => FinanceProvider(),
+        ),
+        ChangeNotifierProvider<KelasProvider>(
+          create: (contex) => KelasProvider(),
         ),
       ],
       child: MaterialApp(

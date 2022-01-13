@@ -2,8 +2,11 @@ import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
 import 'package:bigstars_mobile/page/modal/changePhotoProfile.dart';
+import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilAdmin extends StatefulWidget {
   const ProfilAdmin({Key key}) : super(key: key);
@@ -13,6 +16,14 @@ class ProfilAdmin extends StatefulWidget {
 }
 
 class _ProfilAdminState extends State<ProfilAdmin> {
+  void logOut() async {
+    var status =
+        await Provider.of<AuthProvider>(context, listen: false).logout();
+    print(status);
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+  }
+
   void _logOut() async {
     return await showDialog(
       context: context,
@@ -25,7 +36,17 @@ class _ProfilAdminState extends State<ProfilAdmin> {
             child: new Text('Tidak'),
           ),
           new FlatButton(
-            onPressed: () => Navigator.pushReplacement(context, PageTransition(child: LoginPage(), type: PageTransitionType.topToBottom)),
+            onPressed: () {
+              logOut();
+
+              Navigator.pushReplacement(
+                context,
+                PageTransition(
+                  child: LoginPage(),
+                  type: PageTransitionType.topToBottom,
+                ),
+              );
+            },
             child: new Text('Iya'),
           ),
         ],
@@ -44,8 +65,13 @@ class _ProfilAdminState extends State<ProfilAdmin> {
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
-                    gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Config.primary, Config.secondary])),
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(50),
+                        bottomRight: Radius.circular(50)),
+                    gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Config.primary, Config.secondary])),
                 child: Column(
                   children: [
                     Row(
@@ -53,7 +79,8 @@ class _ProfilAdminState extends State<ProfilAdmin> {
                       children: [
                         InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '0');
+                            Navigator.pushNamed(context, Routes.HOME_ADMIN,
+                                arguments: '0');
                           },
                           child: Icon(
                             Icons.arrow_back,
@@ -89,7 +116,10 @@ class _ProfilAdminState extends State<ProfilAdmin> {
                     ),
                     Text(
                       'Admin',
-                      style: TextStyle(color: Config.textWhite, fontSize: 24, fontWeight: FontWeight.w900),
+                      style: TextStyle(
+                          color: Config.textWhite,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w900),
                     ),
                     SizedBox(
                       height: 10,

@@ -1,10 +1,11 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/model/spp_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ItemListSPP extends StatefulWidget {
-  final Map<dynamic, String> data;
+  final SppModel data;
   const ItemListSPP({Key key, this.data}) : super(key: key);
 
   @override
@@ -48,7 +49,7 @@ class _ItemListSPPState extends State<ItemListSPP> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Rizky Hermawan',
+                                  widget.data.nama,
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w800),
@@ -57,7 +58,8 @@ class _ItemListSPPState extends State<ItemListSPP> {
                                   height: 8,
                                 ),
                                 Text(
-                                  Config.formatDateInput("2021-10-21"),
+                                  Config.formatDateInput(
+                                      widget.data.tagihanBulan),
                                   style: TextStyle(color: Config.textGrey),
                                 )
                               ],
@@ -68,7 +70,7 @@ class _ItemListSPPState extends State<ItemListSPP> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  Config.formatRupiah(1000000),
+                                  Config.formatRupiah(widget.data.jumlah),
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w800),
@@ -77,7 +79,7 @@ class _ItemListSPPState extends State<ItemListSPP> {
                                   height: 8,
                                 ),
                                 Text(
-                                  "Lunas",
+                                  widget.data.status,
                                   style: TextStyle(color: Colors.green),
                                 )
                               ],

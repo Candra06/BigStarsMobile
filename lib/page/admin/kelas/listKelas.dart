@@ -2,8 +2,10 @@ import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListKelas.dart';
 import 'package:bigstars_mobile/page/modal/modalFilterKelas.dart';
+import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class ListKelas extends StatefulWidget {
   const ListKelas({Key key}) : super(key: key);
@@ -60,12 +62,23 @@ class _ListKelasState extends State<ListKelas> {
       ),
       body: Container(
         margin: EdgeInsets.all(16),
-        child: ListView.builder(
-            itemCount: 5,
-            itemBuilder: (BuildContext bc, int i) {
-              var data = {"id_kelas": 1, "siswa": "Kekeyi", "mapel": "Calistung", "spp": 32000, "jam_mulai": "15.00", "jam_selesai": "16.00", "guru": "Mr. Revo"};
-              return ItemKelas(
-                data: data,
+        child: FutureBuilder(
+            future:
+                Provider.of<KelasProvider>(context, listen: false).getKelas(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return Consumer<KelasProvider>(
+                builder: (context, data, _) => ListView.builder(
+                    itemCount: data.allKelas.length,
+                    itemBuilder: (BuildContext bc, int i) {
+                      return ItemKelas(
+                        data: data.allKelas[i],
+                      );
+                    }),
               );
             }),
       ),

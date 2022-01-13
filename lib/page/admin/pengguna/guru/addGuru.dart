@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/model/guru_model.dart';
 import 'package:bigstars_mobile/provider/guru_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -10,7 +11,12 @@ import 'package:provider/provider.dart';
 
 class AddGuru extends StatefulWidget {
   final String id;
-  const AddGuru({Key key, this.id}) : super(key: key);
+  final GuruModel guru;
+  const AddGuru({
+    Key key,
+    this.guru,
+    this.id,
+  }) : super(key: key);
 
   @override
   _AddGuruState createState() => _AddGuruState();
@@ -71,6 +77,50 @@ class _AddGuruState extends State<AddGuru> {
         });
   }
 
+  _showSuccesUpdate() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              // height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset('assets/lottie/success-delete.json'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('Data has been Updated!'),
+                ],
+              ),
+            ),
+            actions: [
+              Container(
+                width: double.infinity - 30,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Config.boxGreen,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: TextButton(
+                  // textColor: Color(0xFF6200EE),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ACCEPT',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
   saveGuru() {
     Provider.of<GuruProvider>(context, listen: false).tambahGuru({
       'nama': txtNama.text,
@@ -83,6 +133,42 @@ class _AddGuruState extends State<AddGuru> {
     }).then((value) => _showSuccesHapus());
 
     // print(tglLahir);
+  }
+
+  void saveEdit() async {
+    Map<String, dynamic> data = {
+      'nama': txtNama.text,
+      'alamat': txtAlamat.text,
+      'birth_date': tglLahir,
+      'username': txtUsername.text,
+      'password': txtPassword.text,
+      'foto': '-',
+      'phone': txtPhone.text,
+      'status': 'Active'
+    };
+    await Provider.of<GuruProvider>(context, listen: false)
+        .editGuru(widget.guru.id, data)
+        .then((value) {
+      if (value) {
+        _showSuccesUpdate();
+        Navigator.pop(context);
+      }
+    });
+  }
+
+  void insertValEdit() {
+    tglLahir = DateFormat("yyyy-MM-dd").format(widget.guru.birthDate);
+    txtNama.text = widget.guru.nama;
+    txtAlamat.text = widget.guru.alamat;
+    txtTglLahir.text = DateFormat("yyyy-MM-dd").format(widget.guru.birthDate);
+    txtPhone.text = widget.guru.phone;
+    txtUsername.text = widget.guru.username;
+  }
+
+  @override
+  void initState() {
+    insertValEdit();
+    super.initState();
   }
 
   @override
@@ -233,7 +319,7 @@ class _AddGuruState extends State<AddGuru> {
               ElevatedButton(
                 onPressed: () {
                   // submit proses
-                  saveGuru();
+                  widget.id == '0' ? saveGuru() : saveEdit();
                 },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(MediaQuery.of(context).size.width, 50),

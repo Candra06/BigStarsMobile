@@ -12,7 +12,7 @@ class GuruService {
     var response = await http.get(
         Uri.parse('http://api.buildandservice.com/api/guru/data'),
         headers: {'Authorization': token});
-    print(token);
+
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body)["data"];
       return data.map((e) => GuruModel.fromJson(e)).toList();
@@ -26,6 +26,8 @@ class GuruService {
     var response = await http.get(Uri.parse(EndPoint.gDelete + id.toString()),
         headers: {'Authorization': token});
     // print(EndPoint.gDelete + id.toString());
+    print(jsonDecode(response.body));
+    print(id);
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
@@ -51,5 +53,23 @@ class GuruService {
         "message": "Username & Nomer HP kemungkinan telah dipakai"
       };
     }
+  }
+
+  Future editGuru(int id, Map<String, dynamic> data) async {
+    var token = await Pref.getToken();
+    var response = await http.post(
+      Uri.parse(EndPoint.gUpdate + id.toString()),
+      headers: {'Authorization': token},
+      body: data,
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      if (jsonDecode(response.body)["status_code"] == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return data;
   }
 }
