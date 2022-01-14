@@ -6,6 +6,7 @@ import 'package:bigstars_mobile/helper/loadingButton.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
 import 'package:bigstars_mobile/page/guru/mainPage.dart';
+import 'package:bigstars_mobile/page/wali/mainPage.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/provider/finance_provider.dart';
 import 'package:bigstars_mobile/provider/guru_provider.dart';
@@ -78,7 +79,15 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else {
-          print("Walimurid");
+          Navigator.pushReplacement(
+            context,
+            PageTransition(
+              child: WaliMain(
+                indexPage: '0',
+              ),
+              type: PageTransitionType.fade,
+            ),
+          );
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

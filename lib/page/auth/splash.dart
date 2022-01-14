@@ -7,6 +7,7 @@ import 'package:bigstars_mobile/page/admin/mainPage.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
 import 'package:bigstars_mobile/page/guru/mainPage.dart';
 import 'package:bigstars_mobile/page/maps.dart';
+import 'package:bigstars_mobile/page/wali/mainPage.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/provider/finance_provider.dart';
 import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';

@@ -96,20 +96,8 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
   }
 
   List<dynamic> _listFEE = [
-    {
-      "id": 1,
-      "nama_siswa": "Ridho Ilahi",
-      "spp": 1500000,
-      "tanggal": "13-10-2021",
-      "status": "Belum Lunas"
-    },
-    {
-      "id": 2,
-      "nama_siswa": "Inayah Larasati",
-      "spp": 1500000,
-      "tanggal": "13-10-2021",
-      "status": "Lunas"
-    },
+    {"id": 1, "nama_siswa": "Ridho Ilahi", "spp": 1500000, "tanggal": "13-10-2021", "status": "Belum Lunas"},
+    {"id": 2, "nama_siswa": "Inayah Larasati", "spp": 1500000, "tanggal": "13-10-2021", "status": "Lunas"},
   ];
 
   getData() async {
