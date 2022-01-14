@@ -344,11 +344,7 @@ packages:
       name: platform
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.2.1"
-=======
     version: "3.1.0"
->>>>>>> 1f45960e35d6aca1c6191178a1fb1806e8b5bbe4
   plugin_platform_interface:
     dependency: transitive
     description:
