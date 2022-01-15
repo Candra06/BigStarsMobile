@@ -14,7 +14,7 @@ class GuruModel {
   String username;
   String phone;
   int id;
-  int idUsers;
+  String idUsers;
   String nama;
   String alamat;
   DateTime birthDate;
@@ -40,8 +40,7 @@ class GuruModel {
         "id_users": idUsers,
         "nama": nama,
         "alamat": alamat,
-        "birth_date":
-            "${birthDate.year.toString().padLeft(4, '0')}-${birthDate.month.toString().padLeft(2, '0')}-${birthDate.day.toString().padLeft(2, '0')}",
+        "birth_date": "${birthDate.year.toString().padLeft(4, '0')}-${birthDate.month.toString().padLeft(2, '0')}-${birthDate.day.toString().padLeft(2, '0')}",
         "created_at": createdAt,
         "updated_at": updatedAt,
       };

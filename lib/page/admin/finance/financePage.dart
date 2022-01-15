@@ -16,8 +16,8 @@ class FinancePage extends StatefulWidget {
 class _FinancePageState extends State<FinancePage> {
   FinanceModel financeModel = FinanceModel();
   int laba;
-  int total_spp;
-  int total_fee;
+  int totalSpp;
+  int totalFee;
   getData() {
     FinanceProvider financeProvider =
         Provider.of<FinanceProvider>(context, listen: false);

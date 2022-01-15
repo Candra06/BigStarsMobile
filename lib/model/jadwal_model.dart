@@ -10,7 +10,7 @@ class JadwalModel {
   });
 
   int id;
-  int idKelas;
+  String idKelas;
   String hari;
   String jamMulai;
   String jamSelesai;

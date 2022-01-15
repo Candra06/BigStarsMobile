@@ -1,5 +1,6 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/guru_model.dart';
 import 'package:bigstars_mobile/model/mapel_model.dart';
 import 'package:bigstars_mobile/model/siswa_model.dart';
@@ -33,15 +34,7 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
   String valHari;
 
   List<bool> checkHari = [false, false, false, false, false, false, false];
-  List<String> dataHari = [
-    "Senin",
-    "Selasa",
-    "Rabu",
-    "Kamis",
-    "Jum'at",
-    "Sabtu",
-    "Minggu"
-  ];
+  List<String> dataHari = ["Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu", "Minggu"];
 
   void _showSuccesAdd() {
     showDialog(
@@ -88,6 +81,9 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
   }
 
   void addKelas() async {
+    setState(() {
+      Config.loading(context);
+    });
     List temp = [];
     for (var i = 0; i < checkHari.length; i++) {
       if (checkHari[i]) {
@@ -106,11 +102,14 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
       "jam_selesai": txtSelesai.text,
     };
     print(data);
-    await Provider.of<KelasProvider>(context, listen: false)
-        .addKelas(data)
-        .then((value) {
+    await Provider.of<KelasProvider>(context, listen: false).addKelas(data).then((value) {
       if (value) {
         _showSuccesAdd();
+        setState(() {
+          Navigator.pop(context);
+          Config.alert(1, 'Berhasil menambah kelas');
+          Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '1');
+        });
       }
     });
     // print(valHari);
@@ -121,15 +120,13 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
   }
 
   void getData() {
-    MapelProvider mapelProvider =
-        Provider.of<MapelProvider>(context, listen: false);
+    MapelProvider mapelProvider = Provider.of<MapelProvider>(context, listen: false);
     List<MapelModel> mapelModels = mapelProvider.mapels;
-    GuruProvider guruProvider =
-        Provider.of<GuruProvider>(context, listen: false);
+    GuruProvider guruProvider = Provider.of<GuruProvider>(context, listen: false);
     List<GuruModel> guruModels = guruProvider.listGuru;
-    SiswaProvider siswaProvider =
-        Provider.of<SiswaProvider>(context, listen: false);
+    SiswaProvider siswaProvider = Provider.of<SiswaProvider>(context, listen: false);
     List<SiswaModel> siswaModels = siswaProvider.listSiswa;
+    print(TimeOfDay.now());
     for (var i = 0; i < mapelModels.length; i++) {
       mapels.add({
         "id": mapelModels[i].id,
@@ -186,9 +183,7 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
@@ -221,9 +216,7 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
@@ -256,9 +249,7 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
@@ -442,13 +433,9 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(top: 8),
-                    constraints: BoxConstraints(
-                        minWidth: 75,
-                        maxWidth: MediaQuery.of(context).size.width * 0.4),
+                    constraints: BoxConstraints(minWidth: 75, maxWidth: MediaQuery.of(context).size.width * 0.4),
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Config.borderInput)),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -470,20 +457,14 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                             onTap: () async {
                               showTimePicker(
                                 context: context,
-                                initialTime: _dateTime == null
-                                    ? TimeOfDay.now()
-                                    : _dateTime,
+                                initialEntryMode: TimePickerEntryMode.input,
+                                initialTime: _dateTime == null ? TimeOfDay.now() : _dateTime,
                               ).then((time) {
                                 if (time != null) {
                                   setState(() {
                                     // _dateTime = time;
-                                    txtMulai.text = time.hour.toString() +
-                                        ':' +
-                                        time.minute.toString();
-                                    jamMulai = time.hour.toString() +
-                                        ':' +
-                                        time.minute.toString() +
-                                        ":00"; //value ini yg disimpan
+                                    txtMulai.text = time.hour.toString() + ':' + time.minute.toString();
+                                    jamMulai = time.hour.toString() + ':' + time.minute.toString() + ":00"; //value ini yg disimpan
                                   });
                                 }
                               });
@@ -499,13 +480,9 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 8),
-                    constraints: BoxConstraints(
-                        minWidth: 75,
-                        maxWidth: MediaQuery.of(context).size.width * 0.4),
+                    constraints: BoxConstraints(minWidth: 75, maxWidth: MediaQuery.of(context).size.width * 0.4),
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Config.borderInput)),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -527,22 +504,16 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                             onTap: () async {
                               showTimePicker(
                                 context: context,
-                                initialTime: _dateTime == null
-                                    ? TimeOfDay.now()
-                                    : _dateTime,
+                                initialEntryMode: TimePickerEntryMode.input,
+                                initialTime: _dateTime == null ? TimeOfDay.now() : _dateTime,
                               ).then((time) {
                                 if (time != null) {
                                   setState(() {
                                     // _dateTime = time;
-                                    txtSelesai.text = time.hour.toString() +
-                                        ':' +
-                                        time.minute.toString();
+                                    txtSelesai.text = time.hour.toString() + ':' + time.minute.toString();
                                     print(txtSelesai.text.toString());
                                     // var tgl = _dateTime.toString().split(' ');
-                                    jamSelesai = time.hour.toString() +
-                                        ':' +
-                                        time.minute.toString() +
-                                        ":00"; //value ini yg disimpan
+                                    jamSelesai = time.hour.toString() + ':' + time.minute.toString() + ":00"; //value ini yg disimpan
                                   });
                                 }
                               });

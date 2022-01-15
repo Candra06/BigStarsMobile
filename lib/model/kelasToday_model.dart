@@ -10,6 +10,8 @@ class KelasTodayModel {
     this.spp,
     this.feeGuru,
     this.status,
+    this.jamMulai,
+    this.jamSelesai,
     this.createdAt,
     this.updatedAt,
   });
@@ -18,17 +20,18 @@ class KelasTodayModel {
   String guru;
   String mapel;
   int id;
-  int idMapel;
-  int idGuru;
-  int idSiswa;
-  int spp;
-  int feeGuru;
+  String idMapel;
+  String idGuru;
+  String idSiswa;
+  String spp;
+  String feeGuru;
   String status;
+  String jamMulai;
+  String jamSelesai;
   DateTime createdAt;
   DateTime updatedAt;
 
-  factory KelasTodayModel.fromJson(Map<String, dynamic> json) =>
-      KelasTodayModel(
+  factory KelasTodayModel.fromJson(Map<String, dynamic> json) => KelasTodayModel(
         siswa: json["siswa"],
         guru: json["guru"],
         mapel: json["mapel"],
@@ -39,6 +42,8 @@ class KelasTodayModel {
         spp: json["spp"],
         feeGuru: json["fee_guru"],
         status: json["status"],
+        jamMulai: json["jam_mulai"],
+        jamSelesai: json["jam_selesai"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
       );

@@ -65,6 +65,7 @@ class Routes {
   static const String DETAIL_KELAS = '/detail_kelas';
   static const String DETAIL_SPP = '/detail_spp';
   static const String DETAIL_FEE = '/detail_fee';
+  static const String FINANCE = '/detail_fee';
   static const String NOTIFIKASI = '/notifikasi';
 
   //Guru
@@ -86,13 +87,13 @@ class Routes {
       case HOME_ADMIN:
         return PageTransition(
             child: AdminMain(
-              indexPage: '0',
+              indexPage: settings.arguments,
             ),
             type: PageTransitionType.leftToRight);
       case HOME_GURU:
         return PageTransition(
             child: GuruMain(
-              indexPage: '0',
+              indexPage: settings.arguments,
             ),
             type: PageTransitionType.leftToRight);
       case LOGIN:
@@ -139,9 +140,7 @@ class Routes {
       case ADD_KELAS:
         return PageTransition(child: AddKelasAdmin(), type: PageTransitionType.leftToRight);
       case DETAIL_KELAS:
-        return PageTransition(
-            child: DetailKelas(kelas: settings.arguments),
-            type: PageTransitionType.bottomToTop);
+        return PageTransition(child: DetailKelas(kelas: settings.arguments), type: PageTransitionType.bottomToTop);
       case PROFILE_ADMIN:
         return PageTransition(child: ProfilAdmin(), type: PageTransitionType.bottomToTop);
       case EDIT_PROFILE_ADMIN:
@@ -164,11 +163,9 @@ class Routes {
             ),
             type: PageTransitionType.leftToRight);
       case PROFILE_GURU:
-        return PageTransition(
-            child: ProfilGuru(), type: PageTransitionType.leftToRight);
+        return PageTransition(child: ProfilGuru(), type: PageTransitionType.leftToRight);
       case EDIT_PROFILE_GURU:
-        return PageTransition(
-            child: EditAkunGuru(), type: PageTransitionType.leftToRight);
+        return PageTransition(child: EditAkunGuru(), type: PageTransitionType.leftToRight);
       case DETAIL_KELAS_GURU:
         return PageTransition(
             child: DetailKelasGuru(
