@@ -1,11 +1,13 @@
 class EndPoint {
-  static final String server = 'http://api.buildandservice.com/';
+  static final String server = 'https://bigstars.waserdajaya.store/';
   static final String api = server + 'api/';
   // dashboard
   static final String dashboard = api + 'dashboard-admin';
   // auth
   static final String login = api + 'login';
   static final String logout = api + 'logout';
+  static final String editProfilAdm = api + 'update-profil-admin';
+  static final String editFoto = api + 'update-photo';
 
   // mapel
   static final String mapel = api + 'mapel/data';
@@ -14,7 +16,7 @@ class EndPoint {
   static final String mDetail = api + 'mapel/detail/';
   static final String mUpdate = api + 'mapel/update/';
   // guru
-  static final String guru = api + 'guru/data/';
+  static final String guru = api + 'guru/data';
   static final String gCreate = api + 'guru/create';
   static final String gDelete = api + 'guru/delete/';
   static final String gUpdate = api + 'guru/update/';

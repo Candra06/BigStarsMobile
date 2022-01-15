@@ -3,7 +3,6 @@ import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/guru_model.dart';
 import 'package:bigstars_mobile/page/admin/listItem/listItemGuru.dart';
 import 'package:bigstars_mobile/provider/guru_provider.dart';
-import 'package:bigstars_mobile/provider/mapel_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,9 +55,7 @@ class _ListGuruState extends State<ListGuru> {
                   Container(
                     margin: EdgeInsets.only(top: 8),
                     padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Config.borderInput)),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -91,33 +88,46 @@ class _ListGuruState extends State<ListGuru> {
                   ),
                   Expanded(
                     child: FutureBuilder(
-                      future: Provider.of<GuruProvider>(context, listen: false)
-                          .getData(),
+                      future: Provider.of<GuruProvider>(context, listen: false).getData(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return Center(child: CircularProgressIndicator());
+                        } else {
+                          return snapshot.hasData
+                              ? Container(
+                                  child: Consumer<GuruProvider>(
+                                    builder: (context, data, _) {
+                                      print(data);
+                                      return ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: data.listGuru.length,
+                                        itemBuilder: (context, int i) {
+                                          if (searchString != '') {
+                                            return data.listGuru[i].nama.toLowerCase().contains(searchString.toLowerCase())
+                                                ? ItemListGuru(
+                                                    guru: data.listGuru[i],
+                                                  )
+                                                : Center(
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: Text('Data Tidak ditemukan'),
+                                                    ),
+                                                  );
+                                            // logic ketika pencarian berdasarkan nama
+                                          } else {
+                                            return ItemListGuru(
+                                              guru: data.listGuru[i],
+                                            );
+                                          }
+                                        },
+                                      );
+                                    },
+                                  ),
+                                )
+                              : Center(
+                                  child: Text('Tidak ada data guru'),
+                                );
                         }
-                        return Container(
-                          child: Consumer<GuruProvider>(
-                            builder: (context, data, _) {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: data.listGuru.length,
-                                itemBuilder: (context, int i) {
-                                  if (searchString != '') {
-                                    return Container();
-                                    // logic ketika pencarian berdasarkan nama
-                                  } else {
-                                    return ItemListGuru(
-                                      guru: data.listGuru[i],
-                                    );
-                                  }
-                                },
-                              );
-                            },
-                          ),
-                        );
                       },
                     ),
                   ),

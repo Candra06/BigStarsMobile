@@ -20,9 +20,7 @@ class ItemListMapel extends StatefulWidget {
 
 class _ItemListMapelState extends State<ItemListMapel> {
   hapusMapel(context) {
-    Provider.of<MapelProvider>(context, listen: false)
-        .hapusMapel(widget.mapelModel.id.toString())
-        .then((value) {
+    Provider.of<MapelProvider>(context, listen: false).hapusMapel(widget.mapelModel.id.toString()).then((value) {
       if (value) {
         _showSuccesHapus();
       }
@@ -170,10 +168,21 @@ class _ItemListMapelState extends State<ItemListMapel> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Text(
-                  widget.mapelModel.mapel,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.mapelModel.mapel,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      widget.mapelModel.status,
+                      maxLines: 1,
+                      style: TextStyle(color: Config.textGrey),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
               ),
               Row(
@@ -181,8 +190,7 @@ class _ItemListMapelState extends State<ItemListMapel> {
                   IconButton(
                     onPressed: () {
                       // print(widget.mapelModel.id.toString());
-                      Provider.of<MapelProvider>(context, listen: false)
-                          .getMapel(widget.mapelModel.id.toString());
+                      Provider.of<MapelProvider>(context, listen: false).getMapel(widget.mapelModel.id.toString());
                       var data = {'id': '1', 'mapel': widget.mapelModel};
                       Navigator.pushNamed(
                         context,

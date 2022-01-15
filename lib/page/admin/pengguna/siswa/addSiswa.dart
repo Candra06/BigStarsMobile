@@ -1,6 +1,7 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
 import 'package:bigstars_mobile/helper/loadingButton.dart';
+import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/provider/siswa_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -83,14 +84,9 @@ class _AddSiswaState extends State<AddSiswa> {
       'username': txtUsername.text,
       'password': txtPassword.text
     };
-    await Provider.of<SiswaProvider>(context, listen: false)
-        .addSiswa(data)
-        .then((value) => {
-              if (value["message"] == "Success")
-                {_showSuccesCreate()}
-              else
-                {print("gagal")}
-            });
+    await Provider.of<SiswaProvider>(context, listen: false).addSiswa(data).then((value) => {
+          if (value["message"] == "Success") {_showSuccesCreate()} else {print("gagal")}
+        });
     // print(data);
     txtNama.text = '';
     txtAlamat.text = '';
@@ -99,7 +95,7 @@ class _AddSiswaState extends State<AddSiswa> {
     txtPhone.text = '';
     txtTglLahir.text = '';
     txtUsername.text = '';
-
+    Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
     setState(() {
       isloading = false;
     });
@@ -138,9 +134,7 @@ class _AddSiswaState extends State<AddSiswa> {
               Container(
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -155,22 +149,12 @@ class _AddSiswaState extends State<AddSiswa> {
                                   color: Config.textGrey,
                                 ),
                                 onPressed: () {
-                                  showDatePicker(
-                                          context: context,
-                                          initialDate: _dateTime == null
-                                              ? DateTime.now()
-                                              : _dateTime,
-                                          firstDate: DateTime(2020),
-                                          lastDate: DateTime.now())
-                                      .then((date) {
+                                  showDatePicker(context: context, initialDate: _dateTime == null ? DateTime.now() : _dateTime, firstDate: DateTime(2020), lastDate: DateTime.now()).then((date) {
                                     if (date != null) {
                                       setState(() {
                                         _dateTime = date;
-                                        txtTglLahir.text =
-                                            Config.formatDateInput(
-                                                date.toString());
-                                        var tgl =
-                                            _dateTime.toString().split(' ');
+                                        txtTglLahir.text = Config.formatDateInput(date.toString());
+                                        var tgl = _dateTime.toString().split(' ');
                                         tglLahir = tgl[0].toString();
                                       });
                                     }
@@ -213,9 +197,7 @@ class _AddSiswaState extends State<AddSiswa> {
               Container(
                 margin: EdgeInsets.only(top: 8),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -229,9 +211,7 @@ class _AddSiswaState extends State<AddSiswa> {
                             fillColor: Colors.black54,
                             suffixIcon: IconButton(
                               color: Config.primary,
-                              icon: obsecured
-                                  ? Icon(Icons.lock_outline_rounded)
-                                  : Icon(Icons.lock_open),
+                              icon: obsecured ? Icon(Icons.lock_outline_rounded) : Icon(Icons.lock_open),
                               onPressed: () {
                                 if (obsecured == true) {
                                   setState(() {

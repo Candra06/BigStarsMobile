@@ -23,7 +23,7 @@ class SiswaModel {
         wali: json["wali"],
         alamat: json["alamat"],
         id: json["id"],
-        idWali: json["id_wali"],
+        idWali: int.parse(json["id_wali"]),
         nama: json["nama"],
         birthDate: DateTime.parse(json["birth_date"]),
         createdAt: json["created_at"],
@@ -36,8 +36,7 @@ class SiswaModel {
         "id": id,
         "id_wali": idWali,
         "nama": nama,
-        "birth_date":
-            "${birthDate.year.toString().padLeft(4, '0')}-${birthDate.month.toString().padLeft(2, '0')}-${birthDate.day.toString().padLeft(2, '0')}",
+        "birth_date": "${birthDate.year.toString().padLeft(4, '0')}-${birthDate.month.toString().padLeft(2, '0')}-${birthDate.day.toString().padLeft(2, '0')}",
         "created_at": createdAt,
         "updated_at": updatedAt,
       };

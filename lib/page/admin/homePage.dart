@@ -24,7 +24,6 @@ class _HomeAdminState extends State<HomeAdmin> {
   UserModel userModel;
   Map<String, dynamic> user;
   DashboardModel dashboardModel;
-  List<KelasTodayModel> todayKelas = [];
   // var user;
   void getData() async {
     var userPref = await Pref.getUserModel();
@@ -35,11 +34,10 @@ class _HomeAdminState extends State<HomeAdmin> {
   }
 
   void initState() {
-    AuthProvider authProvider =
-        Provider.of<AuthProvider>(context, listen: false);
+    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
     dashboardModel = authProvider.dashboardModel;
-    todayKelas = authProvider.listKelasToday;
-    // print();
+
+    print(dashboardModel.kelasToday.toList());
     getData();
     super.initState();
   }
@@ -74,8 +72,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, Routes.PROFILE_ADMIN);
+                                Navigator.pushNamed(context, Routes.PROFILE_ADMIN);
                               },
                               child: Icon(
                                 Icons.person,
@@ -90,25 +87,18 @@ class _HomeAdminState extends State<HomeAdmin> {
                         ),
                         Text(
                           'Selamat Datang',
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w800,
-                              color: Config.textWhite),
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Config.textWhite),
                         ),
                         SizedBox(
                           height: 10,
                         ),
                         Text(
                           userModel.role,
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w800,
-                              color: Config.textWhite),
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Config.textWhite),
                         ),
                         Text(
                           userModel.username,
-                          style:
-                              TextStyle(fontSize: 18, color: Config.textWhite),
+                          style: TextStyle(fontSize: 18, color: Config.textWhite),
                         )
                       ],
                     ),
@@ -117,13 +107,9 @@ class _HomeAdminState extends State<HomeAdmin> {
                     height: 10,
                   ),
                   Container(
-                    decoration: BoxDecoration(
-                        color: Config.textWhite,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20))),
+                    decoration: BoxDecoration(color: Config.textWhite, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
                     width: MediaQuery.of(context).size.width,
-                    // height: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.7,
                     padding: EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,26 +119,18 @@ class _HomeAdminState extends State<HomeAdmin> {
                             Expanded(
                                 child: Container(
                               margin: EdgeInsets.only(right: 4),
-                              decoration: BoxDecoration(
-                                  color: Config.boxGreen,
-                                  borderRadius: BorderRadius.circular(10)),
+                              decoration: BoxDecoration(color: Config.boxGreen, borderRadius: BorderRadius.circular(10)),
                               padding: EdgeInsets.all(8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Siswa',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        color: Config.textWhite,
-                                        fontSize: 18),
+                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
                                   ),
                                   Text(
                                     dashboardModel.siswa.toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        color: Config.textWhite,
-                                        fontSize: 24),
+                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 24),
                                   ),
                                 ],
                               ),
@@ -160,26 +138,18 @@ class _HomeAdminState extends State<HomeAdmin> {
                             Expanded(
                                 child: Container(
                               margin: EdgeInsets.only(left: 4),
-                              decoration: BoxDecoration(
-                                  color: Config.boxRed,
-                                  borderRadius: BorderRadius.circular(10)),
+                              decoration: BoxDecoration(color: Config.boxRed, borderRadius: BorderRadius.circular(10)),
                               padding: EdgeInsets.all(8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Kelas',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        color: Config.textWhite,
-                                        fontSize: 18),
+                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
                                   ),
                                   Text(
                                     dashboardModel.kelas.toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        color: Config.textWhite,
-                                        fontSize: 24),
+                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 24),
                                   ),
                                 ],
                               ),
@@ -194,26 +164,18 @@ class _HomeAdminState extends State<HomeAdmin> {
                             Expanded(
                                 child: Container(
                               margin: EdgeInsets.only(right: 4),
-                              decoration: BoxDecoration(
-                                  color: Config.boxBlue,
-                                  borderRadius: BorderRadius.circular(10)),
+                              decoration: BoxDecoration(color: Config.boxBlue, borderRadius: BorderRadius.circular(10)),
                               padding: EdgeInsets.all(8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Guru',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        color: Config.textWhite,
-                                        fontSize: 18),
+                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
                                   ),
                                   Text(
                                     dashboardModel.guru.toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        color: Config.textWhite,
-                                        fontSize: 24),
+                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 24),
                                   ),
                                 ],
                               ),
@@ -221,26 +183,18 @@ class _HomeAdminState extends State<HomeAdmin> {
                             Expanded(
                                 child: Container(
                               margin: EdgeInsets.only(left: 4),
-                              decoration: BoxDecoration(
-                                  color: Config.boxYellow,
-                                  borderRadius: BorderRadius.circular(10)),
+                              decoration: BoxDecoration(color: Config.boxYellow, borderRadius: BorderRadius.circular(10)),
                               padding: EdgeInsets.all(8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Kelas Aktif',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        color: Config.textWhite,
-                                        fontSize: 18),
+                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
                                   ),
                                   Text(
                                     dashboardModel.kelasAktif.toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        color: Config.textWhite,
-                                        fontSize: 24),
+                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 24),
                                   ),
                                 ],
                               ),
@@ -250,7 +204,6 @@ class _HomeAdminState extends State<HomeAdmin> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Master Data'),
                         SizedBox(
                           height: 10,
                         ),
@@ -266,15 +219,11 @@ class _HomeAdminState extends State<HomeAdmin> {
                               child: Container(
                                   height: 90,
                                   margin: EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                          color: Config.borderInput, width: 1)),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset(
-                                          'assets/images/icons/iconMapel.png'),
+                                      Image.asset('assets/images/icons/iconMapel.png'),
                                       SizedBox(
                                         height: 10,
                                       ),
@@ -282,39 +231,6 @@ class _HomeAdminState extends State<HomeAdmin> {
                                     ],
                                   )),
                             ),
-                            Container(
-                                height: 90,
-                                margin: EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        color: Config.borderInput, width: 1)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                        'assets/images/icons/iconAbsensi.png'),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text('Absensi')
-                                  ],
-                                )),
-                            Container(),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('Finance'),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        GridView.count(
-                          crossAxisCount: 3,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          children: [
                             InkWell(
                               onTap: () {
                                 Navigator.pushNamed(context, Routes.LIST_SPP);
@@ -322,15 +238,11 @@ class _HomeAdminState extends State<HomeAdmin> {
                               child: Container(
                                   height: 90,
                                   margin: EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                          color: Config.borderInput, width: 1)),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset(
-                                          'assets/images/icons/iconSPP.png'),
+                                      Image.asset('assets/images/icons/iconSPP.png'),
                                       SizedBox(
                                         height: 10,
                                       ),
@@ -345,15 +257,11 @@ class _HomeAdminState extends State<HomeAdmin> {
                               child: Container(
                                   height: 90,
                                   margin: EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                          color: Config.borderInput, width: 1)),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image.asset(
-                                          'assets/images/icons/iconFee.png'),
+                                      Image.asset('assets/images/icons/iconFee.png'),
                                       SizedBox(
                                         height: 10,
                                       ),
@@ -361,26 +269,9 @@ class _HomeAdminState extends State<HomeAdmin> {
                                     ],
                                   )),
                             ),
-                            Container(
-                                height: 90,
-                                margin: EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        color: Config.borderInput, width: 1)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                        'assets/images/icons/iconReport.png'),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text('Report')
-                                  ],
-                                )),
                           ],
                         ),
+
                         SizedBox(
                           height: 10,
                         ),
@@ -397,17 +288,29 @@ class _HomeAdminState extends State<HomeAdmin> {
                         //     ],
                         //   ),
                         // ),
-                        Container(
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: todayKelas.length,
-                              itemBuilder: (BuildContext cotext, int i) {
-                                return ItemKelasToday(
-                                  data: todayKelas[i],
-                                );
-                              }),
-                        )
+                        if (dashboardModel.kelasToday.length == 0) ...{
+                          Center(
+                            child: Text('Tidak ada kelas hari ini'),
+                          )
+                        } else ...{
+                          Container(
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: dashboardModel.kelasToday.length,
+                                itemBuilder: (BuildContext cotext, int i) {
+                                  if (dashboardModel.kelasToday.isEmpty) {
+                                    return Center(
+                                      child: Text('Tidak ada kelas hari ini'),
+                                    );
+                                  } else {
+                                    return ItemKelasToday(
+                                      data: dashboardModel.kelasToday[i],
+                                    );
+                                  }
+                                }),
+                          )
+                        }
                       ],
                     ),
                   )

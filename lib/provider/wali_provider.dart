@@ -7,6 +7,7 @@ class WaliProvider with ChangeNotifier {
   List<WaliModel> _waliModels;
   get waliModel => _waliModel;
   get waliModels => _waliModels;
+  List<WaliModel> get listWali => _waliModels;
   Future<List<WaliModel>> getWalis() async {
     try {
       List<WaliModel> waliModels = await WaliService().getWalis();

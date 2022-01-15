@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 
 class Config {
   static final HexColor primary = new HexColor('#FF7F00');
@@ -88,7 +89,7 @@ class Config {
               Text(title),
               Text(
                 konten,
-                style: TextStyle(color: Config.textGrey),
+                style: TextStyle(color: Config.textBlack, fontWeight: FontWeight.w600),
               ),
             ],
           ),
@@ -153,6 +154,50 @@ class Config {
     );
   }
 
+  static showSuccesAdd(BuildContext context, String message) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              // height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset('assets/lottie/success-delete.json'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(message),
+                ],
+              ),
+            ),
+            actions: [
+              Container(
+                width: double.infinity - 30,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Config.boxGreen,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: TextButton(
+                  // textColor: Color(0xFF6200EE),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ACCEPT',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
   static formatDateInput(tgl) {
     try {
       var date = tgl.split(" ");
@@ -162,6 +207,18 @@ class Config {
       return tanggal;
     } catch (e) {
       return tgl.toString();
+    }
+  }
+
+  static formatJam(jam) {
+    try {
+      var hour = jam.split(":");
+      print(hour);
+      String waktu = hour[0] + ':' + hour[1];
+      return waktu;
+    } catch (e) {
+      print(e);
+      return jam.toString();
     }
   }
 
@@ -176,6 +233,4 @@ class Config {
       return nominal.toString();
     }
   }
-
-  
 }

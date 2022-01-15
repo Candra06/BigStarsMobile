@@ -1,8 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/model/user_model.dart';
+import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ModalChangePhotoProfile extends StatefulWidget {
   const ModalChangePhotoProfile({Key key}) : super(key: key);
@@ -17,6 +23,25 @@ class _ModalChangePhotoProfileState extends State<ModalChangePhotoProfile> {
   Future<File> file;
 
   String fileName = '';
+  Map<dynamic, dynamic> data;
+  UserModel user;
+
+  void edit(BuildContext context) async {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+    data = await Provider.of<AuthProvider>(context, listen: false).editFoto(tmpFile);
+    user = authProvider.user;
+    if (data["status"]) {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      print(user);
+
+      pref.setString('user', json.encode(user.toJson()));
+      Config.alert(1, 'Berhasil mengubah foto');
+
+      Navigator.pushNamed(context, Routes.PROFILE_ADMIN);
+    } else {
+      Config.alert(0, 'Gagal mengubah foto');
+    }
+  }
 
   Future _getImage() async {
     final picker = ImagePicker();
@@ -110,7 +135,11 @@ class _ModalChangePhotoProfileState extends State<ModalChangePhotoProfile> {
             style: TextStyle(color: Config.primary),
           ),
           onPressed: () {
-            Navigator.of(context).pop();
+            if (tmpFile.path.toString().isEmpty) {
+              Config.alert(0, 'Harap pilih foto profil');
+            } else {
+              edit(context);
+            }
           },
         ),
       ],

@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 
 class SiswaProvider with ChangeNotifier {
   List<SiswaModel> _listSiswa;
-  get listSiswa => _listSiswa;
+  List<SiswaModel> get listSiswa => _listSiswa;
   Future<List<SiswaModel>> getSiswa() async {
     List<SiswaModel> data = await SiswaService().getSiswas();
     _listSiswa = data;

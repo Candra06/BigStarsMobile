@@ -63,8 +63,7 @@ class _ListKelasState extends State<ListKelas> {
       body: Container(
         margin: EdgeInsets.all(16),
         child: FutureBuilder(
-            future:
-                Provider.of<KelasProvider>(context, listen: false).getKelas(),
+            future: Provider.of<KelasProvider>(context, listen: false).getKelas(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
@@ -75,9 +74,13 @@ class _ListKelasState extends State<ListKelas> {
                 builder: (context, data, _) => ListView.builder(
                     itemCount: data.allKelas.length,
                     itemBuilder: (BuildContext bc, int i) {
-                      return ItemKelas(
-                        data: data.allKelas[i],
-                      );
+                      return snapshot.hasData
+                          ? ItemKelas(
+                              data: data.allKelas[i],
+                            )
+                          : Center(
+                              child: Text('Belum ada data kelas'),
+                            );
                     }),
               );
             }),
