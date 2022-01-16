@@ -1,6 +1,7 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
 import 'package:bigstars_mobile/helper/loadingButton.dart';
+import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/mapel_model.dart';
 import 'package:bigstars_mobile/provider/mapel_provider.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +27,7 @@ class _AddMapelState extends State<AddMapel> {
     setState(() {
       isLoading = true;
     });
-    Provider.of<MapelProvider>(context, listen: false)
-        .tambahMapel(txtMapel.text)
-        .then((value) {
+    Provider.of<MapelProvider>(context, listen: false).tambahMapel(txtMapel.text).then((value) {
       if (value) {
         txtMapel.text = "";
         Navigator.pop(context);
@@ -64,8 +63,7 @@ class _AddMapelState extends State<AddMapel> {
     Map<String, dynamic> data = {"mapel": txtMapel.text, "status": valStatus};
     widget.mapel.mapel = txtMapel.text;
     widget.mapel.status = valStatus;
-    Provider.of<MapelProvider>(context, listen: false)
-        .updateMapel(widget.mapel.id.toString(), data);
+    Provider.of<MapelProvider>(context, listen: false).updateMapel(widget.mapel.id.toString(), data);
     Provider.of<MapelProvider>(context, listen: false).mapel = widget.mapel;
     // widget.mapel.mapel =
     ScaffoldMessenger.of(context).showSnackBar(
@@ -77,6 +75,7 @@ class _AddMapelState extends State<AddMapel> {
         ),
       ),
     );
+    Navigator.pushNamed(context, Routes.LIST_MAPEL);
   }
 
   @override
@@ -88,6 +87,7 @@ class _AddMapelState extends State<AddMapel> {
   Widget build(BuildContext context) {
     if (widget.id != '0') {
       txtMapel.text = widget.mapel.mapel;
+      valStatus = widget.mapel.status;
     }
     return Scaffold(
       appBar: AppBar(
@@ -122,9 +122,7 @@ class _AddMapelState extends State<AddMapel> {
                   margin: EdgeInsets.only(top: 8, bottom: 10),
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Config.borderInput)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                   child: DropdownButton(
                     underline: SizedBox(),
                     hint: Text(

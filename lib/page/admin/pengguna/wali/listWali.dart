@@ -39,9 +39,7 @@ class _ListWaliState extends State<ListWali> {
                   Container(
                     margin: EdgeInsets.only(top: 8),
                     padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Config.borderInput)),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -74,11 +72,9 @@ class _ListWaliState extends State<ListWali> {
                   ),
                   Expanded(
                     child: FutureBuilder(
-                      future: Provider.of<WaliProvider>(context, listen: false)
-                          .getWalis(),
+                      future: Provider.of<WaliProvider>(context, listen: false).getWalis(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return Center(
                             child: CircularProgressIndicator(),
                           );
@@ -92,11 +88,24 @@ class _ListWaliState extends State<ListWali> {
                             } else {
                               return ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: data.waliModels.length,
+                                itemCount: data.listWali.length,
                                 itemBuilder: (BuildContext context, int i) {
-                                  return ItemListWali(
-                                    wali: data.waliModels[i],
-                                  );
+                                  if (searchString != '') {
+                                    return data.listWali[i].nama.toLowerCase().contains(searchString.toLowerCase())
+                                        ? ItemListWali(
+                                            wali: data.listWali[i],
+                                          )
+                                        : Center(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text('Data Tidak ditemukan'),
+                                            ),
+                                          );
+                                  } else {
+                                    return ItemListWali(
+                                      wali: data.listWali[i],
+                                    );
+                                  }
                                 },
                               );
                             }

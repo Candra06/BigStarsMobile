@@ -144,10 +144,7 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                       onPressed: () async {
                         Navigator.pop(context);
                         // handleHapus();
-                        var ids = await Provider.of<KelasProvider>(context,
-                                listen: false)
-                            .deleteJadwal(id)
-                            .then((value) {
+                        var ids = await Provider.of<KelasProvider>(context, listen: false).deleteJadwal(id).then((value) {
                           if (value) {
                             _showSuccesHapus();
                             getData();
@@ -173,8 +170,7 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
     setState(() {
       load = true;
     });
-    jadwalModels = await Provider.of<KelasProvider>(context, listen: false)
-        .getDetail(widget.kelas.id);
+    jadwalModels = await Provider.of<KelasProvider>(context, listen: false).getDetail(widget.kelas.id);
 
     setState(() {
       load = false;
@@ -200,25 +196,20 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                      padding: EdgeInsets.all(16), child: Text('Data Kelas')),
+                  Container(padding: EdgeInsets.all(16), child: Text('Data Kelas')),
                   Config.itemDetail('Nama Siswa', widget.kelas.siswa),
                   Config.itemDetail('Nama Guru', widget.kelas.guru),
                   Config.itemDetail('Mata Pelajaran', widget.kelas.mapel),
-                  Config.itemDetail(
-                      'SPP', Config.formatRupiah(widget.kelas.spp)),
-                  Config.itemDetail(
-                      'Fee Guru', Config.formatRupiah(widget.kelas.feeGuru)),
+                  Config.itemDetail('SPP', Config.formatRupiah(int.parse(widget.kelas.spp))),
+                  Config.itemDetail('Fee Guru', Config.formatRupiah(int.parse(widget.kelas.feeGuru))),
                   Config.itemDetail('Status', widget.kelas.status),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                          padding: EdgeInsets.all(16), child: Text('Jadwal')),
+                      Container(padding: EdgeInsets.all(16), child: Text('Jadwal')),
                       InkWell(
                         onTap: () {
-                          _addNewJadwal(
-                              context, widget.kelas.id.toString(), '0');
+                          _addNewJadwal(context, widget.kelas.id.toString(), '0');
                         },
                         child: Container(
                             padding: EdgeInsets.all(16),
@@ -240,8 +231,7 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                   for (var i = 0; i < jadwalModels.length; i++) ...{
                     InkWell(
                       onTap: () {
-                        _addNewJadwal(
-                            context, widget.kelas.id.toString(), i.toString());
+                        _addNewJadwal(context, widget.kelas.id.toString(), i.toString());
                       },
                       child: Column(
                         children: [
@@ -255,10 +245,8 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                                 Row(
                                   children: [
                                     Text(
-                                      jadwalModels[i].jamMulai +
-                                          ' - ' +
-                                          jadwalModels[i].jamSelesai,
-                                      style: TextStyle(color: Config.textGrey),
+                                      Config.formatJam(jadwalModels[i].jamMulai) + ' - ' + Config.formatJam(jadwalModels[i].jamSelesai),
+                                      style: TextStyle(color: Config.textBlack),
                                     ),
                                     SizedBox(
                                       width: 10,

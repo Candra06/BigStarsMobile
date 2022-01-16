@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "724379682800",
+    "project_id": "bigstars-54263",
+    "storage_bucket": "bigstars-54263.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:724379682800:android:34d3feff2726256ff1ff35",
+        "android_client_info": {
+          "package_name": "com.app.bigstars_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "724379682800-ftpa1sifm8h79dkoul616ijoqcouvbsn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAse3XuoFYzlJ4kZgOjDR1TWcajADiSZSw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "724379682800-ftpa1sifm8h79dkoul616ijoqcouvbsn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

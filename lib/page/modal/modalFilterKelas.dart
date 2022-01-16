@@ -57,7 +57,7 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
                   style: TextStyle(
                     fontSize: 14,
                   )),
-              formInputType(txtNamaSiswa, 'Nama Guru', TextInputType.text),
+              formInputType(txtNamaGuru, 'Nama Guru', TextInputType.text),
               SizedBox(height: 8),
               Text('Status Kelas'),
               Container(

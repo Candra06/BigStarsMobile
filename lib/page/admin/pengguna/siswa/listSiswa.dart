@@ -49,9 +49,7 @@ class _ListSiswaState extends State<ListSiswa> {
                   Container(
                     margin: EdgeInsets.only(top: 8),
                     padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Config.borderInput)),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -84,11 +82,9 @@ class _ListSiswaState extends State<ListSiswa> {
                   ),
                   Expanded(
                     child: FutureBuilder(
-                      future: Provider.of<SiswaProvider>(context, listen: false)
-                          .getSiswa(),
+                      future: Provider.of<SiswaProvider>(context, listen: false).getSiswa(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return Container(
                             child: Center(
                               child: CircularProgressIndicator(),
@@ -101,9 +97,22 @@ class _ListSiswaState extends State<ListSiswa> {
                               itemCount: data.listSiswa.length,
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int i) {
-                                return ItemListSiswa(
-                                  data: data.listSiswa[i],
-                                );
+                                if (searchString != null) {
+                                  return data.listSiswa[i].nama.toLowerCase().contains(searchString.toLowerCase())
+                                      ? ItemListSiswa(
+                                          data: data.listSiswa[i],
+                                        )
+                                      : Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text('Data Tidak ditemukan'),
+                                          ),
+                                        );
+                                } else {
+                                  return ItemListSiswa(
+                                    data: data.listSiswa[i],
+                                  );
+                                }
                               },
                             );
                           },

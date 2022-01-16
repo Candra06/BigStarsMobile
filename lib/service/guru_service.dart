@@ -9,12 +9,12 @@ import 'package:http/http.dart' as http;
 class GuruService {
   Future<List<GuruModel>> getdata() async {
     var token = await Pref.getToken();
-    var response = await http.get(
-        Uri.parse('http://api.buildandservice.com/api/guru/data'),
-        headers: {'Authorization': token});
+    print(EndPoint.guru);
+    var response = await http.get(Uri.parse(EndPoint.guru), headers: {'Authorization': token});
 
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body)["data"];
+      print(data);
       return data.map((e) => GuruModel.fromJson(e)).toList();
     } else {
       return [];
@@ -23,8 +23,7 @@ class GuruService {
 
   Future deleteGuru(var id) async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.gDelete + id.toString()),
-        headers: {'Authorization': token});
+    var response = await http.get(Uri.parse(EndPoint.gDelete + id.toString()), headers: {'Authorization': token});
     // print(EndPoint.gDelete + id.toString());
     print(jsonDecode(response.body));
     print(id);
@@ -44,14 +43,10 @@ class GuruService {
       body: data,
     );
     print(response.body);
-    if (response.statusCode == 200 &&
-        jsonDecode(response.body)["message"] == "Success") {
+    if (response.statusCode == 200 && jsonDecode(response.body)["message"] == "Success") {
       return jsonDecode(response.body);
     } else {
-      return {
-        "status_code": jsonDecode(response.body)["status_code"],
-        "message": "Username & Nomer HP kemungkinan telah dipakai"
-      };
+      return {"status_code": jsonDecode(response.body)["status_code"], "message": "Username & Nomer HP kemungkinan telah dipakai"};
     }
   }
 

@@ -1,6 +1,10 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/model/user_model.dart';
+import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EditAkunAdmin extends StatefulWidget {
   const EditAkunAdmin({Key key}) : super(key: key);
@@ -16,6 +20,39 @@ class _EditAkunAdminState extends State<EditAkunAdmin> {
   TextEditingController txtUsername = new TextEditingController();
   TextEditingController txtPhone = new TextEditingController();
   TextEditingController txtPassword = new TextEditingController();
+
+  UserModel userModel = new UserModel();
+
+  void edit() async {
+    userModel.username = txtUsername.text;
+    userModel.phone = txtPhone.text;
+    userModel.password = txtPassword.text;
+    await Provider.of<AuthProvider>(context, listen: false).editProfilAdmin(user: userModel).then((value) {
+      if (value) {
+        print(value);
+        Config.alert(1, 'Berhasil merubah profil');
+        Navigator.pushNamed(context, Routes.PROFILE_ADMIN);
+      }
+    });
+  }
+
+  void getData() async {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+    setState(() {
+      userModel = authProvider.user;
+      txtUsername.text = authProvider.user.username;
+      txtPhone.text = authProvider.user.phone;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      this.getData();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,6 +136,13 @@ class _EditAkunAdminState extends State<EditAkunAdmin> {
               ElevatedButton(
                 onPressed: () {
                   // submit proses
+                  if (txtUsername.text.isEmpty) {
+                    Config.alert(0, 'Username tidak boleh kosong');
+                  } else if (txtPhone.text.isEmpty) {
+                    Config.alert(0, 'Username tidak boleh kosong');
+                  } else {
+                    edit();
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(MediaQuery.of(context).size.width, 50),

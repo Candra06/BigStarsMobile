@@ -14,10 +14,10 @@ class SiswaService {
         'Authorization': token,
       },
     );
+    print(response.body);
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)["data"];
-      List<SiswaModel> siswas =
-          data.map((item) => SiswaModel.fromJson(item)).toList();
+      List<SiswaModel> siswas = data.map((item) => SiswaModel.fromJson(item)).toList();
       return siswas;
     } else {
       return [];
@@ -26,8 +26,7 @@ class SiswaService {
 
   Future<bool> delSiswa(String id) async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.sDelete + id),
-        headers: {'Authorization': token});
+    var response = await http.get(Uri.parse(EndPoint.sDelete + id), headers: {'Authorization': token});
     print(response.statusCode);
     if (response.statusCode == 200) {
       return true;
@@ -38,8 +37,7 @@ class SiswaService {
 
   Future addSiswa(Map<String, dynamic> data) async {
     var token = await Pref.getToken();
-    var response = await http.post(Uri.parse(EndPoint.sCreate),
-        headers: {'Authorization': token}, body: data);
+    var response = await http.post(Uri.parse(EndPoint.sCreate), headers: {'Authorization': token}, body: data);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
