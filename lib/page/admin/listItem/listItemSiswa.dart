@@ -189,7 +189,7 @@ class _ItemListSiswaState extends State<ItemListSiswa> {
                     IconButton(
                         onPressed: () {
                           Navigator.pushNamed(context, Routes.EDIT_SISWA,
-                              arguments: widget.data.id.toString());
+                              arguments: widget.data);
                         },
                         icon: Icon(
                           Icons.edit,

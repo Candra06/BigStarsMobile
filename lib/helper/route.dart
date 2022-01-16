@@ -125,7 +125,7 @@ class Routes {
 
       case EDIT_SISWA:
         return PageTransition(
-            child: EditSiswa(id: settings.arguments),
+            child: EditSiswa(siswa: settings.arguments),
             type: PageTransitionType.bottomToTop);
       case EDIT_WALI:
         return PageTransition(

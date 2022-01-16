@@ -16,11 +16,14 @@ import 'package:provider/provider.dart';
 void main() {
   MyApp.initSystemDefault();
 
-  runApp(AppConfig(
+  runApp(
+    AppConfig(
       appName: "BigStars",
       flavorName: "dev",
       initialRoute: Routes.SPLASH,
-      child: MyApp()));
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

@@ -150,8 +150,8 @@ class _AddGuruState extends State<AddGuru> {
         .editGuru(widget.guru.id, data)
         .then((value) {
       if (value) {
+        print(value);
         _showSuccesUpdate();
-        Navigator.pop(context);
       }
     });
   }

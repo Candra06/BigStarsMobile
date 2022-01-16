@@ -44,7 +44,10 @@ class GuruProvider with ChangeNotifier {
 
   Future editGuru(int id, Map<String, dynamic> data) async {
     try {
-      return await GuruService().editGuru(id, data);
+      bool status = await GuruService().editGuru(id, data);
+      getData();
+      notifyListeners();
+      return status;
     } catch (e) {
       print(e);
       return false;

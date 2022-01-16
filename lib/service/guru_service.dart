@@ -70,6 +70,6 @@ class GuruService {
         return false;
       }
     }
-    return data;
+    return false;
   }
 }

@@ -1,10 +1,14 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/model/siswa_model.dart';
+import 'package:bigstars_mobile/provider/siswa_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class EditSiswa extends StatefulWidget {
-  final String id;
-  const EditSiswa({Key key, this.id}) : super(key: key);
+  final SiswaModel siswa;
+  const EditSiswa({Key key, this.siswa}) : super(key: key);
 
   @override
   _EditSiswaState createState() => _EditSiswaState();
@@ -16,7 +20,73 @@ class _EditSiswaState extends State<EditSiswa> {
   bool obsecured = true;
   TextEditingController txtNama = new TextEditingController();
   TextEditingController txtTglLahir = new TextEditingController();
+
+  _showSuccesEdit() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              // height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset('assets/lottie/success-delete.json'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('Data has been Updated!'),
+                ],
+              ),
+            ),
+            actions: [
+              Container(
+                width: double.infinity - 30,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Config.boxGreen,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: TextButton(
+                  // textColor: Color(0xFF6200EE),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ACCEPT',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  void insetVal() {
+    txtNama.text = widget.siswa.nama;
+  }
+
+  void edit() async {
+    Map<String, dynamic> data = {"nama": txtNama.text, "birth_date": tglLahir};
+    await Provider.of<SiswaProvider>(context, listen: false)
+        .editSiswa(widget.siswa.id, data)
+        .then((value) {
+      if (value) {
+        _showSuccesEdit();
+      }
+    });
+  }
+
   @override
+  void initState() {
+    insetVal();
+    print(widget.siswa.id);
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +119,9 @@ class _EditSiswaState extends State<EditSiswa> {
               Container(
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -64,12 +136,22 @@ class _EditSiswaState extends State<EditSiswa> {
                                   color: Config.textGrey,
                                 ),
                                 onPressed: () {
-                                  showDatePicker(context: context, initialDate: _dateTime == null ? DateTime.now() : _dateTime, firstDate: DateTime(2020), lastDate: DateTime.now()).then((date) {
+                                  showDatePicker(
+                                          context: context,
+                                          initialDate: _dateTime == null
+                                              ? DateTime.now()
+                                              : _dateTime,
+                                          firstDate: DateTime(2020),
+                                          lastDate: DateTime.now())
+                                      .then((date) {
                                     if (date != null) {
                                       setState(() {
                                         _dateTime = date;
-                                        txtTglLahir.text = Config.formatDateInput(date.toString());
-                                        var tgl = _dateTime.toString().split(' ');
+                                        txtTglLahir.text =
+                                            Config.formatDateInput(
+                                                date.toString());
+                                        var tgl =
+                                            _dateTime.toString().split(' ');
                                         tglLahir = tgl[0].toString();
                                       });
                                     }
@@ -92,6 +174,7 @@ class _EditSiswaState extends State<EditSiswa> {
               ElevatedButton(
                 onPressed: () {
                   // submit proses
+                  edit();
                 },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(MediaQuery.of(context).size.width, 50),
