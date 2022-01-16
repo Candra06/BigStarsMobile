@@ -28,6 +28,7 @@ class EndPoint {
   static final siswa = api + 'siswa/list';
   static final sDelete = api + 'siswa/delete/';
   static final sCreate = api + 'siswa/create-wali';
+  static final sUpdate = api + 'siswa/update/';
   static final wCreate = api + 'siswa/create-siswa';
 
   // finance

@@ -36,4 +36,10 @@ class SiswaProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future editSiswa(int id, Map<String, dynamic> data) async {
+    bool status = await SiswaService().edit(id, data);
+    getSiswa();
+    return status;
+  }
 }

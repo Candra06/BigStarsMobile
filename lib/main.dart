@@ -21,8 +21,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   MyApp.initSystemDefault();
 
-  runApp(AppConfig(appName: "BigStars", flavorName: "dev", initialRoute: Routes.SPLASH, child: MyApp()));
-}
+  runApp(
+    AppConfig(
+      appName: "BigStars",
+      flavorName: "dev",
+      initialRoute: Routes.SPLASH,
+      child: MyApp(),
+    ),
+  );
+
 
 class MyApp extends StatefulWidget {
   static void initSystemDefault() {

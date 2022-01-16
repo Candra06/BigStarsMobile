@@ -44,4 +44,16 @@ class SiswaService {
       return {"message": "Failed"};
     }
   }
+
+  Future edit(int id, Map<String, dynamic> data) async {
+    var token = await Pref.getToken();
+    var response = await http.post(Uri.parse(EndPoint.sUpdate + id.toString()),
+        headers: {'Authorization': token}, body: data);
+    if (response.statusCode == 200) {
+      if (jsonDecode(response.body)["message"] == "Success") {
+        return true;
+      }
+    }
+    return false;
+  }
 }
