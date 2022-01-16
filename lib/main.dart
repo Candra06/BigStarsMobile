@@ -29,6 +29,7 @@ void main() {
       child: MyApp(),
     ),
   );
+}
 
 
 class MyApp extends StatefulWidget {
