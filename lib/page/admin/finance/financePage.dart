@@ -15,6 +15,7 @@ class FinancePage extends StatefulWidget {
 
 class _FinancePageState extends State<FinancePage> {
   FinanceModel financeModel = FinanceModel();
+  bool load = true;
   int laba;
   int totalSpp;
   int totalFee;
