@@ -29,7 +29,7 @@ void main() {
       child: MyApp(),
     ),
   );
-
+}
 
 class MyApp extends StatefulWidget {
   static void initSystemDefault() {
@@ -50,7 +50,8 @@ class _MyAppState extends State<MyApp> {
   final controllerTopic = TextEditingController();
   bool isSubscribed = false;
   String token = '';
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   // ketika notifikasi di klik
   Future onSelectNotification(String message) async {
@@ -67,9 +68,11 @@ class _MyAppState extends State<MyApp> {
       flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
       var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
       var iOS = new IOSInitializationSettings();
-      var initSetttings = new InitializationSettings(android: android, iOS: iOS);
+      var initSetttings =
+          new InitializationSettings(android: android, iOS: iOS);
 
-      flutterLocalNotificationsPlugin.initialize(initSetttings, onSelectNotification: onSelectNotification);
+      flutterLocalNotificationsPlugin.initialize(initSetttings,
+          onSelectNotification: onSelectNotification);
       // setting local notification init
       // configurasi fcm
       // firebaseMessaging.configure(
@@ -79,7 +82,7 @@ class _MyAppState extends State<MyApp> {
       //   },
       //   onLaunch: (Map<String, dynamic> message) async {
       //     print("onLaunch: $message");
-      //     _showNotificationWithDefaultSound(message, "onLaunch"); 
+      //     _showNotificationWithDefaultSound(message, "onLaunch");
       //   },
       //   onResume: (Map<String, dynamic> message) async {
       //     print("onResume: $message");
@@ -105,7 +108,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   //menampilkan baloon notifikasi dari flutter_locacl_notification
-  Future _showNotificationWithDefaultSound(Map<String, dynamic> message, var tipe) async {
+  Future _showNotificationWithDefaultSound(
+      Map<String, dynamic> message, var tipe) async {
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
       '329382938298',
       'your channel name',
@@ -115,7 +119,9 @@ class _MyAppState extends State<MyApp> {
       styleInformation: BigTextStyleInformation(''),
     );
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-    var platformChannelSpecifics = new NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+    var platformChannelSpecifics = new NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
     // // key dan nilai untuk action click
     String kontenpay = json.encode(message).toString();
     if (tipe == "onResume") {
