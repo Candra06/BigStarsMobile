@@ -1,40 +1,59 @@
 class UserModel {
-  UserModel({this.token, this.alamat, this.idUsers, this.id, this.phone, this.foto, this.role, this.username, this.password, this.status, this.rememberToken});
+  UserModel({
+    this.id,
+    this.username,
+    this.password,
+    this.foto,
+    this.phone,
+    this.role,
+    this.status,
+    this.rememberToken,
+    this.createdAt,
+    this.updatedAt,
+    this.token,
+  });
 
-  String token;
-  String password;
   int id;
-  String alamat;
-  int idUsers;
-  dynamic phone;
-  String role;
   String username;
+  String password;
   String foto;
+  String phone;
+  String role;
   String status;
   dynamic rememberToken;
+  dynamic createdAt;
+  DateTime updatedAt;
+  String token;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        id: json["id"] == null ? null : json["id"],
-        idUsers: json["id_users"] == null ? null : json["id_users"],
-        username: json["username"] == null ? null : json["username"],
-        password: json["password"] == null ? null : json["password"],
-        foto: json["foto"] == null ? null : json["foto"],
-        phone: json["phone"] == null ? null : json["phone"],
-        role: json["role"] == null ? null : json["role"],
-        status: json["status"] == null ? null : json["status"],
-        rememberToken: json["remember_token"] == null ? null : json["remember_token"],
+        id: json["id"],
+        username: json["username"],
+        password: json["password"],
+        foto: json["foto"],
+        phone: json["phone"],
+        role: json["role"],
+        status: json["status"],
+        rememberToken: json["remember_token"],
+        createdAt: json["created_at"],
+        updatedAt: DateTime.parse(json["updated_at"]),
+        token: json["token"],
       );
 
   Map<String, dynamic> toJson() => {
-        "token": token,
-        "alamat": alamat,
-        "id_users": idUsers,
+        "id": id,
+        "username": username,
+        "password": password,
+        "foto": foto,
         "phone": phone,
         "role": role,
-        "username": username,
         "status": status,
+        "remember_token": rememberToken,
+        "created_at": createdAt,
+        "updated_at": updatedAt.toIso8601String(),
+        "token": token,
       };
-
-  Map<String, dynamic> editProfilAdmin() => {"phone": phone, "username": username, 'password': password};
-  Map<String, dynamic> editProfilAdminNoPass() => {"phone": phone, "username": username};
+  Map<String, dynamic> editProfilAdmin() =>
+      {"phone": phone, "username": username, 'password': password};
+  Map<String, dynamic> editProfilAdminNoPass() =>
+      {"phone": phone, "username": username};
 }

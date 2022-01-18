@@ -39,7 +39,6 @@ class _SplashScreenState extends State<SplashScreen>
     // print(jsonDecode(user));
     // print(tmpToken);
     if (tmpToken != null) {
-      print("ok");
       userModel = UserModel.fromJson(json.decode(user));
       Provider.of<AuthProvider>(context, listen: false).setUser(userModel);
       await Provider.of<FinanceProvider>(context, listen: false).getFinance();

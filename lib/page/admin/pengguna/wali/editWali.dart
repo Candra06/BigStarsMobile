@@ -1,10 +1,14 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/model/wali_model.dart';
+import 'package:bigstars_mobile/provider/wali_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class EditWali extends StatefulWidget {
-  final String id;
-  const EditWali({Key key, this.id}) : super(key: key);
+  final WaliModel wali;
+  const EditWali({Key key, this.wali}) : super(key: key);
 
   @override
   _EditWaliState createState() => _EditWaliState();
@@ -21,6 +25,84 @@ class _EditWaliState extends State<EditWali> {
 
   List status = ['Active', 'Inactive'];
   String valStatus;
+  _showSuccesEdit() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              // height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset('assets/lottie/success-delete.json'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('Data has been Updated!'),
+                ],
+              ),
+            ),
+            actions: [
+              Container(
+                width: double.infinity - 30,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Config.boxGreen,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: TextButton(
+                  // textColor: Color(0xFF6200EE),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ACCEPT',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  void editWali() async {
+    Map<String, dynamic> data = {
+      "nama": txtNama.text,
+      "birth_date": "1999-03-21",
+      "status": valStatus,
+      "phone": txtPhone.text,
+      "alamat": txtAlamat.text,
+      "password": txtPassword.text,
+      "username": txtUsername.text,
+    };
+    Provider.of<WaliProvider>(context, listen: false)
+        .editWali(widget.wali.id.toString(), data)
+        .then((value) {
+      if (value) {
+        print(value);
+        _showSuccesEdit();
+      }
+    });
+  }
+
+  void insertval() {
+    valStatus = widget.wali.status;
+    txtNama.text = widget.wali.nama;
+    txtPhone.text = widget.wali.phone;
+    txtAlamat.text = widget.wali.alamat;
+    txtUsername.text = widget.wali.username;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    insertval();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +128,7 @@ class _EditWaliState extends State<EditWali> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Nama'),
-              formInput(txtNama, 'Nama'),
+              formInput(txtNama, "widget.wali.nama"),
               SizedBox(
                 height: 10,
               ),
@@ -65,7 +147,9 @@ class _EditWaliState extends State<EditWali> {
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
@@ -90,7 +174,7 @@ class _EditWaliState extends State<EditWali> {
                 ),
               ),
               Text('Username'),
-              formInput(txtNama, 'Username'),
+              formInput(txtUsername, 'Username'),
               SizedBox(
                 height: 10,
               ),
@@ -98,7 +182,9 @@ class _EditWaliState extends State<EditWali> {
               Container(
                 margin: EdgeInsets.only(top: 8),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -112,7 +198,9 @@ class _EditWaliState extends State<EditWali> {
                             fillColor: Colors.black54,
                             suffixIcon: IconButton(
                               color: Config.primary,
-                              icon: obsecured ? Icon(Icons.lock_outline_rounded) : Icon(Icons.lock_open),
+                              icon: obsecured
+                                  ? Icon(Icons.lock_outline_rounded)
+                                  : Icon(Icons.lock_open),
                               onPressed: () {
                                 if (obsecured == true) {
                                   setState(() {
@@ -137,9 +225,7 @@ class _EditWaliState extends State<EditWali> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  // submit proses
-                },
+                onPressed: () => editWali(),
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(MediaQuery.of(context).size.width, 50),
                   primary: Config.primary,

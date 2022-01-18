@@ -43,7 +43,7 @@ class _ProfilAdminState extends State<ProfilAdmin> {
   void initState() {
     getData();
     userModel = Provider.of<AuthProvider>(context, listen: false).user;
-    print(userModel.foto);
+    print(userModel.toJson());
     super.initState();
   }
 
@@ -79,7 +79,6 @@ class _ProfilAdminState extends State<ProfilAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -127,22 +126,22 @@ class _ProfilAdminState extends State<ProfilAdmin> {
                     SizedBox(
                       height: 35,
                     ),
-                    // ClipOval(
-                    //   child: Image.network(
-                    //     userModel.foto.toString() == '-' ||
-                    //             userModel.foto == null
-                    //         ? "https://www.clipartmax.com/png/middle/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png"
-                    //         : EndPoint.server + '' + userModel.foto,
-                    //     height: 100,
-                    //     width: 100,
-                    //     fit: BoxFit.cover,
-                    //   ),
-                    // ),
+                    ClipOval(
+                      child: Image.network(
+                        userModel.foto.toString() == '-' ||
+                                userModel.foto == null
+                            ? "https://www.clipartmax.com/png/middle/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png"
+                            : EndPoint.server + '' + userModel.foto,
+                        height: 100,
+                        width: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
-                      'Admin',
+                      userModel.role,
                       style: TextStyle(
                           color: Config.textWhite,
                           fontSize: 24,
@@ -152,11 +151,11 @@ class _ProfilAdminState extends State<ProfilAdmin> {
                       height: 10,
                     ),
                     Text(
-                      "authProvider.user.username",
+                      userModel.username,
                       style: TextStyle(color: Config.textWhite, fontSize: 18),
                     ),
                     Text(
-                      "authProvider.user.phone",
+                      userModel.phone,
                       style: TextStyle(color: Config.textWhite, fontSize: 16),
                     ),
                   ],
