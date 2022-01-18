@@ -31,7 +31,6 @@ void main() {
   );
 }
 
-
 class MyApp extends StatefulWidget {
   static void initSystemDefault() {
     SystemChrome.setSystemUIOverlayStyle(
