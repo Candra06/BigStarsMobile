@@ -23,4 +23,10 @@ class WaliProvider with ChangeNotifier {
   Future addSiswaBywali(String id, Map<String, dynamic> data) async {
     return WaliService().addSiswaByWali(id, data);
   }
+
+  Future editWali(String id, Map<String, dynamic> data) async {
+    bool status = await WaliService().editWali(id, data);
+    getWalis();
+    return true;
+  }
 }

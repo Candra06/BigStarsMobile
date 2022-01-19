@@ -14,7 +14,8 @@ class ModalChangePhotoProfile extends StatefulWidget {
   const ModalChangePhotoProfile({Key key}) : super(key: key);
 
   @override
-  _ModalChangePhotoProfileState createState() => _ModalChangePhotoProfileState();
+  _ModalChangePhotoProfileState createState() =>
+      _ModalChangePhotoProfileState();
 }
 
 class _ModalChangePhotoProfileState extends State<ModalChangePhotoProfile> {
@@ -27,14 +28,17 @@ class _ModalChangePhotoProfileState extends State<ModalChangePhotoProfile> {
   UserModel user;
 
   void edit(BuildContext context) async {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
-    data = await Provider.of<AuthProvider>(context, listen: false).editFoto(tmpFile);
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
+    data = await Provider.of<AuthProvider>(context, listen: false)
+        .editFoto(tmpFile);
     user = authProvider.user;
-    if (data["status"]) {
-      SharedPreferences pref = await SharedPreferences.getInstance();
-      print(user);
+    print(data);
+    if (data["status"] == 200) {
+      // SharedPreferences pref = await SharedPreferences.getInstance();
+      print(user.toJson());
 
-      pref.setString('user', json.encode(user.toJson()));
+      // pref.setString('user', json.encode(user.toJson()));
       Config.alert(1, 'Berhasil mengubah foto');
 
       Navigator.pushNamed(context, Routes.PROFILE_ADMIN);

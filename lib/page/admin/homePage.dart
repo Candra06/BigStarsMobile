@@ -25,8 +25,7 @@ class _HomeAdminState extends State<HomeAdmin> {
 
   Map<String, dynamic> user;
   DashboardModel dashboardModel;
-  // var user;
-  bool load = true;
+
   void getData() {
     AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
 

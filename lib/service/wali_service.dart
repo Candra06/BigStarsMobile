@@ -29,4 +29,17 @@ class WaliService {
     }
     return data;
   }
+
+  Future editWali(String id, Map<String, dynamic> data) async {
+    var token = await Pref.getToken();
+    var response = await http.post(Uri.parse(EndPoint.wUpadate + id),
+        headers: {'Authorization': token}, body: data);
+    print(response.body);
+    if (response.statusCode == 200) {
+      if (jsonDecode(response.body)["message"] == "Success") {
+        return true;
+      }
+    }
+    return false;
+  }
 }

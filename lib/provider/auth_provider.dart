@@ -25,8 +25,10 @@ class AuthProvider with ChangeNotifier {
     String password,
   }) async {
     try {
-      UserModel userModel = await AuthService().login(username: username, password: password);
+      UserModel userModel =
+          await AuthService().login(username: username, password: password);
       _user = userModel;
+      notifyListeners();
       return {
         "status": true,
         "message": "Berhasil Login",
@@ -52,8 +54,10 @@ class AuthProvider with ChangeNotifier {
 
   Future<Map<dynamic, dynamic>> editFoto(File image) async {
     try {
-      
       UserModel data = await AuthService().updateFoto(image);
+      // _user = data;
+      // print(data.toJson());
+      // print("auth");
       notifyListeners();
       return {
         "status": true,
