@@ -1,18 +1,27 @@
 import 'dart:io';
 
+import 'package:bigstars_mobile/model/dashboardGuru_model.dart';
 import 'package:bigstars_mobile/model/dashboard_model.dart';
 import 'package:bigstars_mobile/model/kelasToday_model.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/service/auth_service.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 
 class AuthProvider with ChangeNotifier {
+  // inisialiasi
   UserModel _user;
   DashboardModel _dashboardModel;
+  DashboardGuruModel _dashboardGuruModel;
   List<KelasTodayModel> _listKelasToday;
+  List<KelasTodayGuruModel> _listKelasTodayGuru;
+
+  // getting
   DashboardModel get dashboardModel => _dashboardModel;
+  DashboardGuruModel get dashboardGuruModel => _dashboardGuruModel;
   List<KelasTodayModel> get listKelasToday => _listKelasToday;
+  List<KelasTodayGuruModel> get listKelasTodayGuru => _listKelasTodayGuru;
   UserModel get user => _user;
 
   void setUser(UserModel userModel) {
@@ -54,9 +63,6 @@ class AuthProvider with ChangeNotifier {
   Future<Map<dynamic, dynamic>> editFoto(File image) async {
     try {
       UserModel data = await AuthService().updateFoto(image);
-      // _user = data;
-      // print(data.toJson());
-      // print("auth");
       notifyListeners();
       return {
         "status": true,
@@ -87,5 +93,11 @@ class AuthProvider with ChangeNotifier {
 
     notifyListeners();
     return _dashboardModel;
+  }
+
+  Future getDashboardGuru() async {
+    _dashboardGuruModel = await AuthService().dashboardGuru();
+    notifyListeners();
+    return "ok";
   }
 }

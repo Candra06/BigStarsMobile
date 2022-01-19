@@ -43,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
       data = await authProvider.login(
           username: txtUsername.text, password: txtPassword.text);
       user = authProvider.user;
+      print(data);
       if (data["status"]) {
         setState(() {
           isLoading = false;
@@ -57,7 +58,6 @@ class _LoginPageState extends State<LoginPage> {
         });
         await Provider.of<FinanceProvider>(context, listen: false).getFinance();
         await Provider.of<AuthProvider>(context, listen: false).getDashboard();
-
         if (authProvider.user.role == 'Admin') {
           Navigator.pushReplacement(
             context,

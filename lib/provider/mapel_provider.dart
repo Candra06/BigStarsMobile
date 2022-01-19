@@ -23,18 +23,18 @@ class MapelProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> getMapels() async {
+  Future<List<MapelModel>> getMapels() async {
     try {
       List<MapelModel> mapels = await MapelService().getData();
       _mapels = mapels;
       // for (var item in _mapels) {
       //   print(item.mapel);
       // }
-      // notifyListeners();
-      return true;
+      notifyListeners();
+      return mapels;
     } catch (e) {
       print(e);
-      return false;
+      return [];
     }
   }
 

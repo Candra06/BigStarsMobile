@@ -19,11 +19,14 @@ class _ItemKelasTodayState extends State<ItemKelasToday> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.DETAIL_KELAS, arguments: widget.data);
+        Navigator.pushNamed(context, Routes.DETAIL_KELAS,
+            arguments: widget.data);
       },
       child: Container(
         margin: EdgeInsets.only(top: 8),
-        decoration: BoxDecoration(border: Border.all(width: 1, color: Config.borderInput), borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(
+            border: Border.all(width: 1, color: Config.borderInput),
+            borderRadius: BorderRadius.circular(10)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -60,7 +63,10 @@ class _ItemKelasTodayState extends State<ItemKelasToday> {
                   margin: EdgeInsets.all(8),
                   child: Text(
                     widget.data.status,
-                    style: TextStyle(fontWeight: FontWeight.w200, fontSize: 13, color: Config.boxGreen),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w200,
+                        fontSize: 13,
+                        color: Config.boxGreen),
                   ),
                 ),
               ],
@@ -92,7 +98,9 @@ class _ItemKelasTodayState extends State<ItemKelasToday> {
                   Row(
                     children: [
                       Text(
-                        Config.formatJam(widget.data.jamMulai) + '-' + Config.formatJam(widget.data.jamSelesai),
+                        Config.formatJam(widget.data.jamMulai) +
+                            '-' +
+                            Config.formatJam(widget.data.jamSelesai),
                         style: TextStyle(
                           fontWeight: FontWeight.w900,
                           fontSize: 13,

@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/model/dashboardGuru_model.dart';
+import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListKelas.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListKelasGuru.dart';
 import 'package:bigstars_mobile/page/guru/kelas/listItem.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
+import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +24,10 @@ class HomeGuru extends StatefulWidget {
 class _HomeGuruState extends State<HomeGuru> {
   // Map<String, dynamic> dataUser = user.toJson();
   UserModel userModel;
+  List<KelasModel> listKelasModel;
   Map<String, dynamic> user;
+  DashboardGuruModel dashboardGuruModel;
+  bool load = false;
   // var user;
   void getData() async {
     var userPref = await Pref.getUserModel();
@@ -33,6 +39,11 @@ class _HomeGuruState extends State<HomeGuru> {
   void initState() {
     super.initState();
     getData();
+    dashboardGuruModel =
+        Provider.of<AuthProvider>(context, listen: false).dashboardGuruModel;
+    print(dashboardGuruModel.kelasAktif);
+    listKelasModel =
+        Provider.of<KelasProvider>(context, listen: false).allKelas;
   }
 
   @override
@@ -58,10 +69,15 @@ class _HomeGuruState extends State<HomeGuru> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Icon(
-                              Icons.notifications,
-                              color: Config.textWhite,
-                              size: 30,
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(context, Routes.NOTIFIKASI);
+                              },
+                              child: Icon(
+                                Icons.notifications,
+                                color: Config.textWhite,
+                                size: 30,
+                              ),
                             ),
                             InkWell(
                               onTap: () {
@@ -145,7 +161,7 @@ class _HomeGuruState extends State<HomeGuru> {
                                         fontSize: 18),
                                   ),
                                   Text(
-                                    '30',
+                                    dashboardGuruModel.kelasAktif.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w800,
                                         color: Config.textWhite,
@@ -172,7 +188,8 @@ class _HomeGuruState extends State<HomeGuru> {
                                         fontSize: 18),
                                   ),
                                   Text(
-                                    Config.formatRupiah(1500000),
+                                    Config.formatRupiah(
+                                        int.parse(dashboardGuruModel.fee)),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w800,
                                         color: Config.textWhite,
@@ -194,44 +211,50 @@ class _HomeGuruState extends State<HomeGuru> {
                           height: 10,
                         ),
                         Container(
-                          child: TileKelas(),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: dashboardGuruModel.kelasToday.length,
+                            itemBuilder: (BuildContext cotext, int i) {
+                              return ItemKelasGuru(
+                                data: dashboardGuruModel.kelasToday[i],
+                              );
+                            },
+                          ),
                         ),
                         SizedBox(
                           height: 10,
                         ),
                         Text('Sharing Kelas Hari Ini'),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        // Jika data ada
-                        Container(
-                          child: ListView.builder(
+                        if (dashboardGuruModel.sharing.length > 0) ...{
+                          SizedBox(
+                            height: 10,
+                          ),
+                          // Jika data ada
+                          Container(
+                            child: ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: 3,
+                              itemCount: dashboardGuruModel.sharing.length,
                               itemBuilder: (BuildContext cotext, int i) {
-                                var data = {
-                                  "id_kelas": 1,
-                                  "siswa": "Kekeyi",
-                                  "mapel": "Calistung",
-                                  "spp": 32000,
-                                  "jam_mulai": "15.00",
-                                  "jam_selesai": "16.00",
-                                  "guru": "Mr. Revo"
-                                };
-                                return Text("ok");
-                              }),
-                        ),
-                        //Jika data Kosong
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Center(
-                          child: Text(
-                            'Tidak ada kelas yang dibagikan',
-                            style: TextStyle(color: Config.textGrey),
+                                return ItemKelasGuru(
+                                  data: dashboardGuruModel.sharing[i],
+                                );
+                              },
+                            ),
                           ),
-                        )
+                        } else ...{
+                          //Jika data Kosong
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Center(
+                            child: Text(
+                              'Tidak ada kelas yang dibagikan',
+                              style: TextStyle(color: Config.textGrey),
+                            ),
+                          )
+                        },
                       ],
                     ),
                   )

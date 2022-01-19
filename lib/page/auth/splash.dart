@@ -26,7 +26,8 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _animation;
   String token = '';
@@ -41,14 +42,22 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
       userModel = UserModel.fromJson(json.decode(user));
       Provider.of<AuthProvider>(context, listen: false).setUser(userModel);
       await Provider.of<FinanceProvider>(context, listen: false).getFinance();
-      await Provider.of<AuthProvider>(context, listen: false).getDashboard();
+      await Provider.of<KelasProvider>(context, listen: false).getKelas();
+      if (userModel.role == "Admin") {
+        await Provider.of<AuthProvider>(context, listen: false).getDashboard();
+      } else if (userModel.role == "Guru") {
+        await Provider.of<AuthProvider>(context, listen: false)
+            .getDashboardGuru()
+            .then((value) => print(value));
+      }
     }
   }
 
   @override
   void initState() {
     getData();
-    _controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this, value: 0.1);
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this, value: 0.1);
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
 
     _controller.forward();
@@ -59,7 +68,9 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         String token = await Pref.getToken();
 
         if (token == '' || token == null) {
-          Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(child: LoginPage(), type: PageTransitionType.fade));
+          Navigator.of(context, rootNavigator: true).pushReplacement(
+              PageTransition(
+                  child: LoginPage(), type: PageTransitionType.fade));
         } else {
           var user = await Pref.getUserModel();
           userModel = UserModel.fromJson(json.decode(user));
@@ -75,7 +86,9 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
               ),
             );
           } else if (userModel.role == 'Guru') {
-            List<KelasModel> kelas = await Provider.of<KelasProvider>(context, listen: false).getKelas();
+            List<KelasModel> kelas =
+                await Provider.of<KelasProvider>(context, listen: false)
+                    .getKelas();
 
             Navigator.pushReplacement(
               context,
@@ -127,7 +140,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   @override
   void dispose() {
     _controller.dispose();
-    // getData();
+
     super.dispose();
   }
 
