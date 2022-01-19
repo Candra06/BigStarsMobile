@@ -74,11 +74,11 @@ class AuthService {
     SharedPreferences pref = await SharedPreferences.getInstance();
     if (response.statusCode == 200) {
       response.stream.transform(utf8.decoder).listen((value) {
-        print(value);
+        // print(value);
         var data = json.decode(value);
 
         UserModel userModel = UserModel.fromJson(data["data"]);
-        print(userModel.toJson());
+        // print(userModel.toJson());
         return userModel;
       });
     } else {
@@ -105,6 +105,7 @@ class AuthService {
       headers: {'Authorization': token},
     );
     if (response.statusCode == 200) {
+      print(response.body);
       return DashboardModel.fromJson(jsonDecode(response.body)["data"]);
     } else {
       return null;

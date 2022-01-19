@@ -78,39 +78,45 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                fixedSize: Size(MediaQuery.of(context).size.width, 30),
-                primary: Config.primary,
-                onPrimary: Config.textWhite,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+            if (widget.data.fileMateri != '-') ...{
+              ElevatedButton(
+                onPressed: () {
+                  print(widget.data.fileMateri);
+                },
+                style: ElevatedButton.styleFrom(
+                  fixedSize: Size(MediaQuery.of(context).size.width, 30),
+                  primary: Config.primary,
+                  onPrimary: Config.textWhite,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                child: Text(
+                  "Unduh Materi",
+                  style: TextStyle(color: Colors.white, fontSize: 14),
                 ),
               ),
-              child: Text(
-                "Unduh Materi",
-                style: TextStyle(color: Colors.white, fontSize: 14),
-              ),
-            ),
+            },
             // jika belum done / status waiting ketika sharing kelas button update absensi muncul
-            ElevatedButton(
-              onPressed: () {
-                _updateKehadiran(context, '1');
-              },
-              style: ElevatedButton.styleFrom(
-                fixedSize: Size(MediaQuery.of(context).size.width, 30),
-                primary: Config.boxGreen,
-                onPrimary: Config.textWhite,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+            if (widget.data.status == 'Waiting') ...{
+              ElevatedButton(
+                onPressed: () {
+                  _updateKehadiran(context, '1');
+                },
+                style: ElevatedButton.styleFrom(
+                  fixedSize: Size(MediaQuery.of(context).size.width, 30),
+                  primary: Config.boxGreen,
+                  onPrimary: Config.textWhite,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
                 ),
-              ),
-              child: Text(
-                "Perbarui Kehadiran",
-                style: TextStyle(color: Colors.white, fontSize: 14),
-              ),
-            )
+                child: Text(
+                  "Perbarui Kehadiran",
+                  style: TextStyle(color: Colors.white, fontSize: 14),
+                ),
+              )
+            }
           ],
         ),
       ),

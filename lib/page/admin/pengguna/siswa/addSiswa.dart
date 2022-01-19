@@ -149,7 +149,11 @@ class _AddSiswaState extends State<AddSiswa> {
                                   color: Config.textGrey,
                                 ),
                                 onPressed: () {
-                                  showDatePicker(context: context, initialDate: _dateTime == null ? DateTime.now() : _dateTime, firstDate: DateTime(2020), lastDate: DateTime.now()).then((date) {
+                                  showDatePicker(
+                                    context: context, 
+                                    
+                                    initialDate: _dateTime == null ? DateTime.now() : _dateTime, 
+                                    firstDate: DateTime(2000), lastDate: DateTime.now()).then((date) {
                                     if (date != null) {
                                       setState(() {
                                         _dateTime = date;

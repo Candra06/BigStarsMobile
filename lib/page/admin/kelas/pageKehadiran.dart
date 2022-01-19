@@ -18,6 +18,15 @@ class KehadiranKelas extends StatefulWidget {
 class _KehadiranKelasState extends State<KehadiranKelas> {
   bool load = false;
   void _addNewKehadiran(BuildContext context, String id) {
+    void onSubmit(status) {
+      if (status) {
+        setState(() {
+          Provider.of<KelasProvider>(context, listen: false)
+              .getKehadiran(widget.kelas.id.toString());
+        });
+      }
+    }
+
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -27,14 +36,15 @@ class _KehadiranKelasState extends State<KehadiranKelas> {
         builder: (builder) {
           return ModalTambahKehadiran(
             id: id,
+            onsubmit: onSubmit,
           );
         });
   }
 
   void getData() async {
-    // List<KehadiranModel> data =
-    // await Provider.of<KelasProvider>(context, listen: false)
-    // .getKehadiran('1');
+    List<KehadiranModel> data =
+        await Provider.of<KelasProvider>(context, listen: false)
+            .getKehadiran('1');
   }
 
   @override

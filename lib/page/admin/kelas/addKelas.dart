@@ -29,6 +29,7 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
   TextEditingController txtFee = new TextEditingController();
   TextEditingController txtSpp = new TextEditingController();
   TextEditingController txtMulai = new TextEditingController();
+  TextEditingController txtReferal = new TextEditingController();
   TextEditingController txtSelesai = new TextEditingController();
   int valMapel, valGuru, valSiswa;
   String valHari;
@@ -157,6 +158,7 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
         "nama": guruModels[i].nama,
       });
     }
+
     for (var i = 0; i < siswaModels.length; i++) {
       siswa.add({
         "id": siswaModels[i].id,

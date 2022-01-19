@@ -1,6 +1,7 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListKehadiran.dart';
+import 'package:bigstars_mobile/page/modal/addKehadiranAdmin.dart';
 import 'package:bigstars_mobile/page/modal/addKehadiranGuru.dart';
 import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 
 class KehadiranKelasGuru extends StatefulWidget {
   final KelasModel id;
+
   const KehadiranKelasGuru({Key key, this.id}) : super(key: key);
 
   @override
@@ -17,6 +19,14 @@ class KehadiranKelasGuru extends StatefulWidget {
 class _KehadiranKelasGuruState extends State<KehadiranKelasGuru> {
   bool load = false;
   void _addNewKehadiran(BuildContext context, String id) {
+    void onSubmit(status) {
+      if (status) {
+        setState(() {
+          Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.id.id.toString());
+        });
+      }
+    }
+
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -26,6 +36,7 @@ class _KehadiranKelasGuruState extends State<KehadiranKelasGuru> {
         builder: (builder) {
           return ModalTambahKehadiranGuru(
             id: id,
+            onSumbit: onSubmit,
           );
         });
   }
@@ -52,8 +63,7 @@ class _KehadiranKelasGuruState extends State<KehadiranKelasGuru> {
                 top: 16,
               ),
               child: FutureBuilder(
-                future: Provider.of<KelasProvider>(context, listen: false)
-                    .getKehadiran(widget.id.id.toString()),
+                future: Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.id.id.toString()),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(

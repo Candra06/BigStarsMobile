@@ -34,8 +34,7 @@ class AuthProvider with ChangeNotifier {
     String password,
   }) async {
     try {
-      UserModel userModel =
-          await AuthService().login(username: username, password: password);
+      UserModel userModel = await AuthService().login(username: username, password: password);
       _user = userModel;
       notifyListeners();
       return {

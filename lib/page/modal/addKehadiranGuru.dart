@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 
 class ModalTambahKehadiranGuru extends StatefulWidget {
   final String id;
+  final void Function(bool) onSumbit;
   final String tipe;
-  const ModalTambahKehadiranGuru({Key key, this.id, this.tipe}) : super(key: key);
+  const ModalTambahKehadiranGuru({Key key, this.id, this.tipe, this.onSumbit}) : super(key: key);
 
   @override
   _ModalTambahKehadiranGuruState createState() => _ModalTambahKehadiranGuruState();
@@ -142,6 +143,9 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
                     child: TextButton(
                         onPressed: () {
                           Navigator.pop(context);
+                          setState(() {
+                            widget.onSumbit(true);
+                          });
                         },
                         child: Text('SIMPAN', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Config.textWhite))),
                   ))
