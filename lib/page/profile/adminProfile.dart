@@ -24,8 +24,7 @@ class _ProfilAdminState extends State<ProfilAdmin> {
   UserModel userModel;
   Map<String, dynamic> data;
   void logOut() async {
-    var status =
-        await Provider.of<AuthProvider>(context, listen: false).logout();
+    var status = await Provider.of<AuthProvider>(context, listen: false).logout();
     print(status);
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
@@ -34,8 +33,7 @@ class _ProfilAdminState extends State<ProfilAdmin> {
   void getData() async {
     var tmpUser = await Pref.getUserModel();
     data = jsonDecode(tmpUser);
-    Provider.of<AuthProvider>(context, listen: false)
-        .setUser(UserModel.fromJson(data));
+    Provider.of<AuthProvider>(context, listen: false).setUser(UserModel.fromJson(data));
     setState(() {});
   }
 
@@ -89,13 +87,8 @@ class _ProfilAdminState extends State<ProfilAdmin> {
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(50),
-                        bottomRight: Radius.circular(50)),
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Config.primary, Config.secondary])),
+                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
+                    gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Config.primary, Config.secondary])),
                 child: Column(
                   children: [
                     Row(
@@ -103,8 +96,7 @@ class _ProfilAdminState extends State<ProfilAdmin> {
                       children: [
                         InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, Routes.HOME_ADMIN,
-                                arguments: '0');
+                            Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '0');
                           },
                           child: Icon(
                             Icons.arrow_back,
@@ -127,36 +119,32 @@ class _ProfilAdminState extends State<ProfilAdmin> {
                     SizedBox(
                       height: 35,
                     ),
-                    // ClipOval(
-                    //   child: Image.network(
-                    //     userModel.foto.toString() == '-' ||
-                    //             userModel.foto == null
-                    //         ? "https://www.clipartmax.com/png/middle/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png"
-                    //         : EndPoint.server + '' + userModel.foto,
-                    //     height: 100,
-                    //     width: 100,
-                    //     fit: BoxFit.cover,
-                    //   ),
-                    // ),
+                    ClipOval(
+                      child: Image.network(
+                        authProvider.user.foto.toString() == '-' || authProvider.user.foto == null
+                            ? "https://www.clipartmax.com/png/middle/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png"
+                            : EndPoint.server + '' + authProvider.user.foto,
+                        height: 100,
+                        width: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
                       'Admin',
-                      style: TextStyle(
-                          color: Config.textWhite,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w900),
+                      style: TextStyle(color: Config.textWhite, fontSize: 24, fontWeight: FontWeight.w900),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
-                      "authProvider.user.username",
+                      authProvider.user.username,
                       style: TextStyle(color: Config.textWhite, fontSize: 18),
                     ),
                     Text(
-                      "authProvider.user.phone",
+                      authProvider.user.phone,
                       style: TextStyle(color: Config.textWhite, fontSize: 16),
                     ),
                   ],

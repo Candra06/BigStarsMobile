@@ -213,7 +213,7 @@ class Config {
   static formatJam(jam) {
     try {
       var hour = jam.split(":");
-      print(hour);
+
       String waktu = hour[0] + ':' + hour[1];
       return waktu;
     } catch (e) {
