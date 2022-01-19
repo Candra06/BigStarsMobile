@@ -14,6 +14,7 @@ class SiswaService {
         'Authorization': token,
       },
     );
+    print(EndPoint.siswa);
     print(response.body);
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)["data"];
@@ -47,8 +48,7 @@ class SiswaService {
 
   Future edit(int id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
-    var response = await http.post(Uri.parse(EndPoint.sUpdate + id.toString()),
-        headers: {'Authorization': token}, body: data);
+    var response = await http.post(Uri.parse(EndPoint.sUpdate + id.toString()), headers: {'Authorization': token}, body: data);
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;

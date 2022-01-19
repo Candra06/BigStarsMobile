@@ -18,12 +18,12 @@ class KehadiranModel {
 
   String nama;
   int id;
-  int idGuru;
-  int idKelas;
+  String idGuru;
+  String idKelas;
   String tipe;
-  int spp;
-  int feePengajar;
-  int poinSiswa;
+  String spp;
+  String feePengajar;
+  String poinSiswa;
   String status;
   String materi;
   String fileMateri;

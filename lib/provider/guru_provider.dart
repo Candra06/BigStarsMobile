@@ -16,7 +16,7 @@ class GuruProvider with ChangeNotifier {
       notifyListeners();
       return _listGuru;
     } catch (e) {
-      print(e);
+      
       return [];
     }
   }

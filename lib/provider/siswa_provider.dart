@@ -6,10 +6,15 @@ class SiswaProvider with ChangeNotifier {
   List<SiswaModel> _listSiswa;
   List<SiswaModel> get listSiswa => _listSiswa;
   Future<List<SiswaModel>> getSiswa() async {
-    List<SiswaModel> data = await SiswaService().getSiswas();
-    _listSiswa = data;
-    notifyListeners();
-    return data;
+    try {
+      List<SiswaModel> data = await SiswaService().getSiswas();
+      _listSiswa = data;
+      notifyListeners();
+      return data;
+    } catch (e) {
+      print(e);
+      return [];
+    }
   }
 
   Future<bool> deleteSiswa(String id) async {

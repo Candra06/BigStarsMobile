@@ -9,12 +9,12 @@ import 'package:http/http.dart' as http;
 class GuruService {
   Future<List<GuruModel>> getdata() async {
     var token = await Pref.getToken();
-    print(EndPoint.guru);
+
     var response = await http.get(Uri.parse(EndPoint.guru), headers: {'Authorization': token});
 
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body)["data"];
-      print(data);
+
       return data.map((e) => GuruModel.fromJson(e)).toList();
     } else {
       return [];
