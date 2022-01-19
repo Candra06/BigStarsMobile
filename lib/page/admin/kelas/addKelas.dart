@@ -29,6 +29,7 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
   TextEditingController txtFee = new TextEditingController();
   TextEditingController txtSpp = new TextEditingController();
   TextEditingController txtMulai = new TextEditingController();
+  TextEditingController txtReferal = new TextEditingController();
   TextEditingController txtSelesai = new TextEditingController();
   int valMapel, valGuru, valSiswa;
   String valHari;
@@ -126,7 +127,8 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
     List<GuruModel> guruModels = guruProvider.listGuru;
     SiswaProvider siswaProvider = Provider.of<SiswaProvider>(context, listen: false);
     List<SiswaModel> siswaModels = siswaProvider.listSiswa;
-    print(TimeOfDay.now());
+
+    print(guruModels);
     for (var i = 0; i < mapelModels.length; i++) {
       mapels.add({
         "id": mapelModels[i].id,
@@ -139,6 +141,7 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
         "nama": guruModels[i].nama,
       });
     }
+
     for (var i = 0; i < siswaModels.length; i++) {
       siswa.add({
         "id": siswaModels[i].id,
@@ -296,6 +299,11 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
               ),
               Text('Fee Guru'),
               formInputType(txtFee, 'Fee Pengajar', TextInputType.number),
+              SizedBox(
+                height: 8,
+              ),
+              Text('Referal'),
+              formInputType(txtSpp, 'Kode Referal(Opsional)', TextInputType.number),
               SizedBox(
                 height: 8,
               ),

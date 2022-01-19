@@ -210,6 +210,34 @@ class Config {
     }
   }
 
+  static formatDateTime(tgl) {
+    try {
+      var date = tgl.toString().split("T");
+      var bln = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      var tmpDate = date[0].toString().split(" ");
+      var bulan = tmpDate[0].toString().split('-');
+      String tanggal = bulan[2] + ' ' + bln[int.parse(bulan[1])] + ' ' + bulan[0];
+      return tanggal;
+    } catch (e) {
+      print(e);
+      return tgl.toString();
+    }
+  }
+
+  static formatDateTimeJam(tgl) {
+    try {
+      print(tgl);
+      var date = tgl.toString().split(" ");
+      var jam = date[1].toString().split('.');
+      print(jam);
+      String tanggal = jam[0];
+      return tanggal;
+    } catch (e) {
+      print(e);
+      return tgl.toString();
+    }
+  }
+
   static formatJam(jam) {
     try {
       var hour = jam.split(":");

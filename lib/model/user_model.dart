@@ -35,7 +35,7 @@ class UserModel {
         status: json["status"],
         rememberToken: json["remember_token"],
         createdAt: json["created_at"],
-        updatedAt: DateTime.parse(json["updated_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         token: json["token"],
       );
 
@@ -49,11 +49,9 @@ class UserModel {
         "status": status,
         "remember_token": rememberToken,
         "created_at": createdAt,
-        "updated_at": updatedAt.toIso8601String(),
+        // "updated_at": updatedAt.toIso8601String(),
         "token": token,
       };
-  Map<String, dynamic> editProfilAdmin() =>
-      {"phone": phone, "username": username, 'password': password};
-  Map<String, dynamic> editProfilAdminNoPass() =>
-      {"phone": phone, "username": username};
+  Map<String, dynamic> editProfilAdmin() => {"phone": phone, "username": username, 'password': password};
+  Map<String, dynamic> editProfilAdminNoPass() => {"phone": phone, "username": username};
 }

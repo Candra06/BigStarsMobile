@@ -8,22 +8,25 @@ class SiswaModel {
     this.birthDate,
     this.createdAt,
     this.updatedAt,
+    this.kodeReferal,
   });
 
   String wali;
   String alamat;
   int id;
-  int idWali;
+  String kodeReferal;
+  String idWali;
   String nama;
   DateTime birthDate;
-  dynamic createdAt;
-  dynamic updatedAt;
+  String createdAt;
+  String updatedAt;
 
   factory SiswaModel.fromJson(Map<String, dynamic> json) => SiswaModel(
         wali: json["wali"],
         alamat: json["alamat"],
         id: json["id"],
-        idWali: int.parse(json["id_wali"]),
+        idWali: json["id_wali"],
+        kodeReferal: json["kode_referal"] == null ? null : json["kode_referal"],
         nama: json["nama"],
         birthDate: DateTime.parse(json["birth_date"]),
         createdAt: json["created_at"],

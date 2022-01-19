@@ -1,3 +1,4 @@
+import 'package:bigstars_mobile/model/absensi_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/jadwal_model.dart';
 import 'package:bigstars_mobile/model/kehadiran_model.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/widgets.dart';
 class KelasProvider with ChangeNotifier {
   List<KelasModel> _allKelas = [];
   List<JadwalModel> _allJadwal = [];
+  List<Absensi> _absensiList = [];
   List<KehadiranModel> _listKehadiranModel = [];
   KelasModel _kelasModel;
   KehadiranModel _kehadiranModel;
@@ -18,6 +20,7 @@ class KelasProvider with ChangeNotifier {
   List<KelasModel> get allKelas => _allKelas;
   List<KehadiranModel> get listKehadiranModel => _listKehadiranModel;
   List<JadwalModel> get allJadwal => _allJadwal;
+  List<Absensi> get listAbsensi => _absensiList;
 
   BuildContext get context => null;
 
@@ -28,7 +31,20 @@ class KelasProvider with ChangeNotifier {
       notifyListeners();
       return _allKelas;
     } catch (e) {
-      print("ok");
+      return [];
+    }
+  }
+
+  Future<List<Absensi>> getAbsensi(String id) async {
+    try {
+      List<Absensi> data = await KelasService().getAbsensi(id.toString());
+      print(id);
+      _absensiList = data;
+      notifyListeners();
+      return _absensiList;
+    } catch (e) {
+      print('errornya ' + e.toString());
+      return [];
     }
   }
 
@@ -38,7 +54,7 @@ class KelasProvider with ChangeNotifier {
       notifyListeners();
       return _listKehadiranModel;
     } catch (e) {
-      print(e);
+      return [];
     }
   }
 

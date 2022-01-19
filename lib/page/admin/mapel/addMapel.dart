@@ -78,17 +78,21 @@ class _AddMapelState extends State<AddMapel> {
     Navigator.pushNamed(context, Routes.LIST_MAPEL);
   }
 
+  void getData() async {
+    if (widget.id != '0') {
+      txtMapel.text = widget.mapel.mapel;
+      valStatus = widget.mapel.status;
+    }
+  }
+
   @override
   void initState() {
+    getData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.id != '0') {
-      txtMapel.text = widget.mapel.mapel;
-      valStatus = widget.mapel.status;
-    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Config.textWhite,

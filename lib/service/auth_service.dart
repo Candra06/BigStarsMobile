@@ -46,8 +46,7 @@ class AuthService {
       body = user.editProfilAdminNoPass();
     }
     print(body);
-    var response = await http.post(Uri.parse(EndPoint.editProfilAdm),
-        headers: {'Authorization': token}, body: body);
+    var response = await http.post(Uri.parse(EndPoint.editProfilAdm), headers: {'Authorization': token}, body: body);
     print(response.body);
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
@@ -73,11 +72,11 @@ class AuthService {
     SharedPreferences pref = await SharedPreferences.getInstance();
     if (response.statusCode == 200) {
       response.stream.transform(utf8.decoder).listen((value) {
-        print(value);
+        // print(value);
         var data = json.decode(value);
 
         UserModel userModel = UserModel.fromJson(data["data"]);
-        print(userModel.toJson());
+        // print(userModel.toJson());
         return userModel;
       });
     } else {
@@ -87,8 +86,7 @@ class AuthService {
 
   Future logout() async {
     var token = await Pref.getToken();
-    var response = await http
-        .post(Uri.parse(EndPoint.logout), headers: {'Authorization': token});
+    var response = await http.post(Uri.parse(EndPoint.logout), headers: {'Authorization': token});
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Logged out") {
         return jsonDecode(response.body)["message"];
@@ -99,9 +97,9 @@ class AuthService {
 
   Future<DashboardModel> dahsboardData() async {
     var token = await Pref.getToken();
-    var response = await http
-        .get(Uri.parse(EndPoint.dashboard), headers: {'Authorization': token});
+    var response = await http.get(Uri.parse(EndPoint.dashboard), headers: {'Authorization': token});
     if (response.statusCode == 200) {
+      print(response.body);
       return DashboardModel.fromJson(jsonDecode(response.body)["data"]);
     } else {
       return null;
@@ -110,8 +108,7 @@ class AuthService {
 
   Future<List<KelasTodayModel>> kelasToday() async {
     var token = await Pref.getToken();
-    var response = await http
-        .get(Uri.parse(EndPoint.dashboard), headers: {'Authorization': token});
+    var response = await http.get(Uri.parse(EndPoint.dashboard), headers: {'Authorization': token});
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)["data"]["kelas_today"];
       return data.map((e) => KelasTodayModel.fromJson(e)).toList();

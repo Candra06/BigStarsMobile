@@ -25,8 +25,7 @@ class AuthProvider with ChangeNotifier {
     String password,
   }) async {
     try {
-      UserModel userModel =
-          await AuthService().login(username: username, password: password);
+      UserModel userModel = await AuthService().login(username: username, password: password);
       _user = userModel;
       notifyListeners();
       return {
@@ -85,7 +84,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<DashboardModel> getDashboard() async {
     _dashboardModel = await AuthService().dahsboardData();
-    _listKelasToday = await AuthService().kelasToday();
+
     notifyListeners();
     return _dashboardModel;
   }

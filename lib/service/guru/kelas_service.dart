@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bigstars_mobile/helper/network.dart';
 import 'package:bigstars_mobile/helper/pref.dart';
+import 'package:bigstars_mobile/model/absensi_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/jadwal_model.dart';
 import 'package:bigstars_mobile/model/kehadiran_model.dart';
@@ -23,12 +24,28 @@ class KelasService {
   Future<List<KehadiranModel>> getKehadiran(String id) async {
     var token = await Pref.getToken();
     var response = await http.get(Uri.parse(EndPoint.kehadiran + id), headers: {"authorization": token});
+    print(response.body);
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)["data"];
       print(data);
       return data.map((e) => KehadiranModel.fromJson(e)).toList();
     }
     return [];
+  }
+
+  Future<List<Absensi>> getAbsensi(String id) async {
+    // print(id);
+    var token = await Pref.getToken();
+    // print(token);
+    var response = await http.get(Uri.parse(EndPoint.absensi + id), headers: {"authorization": token});
+    print(EndPoint.absensi + id);
+    print(response.body);
+    if (response.statusCode == 200) {
+      List data = jsonDecode(response.body)["data"];
+      return data.map((e) => Absensi.fromJson(e)).toList();
+    } else {
+      return [];
+    }
   }
 
   Future addKehadiran(String id, Map<String, dynamic> data) async {
