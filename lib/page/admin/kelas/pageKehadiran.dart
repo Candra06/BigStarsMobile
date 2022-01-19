@@ -32,9 +32,9 @@ class _KehadiranKelasState extends State<KehadiranKelas> {
   }
 
   void getData() async {
-    List<KehadiranModel> data =
-        await Provider.of<KelasProvider>(context, listen: false)
-            .getKehadiran('1');
+    // List<KehadiranModel> data =
+    // await Provider.of<KelasProvider>(context, listen: false)
+    // .getKehadiran('1');
   }
 
   @override

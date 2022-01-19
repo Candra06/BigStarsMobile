@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bigstars_mobile/helper/network.dart';
 import 'package:bigstars_mobile/helper/pref.dart';
+import 'package:bigstars_mobile/model/dashboardGuru_model.dart';
 import 'package:bigstars_mobile/model/dashboard_model.dart';
 import 'package:bigstars_mobile/model/kelasToday_model.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
@@ -99,8 +100,10 @@ class AuthService {
 
   Future<DashboardModel> dahsboardData() async {
     var token = await Pref.getToken();
-    var response = await http
-        .get(Uri.parse(EndPoint.dashboard), headers: {'Authorization': token});
+    var response = await http.get(
+      Uri.parse(EndPoint.dashboard),
+      headers: {'Authorization': token},
+    );
     if (response.statusCode == 200) {
       return DashboardModel.fromJson(jsonDecode(response.body)["data"]);
     } else {
@@ -108,15 +111,14 @@ class AuthService {
     }
   }
 
-  Future<List<KelasTodayModel>> kelasToday() async {
+  Future<DashboardGuruModel> dashboardGuru() async {
     var token = await Pref.getToken();
-    var response = await http
-        .get(Uri.parse(EndPoint.dashboard), headers: {'Authorization': token});
+    var response = await http.get(Uri.parse(EndPoint.dashboardGuru),
+        headers: {'Authorization': token});
     if (response.statusCode == 200) {
-      List data = jsonDecode(response.body)["data"]["kelas_today"];
-      return data.map((e) => KelasTodayModel.fromJson(e)).toList();
-    } else {
-      return null;
+      return DashboardGuruModel.fromJson(jsonDecode(response.body)["data"]);
     }
+    return null;
+    // print(response.body);
   }
 }

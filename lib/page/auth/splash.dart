@@ -42,7 +42,14 @@ class _SplashScreenState extends State<SplashScreen>
       userModel = UserModel.fromJson(json.decode(user));
       Provider.of<AuthProvider>(context, listen: false).setUser(userModel);
       await Provider.of<FinanceProvider>(context, listen: false).getFinance();
-      await Provider.of<AuthProvider>(context, listen: false).getDashboard();
+      await Provider.of<KelasProvider>(context, listen: false).getKelas();
+      if (userModel.role == "Admin") {
+        await Provider.of<AuthProvider>(context, listen: false).getDashboard();
+      } else if (userModel.role == "Guru") {
+        await Provider.of<AuthProvider>(context, listen: false)
+            .getDashboardGuru()
+            .then((value) => print(value));
+      }
     }
   }
 
@@ -133,7 +140,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void dispose() {
     _controller.dispose();
-    // getData();
+
     super.dispose();
   }
 

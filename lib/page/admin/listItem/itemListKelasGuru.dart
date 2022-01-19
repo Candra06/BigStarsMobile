@@ -1,5 +1,7 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/model/dashboardGuru_model.dart';
+import 'package:bigstars_mobile/model/dashboard_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

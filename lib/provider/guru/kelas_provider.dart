@@ -38,6 +38,7 @@ class KelasProvider with ChangeNotifier {
       notifyListeners();
       return _listKehadiranModel;
     } catch (e) {
+      print("ok");
       print(e);
     }
   }

@@ -3,6 +3,7 @@ class EndPoint {
   static final String api = server + 'api/';
   // dashboard
   static final String dashboard = api + 'dashboard-admin';
+  static final String dashboardGuru = api + 'dashboard-guru';
   // auth
   static final String login = api + 'login';
   static final String logout = api + 'logout';

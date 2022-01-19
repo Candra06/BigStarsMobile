@@ -62,17 +62,8 @@ class _KehadiranKelasGuruState extends State<KehadiranKelasGuru> {
                   }
                   return Consumer<KelasProvider>(builder: (context, data, _) {
                     return ListView.builder(
-                        itemCount: 1,
+                        itemCount: data.listKehadiranModel.length,
                         itemBuilder: (BuildContext context, int i) {
-                          var datas = {
-                            'id': '1',
-                            'nama': 'Revo',
-                            'hari': 'Senin',
-                            'status': 'Done',
-                            'materi': 'Aljabar',
-                            'jurnal': 'Lorem Ipsum Dolor',
-                            'file_materi': 'urlfilemateri',
-                          };
                           return ItemListKehadiran(
                             data: data.listKehadiranModel[i],
                           );

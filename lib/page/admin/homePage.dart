@@ -347,7 +347,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                           Container(
                             child: ListView.builder(
                                 shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
+                                // physics: NeverScrollableScrollPhysics(),
                                 itemCount: dashboardModel.kelasToday.length,
                                 itemBuilder: (BuildContext cotext, int i) {
                                   if (dashboardModel.kelasToday.isEmpty) {

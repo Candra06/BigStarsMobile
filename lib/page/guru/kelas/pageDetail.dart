@@ -1,7 +1,10 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
+import 'package:bigstars_mobile/model/jadwal_model.dart';
 import 'package:bigstars_mobile/page/modal/modalSharingKelas.dart';
+import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DetailKelasPageGuru extends StatefulWidget {
   final KelasModel kelas;
@@ -27,6 +30,19 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
   }
 
   bool load = false;
+  List<JadwalModel> jadwalModels = [];
+  void getData() async {
+    setState(() {
+      load = true;
+    });
+    jadwalModels = await Provider.of<KelasProvider>(context, listen: false)
+        .getDetail(widget.kelas.id);
+    print(jadwalModels);
+    setState(() {
+      load = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
