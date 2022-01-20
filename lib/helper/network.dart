@@ -47,6 +47,7 @@ class EndPoint {
   static final kehadiran = api + 'kelas/kehadiran-kelas/';
   static final addKehadiran = api + 'kelas/add-absen-admin/';
   static final kelasDetail = api + 'kelas/detail/';
+  static final addJadwal = api + 'kelas/add-jadwal/';
   static final deleteJadwal = api + 'kelas/delete-jadwal/';
   static final absensi = api + 'kelas/absensi/';
 }
