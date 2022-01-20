@@ -73,7 +73,8 @@ class _ItemListFeeState extends State<ItemListFee> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    Config.formatRupiah(widget.fee.jumlah),
+                                    Config.formatRupiah(
+                                        int.parse(widget.fee.jumlah)),
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w800),
