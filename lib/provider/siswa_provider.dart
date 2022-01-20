@@ -38,6 +38,7 @@ class SiswaProvider with ChangeNotifier {
       notifyListeners();
       return hasil;
     } catch (e) {
+      print(e);
       return false;
     }
   }

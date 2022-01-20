@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/model/absensi_model.dart';
+import 'package:bigstars_mobile/model/detail_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/jadwal_model.dart';
 import 'package:bigstars_mobile/model/kehadiran_model.dart';
@@ -15,6 +16,7 @@ class KelasProvider with ChangeNotifier {
   List<KehadiranModel> _listKehadiranModel = [];
   KelasModel _kelasModel;
   KehadiranModel _kehadiranModel;
+  DetailKelas detailKelas;
 
   KelasModel get kelasModel => _kelasModel;
   List<KelasModel> get allKelas => _allKelas;
@@ -24,13 +26,15 @@ class KelasProvider with ChangeNotifier {
 
   BuildContext get context => null;
 
-  Future<List<KelasModel>> getKelas() async {
+  Future<List<KelasModel>> getKelas({String filtered}) async {
     try {
-      List<KelasModel> data = await KelasService().getAllKelas();
+      print(filtered);
+      List<KelasModel> data = await KelasService().getAllKelas(filtered);
       _allKelas = data;
       notifyListeners();
       return _allKelas;
     } catch (e) {
+      print(e);
       return [];
     }
   }
@@ -58,7 +62,7 @@ class KelasProvider with ChangeNotifier {
     }
   }
 
-  Future getDetail(int id) async {
+  Future<List<JadwalModel>> getDetail(int id) async {
     try {
       _allJadwal = await KelasService().getDetail(id);
       notifyListeners();
@@ -66,7 +70,19 @@ class KelasProvider with ChangeNotifier {
       return _allJadwal;
     } catch (e) {
       print(e);
-      return false;
+      return [];
+    }
+  }
+
+  Future<DetailKelas> getDetailAdmin(int id) async {
+    try {
+      detailKelas = await KelasService().getDetailKelas(id);
+      notifyListeners();
+
+      return detailKelas;
+    } catch (e) {
+      print(e);
+      return detailKelas;
     }
   }
 

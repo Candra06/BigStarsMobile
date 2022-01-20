@@ -1,5 +1,6 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListKelas.dart';
 import 'package:bigstars_mobile/page/modal/modalFilterKelas.dart';
 import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
@@ -15,7 +16,31 @@ class ListKelas extends StatefulWidget {
 }
 
 class _ListKelasState extends State<ListKelas> {
-  void _filter(BuildContext context, String id) {
+  List<String> filter = [];
+  String _filter = '';
+
+  bool load = false;
+  void modalFilter(BuildContext context) {
+    void filtered(guru, siswa, status) async {
+      if (siswa != '') {
+        filter.removeWhere((element) => element.startsWith('siswa'));
+        filter.add('siswa=' + siswa);
+      }
+      if (guru != '') {
+        filter.removeWhere((element) => element.startsWith('guru'));
+        filter.add('guru=' + guru);
+      }
+      if (status != '') {
+        filter.removeWhere((element) => element.startsWith('status'));
+        filter.add('status=' + status);
+      }
+      print(filter);
+      setState(() {
+        _filter = filter.join('&').toString();
+      });
+      // Provider.of<KelasProvider>(context, listen: false).getKelas(filtered: filter.join('&').toString());
+    }
+
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -24,9 +49,20 @@ class _ListKelasState extends State<ListKelas> {
         isScrollControlled: true,
         builder: (builder) {
           return ModalFilterKelas(
-              // id: id,
-              );
+            // id: id,
+            onsubmit: filtered,
+          );
         });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -42,7 +78,9 @@ class _ListKelasState extends State<ListKelas> {
         actions: [
           IconButton(
               onPressed: () {
-                _filter(context, '1');
+                filter = [];
+                _filter = '';
+                modalFilter(context);
               },
               icon: Icon(
                 FontAwesomeIcons.filter,
@@ -63,7 +101,7 @@ class _ListKelasState extends State<ListKelas> {
       body: Container(
         margin: EdgeInsets.all(16),
         child: FutureBuilder(
-            future: Provider.of<KelasProvider>(context, listen: false).getKelas(),
+            future: Provider.of<KelasProvider>(context, listen: false).getKelas(filtered: _filter),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
@@ -71,17 +109,25 @@ class _ListKelasState extends State<ListKelas> {
                 );
               }
               return Consumer<KelasProvider>(
-                builder: (context, data, _) => ListView.builder(
-                    itemCount: data.allKelas.length,
-                    itemBuilder: (BuildContext bc, int i) {
-                      return snapshot.hasData
-                          ? ItemKelas(
-                              data: data.allKelas[i],
-                            )
-                          : Center(
-                              child: Text('Belum ada data kelas'),
-                            );
-                    }),
+                builder: (context, data, _) {
+                  if (data.allKelas.length == 0) {
+                    return Center(
+                      child: Text('Belum ada data kelas'),
+                    );
+                  } else {
+                    return ListView.builder(
+                        itemCount: data.allKelas.length,
+                        itemBuilder: (BuildContext bc, int i) {
+                          return snapshot.hasData
+                              ? ItemKelas(
+                                  data: data.allKelas[i],
+                                )
+                              : Center(
+                                  child: Text('Belum ada data kelas'),
+                                );
+                        });
+                  }
+                },
               );
             }),
       ),

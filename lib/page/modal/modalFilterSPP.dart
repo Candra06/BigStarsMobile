@@ -15,8 +15,7 @@ class _ModalFilterSPPState extends State<ModalFilterSPP> {
   String valBulan;
   TextEditingController txtNamaSiswa = new TextEditingController();
   TextEditingController txtBulan = new TextEditingController();
-  List<String> statusPembayaran = ['Lunas', 'Belum Lunas'];
-  String status;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -100,39 +99,6 @@ class _ModalFilterSPPState extends State<ModalFilterSPP> {
                 ),
               ),
               SizedBox(height: 8),
-              Text('Status Pembayaran'),
-              Container(
-                margin: EdgeInsets.only(top: 8, bottom: 10),
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
-                child: DropdownButton(
-                  underline: SizedBox(),
-                  hint: Text(
-                    "Pilih Status",
-                    style: TextStyle(
-                      color: Config.textGrey,
-                    ),
-                  ),
-                  isExpanded: true,
-                  value: status,
-                  items: statusPembayaran.map((value) {
-                    return DropdownMenuItem(
-                      child: Text(value),
-                      value: value,
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      status = value;
-                      print(status);
-                    });
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 8,
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

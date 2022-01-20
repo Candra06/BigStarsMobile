@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 class ModalFilterKelas extends StatefulWidget {
   final String idWali;
-  const ModalFilterKelas({Key key, this.idWali}) : super(key: key);
+  final void Function(String, String, String) onsubmit;
+  const ModalFilterKelas({Key key, this.idWali, this.onsubmit}) : super(key: key);
 
   @override
   _ModalFilterKelasState createState() => _ModalFilterKelasState();
@@ -15,6 +16,15 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
   TextEditingController txtNamaGuru = new TextEditingController();
   List<String> statusKelas = ['Active', 'Inactive'];
   String status;
+
+  @override
+  void initState() {
+    txtNamaGuru.text = '';
+    txtNamaSiswa.text = '';
+    status = null;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -84,7 +94,6 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
                   onChanged: (value) {
                     setState(() {
                       status = value;
-                      print(status);
                     });
                   },
                 ),
@@ -102,6 +111,26 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
                     decoration: BoxDecoration(color: Config.primary, borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: TextButton(
                         onPressed: () {
+                          String siswa = '', guru = '';
+                          if (txtNamaSiswa.text.isNotEmpty) {
+                            siswa = txtNamaSiswa.text.toString();
+                          } else {
+                            siswa = '';
+                          }
+                          if (txtNamaGuru.text.isNotEmpty) {
+                            guru = txtNamaGuru.text.toString();
+                          } else {
+                            guru = '';
+                          }
+                          if (status == null) {
+                            status = '';
+                          } else {
+                            status = status;
+                          }
+                          widget.onsubmit(guru, siswa, status);
+                          txtNamaGuru.text = '';
+                          txtNamaSiswa.text = '';
+                          status = null;
                           Navigator.pop(context);
                         },
                         child: Text('Terapkan', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Config.textWhite))),

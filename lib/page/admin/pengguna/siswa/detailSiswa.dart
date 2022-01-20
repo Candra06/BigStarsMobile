@@ -1,6 +1,7 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/model/siswa_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DetailSiswa extends StatefulWidget {
   final SiswaModel siswa;
@@ -34,10 +35,38 @@ class _DetailSiswaState extends State<DetailSiswa> {
         children: [
           Container(padding: EdgeInsets.all(16), child: Text('Data Siswa')),
           Config.itemDetail('Nama', widget.siswa.nama),
-          Config.itemDetail(
-              'Tanggal Lahir', Config.formatDateInput(widget.siswa.birthDate)),
+          Config.itemDetail('Tanggal Lahir', Config.formatDateInput(widget.siswa.birthDate.toString())),
           Config.itemDetail('Alamat', widget.siswa.alamat),
           Config.itemDetail('Wali Siswa', widget.siswa.wali),
+          Column(
+            children: [
+              Container(
+                color: Config.textWhite,
+                padding: EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Kode Referal'),
+                    Row(
+                      children: [
+                        Text(
+                          widget.siswa.kodeReferal,
+                          style: TextStyle(color: Config.textBlack, fontWeight: FontWeight.w600),
+                        ),
+                        IconButton(
+                            onPressed: () async {
+                              await Clipboard.setData(ClipboardData(text: widget.siswa.kodeReferal));
+                              Config.alert(1, 'Kode referal telah disalin');
+                            },
+                            icon: Icon(Icons.copy))
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Divider(height: 1)
+            ],
+          )
         ],
       ),
     );

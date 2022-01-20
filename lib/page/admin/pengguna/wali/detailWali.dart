@@ -1,7 +1,10 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/model/detailWali_model.dart';
 import 'package:bigstars_mobile/model/wali_model.dart';
 import 'package:bigstars_mobile/page/modal/addSiswaByWali.dart';
+import 'package:bigstars_mobile/provider/wali_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DetailWaliSiswa extends StatefulWidget {
   final WaliModel wali;
@@ -44,51 +47,61 @@ class _DetailWaliSiswaState extends State<DetailWaliSiswa> {
           style: TextStyle(color: Config.primary),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-              padding: EdgeInsets.all(16), child: Text('Data Wali Siswa')),
-          Config.itemDetail('Nama', widget.wali.nama),
-          Config.itemDetail('Alamat', widget.wali.alamat),
-          Config.itemDetail('Status', widget.wali.status),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(padding: EdgeInsets.all(16), child: Text('Data Akun')),
-            ],
-          ),
-          Config.itemDetail('Username', widget.wali.username),
-          Config.itemDetail('Phone', widget.wali.phone),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(padding: EdgeInsets.all(16), child: Text('Data Siswa')),
-              InkWell(
-                onTap: () {
-                  _addNewSiswa(context);
-                },
-                child: Container(
-                    padding: EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: Config.primary,
-                        ),
-                        Text('Tambah Siswa',
-                            style: TextStyle(
-                              color: Config.primary,
-                            )),
-                      ],
-                    )),
-              ),
-            ],
-          ),
-          for (var i = 0; i < 2; i++) ...{
-            Config.itemDetail('Indriana Saputri', '2005-03-30'),
+      body: FutureBuilder(
+        // future: WaliProvider().getDetail(widget.wali.id.toString()),
+        future: Provider.of<WaliProvider>(context, listen: false).getDetail(widget.wali.id.toString()),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LinearProgressIndicator();
           }
-        ],
+          return Consumer<WaliProvider>(builder: (context, data, _) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(padding: EdgeInsets.all(16), child: Text('Data Wali Siswa')),
+                Config.itemDetail('Nama', data.detailWali.detail.nama ?? '-'),
+                Config.itemDetail('Alamat', data.detailWali.detail.alamat ?? '-'),
+                Config.itemDetail('Status', data.detailWali.detail.status ?? '-'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(padding: EdgeInsets.all(16), child: Text('Data Akun')),
+                  ],
+                ),
+                Config.itemDetail('Username', data.detailWali.detail.username ?? '-'),
+                Config.itemDetail('Phone', data.detailWali.detail.phone ?? '-'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(padding: EdgeInsets.all(16), child: Text('Data Siswa')),
+                    InkWell(
+                      onTap: () {
+                        _addNewSiswa(context);
+                      },
+                      child: Container(
+                          padding: EdgeInsets.all(16),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.add,
+                                color: Config.primary,
+                              ),
+                              Text('Tambah Siswa',
+                                  style: TextStyle(
+                                    color: Config.primary,
+                                  )),
+                            ],
+                          )),
+                    ),
+                  ],
+                ),
+                for (var i = 0; i < data.detailWali.siswa.length; i++) ...{
+                  Config.itemDetail(data.detailWali.siswa[i].nama, Config.formatDateInput(data.detailWali.siswa[i].birthDate.toString())),
+                }
+              ],
+            );
+          });
+        },
       ),
     );
   }

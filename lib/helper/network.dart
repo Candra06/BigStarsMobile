@@ -25,7 +25,8 @@ class EndPoint {
   // wali
   static final wali = api + 'siswa/show-wali';
   static final wUpadate = api + 'siswa/update-wali/';
-  static final wCreate = api + 'siswa/create-siswa';
+  static final wCreate = api + 'siswa/create-suswa-byWali';
+  static final wDetail = api + 'siswa/detail-wali/';
 
   // siswa
   static final siswa = api + 'siswa/list';
