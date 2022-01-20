@@ -14,8 +14,10 @@ class FinanceService {
     String nowFormat = DateFormat.ABBR_MONTH;
     var token = await Pref.getToken();
     var response = await http.get(
-        Uri.parse('http://api.buildandservice.com/api/finance/list-fee'),
-        headers: {'Authorization': token});
+      Uri.parse(EndPoint.fee),
+      headers: {'Authorization': token},
+    );
+
     if (response.statusCode == 200) {
       List fee = jsonDecode(response.body)["data"];
       return fee.map((e) => FeeGuruModel.fromJson(e)).toList();
@@ -67,12 +69,24 @@ class FinanceService {
     var token = await Pref.getToken();
     var response = await http.get(Uri.parse(EndPoint.generateSpp),
         headers: {'Authorization': token});
-    print(response.body);
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
       } else {
         return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> konfirmasiFee(String id) async {
+    var token = await Pref.getToken();
+    var response = await http.post(Uri.parse(EndPoint.konfirmasiFee + id),
+        headers: {'Authorization': token});
+
+    if (response.statusCode == 200) {
+      if (jsonDecode(response.body)["message"] == "Success") {
+        return true;
       }
     }
     return false;

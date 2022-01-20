@@ -29,6 +29,7 @@ class FinanceProvider with ChangeNotifier {
   Future<List<FeeGuruModel>> getFeeGuru() async {
     List data = await FinanceService().feeGuru();
     _listFeeGuru = data;
+    print(data);
     notifyListeners();
     return _listFeeGuru;
   }
@@ -52,6 +53,17 @@ class FinanceProvider with ChangeNotifier {
   Future<bool> generateSpp() async {
     try {
       bool status = await FinanceService().generateFee();
+      return status;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> konfirmasi(String id) async {
+    try {
+      bool status = await FinanceService().konfirmasiFee(id);
+      getFeeGuru();
+      notifyListeners();
       return status;
     } catch (e) {
       return false;

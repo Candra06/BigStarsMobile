@@ -1,8 +1,11 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/model/feeGuru_model.dart';
+import 'package:bigstars_mobile/provider/finance_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class InvoiceFee extends StatefulWidget {
   final FeeGuruModel fee;
@@ -13,6 +16,50 @@ class InvoiceFee extends StatefulWidget {
 }
 
 class _InvoiceFeeState extends State<InvoiceFee> {
+  void _showSucces() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              // height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset('assets/lottie/success-delete.json'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('Terkonfirmasi!'),
+                ],
+              ),
+            ),
+            actions: [
+              Container(
+                width: double.infinity - 30,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Config.boxGreen,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: TextButton(
+                  // textColor: Color(0xFF6200EE),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ACCEPT',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
   void _konfirmasi() async {
     return showDialog(
       context: context,
@@ -25,7 +72,10 @@ class _InvoiceFeeState extends State<InvoiceFee> {
             child: new Text('Tidak'),
           ),
           new FlatButton(
-            onPressed: () => Navigator.of(context).pop(false),
+            onPressed: () {
+              konfirmasi();
+              Navigator.of(context).pop(false);
+            },
             child: new Text('Iya'),
           ),
         ],
@@ -33,9 +83,17 @@ class _InvoiceFeeState extends State<InvoiceFee> {
     );
   }
 
+  void konfirmasi() async {
+    bool status = await Provider.of<FinanceProvider>(context, listen: false)
+        .konfirmasi(widget.fee.id.toString());
+    print(status);
+    if (status) {
+      _showSucces();
+    }
+  }
+
   @override
   void initState() {
-    print(widget.fee.jumlah);
     super.initState();
   }
 
@@ -197,7 +255,7 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                         children: [
                           Container(),
                           Text(
-                            Config.formatRupiah(widget.fee.jumlah),
+                            Config.formatRupiah(int.parse(widget.fee.jumlah)),
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
