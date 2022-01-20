@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/model/detaiKelas_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/jadwal_model.dart';
 import 'package:bigstars_mobile/page/modal/addJadwal.dart';
@@ -34,6 +35,7 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
 
   bool load = false;
   List<JadwalModel> jadwalModels = [];
+  DetailKelas detailKelas;
   _showSuccesHapus() {
     showDialog(
         context: context,
@@ -144,7 +146,10 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                       onPressed: () async {
                         Navigator.pop(context);
                         // handleHapus();
-                        var ids = await Provider.of<KelasProvider>(context, listen: false).deleteJadwal(id).then((value) {
+                        var ids = await Provider.of<KelasProvider>(context,
+                                listen: false)
+                            .deleteJadwal(id)
+                            .then((value) {
                           if (value) {
                             _showSuccesHapus();
                             getData();
@@ -170,8 +175,8 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
     setState(() {
       load = true;
     });
-    jadwalModels = await Provider.of<KelasProvider>(context, listen: false).getDetail(widget.kelas.id);
-
+    detailKelas = await Provider.of<KelasProvider>(context, listen: false)
+        .getDetail(widget.kelas.id.toString());
     setState(() {
       load = false;
     });
@@ -196,20 +201,25 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(padding: EdgeInsets.all(16), child: Text('Data Kelas')),
-                  Config.itemDetail('Nama Siswa', widget.kelas.siswa),
-                  Config.itemDetail('Nama Guru', widget.kelas.guru),
-                  Config.itemDetail('Mata Pelajaran', widget.kelas.mapel),
-                  Config.itemDetail('SPP', Config.formatRupiah(int.parse(widget.kelas.spp))),
-                  Config.itemDetail('Fee Guru', Config.formatRupiah(int.parse(widget.kelas.feeGuru))),
-                  Config.itemDetail('Status', widget.kelas.status),
+                  Container(
+                      padding: EdgeInsets.all(16), child: Text('Data Kelas')),
+                  Config.itemDetail('Nama Siswa', detailKelas.siswa),
+                  Config.itemDetail('Nama Guru', detailKelas.guru),
+                  Config.itemDetail('Mata Pelajaran', detailKelas.mapel),
+                  Config.itemDetail(
+                      'SPP', Config.formatRupiah(int.parse(detailKelas.spp))),
+                  Config.itemDetail('Fee Guru',
+                      Config.formatRupiah(int.parse(detailKelas.feeGuru))),
+                  Config.itemDetail('Status', detailKelas.status),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(padding: EdgeInsets.all(16), child: Text('Jadwal')),
+                      Container(
+                          padding: EdgeInsets.all(16), child: Text('Jadwal')),
                       InkWell(
                         onTap: () {
-                          _addNewJadwal(context, widget.kelas.id.toString(), '0');
+                          _addNewJadwal(
+                              context, detailKelas.id.toString(), '0');
                         },
                         child: Container(
                             padding: EdgeInsets.all(16),
@@ -228,10 +238,11 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                       ),
                     ],
                   ),
-                  for (var i = 0; i < jadwalModels.length; i++) ...{
+                  for (var i = 0; i < detailKelas.hari.length; i++) ...{
                     InkWell(
                       onTap: () {
-                        _addNewJadwal(context, widget.kelas.id.toString(), i.toString());
+                        _addNewJadwal(
+                            context, detailKelas.id.toString(), i.toString());
                       },
                       child: Column(
                         children: [
@@ -241,11 +252,15 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(jadwalModels[i].hari),
+                                Text(detailKelas.hari[i].hari),
                                 Row(
                                   children: [
                                     Text(
-                                      Config.formatJam(jadwalModels[i].jamMulai) + ' - ' + Config.formatJam(jadwalModels[i].jamSelesai),
+                                      Config.formatJam(
+                                              detailKelas.hari[i].jamMulai) +
+                                          ' - ' +
+                                          Config.formatJam(
+                                              detailKelas.hari[i].jamSelesai),
                                       style: TextStyle(color: Config.textBlack),
                                     ),
                                     SizedBox(
@@ -254,7 +269,8 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                                     InkWell(
                                       onTap: () {
                                         // aksi delete
-                                        _showConfirmHapus(jadwalModels[i].id);
+                                        _showConfirmHapus(
+                                            detailKelas.hari[i].id);
                                       },
                                       child: Icon(
                                         Icons.delete_forever,
