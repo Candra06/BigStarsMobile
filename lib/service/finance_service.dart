@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bigstars_mobile/helper/network.dart';
 import 'package:bigstars_mobile/helper/pref.dart';
+import 'package:bigstars_mobile/model/DetailSpp_model.dart';
 import 'package:bigstars_mobile/model/feeGuru_model.dart';
 import 'package:bigstars_mobile/model/finance_model.dart';
 import 'package:bigstars_mobile/model/spp_model.dart';
@@ -79,9 +80,34 @@ class FinanceService {
     return false;
   }
 
+  Future detailSpp(String id) async {
+    var token = await Pref.getToken();
+    var response = await http.get(Uri.parse(EndPoint.detailSpp + id),
+        headers: {'Authorization': token});
+    if (response.statusCode == 200) {
+      DetailSPPModel detailSPPModel =
+          DetailSPPModel.fromJson(jsonDecode(response.body)["data"]);
+      return detailSPPModel;
+    }
+    return null;
+  }
+
   Future<bool> konfirmasiFee(String id) async {
     var token = await Pref.getToken();
     var response = await http.post(Uri.parse(EndPoint.konfirmasiFee + id),
+        headers: {'Authorization': token});
+
+    if (response.statusCode == 200) {
+      if (jsonDecode(response.body)["message"] == "Success") {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> konfirmasiSPP(String id) async {
+    var token = await Pref.getToken();
+    var response = await http.post(Uri.parse(EndPoint.konfirmasiSPP + id),
         headers: {'Authorization': token});
 
     if (response.statusCode == 200) {

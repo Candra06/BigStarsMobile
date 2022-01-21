@@ -17,7 +17,8 @@ class _ItemListSPPState extends State<ItemListSPP> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.DETAIL_SPP, arguments: '1');
+        Navigator.pushNamed(context, Routes.DETAIL_SPP,
+            arguments: widget.data.id.toString());
       },
       child: Container(
         color: Config.textWhite,
