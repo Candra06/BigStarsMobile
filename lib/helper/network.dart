@@ -42,6 +42,7 @@ class EndPoint {
   static final konfirmasiFee = api + 'finance/confirm-fee/';
   static final konfirmasiSPP = api + 'finance/confirm-spp/';
   static final detailSpp = api + 'finance/detail-spp/';
+  static final filterSpp = api + 'finance/filter-spp/';
   // kelas
   static final kelas = api + 'kelas/list-all';
   static final addKelas = api + 'kelas/create';

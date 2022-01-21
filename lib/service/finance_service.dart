@@ -39,6 +39,18 @@ class FinanceService {
     }
   }
 
+  Future<List<SppModel>> filterSpp(String param) async {
+    var token = await Pref.getToken();
+    var response = await http.get(Uri.parse(EndPoint.filterSpp + param),
+        headers: {'Authorization': token});
+    if (response.statusCode == 200) {
+      List fee = jsonDecode(response.body)["data"];
+      return fee.map((e) => SppModel.fromJson(e)).toList();
+    } else {
+      return [];
+    }
+  }
+
   Future<FinanceModel> indexFinance() async {
     var token = await Pref.getToken();
     var response = await http.get(

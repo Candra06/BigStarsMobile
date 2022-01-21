@@ -162,7 +162,6 @@ class _ListKelasState extends State<ListKelas> {
   }
 
   void filter() async {
-    List data = [txtNamaSiswa.text, txtNamaGuru.text, status];
     if (txtNamaSiswa.text.isEmpty ||
         txtNamaGuru.text.isEmpty ||
         status == null) {
@@ -171,7 +170,7 @@ class _ListKelasState extends State<ListKelas> {
       setState(() {
         load = true;
       });
-
+      List data = [txtNamaSiswa.text, txtNamaGuru.text, status];
       dataKelas = await Provider.of<KelasProvider>(context, listen: false)
           .getFilterKelas(data.join('/'));
       setState(() {

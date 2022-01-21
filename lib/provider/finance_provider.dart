@@ -91,4 +91,11 @@ class FinanceProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future filterSpp(String param) async {
+    List data = await FinanceService().filterSpp(param);
+    _listSppModel = data;
+    notifyListeners();
+    return _listSppModel;
+  }
 }
