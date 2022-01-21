@@ -92,13 +92,26 @@ class FinanceService {
 
   Future generateSpp() async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.generateSpp), headers: {'Authorization': token});
-    print(response.body);
+    var response = await http.get(Uri.parse(EndPoint.generateSpp),
+        headers: {'Authorization': token});
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
       } else {
         return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> konfirmasiFee(String id) async {
+    var token = await Pref.getToken();
+    var response = await http.post(Uri.parse(EndPoint.konfirmasiFee + id),
+        headers: {'Authorization': token});
+
+    if (response.statusCode == 200) {
+      if (jsonDecode(response.body)["message"] == "Success") {
+        return true;
       }
     }
     return false;

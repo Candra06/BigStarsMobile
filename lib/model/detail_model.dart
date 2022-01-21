@@ -1,6 +1,6 @@
 
-class DetailKelas {
-    DetailKelas({
+class DetailKelasModel {
+    DetailKelasModel({
         this.statusCode,
         this.message,
         this.data,
@@ -12,7 +12,7 @@ class DetailKelas {
     Data data;
     List<Hari> hari;
 
-    factory DetailKelas.fromJson(Map<String, dynamic> json) => DetailKelas(
+    factory DetailKelasModel.fromJson(Map<String, dynamic> json) => DetailKelasModel(
         statusCode: json["status_code"] == null ? null : json["status_code"],
         message: json["message"] == null ? null : json["message"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),

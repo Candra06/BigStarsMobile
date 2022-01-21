@@ -29,8 +29,13 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
   Widget build(BuildContext context) {
     return Container(
       // padding: EdgeInsets.all(16),
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      decoration: BoxDecoration(color: Config.background, borderRadius: new BorderRadius.only(topLeft: const Radius.circular(10.0), topRight: const Radius.circular(10.0))),
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      decoration: BoxDecoration(
+          color: Config.background,
+          borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(10.0),
+              topRight: const Radius.circular(10.0))),
       child: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(16),
@@ -41,7 +46,13 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: [Text('Filter Kelas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))],
+                    children: [
+                      Text(
+                        'Filter Kelas',
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                   InkWell(
                     onTap: () {
@@ -74,7 +85,9 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
@@ -108,7 +121,9 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
                   Expanded(
                       child: Container(
                     margin: EdgeInsets.only(left: 4, top: 8),
-                    decoration: BoxDecoration(color: Config.primary, borderRadius: BorderRadius.all(Radius.circular(10))),
+                    decoration: BoxDecoration(
+                        color: Config.primary,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: TextButton(
                         onPressed: () {
                           String siswa = '', guru = '';
@@ -133,7 +148,11 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
                           status = null;
                           Navigator.pop(context);
                         },
-                        child: Text('Terapkan', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Config.textWhite))),
+                        child: Text('Terapkan',
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Config.textWhite))),
                   ))
                 ],
               )

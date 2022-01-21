@@ -4,6 +4,7 @@ import 'package:bigstars_mobile/helper/network.dart';
 import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/model/absensi_model.dart';
 import 'package:bigstars_mobile/model/detail_model.dart';
+import 'package:bigstars_mobile/model/detaiKelas_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/jadwal_model.dart';
 import 'package:bigstars_mobile/model/kehadiran_model.dart';
@@ -81,20 +82,21 @@ class KelasService {
     return false;
   }
 
-  Future<List<JadwalModel>> getDetail(int id) async {
+  Future<DetailKelasModel> getDetail(String id) async {
     var token = await Pref.getToken();
     var response = await http.get(Uri.parse(EndPoint.kelasDetail + id.toString()), headers: {'Authorization': token});
 
     if (response.statusCode == 200) {
-      // List data = jsonDecode(response.body)["data"];
-      // print(jsonDecode(response.body)["hari"]);
+      DetailKelasModel detailKelas = DetailKelasModel.fromJson(jsonDecode(response.body)["data"]);
+
       List data = jsonDecode(response.body)["hari"];
       List<JadwalModel> result = data.map((e) => JadwalModel.fromJson(e)).toList();
-      return result;
+      // return result;
+      return detailKelas;
     }
   }
 
-    Future<DetailKelas> getDetailKelas(int id) async {
+  Future<DetailKelas> getDetailKelas(int id) async {
     var token = await Pref.getToken();
     var response = await http.get(Uri.parse(EndPoint.kelasDetail + id.toString()), headers: {'Authorization': token});
 
@@ -109,6 +111,17 @@ class KelasService {
   Future deleteJadwal(int id) async {
     var token = await Pref.getToken();
     var response = await http.get(Uri.parse(EndPoint.deleteJadwal + id.toString()), headers: {'Authorization': token});
+    if (response.statusCode == 200) {
+      if (jsonDecode(response.body)["message"] == "Success") {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future addJadwal(String id, Map<String, dynamic> data) async {
+    var token = await Pref.getToken();
+    var response = await http.post(Uri.parse(EndPoint.addJadwal + id.toString()), headers: {'Authorization': token}, body: data);
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;

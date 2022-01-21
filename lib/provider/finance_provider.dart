@@ -84,4 +84,15 @@ class FinanceProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> konfirmasi(String id) async {
+    try {
+      bool status = await FinanceService().konfirmasiFee(id);
+      getFeeGuru('');
+      notifyListeners();
+      return status;
+    } catch (e) {
+      return false;
+    }
+  }
 }

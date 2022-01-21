@@ -44,7 +44,8 @@ class FeeGuruModel {
         "nama": nama,
         "id": id,
         "no_invoice": noInvoice,
-        "tagihan_bulan": "${tagihanBulan.year.toString().padLeft(4, '0')}-${tagihanBulan.month.toString().padLeft(2, '0')}-${tagihanBulan.day.toString().padLeft(2, '0')}",
+        "tagihan_bulan":
+            "${tagihanBulan.year.toString().padLeft(4, '0')}-${tagihanBulan.month.toString().padLeft(2, '0')}-${tagihanBulan.day.toString().padLeft(2, '0')}",
         "jumlah": jumlah,
         "status": status,
         "created_by": createdBy,

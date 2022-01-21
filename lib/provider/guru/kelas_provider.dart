@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/model/absensi_model.dart';
+import 'package:bigstars_mobile/model/detaiKelas_model.dart';
 import 'package:bigstars_mobile/model/detail_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/jadwal_model.dart';
@@ -11,17 +12,19 @@ import 'package:flutter/widgets.dart';
 
 class KelasProvider with ChangeNotifier {
   List<KelasModel> _allKelas = [];
-  List<JadwalModel> _allJadwal = [];
+
   List<Absensi> _absensiList = [];
   List<KehadiranModel> _listKehadiranModel = [];
+  DetailKelasModel _detailKelasModel;
   KelasModel _kelasModel;
   KehadiranModel _kehadiranModel;
   DetailKelas detailKelas;
 
+  DetailKelasModel get detailKelasModel => _detailKelasModel;
   KelasModel get kelasModel => _kelasModel;
   List<KelasModel> get allKelas => _allKelas;
   List<KehadiranModel> get listKehadiranModel => _listKehadiranModel;
-  List<JadwalModel> get allJadwal => _allJadwal;
+
   List<Absensi> get listAbsensi => _absensiList;
 
   BuildContext get context => null;
@@ -62,15 +65,14 @@ class KelasProvider with ChangeNotifier {
     }
   }
 
-  Future<List<JadwalModel>> getDetail(int id) async {
+  Future<DetailKelasModel> getDetail(String id) async {
     try {
-      _allJadwal = await KelasService().getDetail(id);
+      _detailKelasModel = await KelasService().getDetail(id);
       notifyListeners();
-
-      return _allJadwal;
+      return _detailKelasModel;
     } catch (e) {
       print(e);
-      return [];
+      return null;
     }
   }
 
@@ -109,12 +111,18 @@ class KelasProvider with ChangeNotifier {
   Future deleteJadwal(int id) async {
     try {
       bool status = await KelasService().deleteJadwal(id);
-      getDetail(id);
+      getDetail(id.toString());
       notifyListeners();
       return status;
     } catch (e) {
       print(e);
       return false;
     }
+  }
+
+  Future<bool> addJadwal(String id, Map<String, dynamic> data) async {
+    bool status = await KelasService().addJadwal(id, data);
+    getDetail(id);
+    return status;
   }
 }

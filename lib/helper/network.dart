@@ -41,6 +41,7 @@ class EndPoint {
   static final report = api + 'finance/report';
   static final generateFee = api + 'finance/generate-fee';
   static final generateSpp = api + 'finance/generate-spp';
+  static final konfirmasiFee = api + 'finance/confirm-fee/';
 
   // kelas
   static final kelas = api + 'kelas/list-all';
@@ -48,6 +49,7 @@ class EndPoint {
   static final kehadiran = api + 'kelas/kehadiran-kelas/';
   static final addKehadiran = api + 'kelas/add-absen-admin/';
   static final kelasDetail = api + 'kelas/detail/';
+  static final addJadwal = api + 'kelas/add-jadwal/';
   static final deleteJadwal = api + 'kelas/delete-jadwal/';
   static final absensi = api + 'kelas/absensi/';
 }

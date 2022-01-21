@@ -1,4 +1,6 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/model/detaiKelas_model.dart';
+import 'package:bigstars_mobile/model/detail_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/jadwal_model.dart';
 import 'package:bigstars_mobile/page/modal/modalSharingKelas.dart';
@@ -30,17 +32,23 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
   }
 
   bool load = false;
-  List<JadwalModel> jadwalModels = [];
+  DetailKelasModel detailKelas;
   void getData() async {
     setState(() {
       load = true;
     });
-    jadwalModels = await Provider.of<KelasProvider>(context, listen: false)
-        .getDetail(widget.kelas.id);
-    print(jadwalModels);
+    detailKelas = await Provider.of<KelasProvider>(context, listen: false)
+        .getDetail(detailKelas.data.id.toString());
+    // print(detailKelas.guru);
     setState(() {
       load = false;
     });
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
   }
 
   @override
@@ -57,10 +65,10 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
                 children: [
                   Container(
                       padding: EdgeInsets.all(16), child: Text('Data Kelas')),
-                  Config.itemDetail('Nama Siswa', widget.kelas.siswa),
-                  Config.itemDetail('Nama Guru', widget.kelas.guru),
-                  Config.itemDetail('Mata Pelajaran', widget.kelas.mapel),
-                  Config.itemDetail('Status', widget.kelas.status),
+                  Config.itemDetail('Nama Siswa', detailKelas.data.guru),
+                  Config.itemDetail('Nama Guru', detailKelas.data.guru),
+                  Config.itemDetail('Mata Pelajaran', detailKelas.data.mapel),
+                  Config.itemDetail('Status', detailKelas.data.status),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: ElevatedButton(
