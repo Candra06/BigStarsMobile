@@ -50,16 +50,13 @@ class _ItemListSPPState extends State<ItemListSPP> {
                               children: [
                                 Text(
                                   widget.data.nama,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w800),
+                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                                 ),
                                 SizedBox(
                                   height: 8,
                                 ),
                                 Text(
-                                  Config.formatDateInput(
-                                      widget.data.tagihanBulan),
+                                  Config.formatBulan(widget.data.tagihanBulan.toString()),
                                   style: TextStyle(color: Config.textGrey),
                                 )
                               ],
@@ -71,9 +68,7 @@ class _ItemListSPPState extends State<ItemListSPP> {
                               children: [
                                 Text(
                                   Config.formatRupiah(widget.data.jumlah),
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w800),
+                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                                 ),
                                 SizedBox(
                                   height: 8,

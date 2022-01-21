@@ -210,6 +210,18 @@ class Config {
     }
   }
 
+    static formatBulan(tgl) {
+    try {
+      var date = tgl.split(" ");
+      var bln = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      var bulan = date[0].toString().split('-');
+      String tanggal = bln[int.parse(bulan[1])] + ' ' + bulan[0];
+      return tanggal;
+    } catch (e) {
+      return tgl.toString();
+    }
+  }
+
   static formatDateTime(tgl) {
     try {
       var date = tgl.toString().split("T");

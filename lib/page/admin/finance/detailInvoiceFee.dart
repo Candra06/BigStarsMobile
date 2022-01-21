@@ -91,10 +91,7 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                           ),
                           Text(
                             widget.fee.noInvoice,
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Config.primary),
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Config.primary),
                           ),
                         ],
                       ),
@@ -112,8 +109,7 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                             style: TextStyle(),
                           ),
                           Text(
-                            DateFormat("yyyy-MM-dd")
-                                .format(widget.fee.tagihanBulan),
+                            DateFormat("yyyy-MM-dd").format(widget.fee.tagihanBulan),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -197,7 +193,7 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                         children: [
                           Container(),
                           Text(
-                            Config.formatRupiah(widget.fee.jumlah),
+                            Config.formatRupiah(int.parse(widget.fee.jumlah)),
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -216,8 +212,7 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                           _konfirmasi();
                         },
                         style: ElevatedButton.styleFrom(
-                          fixedSize:
-                              Size(MediaQuery.of(context).size.width, 30),
+                          fixedSize: Size(MediaQuery.of(context).size.width, 30),
                           primary: Config.primary,
                           onPrimary: Config.textWhite,
                           shape: RoundedRectangleBorder(

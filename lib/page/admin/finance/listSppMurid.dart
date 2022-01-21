@@ -15,7 +15,27 @@ class ListSppMurid extends StatefulWidget {
 }
 
 class _ListSppMuridState extends State<ListSppMurid> {
-  void _filter(BuildContext context, String id) {
+  List<String> filter = [];
+  String _filter = '';
+  void modalFilter(BuildContext context) {
+    void filtered(String nama, bulan, tahun) async {
+      if (nama != '') {
+        filter.removeWhere((element) => element.startsWith('nama'));
+        filter.add('nama=' + nama);
+      }
+      if (bulan != '') {
+        filter.removeWhere((element) => element.startsWith('bulan'));
+        filter.add('bulan=' + bulan);
+      }
+      if (tahun != '') {
+        filter.removeWhere((element) => element.startsWith('tahun'));
+        filter.add('tahun=' + tahun);
+      }
+      setState(() {
+        _filter = filter.join('&').toString();
+      });
+    }
+
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -24,28 +44,13 @@ class _ListSppMuridState extends State<ListSppMurid> {
         isScrollControlled: true,
         builder: (builder) {
           return ModalFilterSPP(
-              // id: id,
-              );
+            // id: id,
+            onsubmit: filtered,
+          );
         });
   }
 
   bool isLoading = false;
-  List<dynamic> _listSPP = [
-    {
-      "id": 1,
-      "nama_siswa": "Ridho Ilahi",
-      "spp": 1500000,
-      "tanggal": "13-10-2021",
-      "status": "Belum Lunas"
-    },
-    {
-      "id": 2,
-      "nama_siswa": "Inayah Larasati",
-      "spp": 1500000,
-      "tanggal": "13-10-2021",
-      "status": "Lunas"
-    },
-  ];
 
   void _showSuccesAdd() {
     showDialog(
@@ -96,9 +101,7 @@ class _ListSppMuridState extends State<ListSppMurid> {
       isLoading = true;
     });
 
-    await Provider.of<FinanceProvider>(context, listen: false)
-        .generateSpp()
-        .then((value) {
+    await Provider.of<FinanceProvider>(context, listen: false).generateSpp().then((value) {
       if (value) {
         _showSuccesAdd();
       }
@@ -184,8 +187,10 @@ class _ListSppMuridState extends State<ListSppMurid> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pop(context);
-              _filter(context, 'id');
+              filter = [];
+              _filter = '';
+              // Navigator.pop(context);
+              modalFilter(context);
             },
             icon: Icon(
               FontAwesomeIcons.filter,
@@ -214,8 +219,7 @@ class _ListSppMuridState extends State<ListSppMurid> {
               height: 20,
             ),
             FutureBuilder(
-                future: Provider.of<FinanceProvider>(context, listen: false)
-                    .getSpp(),
+                future: Provider.of<FinanceProvider>(context, listen: false).getSpp(_filter),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(

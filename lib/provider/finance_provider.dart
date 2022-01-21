@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/model/finance_model.dart';
+import 'package:bigstars_mobile/model/report_model.dart';
 import 'package:bigstars_mobile/model/spp_model.dart';
 import 'package:bigstars_mobile/page/admin/finance/financePage.dart';
 import 'package:bigstars_mobile/page/admin/finance/listFeeGuru.dart';
@@ -15,8 +16,10 @@ class FinanceProvider with ChangeNotifier {
 
   List<FeeGuruModel> _listFeeGuru;
   List<SppModel> _listSppModel;
+  List<ReportModel> _listReport;
 
   List<SppModel> get ListSppModel => _listSppModel;
+  List<ReportModel> get ListReportModel => _listReport;
   get ListFeeGuru => _listFeeGuru;
 
   Future getFinance() async {
@@ -26,18 +29,42 @@ class FinanceProvider with ChangeNotifier {
     return _finance;
   }
 
-  Future<List<FeeGuruModel>> getFeeGuru() async {
-    List data = await FinanceService().feeGuru();
-    _listFeeGuru = data;
-    notifyListeners();
-    return _listFeeGuru;
+  Future<List<FeeGuruModel>> getFeeGuru(String filtered) async {
+    try {
+      List data = await FinanceService().feeGuru(filtered);
+      _listFeeGuru = data;
+      notifyListeners();
+      return _listFeeGuru;
+    } catch (e) {
+      print(e);
+      return [];
+    }
   }
 
-  Future<List<SppModel>> getSpp() async {
-    List data = await FinanceService().spp();
-    _listSppModel = data;
-    notifyListeners();
-    return _listSppModel;
+  Future<List<SppModel>> getSpp(String filtered) async {
+    try {
+      print(filtered);
+      List data = await FinanceService().spp(filtered);
+      _listSppModel = data;
+      notifyListeners();
+      return _listSppModel;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<List<ReportModel>> getReport(String filtered) async {
+    try {
+      print(filtered);
+      List data = await FinanceService().report(filtered);
+      _listReport = data;
+      notifyListeners();
+      return _listReport;
+    } catch (e) {
+      print(e);
+      return [];
+    }
   }
 
   Future<bool> generateFEE() async {

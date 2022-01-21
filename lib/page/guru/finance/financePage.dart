@@ -37,7 +37,7 @@ class _FinancePageGuruState extends State<FinancePageGuru> {
         margin: EdgeInsets.only(top: 16, bottom: 16),
         child: FutureBuilder(
           future:
-              Provider.of<FinanceProvider>(context, listen: false).getFeeGuru(),
+              Provider.of<FinanceProvider>(context, listen: false).getFeeGuru(''),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(

@@ -44,11 +44,11 @@ class _AddGuruState extends State<AddGuru> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Lottie.asset('assets/lottie/success-delete.json'),
+                  Lottie.asset('assets/lottie/success.json'),
                   SizedBox(
                     height: 10,
                   ),
-                  Text('Data has been deleted!'),
+                  Text('Berhasil menambah data guru!'),
                 ],
               ),
             ),
@@ -89,11 +89,11 @@ class _AddGuruState extends State<AddGuru> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Lottie.asset('assets/lottie/success-delete.json'),
+                  Lottie.asset('assets/lottie/success.json'),
                   SizedBox(
                     height: 10,
                   ),
-                  Text('Data has been Updated!'),
+                  Text('Berhasil mengubah data guru!'),
                 ],
               ),
             ),
@@ -133,15 +133,7 @@ class _AddGuruState extends State<AddGuru> {
   }
 
   void saveEdit() async {
-    Map<String, dynamic> data = {
-      'nama': txtNama.text,
-      'alamat': txtAlamat.text,
-      'birth_date': tglLahir,
-      'username': txtUsername.text, 
-      'foto': '-',
-      'phone': txtPhone.text,
-      'status': 'Active'
-    };
+    Map<String, dynamic> data = {'nama': txtNama.text, 'alamat': txtAlamat.text, 'birth_date': tglLahir, 'username': txtUsername.text, 'foto': '-', 'phone': txtPhone.text, 'status': 'Active'};
     if (txtPassword.text.isNotEmpty) {
       data['password'] = txtPassword.text;
     }

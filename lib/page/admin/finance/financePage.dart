@@ -215,20 +215,25 @@ class _FinancePageState extends State<FinancePage> {
                         ],
                       )),
                 ),
-                Container(
-                    height: 90,
-                    margin: EdgeInsets.all(4),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset('assets/images/icons/iconReport.png'),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('Report')
-                      ],
-                    )),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.REPORT);
+                  },
+                  child: Container(
+                      height: 90,
+                      margin: EdgeInsets.all(4),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/images/icons/iconReport.png'),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text('Report')
+                        ],
+                      )),
+                ),
               ],
             ),
           ],

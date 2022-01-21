@@ -38,6 +38,7 @@ class EndPoint {
   static final finance = api + 'finance/index/';
   static final fee = api + 'finance/list-fee';
   static final spp = api + 'finance/list-spp';
+  static final report = api + 'finance/report';
   static final generateFee = api + 'finance/generate-fee';
   static final generateSpp = api + 'finance/generate-spp';
 
