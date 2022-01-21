@@ -50,6 +50,7 @@ class KelasToday {
     this.hari,
     this.jamMulai,
     this.jamSelesai,
+    this.notifUnread,
   });
 
   String siswa;
@@ -67,6 +68,7 @@ class KelasToday {
   String hari;
   String jamMulai;
   String jamSelesai;
+  int notifUnread;
 
   factory KelasToday.fromJson(Map<String, dynamic> json) => KelasToday(
         siswa: json["siswa"] == null ? null : json["siswa"],
@@ -88,6 +90,7 @@ class KelasToday {
         hari: json["hari"] == null ? null : json["hari"],
         jamMulai: json["jam_mulai"] == null ? null : json["jam_mulai"],
         jamSelesai: json["jam_selesai"] == null ? null : json["jam_selesai"],
+        notifUnread: json["notif_unread"] == null ? null : json["notif_unread"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -106,5 +109,6 @@ class KelasToday {
         "hari": hari == null ? null : hari,
         "jam_mulai": jamMulai == null ? null : jamMulai,
         "jam_selesai": jamSelesai == null ? null : jamSelesai,
+        "notif_unread": notifUnread == null ? null : notifUnread,
       };
 }

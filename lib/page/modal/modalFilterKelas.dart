@@ -3,8 +3,9 @@ import 'package:bigstars_mobile/helper/input.dart';
 import 'package:flutter/material.dart';
 
 class ModalFilterKelas extends StatefulWidget {
-  final String idWali;
-  const ModalFilterKelas({Key key, this.idWali}) : super(key: key);
+  final String id;
+  final Map<String, dynamic> data;
+  const ModalFilterKelas({Key key, this.id, this.data}) : super(key: key);
 
   @override
   _ModalFilterKelasState createState() => _ModalFilterKelasState();
@@ -15,6 +16,7 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
   TextEditingController txtNamaGuru = new TextEditingController();
   List<String> statusKelas = ['Active', 'Inactive'];
   String status;
+
   @override
   Widget build(BuildContext context) {
     return Container(
