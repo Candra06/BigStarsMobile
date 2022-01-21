@@ -18,7 +18,10 @@ class DashboardModel {
         siswa: json["siswa"],
         guru: json["guru"],
         kelasAktif: json["kelas_aktif"],
-        kelasToday: json["kelas_today"] == null ? null : List<KelasToday>.from(json["kelas_today"].map((x) => KelasToday.fromJson(x))),
+        kelasToday: json["kelas_today"] == null
+            ? null
+            : List<KelasToday>.from(
+                json["kelas_today"].map((x) => KelasToday.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -76,8 +79,12 @@ class KelasToday {
         spp: json["spp"] == null ? null : json["spp"],
         feeGuru: json["fee_guru"] == null ? null : json["fee_guru"],
         status: json["status"] == null ? null : json["status"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
         hari: json["hari"] == null ? null : json["hari"],
         jamMulai: json["jam_mulai"] == null ? null : json["jam_mulai"],
         jamSelesai: json["jam_selesai"] == null ? null : json["jam_selesai"],

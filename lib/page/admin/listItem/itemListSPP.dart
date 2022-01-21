@@ -17,7 +17,8 @@ class _ItemListSPPState extends State<ItemListSPP> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.DETAIL_SPP, arguments: '1');
+        Navigator.pushNamed(context, Routes.DETAIL_SPP,
+            arguments: widget.data.id.toString());
       },
       child: Container(
         color: Config.textWhite,
@@ -70,7 +71,8 @@ class _ItemListSPPState extends State<ItemListSPP> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  Config.formatRupiah(widget.data.jumlah),
+                                  Config.formatRupiah(
+                                      int.parse(widget.data.jumlah)),
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w800),
