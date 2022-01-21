@@ -123,4 +123,15 @@ class KelasService {
     }
     return false;
   }
+
+  Future filterKelas(String param) async {
+    var token = await Pref.getToken();
+    var response = await http.get(Uri.parse(EndPoint.filterKelas + param),
+        headers: {'Authorization': token});
+    if (response.statusCode == 200) {
+      List data = jsonDecode(response.body)["data"];
+      return data.map((e) => KelasModel.fromJson(e)).toList();
+    }
+    return [];
+  }
 }

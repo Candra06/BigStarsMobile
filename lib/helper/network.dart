@@ -51,4 +51,5 @@ class EndPoint {
   static final addJadwal = api + 'kelas/add-jadwal/';
   static final deleteJadwal = api + 'kelas/delete-jadwal/';
   static final absensi = api + 'kelas/absensi/';
+  static final filterKelas = api + 'kelas/filter-kelas/';
 }

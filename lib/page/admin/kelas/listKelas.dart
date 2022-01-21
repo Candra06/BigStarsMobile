@@ -135,14 +135,18 @@ class _ListKelasState extends State<ListKelas> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
                           child: TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('Terapkan',
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
-                                      color: Config.textWhite))),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              filter();
+                            },
+                            child: Text(
+                              'Terapkan',
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Config.textWhite),
+                            ),
+                          ),
                         ))
                       ],
                     )
@@ -154,13 +158,24 @@ class _ListKelasState extends State<ListKelas> {
         });
   }
 
+  void filter() async {
+    setState(() {
+      load = true;
+    });
+    List data = [txtNamaSiswa.text, txtNamaGuru.text, status];
+    dataKelas = await Provider.of<KelasProvider>(context, listen: false)
+        .getFilterKelas(data.join('/'));
+    setState(() {
+      load = false;
+    });
+  }
+
   void getData() async {
     setState(() {
       load = true;
     });
     dataKelas =
         await Provider.of<KelasProvider>(context, listen: false).getKelas();
-    print(dataKelas.length);
     setState(() {
       load = false;
     });
