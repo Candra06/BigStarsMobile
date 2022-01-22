@@ -22,7 +22,8 @@ class ProfilAdmin extends StatefulWidget {
 
 class _ProfilAdminState extends State<ProfilAdmin> {
   UserModel userModel;
-  Map<String, dynamic> data;
+  String nama, username, phone, foto;
+
   void logOut() async {
     var status = await Provider.of<AuthProvider>(context, listen: false).logout();
     print(status);
@@ -31,16 +32,22 @@ class _ProfilAdminState extends State<ProfilAdmin> {
   }
 
   void getData() async {
-    var tmpUser = await Pref.getUserModel();
-    data = jsonDecode(tmpUser);
-    Provider.of<AuthProvider>(context, listen: false).setUser(UserModel.fromJson(data));
-    setState(() {});
+    var tmpUser = await Pref.getUsername();
+    var tmpNama = await Pref.getNama();
+    var tmpPhone = await Pref.getPhone();
+    var tmpFoto = await Pref.getFoto();
+
+    setState(() {
+      nama = tmpNama;
+      phone = tmpPhone;
+      username = tmpUser;
+      foto = tmpFoto;
+    });
   }
 
   @override
   void initState() {
     getData();
-    userModel = Provider.of<AuthProvider>(context, listen: false).user;
     // print(userModel.toJson());
     super.initState();
   }
@@ -124,9 +131,7 @@ class _ProfilAdminState extends State<ProfilAdmin> {
                       ),
                       ClipOval(
                         child: Image.network(
-                          userModel.foto.toString() == '-' || userModel.foto == null
-                              ? "https://www.clipartmax.com/png/middle/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png"
-                              : EndPoint.server + '' + userModel.foto,
+                          foto == null ? "https://www.clipartmax.com/png/middle/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png" : EndPoint.server + '' + foto,
                           height: 100,
                           width: 100,
                           fit: BoxFit.cover,
@@ -136,18 +141,18 @@ class _ProfilAdminState extends State<ProfilAdmin> {
                         height: 10,
                       ),
                       Text(
-                        userModel.role,
+                        nama ?? '-',
                         style: TextStyle(color: Config.textWhite, fontSize: 24, fontWeight: FontWeight.w900),
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       Text(
-                        userModel.username,
+                        username ?? '-',
                         style: TextStyle(color: Config.textWhite, fontSize: 18),
                       ),
                       Text(
-                        userModel.phone,
+                        phone ?? '-',
                         style: TextStyle(color: Config.textWhite, fontSize: 16),
                       ),
                     ],

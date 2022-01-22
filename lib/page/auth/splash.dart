@@ -12,9 +12,6 @@ import 'package:bigstars_mobile/page/wali/mainPage.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/provider/finance_provider.dart';
 import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
-import 'package:bigstars_mobile/provider/guru_provider.dart';
-import 'package:bigstars_mobile/provider/mapel_provider.dart';
-import 'package:bigstars_mobile/provider/siswa_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -41,8 +38,6 @@ class _SplashScreenState extends State<SplashScreen>
     if (tmpToken != null) {
       userModel = UserModel.fromJson(json.decode(user));
       Provider.of<AuthProvider>(context, listen: false).setUser(userModel);
-      // await Provider.of<FinanceProvider>(context, listen: false).getFinance();
-      // await Provider.of<KelasProvider>(context, listen: false).getKelas();
       if (userModel.role == "Admin") {
         await Provider.of<AuthProvider>(context, listen: false).getDashboard();
       } else if (userModel.role == "Guru") {

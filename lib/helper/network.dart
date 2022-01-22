@@ -9,6 +9,8 @@ class EndPoint {
   static final String logout = api + 'logout';
   static final String editProfilAdm = api + 'update-profil-admin';
   static final String editFoto = api + 'update-photo';
+  static final String notifikasi = api + 'notfikasi/list';
+  static final String readNotif = api + 'notfikasi/read/';
 
   // mapel
   static final String mapel = api + 'mapel/data';
@@ -25,7 +27,8 @@ class EndPoint {
   // wali
   static final wali = api + 'siswa/show-wali';
   static final wUpadate = api + 'siswa/update-wali/';
-  static final wCreate = api + 'siswa/create-siswa';
+  static final wCreate = api + 'siswa/create-suswa-byWali';
+  static final wDetail = api + 'siswa/detail-wali/';
 
   // siswa
   static final siswa = api + 'siswa/list';
@@ -37,6 +40,7 @@ class EndPoint {
   static final finance = api + 'finance/index/';
   static final fee = api + 'finance/list-fee';
   static final spp = api + 'finance/list-spp';
+  static final report = api + 'finance/report';
   static final generateFee = api + 'finance/generate-fee';
   static final generateSpp = api + 'finance/generate-spp';
   static final konfirmasiFee = api + 'finance/confirm-fee/';
@@ -51,6 +55,8 @@ class EndPoint {
   static final kelasDetail = api + 'kelas/detail/';
   static final addJadwal = api + 'kelas/add-jadwal/';
   static final deleteJadwal = api + 'kelas/delete-jadwal/';
+  static final deleteKelas = api + 'kelas/delete/';
+  static final updateStatus = api + 'kelas/updateStatus/';
   static final absensi = api + 'kelas/absensi/';
   static final filterKelas = api + 'kelas/filter-kelas/';
 }

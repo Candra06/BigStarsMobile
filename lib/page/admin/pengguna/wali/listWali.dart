@@ -95,12 +95,7 @@ class _ListWaliState extends State<ListWali> {
                                         ? ItemListWali(
                                             wali: data.listWali[i],
                                           )
-                                        : Center(
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text('Data Tidak ditemukan'),
-                                            ),
-                                          );
+                                        : Container();
                                   } else {
                                     return ItemListWali(
                                       wali: data.listWali[i],

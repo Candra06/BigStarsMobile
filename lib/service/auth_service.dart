@@ -5,6 +5,7 @@ import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/model/dashboardGuru_model.dart';
 import 'package:bigstars_mobile/model/dashboard_model.dart';
 import 'package:bigstars_mobile/model/kelasToday_model.dart';
+import 'package:bigstars_mobile/model/notif_model.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:bigstars_mobile/model/user_model.dart';
@@ -47,8 +48,7 @@ class AuthService {
       body = user.editProfilAdminNoPass();
     }
     print(body);
-    var response = await http.post(Uri.parse(EndPoint.editProfilAdm),
-        headers: {'Authorization': token}, body: body);
+    var response = await http.post(Uri.parse(EndPoint.editProfilAdm), headers: {'Authorization': token}, body: body);
     print(response.body);
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
@@ -78,18 +78,18 @@ class AuthService {
         var data = json.decode(value);
 
         UserModel userModel = UserModel.fromJson(data["data"]);
-        // print(userModel.toJson());
+        pref.setString('foto', data["data"]["foto"]);
         return userModel;
       });
     } else {
       throw Exception('Gagal update foto');
     }
+    return null;
   }
 
   Future logout() async {
     var token = await Pref.getToken();
-    var response = await http
-        .post(Uri.parse(EndPoint.logout), headers: {'Authorization': token});
+    var response = await http.post(Uri.parse(EndPoint.logout), headers: {'Authorization': token});
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Logged out") {
         return jsonDecode(response.body)["message"];
@@ -112,10 +112,39 @@ class AuthService {
     }
   }
 
+  Future<List<NotifikasiModel>> notifikasiList() async {
+    var token = await Pref.getToken();
+    var response = await http.get(
+      Uri.parse(EndPoint.notifikasi),
+      headers: {'Authorization': token},
+    );
+    if (response.statusCode == 200) {
+      List data = jsonDecode(response.body)["data"];
+      return data.map((e) => NotifikasiModel.fromJson(e)).toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<bool> readNotif({String id}) async {
+    var token = await Pref.getToken();
+    var response = await http.post(
+      Uri.parse(EndPoint.readNotif + id),
+      headers: {'Authorization': token},
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      // List data = jsonDecode(response.body)["data"];
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<DashboardGuruModel> dashboardGuru() async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.dashboardGuru),
-        headers: {'Authorization': token});
+    var response = await http.get(Uri.parse(EndPoint.dashboardGuru), headers: {'Authorization': token});
     if (response.statusCode == 200) {
       return DashboardGuruModel.fromJson(jsonDecode(response.body)["data"]);
     }

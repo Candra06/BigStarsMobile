@@ -2,25 +2,21 @@ import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
 import 'package:flutter/material.dart';
 
-class ModalFilterSPP extends StatefulWidget {
-  final String idWali;
-
+class ModalFilterReport extends StatefulWidget {
   final void Function(String, String, String) onsubmit;
-  const ModalFilterSPP({Key key, this.idWali, this.onsubmit}) : super(key: key);
+  const ModalFilterReport({Key key, this.onsubmit}) : super(key: key);
 
   @override
-  _ModalFilterSPPState createState() => _ModalFilterSPPState();
+  _ModalFilterReportState createState() => _ModalFilterReportState();
 }
 
-class _ModalFilterSPPState extends State<ModalFilterSPP> {
-  DateTime _dateTime;
+class _ModalFilterReportState extends State<ModalFilterReport> {
+  TextEditingController txtNamaGuru = new TextEditingController();
+  TextEditingController txtBulan = new TextEditingController();
   List<String> _tahun = ['2021', '2022', '2023', '2024', '2025'];
   List<String> _bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
   String valBulan, fBulan = '';
   String valTahun, fTahun = '';
-  TextEditingController txtNamaSiswa = new TextEditingController();
-  TextEditingController txtBulan = new TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +33,7 @@ class _ModalFilterSPPState extends State<ModalFilterSPP> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: [Text('Filter SPP', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))],
+                    children: [Text('Filter Pembayaran Fee', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))],
                   ),
                   InkWell(
                     onTap: () {
@@ -51,11 +47,11 @@ class _ModalFilterSPPState extends State<ModalFilterSPP> {
                 height: 22,
               ),
               SizedBox(height: 8),
-              Text('Nama Siswa',
+              Text('Nama',
                   style: TextStyle(
                     fontSize: 14,
                   )),
-              formInputType(txtNamaSiswa, 'Nama Siswa', TextInputType.text),
+              formInputType(txtNamaGuru, 'Nama', TextInputType.text),
               SizedBox(height: 8),
               Text('Bulan',
                   style: TextStyle(
@@ -126,6 +122,9 @@ class _ModalFilterSPPState extends State<ModalFilterSPP> {
                 ),
               ),
               SizedBox(height: 8),
+              SizedBox(
+                height: 8,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,11 +135,11 @@ class _ModalFilterSPPState extends State<ModalFilterSPP> {
                     decoration: BoxDecoration(color: Config.primary, borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: TextButton(
                         onPressed: () {
-                          String siswa = '', tmpBulan = '';
-                          if (txtNamaSiswa.text.isNotEmpty) {
-                            siswa = txtNamaSiswa.text.toString();
+                          String guru = '', tmpBulan = '';
+                          if (txtNamaGuru.text.isNotEmpty) {
+                            guru = txtNamaGuru.text.toString();
                           } else {
-                            siswa = '';
+                            guru = '';
                           }
                           if (valBulan != null) {
                             tmpBulan = fBulan;
@@ -152,7 +151,7 @@ class _ModalFilterSPPState extends State<ModalFilterSPP> {
                           } else {
                             valTahun = valTahun;
                           }
-                          widget.onsubmit(siswa, tmpBulan, valTahun);
+                          widget.onsubmit(guru, tmpBulan, valTahun);
                           Navigator.pop(context);
                         },
                         child: Text('Terapkan', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Config.textWhite))),

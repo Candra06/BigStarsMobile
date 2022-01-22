@@ -1,9 +1,11 @@
+import 'package:bigstars_mobile/model/detailWali_model.dart';
 import 'package:bigstars_mobile/model/wali_model.dart';
 import 'package:bigstars_mobile/service/wali_service.dart';
 import 'package:flutter/widgets.dart';
 
 class WaliProvider with ChangeNotifier {
   WaliModel _waliModel;
+  DetailWali detailWali;
   List<WaliModel> _waliModels;
   get waliModel => _waliModel;
   get waliModels => _waliModels;
@@ -17,6 +19,16 @@ class WaliProvider with ChangeNotifier {
     } catch (e) {
       print(e);
       return [];
+    }
+  }
+
+  Future<DetailWali> getDetail(String id) async {
+    try {
+      detailWali= await WaliService().getDetail(id);
+      return detailWali;
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 

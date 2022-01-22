@@ -16,6 +16,29 @@ class ListSppMurid extends StatefulWidget {
 }
 
 class _ListSppMuridState extends State<ListSppMurid> {
+<<<<<<< HEAD
+  List<String> filter = [];
+  String _filter = '';
+  void modalFilter(BuildContext context) {
+    void filtered(String nama, bulan, tahun) async {
+      if (nama != '') {
+        filter.removeWhere((element) => element.startsWith('nama'));
+        filter.add('nama=' + nama);
+      }
+      if (bulan != '') {
+        filter.removeWhere((element) => element.startsWith('bulan'));
+        filter.add('bulan=' + bulan);
+      }
+      if (tahun != '') {
+        filter.removeWhere((element) => element.startsWith('tahun'));
+        filter.add('tahun=' + tahun);
+      }
+      setState(() {
+        _filter = filter.join('&').toString();
+      });
+    }
+
+=======
   DateTime _dateTime;
   String valBulan;
   TextEditingController txtNamaSiswa = new TextEditingController();
@@ -23,6 +46,7 @@ class _ListSppMuridState extends State<ListSppMurid> {
   List<String> statusPembayaran = ['Lunas', 'Belum Lunas'];
   String status;
   void _filter(BuildContext context, String id) {
+>>>>>>> abeb55e3b09df5f926598e649f66a151539a256c
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -30,6 +54,11 @@ class _ListSppMuridState extends State<ListSppMurid> {
         context: context,
         isScrollControlled: true,
         builder: (builder) {
+<<<<<<< HEAD
+          return ModalFilterSPP(
+            // id: id,
+            onsubmit: filtered,
+=======
           return Container(
             // padding: EdgeInsets.all(16),
             padding: EdgeInsets.only(
@@ -198,12 +227,17 @@ class _ListSppMuridState extends State<ListSppMurid> {
                 ),
               ),
             ),
+>>>>>>> abeb55e3b09df5f926598e649f66a151539a256c
           );
         });
   }
 
   bool isLoading = false;
+<<<<<<< HEAD
+
+=======
   bool isFilter = false;
+>>>>>>> abeb55e3b09df5f926598e649f66a151539a256c
   void _showSuccesAdd() {
     showDialog(
         context: context,
@@ -253,9 +287,7 @@ class _ListSppMuridState extends State<ListSppMurid> {
       isLoading = true;
     });
 
-    await Provider.of<FinanceProvider>(context, listen: false)
-        .generateSpp()
-        .then((value) {
+    await Provider.of<FinanceProvider>(context, listen: false).generateSpp().then((value) {
       if (value) {
         _showSuccesAdd();
       }
@@ -361,7 +393,14 @@ class _ListSppMuridState extends State<ListSppMurid> {
         actions: [
           IconButton(
             onPressed: () {
+<<<<<<< HEAD
+              filter = [];
+              _filter = '';
+              // Navigator.pop(context);
+              modalFilter(context);
+=======
               _filter(context, 'id');
+>>>>>>> abeb55e3b09df5f926598e649f66a151539a256c
             },
             icon: Icon(
               FontAwesomeIcons.filter,
@@ -390,7 +429,11 @@ class _ListSppMuridState extends State<ListSppMurid> {
               height: 20,
             ),
             FutureBuilder(
+<<<<<<< HEAD
+                future: Provider.of<FinanceProvider>(context, listen: false).getSpp(_filter),
+=======
                 future: function(),
+>>>>>>> abeb55e3b09df5f926598e649f66a151539a256c
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(

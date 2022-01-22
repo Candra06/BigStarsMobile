@@ -40,8 +40,7 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         isLoading = true;
       });
-      data = await authProvider.login(
-          username: txtUsername.text, password: txtPassword.text);
+      data = await authProvider.login(username: txtUsername.text, password: txtPassword.text);
       user = authProvider.user;
       print(data);
       if (data["status"]) {
@@ -51,6 +50,9 @@ class _LoginPageState extends State<LoginPage> {
         SharedPreferences pref = await SharedPreferences.getInstance();
 
         pref.setString('token', user.token);
+        pref.setString('username', user.username);
+        pref.setString('phone', user.phone);
+        pref.setString('foto', user.foto);
         pref.setString('user', json.encode(user.toJson()));
         setState(() {
           Provider.of<MapelProvider>(context, listen: false).getMapels();
@@ -59,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
         await Provider.of<FinanceProvider>(context, listen: false).getFinance();
         await Provider.of<AuthProvider>(context, listen: false).getDashboard();
         if (authProvider.user.role == 'Admin') {
+          pref.setString('nama', 'Admin');
           Navigator.pushReplacement(
             context,
             PageTransition(
@@ -69,6 +72,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else if (authProvider.user.role == 'Guru') {
+          pref.setString('nama', user.nama);
           Navigator.pushReplacement(
             context,
             PageTransition(
@@ -79,6 +83,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else {
+          pref.setString('nama', user.nama);
           Navigator.pushReplacement(
             context,
             PageTransition(
@@ -165,9 +170,7 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 margin: EdgeInsets.only(top: 8),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -181,9 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                             fillColor: Colors.black54,
                             suffixIcon: IconButton(
                               color: Config.primary,
-                              icon: obsuced
-                                  ? Icon(Icons.lock_outline_rounded)
-                                  : Icon(Icons.lock_open),
+                              icon: obsuced ? Icon(Icons.lock_outline_rounded) : Icon(Icons.lock_open),
                               onPressed: () {
                                 if (obsuced == true) {
                                   setState(() {

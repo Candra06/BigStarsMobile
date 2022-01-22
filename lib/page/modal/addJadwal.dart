@@ -8,23 +8,15 @@ import 'package:provider/provider.dart';
 class ModalJadwalMengajar extends StatefulWidget {
   final String idKelas;
   final String idJadwal;
-  const ModalJadwalMengajar({Key key, this.idKelas, this.idJadwal})
-      : super(key: key);
+  final void Function(bool) onSubmit;
+  const ModalJadwalMengajar({Key key, this.idKelas, this.idJadwal, this.onSubmit}) : super(key: key);
 
   @override
   _ModalJadwalMengajarState createState() => _ModalJadwalMengajarState();
 }
 
 class _ModalJadwalMengajarState extends State<ModalJadwalMengajar> {
-  List<String> hari = [
-    'Senin',
-    'Selasa',
-    'Rabu',
-    'Kamis',
-    'Jum`at',
-    'Sabtu',
-    'Minggu'
-  ];
+  List<String> hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum`at', 'Sabtu', 'Minggu'];
   DateTime _dateTime;
   String jamMulai, jamSelesai, valHari;
 
@@ -82,28 +74,25 @@ class _ModalJadwalMengajarState extends State<ModalJadwalMengajar> {
       "jam_selesai": jamSelesai,
       "id_jadwal": widget.idJadwal,
     };
-    bool status = await Provider.of<KelasProvider>(context, listen: false)
-        .addJadwal(widget.idKelas, data);
+    bool status = await Provider.of<KelasProvider>(context, listen: false).addJadwal(widget.idKelas, data);
     if (status) {
       txtMulai.text = "";
       txtSelesai.text = "";
-      _showSuccesAdd();
-      Navigator.pop(context);
+      // _showSuccesAdd();
+      setState(() {
+        Config.alert(1, 'Berhasil menambah jadwal');
+        widget.onSubmit(true);
+        Navigator.pop(context);
+      });
     }
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       // padding: EdgeInsets.all(16),
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      decoration: BoxDecoration(
-          color: Config.background,
-          borderRadius: new BorderRadius.only(
-              topLeft: const Radius.circular(10.0),
-              topRight: const Radius.circular(10.0))),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      decoration: BoxDecoration(color: Config.background, borderRadius: new BorderRadius.only(topLeft: const Radius.circular(10.0), topRight: const Radius.circular(10.0))),
       child: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(16),
@@ -114,14 +103,7 @@ class _ModalJadwalMengajarState extends State<ModalJadwalMengajar> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: [
-                      Text(
-                          widget.idJadwal == '0'
-                              ? 'Tambah Jadwal'
-                              : 'Edit Jadwal',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold))
-                    ],
+                    children: [Text(widget.idJadwal == '0' ? 'Tambah Jadwal' : 'Edit Jadwal', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))],
                   ),
                   InkWell(
                     onTap: () {
@@ -143,9 +125,7 @@ class _ModalJadwalMengajarState extends State<ModalJadwalMengajar> {
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
@@ -176,13 +156,9 @@ class _ModalJadwalMengajarState extends State<ModalJadwalMengajar> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(top: 8),
-                    constraints: BoxConstraints(
-                        minWidth: 75,
-                        maxWidth: MediaQuery.of(context).size.width * 0.4),
+                    constraints: BoxConstraints(minWidth: 75, maxWidth: MediaQuery.of(context).size.width * 0.4),
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Config.borderInput)),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -205,20 +181,13 @@ class _ModalJadwalMengajarState extends State<ModalJadwalMengajar> {
                               showTimePicker(
                                 context: context,
                                 initialEntryMode: TimePickerEntryMode.input,
-                                initialTime: _dateTime == null
-                                    ? TimeOfDay.now()
-                                    : _dateTime,
+                                initialTime: _dateTime == null ? TimeOfDay.now() : _dateTime,
                               ).then((time) {
                                 if (time != null) {
                                   setState(() {
                                     // _dateTime = time;
-                                    txtMulai.text = time.hour.toString() +
-                                        ':' +
-                                        time.minute.toString();
-                                    jamMulai = time.hour.toString() +
-                                        ':' +
-                                        time.minute.toString() +
-                                        ":00"; //value ini yg disimpan
+                                    txtMulai.text = time.hour.toString() + ':' + time.minute.toString();
+                                    jamMulai = time.hour.toString() + ':' + time.minute.toString() + ":00"; //value ini yg disimpan
                                   });
                                 }
                               });
@@ -234,13 +203,9 @@ class _ModalJadwalMengajarState extends State<ModalJadwalMengajar> {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 8),
-                    constraints: BoxConstraints(
-                        minWidth: 75,
-                        maxWidth: MediaQuery.of(context).size.width * 0.4),
+                    constraints: BoxConstraints(minWidth: 75, maxWidth: MediaQuery.of(context).size.width * 0.4),
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Config.borderInput)),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -263,22 +228,15 @@ class _ModalJadwalMengajarState extends State<ModalJadwalMengajar> {
                               showTimePicker(
                                 context: context,
                                 initialEntryMode: TimePickerEntryMode.input,
-                                initialTime: _dateTime == null
-                                    ? TimeOfDay.now()
-                                    : _dateTime,
+                                initialTime: _dateTime == null ? TimeOfDay.now() : _dateTime,
                               ).then((time) {
                                 if (time != null) {
                                   setState(() {
                                     // _dateTime = time;
-                                    txtSelesai.text = time.hour.toString() +
-                                        ':' +
-                                        time.minute.toString();
+                                    txtSelesai.text = time.hour.toString() + ':' + time.minute.toString();
                                     print(txtSelesai.text.toString());
                                     // var tgl = _dateTime.toString().split(' ');
-                                    jamSelesai = time.hour.toString() +
-                                        ':' +
-                                        time.minute.toString() +
-                                        ":00"; //value ini yg disimpan
+                                    jamSelesai = time.hour.toString() + ':' + time.minute.toString() + ":00"; //value ini yg disimpan
                                   });
                                 }
                               });
@@ -300,18 +258,20 @@ class _ModalJadwalMengajarState extends State<ModalJadwalMengajar> {
                   Expanded(
                       child: Container(
                     margin: EdgeInsets.only(left: 4, top: 8),
-                    decoration: BoxDecoration(
-                        color: Config.primary,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    decoration: BoxDecoration(color: Config.primary, borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: TextButton(
                         onPressed: () {
-                          addJadwal();
+                          if (valHari == null) {
+                            Config.alert(0, 'Pilih hari terlebih dahulu');
+                          } else if (txtMulai.text.isEmpty) {
+                            Config.alert(0, 'Pilih jam mulai terlebih dahulu');
+                          } else if (txtSelesai.text.isEmpty) {
+                            Config.alert(0, 'Pilih jam selesai terlebih dahulu');
+                          } else {
+                            addJadwal();
+                          }
                         },
-                        child: Text('SIMPAN',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Config.textWhite))),
+                        child: Text('SIMPAN', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Config.textWhite))),
                   ))
                 ],
               )

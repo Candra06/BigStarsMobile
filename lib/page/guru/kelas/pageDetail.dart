@@ -1,5 +1,6 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/model/detaiKelas_model.dart';
+import 'package:bigstars_mobile/model/detail_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/jadwal_model.dart';
 import 'package:bigstars_mobile/page/modal/modalSharingKelas.dart';
@@ -31,14 +32,14 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
   }
 
   bool load = false;
-  DetailKelas detailKelas;
+  DetailKelasModel detailKelas;
   void getData() async {
     setState(() {
       load = true;
     });
     detailKelas = await Provider.of<KelasProvider>(context, listen: false)
-        .getDetail(detailKelas.id.toString());
-    print(detailKelas.guru);
+        .getDetail(detailKelas.data.id.toString());
+    // print(detailKelas.guru);
     setState(() {
       load = false;
     });
@@ -64,10 +65,10 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
                 children: [
                   Container(
                       padding: EdgeInsets.all(16), child: Text('Data Kelas')),
-                  Config.itemDetail('Nama Siswa', detailKelas.guru),
-                  Config.itemDetail('Nama Guru', detailKelas.guru),
-                  Config.itemDetail('Mata Pelajaran', detailKelas.mapel),
-                  Config.itemDetail('Status', detailKelas.status),
+                  Config.itemDetail('Nama Siswa', detailKelas.data.guru),
+                  Config.itemDetail('Nama Guru', detailKelas.data.guru),
+                  Config.itemDetail('Mata Pelajaran', detailKelas.data.mapel),
+                  Config.itemDetail('Status', detailKelas.data.status),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: ElevatedButton(

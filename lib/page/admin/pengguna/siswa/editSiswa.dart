@@ -1,5 +1,6 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/siswa_model.dart';
 import 'package:bigstars_mobile/provider/siswa_provider.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,9 @@ class EditSiswa extends StatefulWidget {
 
 class _EditSiswaState extends State<EditSiswa> {
   DateTime _dateTime;
-  String tglLahir;
+  String tglLahir, status;
   bool obsecured = true;
+  List<String> listStatus = ['Aktif', 'Nonaktif'];
   TextEditingController txtNama = new TextEditingController();
   TextEditingController txtTglLahir = new TextEditingController();
 
@@ -50,7 +52,8 @@ class _EditSiswaState extends State<EditSiswa> {
                 child: TextButton(
                   // textColor: Color(0xFF6200EE),
                   onPressed: () {
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
+                    return Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
                   },
                   child: Text(
                     'ACCEPT',
@@ -67,13 +70,14 @@ class _EditSiswaState extends State<EditSiswa> {
 
   void insetVal() {
     txtNama.text = widget.siswa.nama;
+    txtTglLahir.text = Config.formatDateInput(widget.siswa.birthDate.toString());
+    tglLahir = widget.siswa.birthDate.toString();
+    status = widget.siswa.status;
   }
 
   void edit() async {
-    Map<String, dynamic> data = {"nama": txtNama.text, "birth_date": tglLahir};
-    await Provider.of<SiswaProvider>(context, listen: false)
-        .editSiswa(widget.siswa.id, data)
-        .then((value) {
+    Map<String, dynamic> data = {"nama": txtNama.text, "birth_date": tglLahir, "status": status};
+    await Provider.of<SiswaProvider>(context, listen: false).editSiswa(widget.siswa.id, data).then((value) {
       if (value) {
         _showSuccesEdit();
       }
@@ -83,113 +87,135 @@ class _EditSiswaState extends State<EditSiswa> {
   @override
   void initState() {
     insetVal();
-    print(widget.siswa.id);
+    print(widget.siswa);
     super.initState();
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Config.textWhite,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: Config.primary,
-            )),
-        title: Text(
-          'Edit Siswa',
-          style: TextStyle(color: Config.primary),
+    return WillPopScope(
+      onWillPop: () {
+        return Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Config.textWhite,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: Config.primary,
+              )),
+          title: Text(
+            'Edit Siswa',
+            style: TextStyle(color: Config.primary),
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Nama Siswa'),
-              formInput(txtNama, 'Nama Siswa'),
-              SizedBox(
-                height: 10,
-              ),
-              Text('Tanggal Lahir'),
-              Container(
-                margin: EdgeInsets.only(top: 8, bottom: 10),
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Config.borderInput)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: TextField(
-                          readOnly: true,
-                          controller: txtTglLahir,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                                icon: Icon(
-                                  Icons.calendar_today,
-                                  color: Config.textGrey,
-                                ),
-                                onPressed: () {
-                                  showDatePicker(
-                                          context: context,
-                                          initialDate: _dateTime == null
-                                              ? DateTime.now()
-                                              : _dateTime,
-                                          firstDate: DateTime(2020),
-                                          lastDate: DateTime.now())
-                                      .then((date) {
-                                    if (date != null) {
-                                      setState(() {
-                                        _dateTime = date;
-                                        txtTglLahir.text =
-                                            Config.formatDateInput(
-                                                date.toString());
-                                        var tgl =
-                                            _dateTime.toString().split(' ');
-                                        tglLahir = tgl[0].toString();
-                                      });
-                                    }
-                                  });
-                                }),
-                            border: InputBorder.none,
-                            hintText: 'Tanggal Lahir',
-                            hintStyle: TextStyle(color: Config.textGrey),
-                          )),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 1,
-                      color: Colors.white,
-                    )
-                  ],
+        body: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Nama Siswa'),
+                formInput(txtNama, 'Nama Siswa'),
+                SizedBox(
+                  height: 10,
                 ),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // submit proses
-                  edit();
-                },
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size(MediaQuery.of(context).size.width, 50),
-                  primary: Config.primary,
-                  onPrimary: Config.textWhite,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+                Text('Tanggal Lahir'),
+                Container(
+                  margin: EdgeInsets.only(top: 8, bottom: 10),
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: TextField(
+                            readOnly: true,
+                            controller: txtTglLahir,
+                            decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                  icon: Icon(
+                                    Icons.calendar_today,
+                                    color: Config.textGrey,
+                                  ),
+                                  onPressed: () {
+                                    showDatePicker(context: context, initialDate: _dateTime == null ? DateTime.now() : _dateTime, firstDate: DateTime(2000), lastDate: DateTime.now()).then((date) {
+                                      if (date != null) {
+                                        setState(() {
+                                          _dateTime = date;
+                                          txtTglLahir.text = Config.formatDateInput(date.toString());
+                                          var tgl = _dateTime.toString().split(' ');
+                                          tglLahir = tgl[0].toString();
+                                        });
+                                      }
+                                    });
+                                  }),
+                              border: InputBorder.none,
+                              hintText: 'Tanggal Lahir',
+                              hintStyle: TextStyle(color: Config.textGrey),
+                            )),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 1,
+                        color: Colors.white,
+                      )
+                    ],
                   ),
                 ),
-                child: Text(
-                  "Simpan",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                Text('Status Siswa'),
+                Container(
+                  margin: EdgeInsets.only(top: 8, bottom: 10),
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                  child: DropdownButton(
+                    underline: SizedBox(),
+                    hint: Text(
+                      "Pilih Status",
+                      style: TextStyle(
+                        color: Config.textGrey,
+                      ),
+                    ),
+                    isExpanded: true,
+                    value: status,
+                    items: listStatus.map((value) {
+                      return DropdownMenuItem(
+                        child: Text(value),
+                        value: value,
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        status = value;
+                      });
+                    },
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    // submit proses
+                    edit();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(MediaQuery.of(context).size.width, 50),
+                    primary: Config.primary,
+                    onPrimary: Config.textWhite,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  child: Text(
+                    "Simpan",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

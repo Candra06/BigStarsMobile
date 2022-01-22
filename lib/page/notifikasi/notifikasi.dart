@@ -1,6 +1,8 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/page/notifikasi/item_notif.dart';
+import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({Key key}) : super(key: key);
@@ -29,19 +31,29 @@ class _NotificationPageState extends State<NotificationPage> {
           style: TextStyle(color: Config.primary),
         ),
       ),
-      body: Container(
-        margin: EdgeInsets.only(top: 16, bottom: 16),
-        child: Column(
-          children: [
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: 2,
-                itemBuilder: (BuildContext bc, int i) {
-                  return ItemNotifikasi();
-                  // return Container();
-                }),
-          ],
-        ),
+      body: FutureBuilder(
+        future: Provider.of<AuthProvider>(context, listen: false).getNotif(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LinearProgressIndicator();
+          }
+          return Container(
+            margin: EdgeInsets.only(top: 16, bottom: 16),
+            child: Consumer<AuthProvider>(
+              builder: (context, data, _) {
+                return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: data.listNotif.length,
+                    itemBuilder: (BuildContext bc, int i) {
+                      return ItemNotifikasi(
+                        data: data.listNotif[i],
+                      );
+                      // return Container();
+                    });
+              },
+            ),
+          );
+        },
       ),
     );
   }

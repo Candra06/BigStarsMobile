@@ -14,8 +14,6 @@ class SiswaService {
         'Authorization': token,
       },
     );
-    print(EndPoint.siswa);
-    print(response.body);
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)["data"];
       List<SiswaModel> siswas = data.map((item) => SiswaModel.fromJson(item)).toList();
@@ -39,6 +37,7 @@ class SiswaService {
   Future addSiswa(Map<String, dynamic> data) async {
     var token = await Pref.getToken();
     var response = await http.post(Uri.parse(EndPoint.sCreate), headers: {'Authorization': token}, body: data);
+    print(response.body);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {

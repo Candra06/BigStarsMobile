@@ -102,12 +102,7 @@ class _ListSiswaState extends State<ListSiswa> {
                                       ? ItemListSiswa(
                                           data: data.listSiswa[i],
                                         )
-                                      : Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text('Data Tidak ditemukan'),
-                                          ),
-                                        );
+                                      : Container();
                                 } else {
                                   return ItemListSiswa(
                                     data: data.listSiswa[i],
