@@ -1,3 +1,4 @@
+import 'package:bigstars_mobile/model/DetailSpp_model.dart';
 import 'package:bigstars_mobile/model/finance_model.dart';
 import 'package:bigstars_mobile/model/report_model.dart';
 import 'package:bigstars_mobile/model/spp_model.dart';
@@ -10,14 +11,14 @@ import 'package:bigstars_mobile/model/feeGuru_model.dart';
 class FinanceProvider with ChangeNotifier {
   FeeGuruModel _feeGuru;
   SppModel _sppModel;
-
+  DetailSPPModel _detailSPPModel;
   FinanceModel _finance;
   get Finance => _finance;
-
   List<FeeGuruModel> _listFeeGuru;
   List<SppModel> _listSppModel;
   List<ReportModel> _listReport;
 
+  DetailSPPModel get detailSPPModel => _detailSPPModel;
   List<SppModel> get ListSppModel => _listSppModel;
   List<ReportModel> get ListReportModel => _listReport;
   get ListFeeGuru => _listFeeGuru;
@@ -85,7 +86,14 @@ class FinanceProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> konfirmasi(String id) async {
+  Future detailSpp(String id) async {
+    DetailSPPModel detailSPPModel = await FinanceService().detailSpp(id);
+    _detailSPPModel = detailSPPModel;
+    notifyListeners();
+    return _detailSPPModel;
+  }
+
+  Future<bool> konfirmasiFee(String id) async {
     try {
       bool status = await FinanceService().konfirmasiFee(id);
       getFeeGuru('');
@@ -95,4 +103,25 @@ class FinanceProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> konfirmasiSPP(String id) async {
+    try {
+      bool status = await FinanceService().konfirmasiSPP(id);
+      DetailSPPModel detailSPPModel = await FinanceService().detailSpp(id);
+      _detailSPPModel = detailSPPModel;
+      notifyListeners();
+      getSpp('');
+      notifyListeners();
+      return status;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Future filterSpp(String param) async {
+  //   List data = await FinanceService().filterSpp(param);
+  //   _listSppModel = data;
+  //   notifyListeners();
+  //   return _listSppModel;
+  // }
 }

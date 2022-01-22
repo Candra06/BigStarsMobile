@@ -85,8 +85,7 @@ class _InvoiceFeeState extends State<InvoiceFee> {
 
   void konfirmasi() async {
     bool status = await Provider.of<FinanceProvider>(context, listen: false)
-        .konfirmasi(widget.fee.id.toString());
-    print(status);
+        .konfirmasiFee(widget.fee.id.toString());
     if (status) {
       _showSucces();
     }

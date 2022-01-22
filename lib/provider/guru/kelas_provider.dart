@@ -64,6 +64,12 @@ class KelasProvider with ChangeNotifier {
     }
   }
 
+  Future<List<KelasModel>> getFilterKelas(String param) async {
+    _allKelas = await KelasService().filterKelas(param);
+    notifyListeners();
+    return _allKelas;
+  }
+
   Future<DetailKelasModel> getDetail(String id) async {
     try {
       _detailKelasModel = await KelasService().getDetail(id);

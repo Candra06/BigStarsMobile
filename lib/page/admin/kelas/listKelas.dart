@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/input.dart';
 import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListKelas.dart';
@@ -55,10 +56,36 @@ class _ListKelasState extends State<ListKelas> {
         });
   }
 
+   Map<String, dynamic> data;
+  List<KelasModel> dataKelas;
+
+
+  TextEditingController txtNamaSiswa = new TextEditingController();
+  TextEditingController txtNamaGuru = new TextEditingController();
+  List<String> statusKelas = ['Active', 'Inactive'];
+  String status;
+
+
+
+  void getData() async {
+    setState(() {
+      load = true;
+    });
+    dataKelas =
+        await Provider.of<KelasProvider>(context, listen: false).getKelas();
+    setState(() {
+      load = false;
+    });
+  }
+
+  void filterData() async {}
+
   @override
   void initState() {
     super.initState();
+    getData();
   }
+
 
   @override
   void dispose() {
