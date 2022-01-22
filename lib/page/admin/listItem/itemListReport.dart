@@ -2,24 +2,25 @@ import 'package:bigstars_mobile/helper/config.dart';
 
 import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/feeGuru_model.dart';
+import 'package:bigstars_mobile/model/report_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ItemListFee extends StatefulWidget {
-  final FeeGuruModel fee;
-  const ItemListFee({Key key, this.fee}) : super(key: key);
+class ItemListReport extends StatefulWidget {
+  final ReportModel report;
+  const ItemListReport({Key key, this.report}) : super(key: key);
 
   @override
-  _ItemListFeeState createState() => _ItemListFeeState();
+  _ItemListReportState createState() => _ItemListReportState();
 }
 
-class _ItemListFeeState extends State<ItemListFee> {
+class _ItemListReportState extends State<ItemListReport> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.DETAIL_FEE, arguments: widget.fee);
+        Navigator.pushNamed(context, Routes.DETAIL_FEE, arguments: widget.report);
       },
       child: Container(
         color: Config.textWhite,
@@ -33,7 +34,7 @@ class _ItemListFeeState extends State<ItemListFee> {
               child: Row(
                 children: [
                   Icon(
-                    FontAwesomeIcons.receipt,
+                    widget.report.tipe == 'FEE' ? FontAwesomeIcons.receipt : FontAwesomeIcons.handHoldingUsd,
                     size: 30,
                     color: Config.primary,
                   ),
@@ -51,14 +52,14 @@ class _ItemListFeeState extends State<ItemListFee> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.fee.nama,
+                                  widget.report.nama,
                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                                 ),
                                 SizedBox(
                                   height: 8,
                                 ),
                                 Text(
-                                  Config.formatBulan(widget.fee.tagihanBulan.toString()),
+                                  Config.formatBulan(widget.report.tagihanBulan.toString()),
                                   style: TextStyle(color: Config.textGrey),
                                 )
                               ],
@@ -70,15 +71,15 @@ class _ItemListFeeState extends State<ItemListFee> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    Config.formatRupiah(int.parse(widget.fee.jumlah)),
+                                    Config.formatRupiah(int.parse(widget.report.nominal.toString())),
                                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                                   ),
                                   SizedBox(
                                     height: 8,
                                   ),
                                   Text(
-                                    widget.fee.status,
-                                    style: TextStyle(color: widget.fee.status == 'Lunas' ? Colors.green : Colors.red),
+                                    widget.report.status,
+                                    style: TextStyle(color: widget.report.status == 'Lunas' ? Colors.green : Colors.red),
                                   )
                                 ],
                               ),

@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bigstars_mobile/helper/network.dart';
 import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/model/absensi_model.dart';
+import 'package:bigstars_mobile/model/detail_model.dart';
 import 'package:bigstars_mobile/model/detaiKelas_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/jadwal_model.dart';
@@ -10,10 +12,17 @@ import 'package:bigstars_mobile/model/kehadiran_model.dart';
 import 'package:http/http.dart' as http;
 
 class KelasService {
-  Future<List<KelasModel>> getAllKelas() async {
+  Future<List<KelasModel>> getAllKelas(String filter) async {
     var token = await Pref.getToken();
-    var response = await http
-        .get(Uri.parse(EndPoint.kelas), headers: {"authorization": token});
+    String url = '';
+    if (filter != null) {
+      url = EndPoint.kelas + '?' + filter;
+    } else {
+      url = EndPoint.kelas;
+    }
+    print(url);
+    var response =
+        await http.get(Uri.parse(url), headers: {"authorization": token});
 
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)["data"];
@@ -79,22 +88,37 @@ class KelasService {
     return false;
   }
 
-  Future<DetailKelas> getDetail(String id) async {
+  Future<DetailKelasModel> getDetail(String id) async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.kelasDetail + id),
+    var response = await http.get(
+        Uri.parse(EndPoint.kelasDetail + id.toString()),
         headers: {'Authorization': token});
 
     if (response.statusCode == 200) {
-      DetailKelas detailKelas =
-          DetailKelas.fromJson(jsonDecode(response.body)["data"]);
-
+      DetailKelasModel detailKelas =
+          DetailKelasModel.fromJson(jsonDecode(response.body));
       List data = jsonDecode(response.body)["hari"];
       List<JadwalModel> result =
           data.map((e) => JadwalModel.fromJson(e)).toList();
-      detailKelas.hari = result;
+      // return result;
+      return detailKelas;
+    }
+    return null;
+  }
+
+  Future<DetailKelasModel> getDetailKelas(int id) async {
+    var token = await Pref.getToken();
+    var response = await http.get(
+        Uri.parse(EndPoint.kelasDetail + id.toString()),
+        headers: {'Authorization': token});
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      DetailKelasModel detailKelas = DetailKelasModel.fromJson(data);
 
       return detailKelas;
     }
+    return null;
   }
 
   Future deleteJadwal(int id) async {
@@ -106,6 +130,33 @@ class KelasService {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
       }
+    }
+    return false;
+  }
+
+  Future deleteKelas(int id) async {
+    var token = await Pref.getToken();
+    var response = await http.get(
+        Uri.parse(EndPoint.deleteKelas + id.toString()),
+        headers: {'Authorization': token});
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
+  Future updateStatusKelas(int id, String status) async {
+    var token = await Pref.getToken();
+    Map<dynamic, String> body;
+    // body['status'] = status;
+    print(body);
+    var response = await http.post(
+        Uri.parse(EndPoint.updateStatus + id.toString()),
+        body: {'status': status},
+        headers: {'Authorization': token});
+    if (response.statusCode == 200) {
+      print(response.body);
+      return true;
     }
     return false;
   }
@@ -133,5 +184,33 @@ class KelasService {
       return data.map((e) => KelasModel.fromJson(e)).toList();
     }
     return [];
+  }
+
+  Future<bool> addKehadiranGuru(
+      String id, Map<String, dynamic> data, File tmpFile) async {
+    var token = await Pref.getToken();
+    Map<String, String> headers = {
+      'Authorization': token,
+    };
+    final request = http.MultipartRequest(
+        'POST', Uri.parse(EndPoint.addKehadiranGuru + id));
+    request.fields["materi"] = data["materi"];
+    request.fields["jurnal"] = data["jurnal"];
+    request.fields["status"] = data["status"];
+    request.files
+        .add(await http.MultipartFile.fromPath('file_materi', tmpFile.path));
+    request.headers.addAll(headers);
+    request.fields["poin"] = data["poin"];
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      response.stream.transform(utf8.decoder).listen((value) {
+        // print(value);
+        Map<String, dynamic> data = jsonDecode(value);
+
+        return true;
+      });
+    }
+    return false;
   }
 }

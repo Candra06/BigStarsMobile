@@ -1,12 +1,13 @@
+import 'dart:io';
+
 import 'package:bigstars_mobile/model/absensi_model.dart';
 import 'package:bigstars_mobile/model/detaiKelas_model.dart';
+import 'package:bigstars_mobile/model/detail_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/jadwal_model.dart';
 import 'package:bigstars_mobile/model/kehadiran_model.dart';
-import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/service/guru/kelas_service.dart';
 
-import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
 
 class KelasProvider with ChangeNotifier {
@@ -14,11 +15,13 @@ class KelasProvider with ChangeNotifier {
 
   List<Absensi> _absensiList = [];
   List<KehadiranModel> _listKehadiranModel = [];
-  DetailKelas _detailKelas;
+  DetailKelasModel _detailKelasModel;
   KelasModel _kelasModel;
   KehadiranModel _kehadiranModel;
+  DetailKelas detailKelas;
+  DetailKelasModel detailKelasAdmin;
 
-  DetailKelas get detailKelas => _detailKelas;
+  DetailKelasModel get detailKelasModel => _detailKelasModel;
   KelasModel get kelasModel => _kelasModel;
   List<KelasModel> get allKelas => _allKelas;
   List<KehadiranModel> get listKehadiranModel => _listKehadiranModel;
@@ -27,13 +30,15 @@ class KelasProvider with ChangeNotifier {
 
   BuildContext get context => null;
 
-  Future<List<KelasModel>> getKelas() async {
+  Future<List<KelasModel>> getKelas({String filtered}) async {
     try {
-      List<KelasModel> data = await KelasService().getAllKelas();
+      print(filtered);
+      List<KelasModel> data = await KelasService().getAllKelas(filtered);
       _allKelas = data;
       notifyListeners();
       return _allKelas;
     } catch (e) {
+      print(e);
       return [];
     }
   }
@@ -67,14 +72,27 @@ class KelasProvider with ChangeNotifier {
     return _allKelas;
   }
 
-  Future<DetailKelas> getDetail(String id) async {
+  Future<DetailKelasModel> getDetail(String id) async {
     try {
-      _detailKelas = await KelasService().getDetail(id);
+      _detailKelasModel = await KelasService().getDetail(id);
       notifyListeners();
-      return _detailKelas;
+      print(_detailKelasModel.message);
+      return _detailKelasModel;
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  Future<DetailKelasModel> getDetailAdmin(int id) async {
+    try {
+      detailKelasAdmin = await KelasService().getDetailKelas(id);
+      notifyListeners();
+
+      return detailKelasAdmin;
+    } catch (e) {
+      print(e);
+      return detailKelasAdmin;
     }
   }
 
@@ -98,12 +116,48 @@ class KelasProvider with ChangeNotifier {
     return status;
   }
 
+  Future addKehadiranGuru(
+      String id, Map<String, dynamic> data, File tmpFile) async {
+    try {
+      bool status = await KelasService().addKehadiranGuru(id, data, tmpFile);
+      print(status);
+      return status;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future deleteJadwal(int id) async {
     try {
       bool status = await KelasService().deleteJadwal(id);
       getDetail(id.toString());
       notifyListeners();
       return status;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future deleteKelas(int id) async {
+    try {
+      bool status = await KelasService().deleteKelas(id);
+      getDetail(id.toString());
+      notifyListeners();
+      return status;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future updateStatusKelas(int id, String status) async {
+    try {
+      print(status);
+      bool res = await KelasService().updateStatusKelas(id, status);
+      getDetail(id.toString());
+      notifyListeners();
+      return res;
     } catch (e) {
       print(e);
       return false;

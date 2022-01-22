@@ -1,7 +1,11 @@
+import 'dart:io';
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/network.dart';
 import 'package:bigstars_mobile/model/kehadiran_model.dart';
 import 'package:bigstars_mobile/page/modal/addKehadiranGuru.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ItemListKehadiran extends StatefulWidget {
   final KehadiranModel data;
@@ -27,8 +31,68 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
         });
   }
 
+  bool isLoading = false;
+  Future<String> getDirectoryPath() async {
+    String appDocDirectory = (await getApplicationDocumentsDirectory()).path;
+    Directory directory =
+        await new Directory(appDocDirectory + '/' + 'bigstars')
+            .create(recursive: true);
+
+    return directory.path;
+  }
+
+  Future _download(String url) async {
+    setState(() {
+      isLoading = true;
+    });
+    // String dir =
+    String fileName = url.substring(url.lastIndexOf("/") + 1);
+    String dir = await getDirectoryPath();
+    HttpClient httpClient = new HttpClient();
+    File file;
+
+    try {
+      var request = await httpClient.getUrl(Uri.parse(url));
+      var response = await request.close();
+      if (response.statusCode == 200) {
+        var bytes = await consolidateHttpClientResponseBytes(response);
+        var filePath = '$dir/$fileName';
+        file = File(filePath);
+        await file.writeAsBytes(bytes);
+        print("berhasil");
+      }
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget loadingText() {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            "Unduh Materi",
+            style: TextStyle(color: Colors.white, fontSize: 14),
+          ),
+        ],
+      );
+    }
+
     return Container(
       margin: EdgeInsets.only(bottom: 4),
       color: Config.textWhite,
@@ -81,7 +145,8 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             if (widget.data.fileMateri != '-') ...{
               ElevatedButton(
                 onPressed: () {
-                  print(widget.data.fileMateri);
+                  _download(EndPoint.server + widget.data.fileMateri);
+                  // print(widget.data.fileMateri);
                 },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(MediaQuery.of(context).size.width, 30),
@@ -91,10 +156,12 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
-                child: Text(
-                  "Unduh Materi",
-                  style: TextStyle(color: Colors.white, fontSize: 14),
-                ),
+                child: isLoading
+                    ? loadingText()
+                    : Text(
+                        "Unduh Materi",
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
               ),
             },
             // jika belum done / status waiting ketika sharing kelas button update absensi muncul

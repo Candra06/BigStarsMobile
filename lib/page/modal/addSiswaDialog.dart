@@ -1,21 +1,22 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
 import 'package:bigstars_mobile/helper/loadingButton.dart';
-import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/provider/siswa_provider.dart';
+import 'package:bigstars_mobile/provider/wali_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-class AddSiswa extends StatefulWidget {
-  final String id;
-  const AddSiswa({Key key, this.id}) : super(key: key);
+class ModalTambahSiswaByKelas extends StatefulWidget {
+  final String idWali;
+  final void Function(int) onSubmit;
+  const ModalTambahSiswaByKelas({Key key, this.idWali, this.onSubmit}) : super(key: key);
 
   @override
-  _AddSiswaState createState() => _AddSiswaState();
+  _ModalTambahSiswaByKelasState createState() => _ModalTambahSiswaByKelasState();
 }
 
-class _AddSiswaState extends State<AddSiswa> {
+class _ModalTambahSiswaByKelasState extends State<ModalTambahSiswaByKelas> {
   bool isloading = false;
   DateTime _dateTime;
   String tglLahir;
@@ -25,9 +26,9 @@ class _AddSiswaState extends State<AddSiswa> {
   TextEditingController txtAlamat = new TextEditingController();
   TextEditingController txtUsername = new TextEditingController();
   TextEditingController txtPhone = new TextEditingController();
-  TextEditingController txtReferal = new TextEditingController();
   TextEditingController txtPassword = new TextEditingController();
   TextEditingController txtTglLahir = new TextEditingController();
+  TextEditingController txtReferal = new TextEditingController();
   _showSuccesCreate() {
     showDialog(
         context: context,
@@ -89,7 +90,7 @@ class _AddSiswaState extends State<AddSiswa> {
       data['kode_referal'] = txtReferal.text;
     }
     await Provider.of<SiswaProvider>(context, listen: false).addSiswa(data).then((value) => {
-          if (value["message"] == "Success") {_showSuccesCreate()} else {print("gagal")}
+          if (value["message"] == "Success") {Config.alert(1, 'Berhasil menambah siswa')} else {print("gagal")}
         });
     // print(data);
     txtNama.text = '';
@@ -99,10 +100,12 @@ class _AddSiswaState extends State<AddSiswa> {
     txtPhone.text = '';
     txtTglLahir.text = '';
     txtUsername.text = '';
-    Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
+    // Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
     setState(() {
+      widget.onSubmit(1);
       isloading = false;
     });
+    Navigator.pop(context);
   }
 
   @override
@@ -112,14 +115,17 @@ class _AddSiswaState extends State<AddSiswa> {
         backgroundColor: Config.textWhite,
         leading: IconButton(
             onPressed: () {
+              setState(() {
+                widget.onSubmit(0);
+              });
               Navigator.pop(context);
             },
             icon: Icon(
-              Icons.arrow_back,
+              Icons.close,
               color: Config.primary,
             )),
         title: Text(
-          widget.id == '0' ? 'Tambah Siswa' : 'Edit Siswa',
+          'Tambah Siswa',
           style: TextStyle(color: Config.primary),
         ),
       ),
@@ -183,7 +189,7 @@ class _AddSiswaState extends State<AddSiswa> {
                 height: 10,
               ),
               Text('Nama Wali'),
-              formInputType(txtNamaWali, 'Nama Walisiswa', TextInputType.text),
+              formInput(txtNamaWali, 'Nama Walisiswa'),
               SizedBox(
                 height: 10,
               ),
@@ -198,7 +204,7 @@ class _AddSiswaState extends State<AddSiswa> {
                 height: 10,
               ),
               Text('Username'),
-              formInput(txtUsername, 'Nama Lengkap'),
+              formInput(txtUsername, 'Username Wali'),
               SizedBox(
                 height: 10,
               ),

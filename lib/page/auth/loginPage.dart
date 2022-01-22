@@ -51,6 +51,9 @@ class _LoginPageState extends State<LoginPage> {
         SharedPreferences pref = await SharedPreferences.getInstance();
 
         pref.setString('token', user.token);
+        pref.setString('username', user.username);
+        pref.setString('phone', user.phone);
+        pref.setString('foto', user.foto);
         pref.setString('user', json.encode(user.toJson()));
         setState(() {
           Provider.of<MapelProvider>(context, listen: false).getMapels();
@@ -60,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
         if (authProvider.user.role == 'Admin') {
           await Provider.of<AuthProvider>(context, listen: false)
               .getDashboard();
+          pref.setString('nama', 'Admin');
           Navigator.pushReplacement(
             context,
             PageTransition(
@@ -72,6 +76,7 @@ class _LoginPageState extends State<LoginPage> {
         } else if (authProvider.user.role == 'Guru') {
           await Provider.of<AuthProvider>(context, listen: false)
               .getDashboardGuru();
+          pref.setString('nama', user.nama);
           Navigator.pushReplacement(
             context,
             PageTransition(
@@ -82,6 +87,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else {
+          pref.setString('nama', user.nama);
           Navigator.pushReplacement(
             context,
             PageTransition(

@@ -46,6 +46,7 @@ class _ItemKelasState extends State<ItemKelas> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   margin: EdgeInsets.all(8),
@@ -56,11 +57,8 @@ class _ItemKelasState extends State<ItemKelas> {
                 ),
                 Container(
                   margin: EdgeInsets.all(8),
-                  child: Text(
-                    widget.data.status,
-                    style: TextStyle(fontWeight: FontWeight.w200, fontSize: 13, color: Config.boxGreen),
-                  ),
-                ),
+                  child: Config.bedgeStatus(widget.data.status),
+                )
               ],
             ),
             Container(

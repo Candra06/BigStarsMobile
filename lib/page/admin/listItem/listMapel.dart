@@ -27,58 +27,59 @@ class _ListMapelState extends State<ListMapel> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Config.textWhite,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: Config.primary,
-            )),
-        title: Text(
-          'Data Mapel',
-          style: TextStyle(color: Config.primary),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Config.primary,
-        onPressed: () {
-          var data = {"id": "0", "mapel": MapelModel()};
-          Navigator.pushNamed(context, Routes.ADD_MAPEL, arguments: data);
-        },
-        child: Icon(
-          Icons.add,
-          color: Config.textWhite,
-        ),
-      ),
-      body: Container(
-        margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
-        child: FutureBuilder(
-          future:
-              Provider.of<MapelProvider>(context, listen: false).getMapels(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
-            return RefreshIndicator(
-              onRefresh: () {
-                return Provider.of<MapelProvider>(context, listen: false)
-                    .getMapels();
+    return WillPopScope(
+      onWillPop: () => Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '0'),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Config.textWhite,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '0');
               },
-              child: Consumer<MapelProvider>(
-                builder: (context, data, _) => ListView.builder(
-                    itemCount: data.mapels.length,
-                    itemBuilder: (BuildContext context, int i) {
-                      return ItemListMapel(
-                        mapelModel: data.mapels[i],
-                      );
-                    }),
-              ),
-            );
+              icon: Icon(
+                Icons.arrow_back,
+                color: Config.primary,
+              )),
+          title: Text(
+            'Data Mapel',
+            style: TextStyle(color: Config.primary),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Config.primary,
+          onPressed: () {
+            var data = {"id": "0", "mapel": MapelModel()};
+            Navigator.pushNamed(context, Routes.ADD_MAPEL, arguments: data);
           },
+          child: Icon(
+            Icons.add,
+            color: Config.textWhite,
+          ),
+        ),
+        body: Container(
+          margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+          child: FutureBuilder(
+            future: Provider.of<MapelProvider>(context, listen: false).getMapels(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              return RefreshIndicator(
+                onRefresh: () {
+                  return Provider.of<MapelProvider>(context, listen: false).getMapels();
+                },
+                child: Consumer<MapelProvider>(
+                  builder: (context, data, _) => ListView.builder(
+                      itemCount: data.mapels.length,
+                      itemBuilder: (BuildContext context, int i) {
+                        return ItemListMapel(
+                          mapelModel: data.mapels[i],
+                        );
+                      }),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

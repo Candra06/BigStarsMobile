@@ -5,6 +5,7 @@ class SiswaModel {
     this.id,
     this.idWali,
     this.nama,
+    this.status,
     this.birthDate,
     this.createdAt,
     this.updatedAt,
@@ -17,6 +18,7 @@ class SiswaModel {
   String kodeReferal;
   String idWali;
   String nama;
+  String status;
   DateTime birthDate;
   String createdAt;
   String updatedAt;
@@ -28,6 +30,7 @@ class SiswaModel {
         idWali: json["id_wali"],
         kodeReferal: json["kode_referal"] == null ? null : json["kode_referal"],
         nama: json["nama"],
+        status: json["status"] == null ? null : json["status"],
         birthDate: DateTime.parse(json["birth_date"]),
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],

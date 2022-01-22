@@ -3,20 +3,20 @@ import 'package:bigstars_mobile/helper/input.dart';
 import 'package:flutter/material.dart';
 
 class ModalFilterFee extends StatefulWidget {
-  final String idWali;
-  const ModalFilterFee({Key key, this.idWali}) : super(key: key);
+  final void Function(String, String, String) onsubmit;
+  const ModalFilterFee({Key key, this.onsubmit}) : super(key: key);
 
   @override
   _ModalFilterFeeState createState() => _ModalFilterFeeState();
 }
 
 class _ModalFilterFeeState extends State<ModalFilterFee> {
-  DateTime _dateTime;
-  String valBulan;
   TextEditingController txtNamaGuru = new TextEditingController();
   TextEditingController txtBulan = new TextEditingController();
-  List<String> statusPembayaran = ['Lunas', 'Belum Lunas'];
-  String status;
+  List<String> _tahun = ['2021', '2022', '2023', '2024', '2025'];
+  List<String> _bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+  String valBulan, fBulan = '';
+  String valTahun, fTahun = '';
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,48 +59,40 @@ class _ModalFilterFeeState extends State<ModalFilterFee> {
                   )),
               Container(
                 margin: EdgeInsets.only(top: 8, bottom: 10),
+                width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: TextField(
-                          readOnly: true,
-                          controller: txtBulan,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                                icon: Icon(
-                                  Icons.calendar_today,
-                                  color: Config.textGrey,
-                                ),
-                                onPressed: () {
-                                  showDatePicker(context: context, initialDate: _dateTime == null ? DateTime.now() : _dateTime, firstDate: DateTime(2020), lastDate: DateTime.now()).then((date) {
-                                    if (date != null) {
-                                      setState(() {
-                                        _dateTime = date;
-                                        txtBulan.text = Config.formatDateInput(date.toString());
-                                        var tgl = _dateTime.toString().split(' ');
-                                        valBulan = tgl[0].toString();
-                                      });
-                                    }
-                                  });
-                                }),
-                            border: InputBorder.none,
-                            hintText: 'Bulan',
-                            hintStyle: TextStyle(color: Config.textGrey),
-                          )),
+                child: DropdownButton(
+                  underline: SizedBox(),
+                  hint: Text(
+                    "Pilih Bulan",
+                    style: TextStyle(
+                      color: Config.textGrey,
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 1,
-                      color: Colors.white,
-                    )
-                  ],
+                  ),
+                  isExpanded: true,
+                  value: valBulan,
+                  items: _bulan.map((value) {
+                    return DropdownMenuItem(
+                      child: Text(value),
+                      value: value,
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      int index = _bulan.indexOf(value);
+                      int bulan = index + 1;
+                      valBulan = value;
+                      fBulan = bulan.toString();
+                    });
+                  },
                 ),
               ),
               SizedBox(height: 8),
-              Text('Status Pembayaran'),
+              Text('Tahun',
+                  style: TextStyle(
+                    fontSize: 14,
+                  )),
               Container(
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 width: MediaQuery.of(context).size.width,
@@ -109,14 +101,14 @@ class _ModalFilterFeeState extends State<ModalFilterFee> {
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
-                    "Pilih Status",
+                    "Pilih Tahun",
                     style: TextStyle(
                       color: Config.textGrey,
                     ),
                   ),
                   isExpanded: true,
-                  value: status,
-                  items: statusPembayaran.map((value) {
+                  value: valTahun,
+                  items: _tahun.map((value) {
                     return DropdownMenuItem(
                       child: Text(value),
                       value: value,
@@ -124,12 +116,12 @@ class _ModalFilterFeeState extends State<ModalFilterFee> {
                   }).toList(),
                   onChanged: (value) {
                     setState(() {
-                      status = value;
-                      print(status);
+                      valTahun = value;
                     });
                   },
                 ),
               ),
+              SizedBox(height: 8),
               SizedBox(
                 height: 8,
               ),
@@ -143,6 +135,23 @@ class _ModalFilterFeeState extends State<ModalFilterFee> {
                     decoration: BoxDecoration(color: Config.primary, borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: TextButton(
                         onPressed: () {
+                          String guru = '', tmpBulan = '';
+                          if (txtNamaGuru.text.isNotEmpty) {
+                            guru = txtNamaGuru.text.toString();
+                          } else {
+                            guru = '';
+                          }
+                          if (valBulan != null) {
+                            tmpBulan = fBulan;
+                          } else {
+                            tmpBulan = '';
+                          }
+                          if (valTahun == null) {
+                            valTahun = '';
+                          } else {
+                            valTahun = valTahun;
+                          }
+                          widget.onsubmit(guru, tmpBulan, valTahun);
                           Navigator.pop(context);
                         },
                         child: Text('Terapkan', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Config.textWhite))),

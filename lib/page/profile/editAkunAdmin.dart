@@ -1,10 +1,12 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditAkunAdmin extends StatefulWidget {
   const EditAkunAdmin({Key key}) : super(key: key);
@@ -24,12 +26,14 @@ class _EditAkunAdminState extends State<EditAkunAdmin> {
   UserModel userModel = new UserModel();
 
   void edit() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
     userModel.username = txtUsername.text;
     userModel.phone = txtPhone.text;
     userModel.password = txtPassword.text;
     await Provider.of<AuthProvider>(context, listen: false).editProfilAdmin(user: userModel).then((value) {
       if (value) {
-        print(value);
+        pref.setString('username', txtUsername.text);
+        pref.setString('phone', txtPhone.text);
         Config.alert(1, 'Berhasil merubah profil');
         Navigator.pushNamed(context, Routes.PROFILE_ADMIN);
       }
@@ -37,11 +41,11 @@ class _EditAkunAdminState extends State<EditAkunAdmin> {
   }
 
   void getData() async {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+    var tmpUser = await Pref.getUsername();
+    var tmpPhone = await Pref.getPhone();
     setState(() {
-      userModel = authProvider.user;
-      txtUsername.text = authProvider.user.username;
-      txtPhone.text = authProvider.user.phone;
+      txtUsername.text = tmpUser;
+      txtPhone.text = tmpPhone;
     });
   }
 

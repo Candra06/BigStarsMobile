@@ -22,7 +22,8 @@ class _KehadiranKelasGuruState extends State<KehadiranKelasGuru> {
     void onSubmit(status) {
       if (status) {
         setState(() {
-          Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.id.id.toString());
+          Provider.of<KelasProvider>(context, listen: false)
+              .getKehadiran(widget.id.id.toString());
         });
       }
     }
@@ -63,7 +64,8 @@ class _KehadiranKelasGuruState extends State<KehadiranKelasGuru> {
                 top: 16,
               ),
               child: FutureBuilder(
-                future: Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.id.id.toString()),
+                future: Provider.of<KelasProvider>(context, listen: false)
+                    .getKehadiran(widget.id.id.toString()),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(

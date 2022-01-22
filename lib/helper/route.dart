@@ -6,6 +6,7 @@ import 'package:bigstars_mobile/page/admin/finance/detailInvoiceFee.dart';
 import 'package:bigstars_mobile/page/admin/finance/detailInvoiceSpp.dart';
 import 'package:bigstars_mobile/page/admin/finance/listFeeGuru.dart';
 import 'package:bigstars_mobile/page/admin/finance/listSppMurid.dart';
+import 'package:bigstars_mobile/page/admin/finance/reportPage.dart';
 import 'package:bigstars_mobile/page/admin/kelas/addKelas.dart';
 import 'package:bigstars_mobile/page/admin/kelas/detailKelas.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
@@ -68,6 +69,7 @@ class Routes {
   static const String DETAIL_SPP = '/detail_spp';
   static const String DETAIL_FEE = '/detail_fee';
   static const String FINANCE = '/detail_fee';
+  static const String REPORT = '/report';
   static const String NOTIFIKASI = '/notifikasi';
   static const String DATA_GURU_ABSENSI = '/absensi_guru';
   static const String DATA_GURU_ABSENSI_DETAIL = '/absensi_guru_detail';
@@ -225,8 +227,9 @@ class Routes {
         return PageTransition(
             child: EditAkunWali(), type: PageTransitionType.leftToRight);
       case NOTIFIKASI:
-        return PageTransition(
-            child: NotificationPage(), type: PageTransitionType.bottomToTop);
+        return PageTransition(child: NotificationPage(), type: PageTransitionType.bottomToTop);
+      case REPORT:
+        return PageTransition(child: ReportPage(), type: PageTransitionType.bottomToTop);
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
