@@ -17,8 +17,9 @@ class EditSiswa extends StatefulWidget {
 
 class _EditSiswaState extends State<EditSiswa> {
   DateTime _dateTime;
-  String tglLahir;
+  String tglLahir, status;
   bool obsecured = true;
+  List<String> listStatus = ['Aktif', 'Nonaktif'];
   TextEditingController txtNama = new TextEditingController();
   TextEditingController txtTglLahir = new TextEditingController();
 
@@ -69,10 +70,13 @@ class _EditSiswaState extends State<EditSiswa> {
 
   void insetVal() {
     txtNama.text = widget.siswa.nama;
+    txtTglLahir.text = Config.formatDateInput(widget.siswa.birthDate.toString());
+    tglLahir = widget.siswa.birthDate.toString();
+    status = widget.siswa.status;
   }
 
   void edit() async {
-    Map<String, dynamic> data = {"nama": txtNama.text, "birth_date": tglLahir};
+    Map<String, dynamic> data = {"nama": txtNama.text, "birth_date": tglLahir, "status": status};
     await Provider.of<SiswaProvider>(context, listen: false).editSiswa(widget.siswa.id, data).then((value) {
       if (value) {
         _showSuccesEdit();
@@ -83,7 +87,7 @@ class _EditSiswaState extends State<EditSiswa> {
   @override
   void initState() {
     insetVal();
-    print(widget.siswa.id);
+    print(widget.siswa);
     super.initState();
   }
 
@@ -160,6 +164,35 @@ class _EditSiswaState extends State<EditSiswa> {
                         color: Colors.white,
                       )
                     ],
+                  ),
+                ),
+                Text('Status Siswa'),
+                Container(
+                  margin: EdgeInsets.only(top: 8, bottom: 10),
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                  child: DropdownButton(
+                    underline: SizedBox(),
+                    hint: Text(
+                      "Pilih Status",
+                      style: TextStyle(
+                        color: Config.textGrey,
+                      ),
+                    ),
+                    isExpanded: true,
+                    value: status,
+                    items: listStatus.map((value) {
+                      return DropdownMenuItem(
+                        child: Text(value),
+                        value: value,
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        status = value;
+                      });
+                    },
                   ),
                 ),
                 SizedBox(height: 20),

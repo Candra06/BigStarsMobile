@@ -21,7 +21,7 @@ class KelasService {
     }
     print(url);
     var response = await http.get(Uri.parse(url), headers: {"authorization": token});
-    print(response.body);
+
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)["data"];
       return data.map((e) => KelasModel.fromJson(e)).toList();
@@ -94,18 +94,20 @@ class KelasService {
       // return result;
       return detailKelas;
     }
+    return null;
   }
 
-  Future<DetailKelas> getDetailKelas(int id) async {
+  Future<DetailKelasModel> getDetailKelas(int id) async {
     var token = await Pref.getToken();
     var response = await http.get(Uri.parse(EndPoint.kelasDetail + id.toString()), headers: {'Authorization': token});
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      DetailKelas detailKelas = DetailKelas.fromJson(data);
+      DetailKelasModel detailKelas = DetailKelasModel.fromJson(data);
 
       return detailKelas;
     }
+    return null;
   }
 
   Future deleteJadwal(int id) async {
@@ -115,6 +117,28 @@ class KelasService {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
       }
+    }
+    return false;
+  }
+
+  Future deleteKelas(int id) async {
+    var token = await Pref.getToken();
+    var response = await http.get(Uri.parse(EndPoint.deleteKelas + id.toString()), headers: {'Authorization': token});
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
+  Future updateStatusKelas(int id, String status) async {
+    var token = await Pref.getToken();
+    Map<dynamic, String> body;
+    // body['status'] = status;
+    print(body);
+    var response = await http.post(Uri.parse(EndPoint.updateStatus + id.toString()), body: {'status': status}, headers: {'Authorization': token});
+    if (response.statusCode == 200) {
+      print(response.body);
+      return true;
     }
     return false;
   }

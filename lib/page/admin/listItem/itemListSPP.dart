@@ -67,7 +67,7 @@ class _ItemListSPPState extends State<ItemListSPP> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  Config.formatRupiah(widget.data.jumlah),
+                                  Config.formatRupiah(int.parse(widget.data.jumlah)),
                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                                 ),
                                 SizedBox(

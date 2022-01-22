@@ -5,6 +5,7 @@ class UserModel {
     this.password,
     this.foto,
     this.phone,
+    this.nama,
     this.role,
     this.status,
     this.rememberToken,
@@ -18,6 +19,7 @@ class UserModel {
   String password;
   String foto;
   String phone;
+  String nama;
   String role;
   String status;
   dynamic rememberToken;
@@ -31,6 +33,7 @@ class UserModel {
         password: json["password"] == null ? null : json["password"],
         foto: json["foto"] == null ? null : json["foto"],
         phone: json["phone"] == null ? null : json["phone"],
+        nama: json["nama"] == null ? null : json["nama"],
         role: json["role"] == null ? null : json["role"],
         status: json["status"] == null ? null : json["status"],
         rememberToken: json["remember_token"],

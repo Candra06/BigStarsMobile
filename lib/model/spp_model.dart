@@ -13,15 +13,15 @@ class SppModel {
     this.updatedAt,
   });
 
-  int idSiswa;
+  String idSiswa;
   String nama;
   int id;
   String noInvoice;
   DateTime tagihanBulan;
-  int jumlah;
+  String jumlah;
   String status;
-  int createdBy;
-  int updatedBy;
+  String createdBy;
+  String updatedBy;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -44,8 +44,7 @@ class SppModel {
         "nama": nama,
         "id": id,
         "no_invoice": noInvoice,
-        "tagihan_bulan":
-            "${tagihanBulan.year.toString().padLeft(4, '0')}-${tagihanBulan.month.toString().padLeft(2, '0')}-${tagihanBulan.day.toString().padLeft(2, '0')}",
+        "tagihan_bulan": "${tagihanBulan.year.toString().padLeft(4, '0')}-${tagihanBulan.month.toString().padLeft(2, '0')}-${tagihanBulan.day.toString().padLeft(2, '0')}",
         "jumlah": jumlah,
         "status": status,
         "created_by": createdBy,

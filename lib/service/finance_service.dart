@@ -57,6 +57,7 @@ class FinanceService {
     print(url);
     var response = await http.get(Uri.parse(url), headers: {'Authorization': token});
     if (response.statusCode == 200) {
+      print(response.body);
       List fee = jsonDecode(response.body)["data"];
       return fee.map((e) => ReportModel.fromJson(e)).toList();
     } else {
@@ -73,6 +74,8 @@ class FinanceService {
 
     if (response.statusCode == 200) {
       return FinanceModel.fromJson(jsonDecode(response.body)["data"]);
+    } else {
+      return null;
     }
   }
 
@@ -92,8 +95,7 @@ class FinanceService {
 
   Future generateSpp() async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.generateSpp),
-        headers: {'Authorization': token});
+    var response = await http.get(Uri.parse(EndPoint.generateSpp), headers: {'Authorization': token});
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
@@ -106,8 +108,7 @@ class FinanceService {
 
   Future<bool> konfirmasiFee(String id) async {
     var token = await Pref.getToken();
-    var response = await http.post(Uri.parse(EndPoint.konfirmasiFee + id),
-        headers: {'Authorization': token});
+    var response = await http.post(Uri.parse(EndPoint.konfirmasiFee + id), headers: {'Authorization': token});
 
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {

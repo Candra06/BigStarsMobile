@@ -9,6 +9,8 @@ class EndPoint {
   static final String logout = api + 'logout';
   static final String editProfilAdm = api + 'update-profil-admin';
   static final String editFoto = api + 'update-photo';
+  static final String notifikasi = api + 'notfikasi/list';
+  static final String readNotif = api + 'notfikasi/read/';
 
   // mapel
   static final String mapel = api + 'mapel/data';
@@ -51,5 +53,7 @@ class EndPoint {
   static final kelasDetail = api + 'kelas/detail/';
   static final addJadwal = api + 'kelas/add-jadwal/';
   static final deleteJadwal = api + 'kelas/delete-jadwal/';
+  static final deleteKelas = api + 'kelas/delete/';
+  static final updateStatus = api + 'kelas/updateStatus/';
   static final absensi = api + 'kelas/absensi/';
 }

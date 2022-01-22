@@ -2,6 +2,7 @@ import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListFee.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListReport.dart';
 import 'package:bigstars_mobile/page/modal/modalFilterFee.dart';
+import 'package:bigstars_mobile/page/modal/modalFilterReport.dart';
 import 'package:bigstars_mobile/provider/finance_provider.dart';
 import 'package:bigstars_mobile/service/finance_service.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,11 @@ class _ReportPageState extends State<ReportPage> {
   bool isLoading = false;
 
   void modelFilter(BuildContext context) {
-    void filtered(bulan, tahun) async {
+    void filtered(nama, bulan, tahun) async {
+      if (nama != '') {
+        filter.removeWhere((element) => element.startsWith('nama'));
+        filter.add('nama=' + nama);
+      }
       if (bulan != '') {
         filter.removeWhere((element) => element.startsWith('bulan'));
         filter.add('bulan=' + bulan);
@@ -43,10 +48,10 @@ class _ReportPageState extends State<ReportPage> {
         context: context,
         isScrollControlled: true,
         builder: (builder) {
-          return ModalFilterFee(
-              // id: id,
-              // onsubmit: filtered,
-              );
+          return ModalFilterReport(
+            // id: id,
+            onsubmit: filtered,
+          );
         });
   }
 

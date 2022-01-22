@@ -25,6 +25,7 @@ class _AddSiswaState extends State<AddSiswa> {
   TextEditingController txtAlamat = new TextEditingController();
   TextEditingController txtUsername = new TextEditingController();
   TextEditingController txtPhone = new TextEditingController();
+  TextEditingController txtReferal = new TextEditingController();
   TextEditingController txtPassword = new TextEditingController();
   TextEditingController txtTglLahir = new TextEditingController();
   _showSuccesCreate() {
@@ -84,6 +85,9 @@ class _AddSiswaState extends State<AddSiswa> {
       'username': txtUsername.text,
       'password': txtPassword.text
     };
+    if (txtReferal.text.isNotEmpty) {
+      data['kode_referal'] = txtReferal.text;
+    }
     await Provider.of<SiswaProvider>(context, listen: false).addSiswa(data).then((value) => {
           if (value["message"] == "Success") {_showSuccesCreate()} else {print("gagal")}
         });
@@ -149,11 +153,7 @@ class _AddSiswaState extends State<AddSiswa> {
                                   color: Config.textGrey,
                                 ),
                                 onPressed: () {
-                                  showDatePicker(
-                                    context: context, 
-                                    
-                                    initialDate: _dateTime == null ? DateTime.now() : _dateTime, 
-                                    firstDate: DateTime(2000), lastDate: DateTime.now()).then((date) {
+                                  showDatePicker(context: context, initialDate: _dateTime == null ? DateTime.now() : _dateTime, firstDate: DateTime(2000), lastDate: DateTime.now()).then((date) {
                                     if (date != null) {
                                       setState(() {
                                         _dateTime = date;
@@ -183,12 +183,17 @@ class _AddSiswaState extends State<AddSiswa> {
                 height: 10,
               ),
               Text('Nama Wali'),
-              formInput(txtNamaWali, 'Nama Walisiswa'),
+              formInputType(txtNamaWali, 'Nama Walisiswa', TextInputType.text),
               SizedBox(
                 height: 10,
               ),
               Text('Alamat'),
               formInputMultiline(txtAlamat, 'Alamat'),
+              SizedBox(
+                height: 10,
+              ),
+              Text('Kode Referal'),
+              formInputType(txtReferal, 'Opsional', TextInputType.text),
               SizedBox(
                 height: 10,
               ),

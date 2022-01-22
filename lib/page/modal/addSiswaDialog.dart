@@ -28,6 +28,7 @@ class _ModalTambahSiswaByKelasState extends State<ModalTambahSiswaByKelas> {
   TextEditingController txtPhone = new TextEditingController();
   TextEditingController txtPassword = new TextEditingController();
   TextEditingController txtTglLahir = new TextEditingController();
+  TextEditingController txtReferal = new TextEditingController();
   _showSuccesCreate() {
     showDialog(
         context: context,
@@ -85,6 +86,9 @@ class _ModalTambahSiswaByKelasState extends State<ModalTambahSiswaByKelas> {
       'username': txtUsername.text,
       'password': txtPassword.text
     };
+    if (txtReferal.text.isNotEmpty) {
+      data['kode_referal'] = txtReferal.text;
+    }
     await Provider.of<SiswaProvider>(context, listen: false).addSiswa(data).then((value) => {
           if (value["message"] == "Success") {Config.alert(1, 'Berhasil menambah siswa')} else {print("gagal")}
         });
@@ -191,6 +195,11 @@ class _ModalTambahSiswaByKelasState extends State<ModalTambahSiswaByKelas> {
               ),
               Text('Alamat'),
               formInputMultiline(txtAlamat, 'Alamat'),
+              SizedBox(
+                height: 10,
+              ),
+              Text('Kode Referal'),
+              formInputType(txtReferal, 'Opsional', TextInputType.text),
               SizedBox(
                 height: 10,
               ),

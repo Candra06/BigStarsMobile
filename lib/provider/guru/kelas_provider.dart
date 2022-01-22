@@ -4,10 +4,8 @@ import 'package:bigstars_mobile/model/detail_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/jadwal_model.dart';
 import 'package:bigstars_mobile/model/kehadiran_model.dart';
-import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/service/guru/kelas_service.dart';
 
-import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
 
 class KelasProvider with ChangeNotifier {
@@ -19,6 +17,7 @@ class KelasProvider with ChangeNotifier {
   KelasModel _kelasModel;
   KehadiranModel _kehadiranModel;
   DetailKelas detailKelas;
+  DetailKelasModel detailKelasAdmin;
 
   DetailKelasModel get detailKelasModel => _detailKelasModel;
   KelasModel get kelasModel => _kelasModel;
@@ -76,15 +75,15 @@ class KelasProvider with ChangeNotifier {
     }
   }
 
-  Future<DetailKelas> getDetailAdmin(int id) async {
+  Future<DetailKelasModel> getDetailAdmin(int id) async {
     try {
-      detailKelas = await KelasService().getDetailKelas(id);
+      detailKelasAdmin = await KelasService().getDetailKelas(id);
       notifyListeners();
 
-      return detailKelas;
+      return detailKelasAdmin;
     } catch (e) {
       print(e);
-      return detailKelas;
+      return detailKelasAdmin;
     }
   }
 
@@ -114,6 +113,31 @@ class KelasProvider with ChangeNotifier {
       getDetail(id.toString());
       notifyListeners();
       return status;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future deleteKelas(int id) async {
+    try {
+      bool status = await KelasService().deleteKelas(id);
+      getDetail(id.toString());
+      notifyListeners();
+      return status;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future updateStatusKelas(int id, String status) async {
+    try {
+      print(status);
+      bool res = await KelasService().updateStatusKelas(id, status);
+      getDetail(id.toString());
+      notifyListeners();
+      return res;
     } catch (e) {
       print(e);
       return false;
