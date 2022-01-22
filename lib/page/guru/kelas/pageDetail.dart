@@ -38,7 +38,7 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
     });
     detailKelas = await Provider.of<KelasProvider>(context, listen: false)
         .getDetail(detailKelas.id.toString());
-    print(detailKelas.guru);
+    // print(detailKelas.guru);
     setState(() {
       load = false;
     });

@@ -57,8 +57,9 @@ class _LoginPageState extends State<LoginPage> {
           Config.alert(1, 'Login berhaasil');
         });
         await Provider.of<FinanceProvider>(context, listen: false).getFinance();
-        await Provider.of<AuthProvider>(context, listen: false).getDashboard();
         if (authProvider.user.role == 'Admin') {
+          await Provider.of<AuthProvider>(context, listen: false)
+              .getDashboard();
           Navigator.pushReplacement(
             context,
             PageTransition(
@@ -69,6 +70,8 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else if (authProvider.user.role == 'Guru') {
+          await Provider.of<AuthProvider>(context, listen: false)
+              .getDashboardGuru();
           Navigator.pushReplacement(
             context,
             PageTransition(
