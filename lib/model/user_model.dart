@@ -12,6 +12,8 @@ class UserModel {
     this.createdAt,
     this.updatedAt,
     this.token,
+    this.alamat,
+    this.birthDate,
   });
 
   int id;
@@ -21,8 +23,10 @@ class UserModel {
   String phone;
   String nama;
   String role;
+  String alamat;
   String status;
   dynamic rememberToken;
+  DateTime birthDate;
   DateTime createdAt;
   DateTime updatedAt;
   String token;
@@ -34,9 +38,11 @@ class UserModel {
         foto: json["foto"] == null ? null : json["foto"],
         phone: json["phone"] == null ? null : json["phone"],
         nama: json["nama"] == null ? null : json["nama"],
+        alamat: json["alamat"] == null ? null : json["alamat"],
         role: json["role"] == null ? null : json["role"],
         status: json["status"] == null ? null : json["status"],
         rememberToken: json["remember_token"],
+        birthDate: json["birth_date"] == null ? null : DateTime.parse(json["birth_date"]),
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),

@@ -4,6 +4,7 @@ import 'package:bigstars_mobile/helper/network.dart';
 import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/model/dashboardGuru_model.dart';
 import 'package:bigstars_mobile/model/dashboard_model.dart';
+import 'package:bigstars_mobile/model/dashboard_wali.dart';
 import 'package:bigstars_mobile/model/kelasToday_model.dart';
 import 'package:bigstars_mobile/model/notif_model.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
@@ -147,6 +148,16 @@ class AuthService {
     var response = await http.get(Uri.parse(EndPoint.dashboardGuru), headers: {'Authorization': token});
     if (response.statusCode == 200) {
       return DashboardGuruModel.fromJson(jsonDecode(response.body)["data"]);
+    }
+    return null;
+    // print(response.body);
+  }
+
+  Future<DashboardWaliModel> getDashboardWali() async {
+    var token = await Pref.getToken();
+    var response = await http.get(Uri.parse(EndPoint.dashboardWali), headers: {'Authorization': token});
+    if (response.statusCode == 200) {
+      return DashboardWaliModel.fromJson(jsonDecode(response.body));
     }
     return null;
     // print(response.body);
