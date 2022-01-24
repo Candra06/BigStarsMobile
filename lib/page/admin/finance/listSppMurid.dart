@@ -101,7 +101,9 @@ class _ListSppMuridState extends State<ListSppMurid> {
       isLoading = true;
     });
 
-    await Provider.of<FinanceProvider>(context, listen: false).generateSpp().then((value) {
+    await Provider.of<FinanceProvider>(context, listen: false)
+        .generateSpp()
+        .then((value) {
       if (value) {
         _showSuccesAdd();
       }

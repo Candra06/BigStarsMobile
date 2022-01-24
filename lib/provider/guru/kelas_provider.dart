@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bigstars_mobile/model/absensi_model.dart';
 import 'package:bigstars_mobile/model/detaiKelas_model.dart';
 import 'package:bigstars_mobile/model/detail_model.dart';
@@ -74,6 +76,7 @@ class KelasProvider with ChangeNotifier {
     try {
       _detailKelasModel = await KelasService().getDetail(id);
       notifyListeners();
+      print(_detailKelasModel.message);
       return _detailKelasModel;
     } catch (e) {
       print(e);
@@ -111,6 +114,17 @@ class KelasProvider with ChangeNotifier {
     _listKehadiranModel = await getKehadiran(id);
     notifyListeners();
     return status;
+  }
+
+  Future addKehadiranGuru(
+      String id, Map<String, dynamic> data, File tmpFile) async {
+    try {
+      bool status = await KelasService().addKehadiranGuru(id, data, tmpFile);
+      print(status);
+      return status;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future deleteJadwal(int id) async {

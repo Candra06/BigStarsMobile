@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class KehadiranKelasGuru extends StatefulWidget {
-  final KelasModel id;
+  final String id;
 
   const KehadiranKelasGuru({Key key, this.id}) : super(key: key);
 
@@ -22,7 +22,8 @@ class _KehadiranKelasGuruState extends State<KehadiranKelasGuru> {
     void onSubmit(status) {
       if (status) {
         setState(() {
-          Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.id.id.toString());
+          Provider.of<KelasProvider>(context, listen: false)
+              .getKehadiran(widget.id.toString());
         });
       }
     }
@@ -47,7 +48,7 @@ class _KehadiranKelasGuruState extends State<KehadiranKelasGuru> {
       floatingActionButton: FloatingActionButton(
           backgroundColor: Config.primary,
           onPressed: () {
-            _addNewKehadiran(context, widget.id.id.toString());
+            _addNewKehadiran(context, widget.id);
           },
           child: Icon(
             Icons.add,
@@ -63,7 +64,8 @@ class _KehadiranKelasGuruState extends State<KehadiranKelasGuru> {
                 top: 16,
               ),
               child: FutureBuilder(
-                future: Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.id.id.toString()),
+                future: Provider.of<KelasProvider>(context, listen: false)
+                    .getKehadiran(widget.id),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(

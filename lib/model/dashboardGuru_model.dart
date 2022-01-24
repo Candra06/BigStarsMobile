@@ -1,40 +1,50 @@
 import 'package:bigstars_mobile/model/dashboard_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
-import 'package:bigstars_mobile/model/kelasToday_model.dart';
 
 class DashboardGuruModel {
   DashboardGuruModel({
     this.fee,
+    this.notifUnread,
     this.kelasToday,
     this.kelasAktif,
     this.sharing,
   });
 
-  String fee;
+  int fee;
+  int notifUnread;
+  List<KelasTodayGuru> kelasToday;
   int kelasAktif;
-  List<KelasModel> kelasToday;
-  List<KelasModel> sharing;
+  List<KelasTodayGuru> sharing;
 
   factory DashboardGuruModel.fromJson(Map<String, dynamic> json) =>
       DashboardGuruModel(
-        fee: json["fee"],
-        kelasAktif: json["kelas_aktif"],
-        kelasToday: List<KelasModel>.from(
-            json["kelas_today"].map((x) => KelasModel.fromJson(x))),
-        sharing: List<KelasModel>.from(
-            json["sharing"].map((x) => KelasModel.fromJson(x))),
+        fee: json["fee"] == null ? null : json["fee"],
+        notifUnread: json["notif_unread"] == null ? null : json["notif_unread"],
+        kelasToday: json["kelas_today"] == null
+            ? null
+            : List<KelasTodayGuru>.from(
+                json["kelas_today"].map((x) => KelasTodayGuru.fromJson(x))),
+        kelasAktif: json["kelas_aktif"] == null ? null : json["kelas_aktif"],
+        sharing: json["sharing"] == null
+            ? null
+            : List<KelasTodayGuru>.from(
+                json["sharing"].map((x) => KelasTodayGuru.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "fee": fee,
-        "kelas_aktif": kelasAktif,
-        "kelas_today": List<dynamic>.from(kelasToday.map((x) => x.toJson())),
-        "sharing": List<dynamic>.from(sharing.map((x) => x)),
+        "fee": fee == null ? null : fee,
+        "notif_unread": notifUnread == null ? null : notifUnread,
+        "kelas_today": kelasToday == null
+            ? null
+            : List<dynamic>.from(kelasToday.map((x) => x.toJson())),
+        "kelas_aktif": kelasAktif == null ? null : kelasAktif,
+        "sharing":
+            sharing == null ? null : List<dynamic>.from(sharing.map((x) => x)),
       };
 }
 
-class KelasTodayGuruModel {
-  KelasTodayGuruModel({
+class KelasTodayGuru {
+  KelasTodayGuru({
     this.siswa,
     this.guru,
     this.mapel,
@@ -52,48 +62,7 @@ class KelasTodayGuruModel {
   String jamMulai;
   String jamSelesai;
 
-  factory KelasTodayGuruModel.fromJson(Map<String, dynamic> json) =>
-      KelasTodayGuruModel(
-        siswa: json["siswa"],
-        guru: json["guru"],
-        mapel: json["mapel"],
-        idKelas: json["id_kelas"],
-        status: json["status"],
-        jamMulai: json["jam_mulai"],
-        jamSelesai: json["jam_selesai"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "siswa": siswa,
-        "guru": guru,
-        "mapel": mapel,
-        "id_kelas": idKelas,
-        "status": status,
-        "jam_mulai": jamMulai,
-        "jam_selesai": jamSelesai,
-      };
-}
-
-class SharingModel {
-  SharingModel({
-    this.siswa,
-    this.guru,
-    this.mapel,
-    this.idKelas,
-    this.status,
-    this.jamMulai,
-    this.jamSelesai,
-  });
-
-  String siswa;
-  String guru;
-  String mapel;
-  String idKelas;
-  String status;
-  String jamMulai;
-  String jamSelesai;
-
-  factory SharingModel.fromJson(Map<String, dynamic> json) => SharingModel(
+  factory KelasTodayGuru.fromJson(Map<String, dynamic> json) => KelasTodayGuru(
         siswa: json["siswa"] == null ? null : json["siswa"],
         guru: json["guru"] == null ? null : json["guru"],
         mapel: json["mapel"] == null ? null : json["mapel"],

@@ -8,6 +8,8 @@ import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListKelas.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListKelasGuru.dart';
+import 'package:bigstars_mobile/page/admin/listItem/itemListKelasToday.dart';
+import 'package:bigstars_mobile/page/admin/listItem/itemListKelasTodayGuru.dart';
 import 'package:bigstars_mobile/page/guru/kelas/listItem.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
@@ -188,8 +190,7 @@ class _HomeGuruState extends State<HomeGuru> {
                                         fontSize: 18),
                                   ),
                                   Text(
-                                    Config.formatRupiah(
-                                        int.parse(dashboardGuruModel.fee)),
+                                    Config.formatRupiah(dashboardGuruModel.fee),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w800,
                                         color: Config.textWhite,
@@ -216,7 +217,8 @@ class _HomeGuruState extends State<HomeGuru> {
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: dashboardGuruModel.kelasToday.length,
                             itemBuilder: (BuildContext cotext, int i) {
-                              return ItemKelasGuru(
+                              print(dashboardGuruModel.kelasToday[i].idKelas);
+                              return ItemKelasTodayGuru(
                                 data: dashboardGuruModel.kelasToday[i],
                               );
                             },
@@ -230,6 +232,7 @@ class _HomeGuruState extends State<HomeGuru> {
                           SizedBox(
                             height: 10,
                           ),
+
                           // Jika data ada
                           Container(
                             child: ListView.builder(
@@ -237,7 +240,7 @@ class _HomeGuruState extends State<HomeGuru> {
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: dashboardGuruModel.sharing.length,
                               itemBuilder: (BuildContext cotext, int i) {
-                                return ItemKelasGuru(
+                                return ItemKelasTodayGuru(
                                   data: dashboardGuruModel.sharing[i],
                                 );
                               },

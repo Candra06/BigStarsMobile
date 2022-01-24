@@ -42,8 +42,7 @@ class _SplashScreenState extends State<SplashScreen>
         await Provider.of<AuthProvider>(context, listen: false).getDashboard();
       } else if (userModel.role == "Guru") {
         await Provider.of<AuthProvider>(context, listen: false)
-            .getDashboardGuru()
-            .then((value) => print(value));
+            .getDashboardGuru();
       }
     }
   }
