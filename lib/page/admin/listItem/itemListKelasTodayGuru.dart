@@ -6,21 +6,21 @@ import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ItemKelasGuru extends StatefulWidget {
-  final KelasModel data;
-  const ItemKelasGuru({Key key, this.data}) : super(key: key);
+class ItemKelasTodayGuru extends StatefulWidget {
+  final KelasTodayGuru data;
+  const ItemKelasTodayGuru({Key key, this.data}) : super(key: key);
 
   @override
-  _ItemKelasGuruState createState() => _ItemKelasGuruState();
+  _ItemKelasTodayGuruState createState() => _ItemKelasTodayGuruState();
 }
 
-class _ItemKelasGuruState extends State<ItemKelasGuru> {
+class _ItemKelasTodayGuruState extends State<ItemKelasTodayGuru> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, Routes.DETAIL_KELAS_GURU,
-            arguments: widget.data.id.toString());
+            arguments: widget.data.idKelas.toString());
       },
       child: Container(
         margin: EdgeInsets.only(top: 8),

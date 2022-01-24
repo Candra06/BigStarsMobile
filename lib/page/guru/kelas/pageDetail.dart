@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DetailKelasPageGuru extends StatefulWidget {
-  final KelasModel kelas;
-  const DetailKelasPageGuru({Key key, this.kelas}) : super(key: key);
+  final String id;
+  const DetailKelasPageGuru({Key key, this.id}) : super(key: key);
 
   @override
   _DetailKelasPageGuruState createState() => _DetailKelasPageGuruState();
@@ -37,9 +37,9 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
     setState(() {
       load = true;
     });
+    print(widget.id);
     detailKelas = await Provider.of<KelasProvider>(context, listen: false)
-        .getDetail(widget.kelas.id.toString());
-
+        .getDetail(widget.id.toString());
     setState(() {
       load = false;
     });

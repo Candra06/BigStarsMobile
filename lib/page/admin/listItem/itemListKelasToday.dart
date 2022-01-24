@@ -1,8 +1,8 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/model/dashboardGuru_model.dart';
 import 'package:bigstars_mobile/model/dashboard_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
-import 'package:bigstars_mobile/model/kelasToday_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -19,8 +19,8 @@ class _ItemKelasTodayState extends State<ItemKelasToday> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.DETAIL_KELAS,
-            arguments: widget.data);
+        Navigator.pushNamed(context, Routes.DETAIL_KELAS_GURU,
+            arguments: widget.data.id.toString());
       },
       child: Container(
         margin: EdgeInsets.only(top: 8),
@@ -59,16 +59,6 @@ class _ItemKelasTodayState extends State<ItemKelasToday> {
                     style: TextStyle(fontWeight: FontWeight.w200, fontSize: 13),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.all(8),
-                  child: Text(
-                    widget.data.status,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w200,
-                        fontSize: 13,
-                        color: Config.boxGreen),
-                  ),
-                ),
               ],
             ),
             Container(
@@ -79,43 +69,23 @@ class _ItemKelasTodayState extends State<ItemKelasToday> {
                   Row(
                     children: [
                       FaIcon(
-                        FontAwesomeIcons.moneyBillAlt,
-                        color: Config.boxGreen,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        Config.formatRupiah(int.parse(widget.data.spp)),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 13,
-                          color: Config.boxGreen,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        Config.formatJam(widget.data.jamMulai) +
-                            '-' +
-                            Config.formatJam(widget.data.jamSelesai),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 13,
-                          color: Config.boxRed,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      FaIcon(
                         FontAwesomeIcons.clock,
-                        color: Config.boxRed,
+                        color: Config.boxYellow,
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        widget.data.jamMulai + '-' + widget.data.jamSelesai,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 13,
+                          color: Config.boxYellow,
+                        ),
                       ),
                     ],
                   ),
+                  Config.bedgeStatus(widget.data.status)
                 ],
               ),
             ),
