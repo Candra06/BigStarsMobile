@@ -36,7 +36,15 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
   String valHari;
 
   List<bool> checkHari = [false, false, false, false, false, false, false];
-  List<String> dataHari = ["Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu", "Minggu"];
+  List<String> dataHari = [
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jum'at",
+    "Sabtu",
+    "Minggu"
+  ];
 
   bool load = false;
 
@@ -106,7 +114,9 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
       "jam_selesai": txtSelesai.text,
     };
     print(data);
-    await Provider.of<KelasProvider>(context, listen: false).addKelas(data).then((value) {
+    await Provider.of<KelasProvider>(context, listen: false)
+        .addKelas(data)
+        .then((value) {
       if (value) {
         _showSuccesAdd();
         setState(() {
@@ -128,9 +138,12 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
       load = true;
     });
 
-    List<MapelModel> mapelModels = await Provider.of<MapelProvider>(context, listen: false).getMapels();
-    List<GuruModel> guruModels = await Provider.of<GuruProvider>(context, listen: false).getData();
-    List<SiswaModel> siswaModels = await Provider.of<SiswaProvider>(context, listen: false).getSiswa();
+    List<MapelModel> mapelModels =
+        await Provider.of<MapelProvider>(context, listen: false).getMapels();
+    List<GuruModel> guruModels =
+        await Provider.of<GuruProvider>(context, listen: false).getData();
+    List<SiswaModel> siswaModels =
+        await Provider.of<SiswaProvider>(context, listen: false).getSiswa();
 
     // print(TimeOfDay.now());
     for (var i = 0; i < mapelModels.length; i++) {
@@ -206,7 +219,9 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                       margin: EdgeInsets.only(top: 8, bottom: 10),
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Config.borderInput)),
                       child: DropdownButton(
                         underline: SizedBox(),
                         hint: Text(
@@ -239,7 +254,9 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                       margin: EdgeInsets.only(top: 8, bottom: 10),
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Config.borderInput)),
                       child: DropdownButton(
                         underline: SizedBox(),
                         hint: Text(
@@ -272,7 +289,9 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                       margin: EdgeInsets.only(top: 8, bottom: 10),
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Config.borderInput)),
                       child: DropdownButton(
                         underline: SizedBox(),
                         hint: Text(
@@ -308,7 +327,8 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
 
                         Navigator.of(context).push(new MaterialPageRoute<Null>(
                             builder: (BuildContext context) {
-                              return new ModalTambahSiswaByKelas(onSubmit: onSubmit);
+                              return new ModalTambahSiswaByKelas(
+                                  onSubmit: onSubmit);
                             },
                             fullscreenDialog: true));
                       },
@@ -339,7 +359,8 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                       height: 8,
                     ),
                     Text('Kode Undangan'),
-                    formInputType(txtReferal, 'Kode Undangan(Opsional)', TextInputType.number),
+                    formInputType(txtReferal, 'Kode Undangan(Opsional)',
+                        TextInputType.number),
                     SizedBox(
                       height: 8,
                     ),
@@ -477,9 +498,14 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                       children: [
                         Container(
                           margin: EdgeInsets.only(top: 8),
-                          constraints: BoxConstraints(minWidth: 75, maxWidth: MediaQuery.of(context).size.width * 0.4),
+                          constraints: BoxConstraints(
+                              minWidth: 75,
+                              maxWidth:
+                                  MediaQuery.of(context).size.width * 0.4),
                           padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: Config.borderInput)),
                           child: Column(
                             children: <Widget>[
                               Container(
@@ -501,14 +527,22 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                                   onTap: () async {
                                     showTimePicker(
                                       context: context,
-                                      initialEntryMode: TimePickerEntryMode.input,
-                                      initialTime: _dateTime == null ? TimeOfDay.now() : _dateTime,
+                                      initialEntryMode:
+                                          TimePickerEntryMode.input,
+                                      initialTime: _dateTime == null
+                                          ? TimeOfDay.now()
+                                          : _dateTime,
                                     ).then((time) {
                                       if (time != null) {
                                         setState(() {
                                           // _dateTime = time;
-                                          txtMulai.text = time.hour.toString() + ':' + time.minute.toString();
-                                          jamMulai = time.hour.toString() + ':' + time.minute.toString() + ":00"; //value ini yg disimpan
+                                          txtMulai.text = time.hour.toString() +
+                                              ':' +
+                                              time.minute.toString();
+                                          jamMulai = time.hour.toString() +
+                                              ':' +
+                                              time.minute.toString() +
+                                              ":00"; //value ini yg disimpan
                                         });
                                       }
                                     });
@@ -524,9 +558,14 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 8),
-                          constraints: BoxConstraints(minWidth: 75, maxWidth: MediaQuery.of(context).size.width * 0.4),
+                          constraints: BoxConstraints(
+                              minWidth: 75,
+                              maxWidth:
+                                  MediaQuery.of(context).size.width * 0.4),
                           padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: Config.borderInput)),
                           child: Column(
                             children: <Widget>[
                               Container(
@@ -548,16 +587,25 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                                   onTap: () async {
                                     showTimePicker(
                                       context: context,
-                                      initialEntryMode: TimePickerEntryMode.input,
-                                      initialTime: _dateTime == null ? TimeOfDay.now() : _dateTime,
+                                      initialEntryMode:
+                                          TimePickerEntryMode.input,
+                                      initialTime: _dateTime == null
+                                          ? TimeOfDay.now()
+                                          : _dateTime,
                                     ).then((time) {
                                       if (time != null) {
                                         setState(() {
                                           // _dateTime = time;
-                                          txtSelesai.text = time.hour.toString() + ':' + time.minute.toString();
+                                          txtSelesai.text =
+                                              time.hour.toString() +
+                                                  ':' +
+                                                  time.minute.toString();
                                           print(txtSelesai.text.toString());
                                           // var tgl = _dateTime.toString().split(' ');
-                                          jamSelesai = time.hour.toString() + ':' + time.minute.toString() + ":00"; //value ini yg disimpan
+                                          jamSelesai = time.hour.toString() +
+                                              ':' +
+                                              time.minute.toString() +
+                                              ":00"; //value ini yg disimpan
                                         });
                                       }
                                     });
@@ -586,11 +634,12 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
                           Config.alert(0, 'Fee Guru tidak boleh kosong');
                         } else if (txtMulai.text.isEmpty) {
                           Config.alert(0, 'Jam Mulai kelas tidak boleh kosong');
-                        }else if (txtSelesai.text.isEmpty) {
-                          Config.alert(0, 'Jam Selesai kelas tidak boleh kosong');
-                        }else if (txtMulai.text.isEmpty) {
+                        } else if (txtSelesai.text.isEmpty) {
+                          Config.alert(
+                              0, 'Jam Selesai kelas tidak boleh kosong');
+                        } else if (txtMulai.text.isEmpty) {
                           Config.alert(0, 'Jam Mulai kelas tidak boleh kosong');
-                        }else {
+                        } else {
                           addKelas();
                         }
                       },

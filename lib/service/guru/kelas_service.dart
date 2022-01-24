@@ -20,7 +20,6 @@ class KelasService {
     } else {
       url = EndPoint.kelas;
     }
-    print(url);
     var response =
         await http.get(Uri.parse(url), headers: {"authorization": token});
 
