@@ -53,14 +53,15 @@ class _LoginPageState extends State<LoginPage> {
         pref.setString('username', user.username);
         pref.setString('phone', user.phone);
         pref.setString('foto', user.foto);
+        pref.setString('role', user.role);
         pref.setString('user', json.encode(user.toJson()));
         setState(() {
           Provider.of<MapelProvider>(context, listen: false).getMapels();
           Config.alert(1, 'Login berhaasil');
         });
-        await Provider.of<FinanceProvider>(context, listen: false).getFinance();
-        await Provider.of<AuthProvider>(context, listen: false).getDashboard();
         if (authProvider.user.role == 'Admin') {
+          await Provider.of<FinanceProvider>(context, listen: false).getFinance();
+          await Provider.of<AuthProvider>(context, listen: false).getDashboard();
           pref.setString('nama', 'Admin');
           Navigator.pushReplacement(
             context,
@@ -73,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         } else if (authProvider.user.role == 'Guru') {
           pref.setString('nama', user.nama);
+          pref.setString('birthDate', user.birthDate.toString());
           Navigator.pushReplacement(
             context,
             PageTransition(
@@ -83,7 +85,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else {
+          await Provider.of<AuthProvider>(context, listen: false).getDashboardWali();
           pref.setString('nama', user.nama);
+          pref.setString('alamat', user.alamat);
           Navigator.pushReplacement(
             context,
             PageTransition(
