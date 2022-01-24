@@ -15,16 +15,13 @@ class AuthProvider with ChangeNotifier {
   UserModel _user;
   DashboardModel _dashboardModel;
   DashboardGuruModel _dashboardGuruModel;
-  List<KelasTodayModel> _listKelasToday;
-  List<KelasTodayGuruModel> _listKelasTodayGuru;
 
   List<NotifikasiModel> _listNotifikasi = [];
 
   // getting
   DashboardModel get dashboardModel => _dashboardModel;
   DashboardGuruModel get dashboardGuruModel => _dashboardGuruModel;
-  List<KelasTodayModel> get listKelasToday => _listKelasToday;
-  List<KelasTodayGuruModel> get listKelasTodayGuru => _listKelasTodayGuru;
+
   List<NotifikasiModel> get listNotif => _listNotifikasi;
   UserModel get user => _user;
 
@@ -38,7 +35,8 @@ class AuthProvider with ChangeNotifier {
     String password,
   }) async {
     try {
-      UserModel userModel = await AuthService().login(username: username, password: password);
+      UserModel userModel =
+          await AuthService().login(username: username, password: password);
       _user = userModel;
       notifyListeners();
       return {

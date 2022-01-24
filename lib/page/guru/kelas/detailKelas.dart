@@ -5,7 +5,7 @@ import 'package:bigstars_mobile/page/guru/kelas/pageKehadiran.dart';
 import 'package:flutter/material.dart';
 
 class DetailKelasGuru extends StatefulWidget {
-  final KelasModel kelas;
+  final String kelas;
   const DetailKelasGuru({Key key, this.kelas}) : super(key: key);
 
   @override
@@ -56,7 +56,7 @@ class _DetailKelasGuruState extends State<DetailKelasGuru>
         ),
         body: TabBarView(controller: controller, children: <Widget>[
           DetailKelasPageGuru(
-            kelas: widget.kelas,
+            id: widget.kelas,
           ),
           KehadiranKelasGuru(
             id: widget.kelas,

@@ -52,6 +52,7 @@ class _ListSppMuridState extends State<ListSppMurid> {
   }
 
   bool isLoading = false;
+
   void _showSuccesAdd() {
     showDialog(
         context: context,

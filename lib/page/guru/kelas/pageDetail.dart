@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DetailKelasPageGuru extends StatefulWidget {
-  final KelasModel kelas;
-  const DetailKelasPageGuru({Key key, this.kelas}) : super(key: key);
+  final String id;
+  const DetailKelasPageGuru({Key key, this.id}) : super(key: key);
 
   @override
   _DetailKelasPageGuruState createState() => _DetailKelasPageGuruState();
@@ -37,9 +37,9 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
     setState(() {
       load = true;
     });
+    print(widget.id);
     detailKelas = await Provider.of<KelasProvider>(context, listen: false)
-        .getDetail(detailKelas.data.id.toString());
-    // print(detailKelas.guru);
+        .getDetail(widget.id.toString());
     setState(() {
       load = false;
     });
@@ -65,7 +65,7 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
                 children: [
                   Container(
                       padding: EdgeInsets.all(16), child: Text('Data Kelas')),
-                  Config.itemDetail('Nama Siswa', detailKelas.data.guru),
+                  Config.itemDetail('Nama Siswa', detailKelas.data.siswa),
                   Config.itemDetail('Nama Guru', detailKelas.data.guru),
                   Config.itemDetail('Mata Pelajaran', detailKelas.data.mapel),
                   Config.itemDetail('Status', detailKelas.data.status),
@@ -106,7 +106,7 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
                           padding: EdgeInsets.all(16), child: Text('Jadwal')),
                     ],
                   ),
-                  for (var i = 0; i < 2; i++) ...{
+                  for (var i = 0; i < detailKelas.hari.length; i++) ...{
                     InkWell(
                       onTap: () {},
                       child: Column(
@@ -117,11 +117,13 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Senin'),
+                                Text(detailKelas.hari[i].hari),
                                 Row(
                                   children: [
                                     Text(
-                                      '15.00 - 16.00',
+                                      detailKelas.hari[i].jamMulai +
+                                          ' - ' +
+                                          detailKelas.hari[i].jamSelesai,
                                       style: TextStyle(color: Config.textGrey),
                                     ),
                                     SizedBox(
