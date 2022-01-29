@@ -70,7 +70,9 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
       isLoading = true;
     });
 
-    await Provider.of<FinanceProvider>(context, listen: false).generateFEE().then((value) {
+    await Provider.of<FinanceProvider>(context, listen: false)
+        .generateFEE()
+        .then((value) {
       if (value) {
         _showSuccesAdd();
       }
@@ -101,17 +103,18 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
     }
 
     showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        context: context,
-        isScrollControlled: true,
-        builder: (builder) {
-          return ModalFilterFee(
-            // id: id,
-            onsubmit: filtered,
-          );
-        });
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      context: context,
+      isScrollControlled: true,
+      builder: (builder) {
+        return ModalFilterFee(
+          // id: id,
+          onsubmit: filtered,
+        );
+      },
+    );
   }
 
   getData() async {
@@ -230,7 +233,8 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
               height: 20,
             ),
             FutureBuilder(
-              future: Provider.of<FinanceProvider>(context, listen: false).getFeeGuru(_filter),
+              future: Provider.of<FinanceProvider>(context, listen: false)
+                  .getFeeGuru(_filter),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(

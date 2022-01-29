@@ -6,11 +6,11 @@ import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/dashboardGuru_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
-import 'package:bigstars_mobile/page/admin/listItem/itemListKelas.dart';
-import 'package:bigstars_mobile/page/admin/listItem/itemListKelasGuru.dart';
-import 'package:bigstars_mobile/page/admin/listItem/itemListKelasToday.dart';
+// import 'package:bigstars_mobile/page/admin/listItem/itemListKelas.dart';
+// import 'package:bigstars_mobile/page/admin/listItem/itemListKelasGuru.dart';
+// import 'package:bigstars_mobile/page/admin/listItem/itemListKelasToday.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListKelasTodayGuru.dart';
-import 'package:bigstars_mobile/page/guru/kelas/listItem.dart';
+// import 'package:bigstars_mobile/page/guru/kelas/listItem.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:flutter/material.dart';
@@ -211,19 +211,30 @@ class _HomeGuruState extends State<HomeGuru> {
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: dashboardGuruModel.kelasToday.length,
-                            itemBuilder: (BuildContext cotext, int i) {
-                              print(dashboardGuruModel.kelasToday[i].idKelas);
-                              return ItemKelasTodayGuru(
-                                data: dashboardGuruModel.kelasToday[i],
-                              );
-                            },
+                        if (dashboardGuruModel.kelasToday.isNotEmpty) ...{
+                          Container(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: dashboardGuruModel.kelasToday.length,
+                              itemBuilder: (BuildContext cotext, int i) {
+                                return ItemKelasTodayGuru(
+                                  data: dashboardGuruModel.kelasToday[i],
+                                );
+                              },
+                            ),
                           ),
-                        ),
+                        } else ...{
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Center(
+                            child: Text(
+                              'Tidak ada kelas untuk hari ini.',
+                              style: TextStyle(color: Config.textGrey),
+                            ),
+                          )
+                        },
                         SizedBox(
                           height: 10,
                         ),
@@ -232,7 +243,6 @@ class _HomeGuruState extends State<HomeGuru> {
                           SizedBox(
                             height: 10,
                           ),
-
                           // Jika data ada
                           Container(
                             child: ListView.builder(

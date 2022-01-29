@@ -15,7 +15,7 @@ class ModalSharingKelas extends StatefulWidget {
 class _ModalSharingKelasState extends State<ModalSharingKelas> {
   String tglKelas, idGuru, namaGuru;
   List listGuru = [
-    {"id": 1, "nama": "heri"}
+    {"id": "1", "nama": "heri"}
   ];
 
   getData() {
@@ -86,13 +86,13 @@ class _ModalSharingKelasState extends State<ModalSharingKelas> {
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
-                    "Pilih Guru",
+                    "Pilih Pelajaran",
                     style: TextStyle(
                       color: Config.textGrey,
                     ),
                   ),
                   isExpanded: true,
-                  value: namaGuru,
+                  value: idGuru,
                   items: listGuru.map((value) {
                     return DropdownMenuItem(
                       child: Text(value["nama"]),
@@ -102,7 +102,7 @@ class _ModalSharingKelasState extends State<ModalSharingKelas> {
                   onChanged: (value) {
                     setState(() {
                       idGuru = value;
-                      print(value);
+                      print(idGuru);
                     });
                   },
                 ),
