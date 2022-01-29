@@ -55,8 +55,8 @@ class _ListKelasWaliState extends State<ListKelasWali> {
             itemBuilder: (BuildContext bc, int i) {
               var data = {"id_kelas": 1, "siswa": "Kekeyi", "mapel": "Calistung", "spp": 32000, "jam_mulai": "15.00", "jam_selesai": "16.00", "guru": "Mr. Revo"};
               return ItemKelasWali(
-                data: data,
-              );
+                  // data: data,
+                  );
             }),
       ),
     );

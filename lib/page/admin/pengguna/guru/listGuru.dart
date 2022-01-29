@@ -55,9 +55,7 @@ class _ListGuruState extends State<ListGuru> {
                   Container(
                     margin: EdgeInsets.only(top: 8),
                     padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Config.borderInput)),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -65,7 +63,12 @@ class _ListGuruState extends State<ListGuru> {
                               style: TextStyle(color: Colors.black54),
                               obscureText: false,
                               keyboardType: TextInputType.text,
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                setState(() {
+                                  searchString = value;
+                                  print(value);
+                                });
+                              },
                               // controller: controller,
                               decoration: InputDecoration(
                                 alignLabelWithHint: true,
@@ -86,11 +89,9 @@ class _ListGuruState extends State<ListGuru> {
                   ),
                   Expanded(
                     child: FutureBuilder(
-                      future: Provider.of<GuruProvider>(context, listen: false)
-                          .getData(),
+                      future: Provider.of<GuruProvider>(context, listen: false).getData(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return Center(child: CircularProgressIndicator());
                         } else {
                           return snapshot.hasData
@@ -103,22 +104,11 @@ class _ListGuruState extends State<ListGuru> {
                                         itemCount: data.listGuru.length,
                                         itemBuilder: (context, int i) {
                                           if (searchString != '') {
-                                            return data.listGuru[i].nama
-                                                    .toLowerCase()
-                                                    .contains(searchString
-                                                        .toLowerCase())
+                                            return data.listGuru[i].nama.toLowerCase().contains(searchString.toLowerCase())
                                                 ? ItemListGuru(
                                                     guru: data.listGuru[i],
                                                   )
-                                                : Center(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: Text(
-                                                          'Data Tidak ditemukan'),
-                                                    ),
-                                                  );
+                                                : Container();
                                             // logic ketika pencarian berdasarkan nama
                                           } else {
                                             return ItemListGuru(

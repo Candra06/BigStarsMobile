@@ -54,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
         pref.setString('username', user.username);
         pref.setString('phone', user.phone);
         pref.setString('foto', user.foto);
+        pref.setString('role', user.role);
         pref.setString('user', json.encode(user.toJson()));
         setState(() {
           Provider.of<MapelProvider>(context, listen: false).getMapels();
@@ -77,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
           await Provider.of<AuthProvider>(context, listen: false)
               .getDashboardGuru();
           pref.setString('nama', user.nama);
+          pref.setString('birthDate', user.birthDate.toString());
           Navigator.pushReplacement(
             context,
             PageTransition(
@@ -87,7 +89,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else {
+          await Provider.of<AuthProvider>(context, listen: false).getDashboardWali();
           pref.setString('nama', user.nama);
+          pref.setString('alamat', user.alamat);
           Navigator.pushReplacement(
             context,
             PageTransition(

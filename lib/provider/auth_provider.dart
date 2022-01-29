@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bigstars_mobile/model/dashboardGuru_model.dart';
 import 'package:bigstars_mobile/model/dashboard_model.dart';
+import 'package:bigstars_mobile/model/dashboard_wali.dart';
 import 'package:bigstars_mobile/model/kelasToday_model.dart';
 import 'package:bigstars_mobile/model/notif_model.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
@@ -15,13 +16,18 @@ class AuthProvider with ChangeNotifier {
   UserModel _user;
   DashboardModel _dashboardModel;
   DashboardGuruModel _dashboardGuruModel;
+  DashboardWaliModel _dashboardWali;
+  List<KelasTodayModel> _listKelasToday;
+  List<KelasTodayGuru> _listKelasTodayGuru;
 
   List<NotifikasiModel> _listNotifikasi = [];
 
   // getting
   DashboardModel get dashboardModel => _dashboardModel;
   DashboardGuruModel get dashboardGuruModel => _dashboardGuruModel;
-
+  DashboardWaliModel get dashboardWaliModel => _dashboardWali;
+  List<KelasTodayModel> get listKelasToday => _listKelasToday;
+  List<KelasTodayGuru> get listKelasTodayGuru => _listKelasTodayGuru;
   List<NotifikasiModel> get listNotif => _listNotifikasi;
   UserModel get user => _user;
 
@@ -127,5 +133,11 @@ class AuthProvider with ChangeNotifier {
     _dashboardGuruModel = await AuthService().dashboardGuru();
     notifyListeners();
     return "ok";
+  }
+
+   Future getDashboardWali() async {
+    _dashboardWali = await AuthService().getDashboardWali();
+    notifyListeners();
+    return _dashboardWali;
   }
 }
