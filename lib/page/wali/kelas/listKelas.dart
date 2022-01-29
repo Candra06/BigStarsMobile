@@ -3,8 +3,10 @@ import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListKelas.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListKelasWali.dart';
 import 'package:bigstars_mobile/page/modal/modalFilterKelas.dart';
+import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class ListKelasWali extends StatefulWidget {
   const ListKelasWali({Key key}) : super(key: key);
@@ -14,7 +16,29 @@ class ListKelasWali extends StatefulWidget {
 }
 
 class _ListKelasWaliState extends State<ListKelasWali> {
-  void _filter(BuildContext context, String id) {
+  List<String> filter = [];
+  String _filter = '';
+  void filterModal(BuildContext context) {
+    void filtered(guru, siswa, status) async {
+      if (siswa != '') {
+        filter.removeWhere((element) => element.startsWith('siswa'));
+        filter.add('siswa=' + siswa);
+      }
+      if (guru != '') {
+        filter.removeWhere((element) => element.startsWith('guru'));
+        filter.add('guru=' + guru);
+      }
+      if (status != '') {
+        filter.removeWhere((element) => element.startsWith('status'));
+        filter.add('status=' + status);
+      }
+      print(filter);
+      setState(() {
+        _filter = filter.join('&').toString();
+      });
+      // Provider.of<KelasProvider>(context, listen: false).getKelas(filtered: filter.join('&').toString());
+    }
+
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -22,7 +46,9 @@ class _ListKelasWaliState extends State<ListKelasWali> {
         context: context,
         isScrollControlled: true,
         builder: (builder) {
-          return ModalFilterKelas();
+          return ModalFilterKelas(
+            onsubmit: filtered,
+          );
         });
   }
 
@@ -39,7 +65,9 @@ class _ListKelasWaliState extends State<ListKelasWali> {
         actions: [
           IconButton(
               onPressed: () {
-                _filter(context, '1');
+                filter = [];
+                _filter = '';
+                filterModal(context);
               },
               icon: Icon(
                 FontAwesomeIcons.filter,
@@ -48,16 +76,28 @@ class _ListKelasWaliState extends State<ListKelasWali> {
               )),
         ],
       ),
-      body: Container(
-        margin: EdgeInsets.all(16),
-        child: ListView.builder(
-            itemCount: 5,
-            itemBuilder: (BuildContext bc, int i) {
-              var data = {"id_kelas": 1, "siswa": "Kekeyi", "mapel": "Calistung", "spp": 32000, "jam_mulai": "15.00", "jam_selesai": "16.00", "guru": "Mr. Revo"};
-              return ItemKelasWali(
-                  // data: data,
-                  );
-            }),
+      body: FutureBuilder(
+        future: Provider.of<KelasProvider>(context, listen: false).getKelas(filtered: _filter),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LinearProgressIndicator();
+          } else {
+            return Consumer<KelasProvider>(
+              builder: (context, value, child) {
+                return Container(
+                  margin: EdgeInsets.all(16),
+                  child: ListView.builder(
+                      itemCount: value.allKelas.length,
+                      itemBuilder: (BuildContext bc, int i) {
+                        return ItemKelasWali(
+                          data: value.allKelas[i],
+                        );
+                      }),
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }

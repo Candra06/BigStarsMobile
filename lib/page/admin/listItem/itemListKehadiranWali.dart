@@ -1,9 +1,13 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/network.dart';
+import 'package:bigstars_mobile/model/kehadiran_model.dart';
 import 'package:bigstars_mobile/page/modal/addKehadiranGuru.dart';
+
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 
 class ItemListKehadiranWali extends StatefulWidget {
-  final Map<dynamic, String> data;
+  final KehadiranModel data;
   const ItemListKehadiranWali({Key key, this.data}) : super(key: key);
 
   @override
@@ -11,7 +15,6 @@ class ItemListKehadiranWali extends StatefulWidget {
 }
 
 class _ItemListKehadiranWaliState extends State<ItemListKehadiranWali> {
-  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,11 +30,11 @@ class _ItemListKehadiranWaliState extends State<ItemListKehadiranWali> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.data['nama'],
+                  widget.data.nama,
                   style: TextStyle(fontWeight: FontWeight.w900),
                 ),
                 Text(
-                  widget.data['hari'],
+                  Config.formatDateTime(widget.data.createdAt.toString()),
                   style: TextStyle(fontWeight: FontWeight.w900),
                 ),
               ],
@@ -43,10 +46,10 @@ class _ItemListKehadiranWaliState extends State<ItemListKehadiranWali> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.data['materi'],
+                  widget.data.materi,
                 ),
                 Text(
-                  widget.data['status'],
+                  widget.data.status,
                 ),
               ],
             ),
@@ -57,30 +60,36 @@ class _ItemListKehadiranWaliState extends State<ItemListKehadiranWali> {
               'Jurnal',
             ),
             Text(
-              widget.data['jurnal'],
+              widget.data.jurnal,
               maxLines: 3,
             ),
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              onPressed: () {
-                print(widget.data['file_materi']);
-              },
-              style: ElevatedButton.styleFrom(
-                fixedSize: Size(MediaQuery.of(context).size.width, 30),
-                primary: Config.primary,
-                onPrimary: Config.textWhite,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+            if (widget.data.fileMateri != '-') ...{
+              ElevatedButton(
+                onPressed: () async {
+                  String url = EndPoint.server + widget.data.fileMateri;
+                  print(url);
+                  if (await canLaunch(url))
+                    await launch(url);
+                  else
+                    throw "Could not launch $url";
+                },
+                style: ElevatedButton.styleFrom(
+                  fixedSize: Size(MediaQuery.of(context).size.width, 30),
+                  primary: Config.primary,
+                  onPrimary: Config.textWhite,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                child: Text(
+                  "Unduh Materi",
+                  style: TextStyle(color: Colors.white, fontSize: 14),
                 ),
               ),
-              child: Text(
-                "Unduh Materi",
-                style: TextStyle(color: Colors.white, fontSize: 14),
-              ),
-            ),
-            
+            }
           ],
         ),
       ),

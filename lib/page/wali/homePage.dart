@@ -215,22 +215,23 @@ class _HomeWaliState extends State<HomeWali> {
                               height: 10,
                             ),
                             Container(
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: data.dashboardWaliModel.data.kelasToday.length,
-                                  itemBuilder: (BuildContext cotext, int i) {
-                                    // var data = {"id_kelas": 1, "siswa": "Kekeyi", "mapel": "Calistung", "spp": 32000, "jam_mulai": "15.00", "jam_selesai": "16.00", "guru": "Mr. Revo"};
-                                    if (data.dashboardWaliModel.data.kelasToday.isEmpty) {
-                                      return Center(
-                                        child: Text('Belum ada data kelas'),
-                                      );
-                                    } else {
-                                      return ItemKelasTodayWali(
-                                        data: data.dashboardWaliModel.data.kelasToday[i],
-                                      );
-                                    }
-                                  }),
+                              child: data.dashboardWaliModel.data.kelasToday.length == 0
+                                  ? Center(child: Text('Tidak ada kelas hari ini'))
+                                  : ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: data.dashboardWaliModel.data.kelasToday.length,
+                                      itemBuilder: (BuildContext cotext, int i) {
+                                        print(data.dashboardWaliModel.data.kelasToday.length);
+                                        // var data = {"id_kelas": 1, "siswa": "Kekeyi", "mapel": "Calistung", "spp": 32000, "jam_mulai": "15.00", "jam_selesai": "16.00", "guru": "Mr. Revo"};
+                                        if (data.dashboardWaliModel.data.kelasToday == []) {
+                                          return Text('Belum ada data kelas');
+                                        } else {
+                                          return ItemKelasTodayWali(
+                                            data: data.dashboardWaliModel.data.kelasToday[i],
+                                          );
+                                        }
+                                      }),
                             ),
                             SizedBox(
                               height: 10,

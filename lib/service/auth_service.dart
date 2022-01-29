@@ -48,9 +48,29 @@ class AuthService {
     } else {
       body = user.editProfilAdminNoPass();
     }
-    print(body);
     var response = await http.post(Uri.parse(EndPoint.editProfilAdm), headers: {'Authorization': token}, body: body);
-    print(response.body);
+    
+    if (response.statusCode == 200) {
+      if (jsonDecode(response.body)["message"] == "Success") {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> updateProfileWali({UserModel user}) async {
+    var token = await Pref.getToken();
+    var body;
+
+    if (user.password.isNotEmpty) {
+      body = user.editProfilWali();
+    } else {
+      body = user.editProfilWaliNoPass();
+    }
+    var response = await http.post(Uri.parse(EndPoint.editProfilWali), headers: {'Authorization': token}, body: body);
+    
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
