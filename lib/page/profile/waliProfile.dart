@@ -1,4 +1,6 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/network.dart';
+import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
 import 'package:bigstars_mobile/page/modal/changePhotoProfile.dart';
@@ -13,6 +15,7 @@ class ProfilWali extends StatefulWidget {
 }
 
 class _ProfilWaliState extends State<ProfilWali> {
+  String nama = '', username = '', phone = '', foto = '';
   void _logOut() async {
     return await showDialog(
       context: context,
@@ -31,6 +34,25 @@ class _ProfilWaliState extends State<ProfilWali> {
         ],
       ),
     );
+  }
+
+  void getData() async {
+    var tmpNama = await Pref.getNama();
+    var tmpFoto = await Pref.getFoto();
+    var tmpUsername = await Pref.getUsername();
+    var tmpPhone = await Pref.getPhone();
+    setState(() {
+      nama = tmpNama;
+      foto = tmpFoto;
+      phone = tmpPhone;
+      username = tmpUsername;
+    });
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
   }
 
   @override
@@ -78,7 +100,7 @@ class _ProfilWaliState extends State<ProfilWali> {
                     ),
                     ClipOval(
                       child: Image.network(
-                        "https://www.clipartmax.com/png/middle/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png",
+                        foto == '-' || foto == '' ? "https://www.clipartmax.com/png/middle/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png" : EndPoint.server + foto,
                         height: 100,
                         width: 100,
                         fit: BoxFit.cover,
@@ -88,18 +110,18 @@ class _ProfilWaliState extends State<ProfilWali> {
                       height: 10,
                     ),
                     Text(
-                      'Wali Bigstars',
+                      nama,
                       style: TextStyle(color: Config.textWhite, fontSize: 24, fontWeight: FontWeight.w900),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
-                      'wali@bigstars.com',
+                      username,
                       style: TextStyle(color: Config.textWhite, fontSize: 18),
                     ),
                     Text(
-                      '087757630094',
+                      phone,
                       style: TextStyle(color: Config.textWhite, fontSize: 16),
                     ),
                   ],

@@ -1,30 +1,17 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/model/detail_model.dart';
 import 'package:bigstars_mobile/page/modal/modalSharingKelas.dart';
 import 'package:flutter/material.dart';
 
 class DetailKelasPageWali extends StatefulWidget {
-  final String id;
-  const DetailKelasPageWali({Key key, this.id}) : super(key: key);
+  final DetailKelasModel data;
+  const DetailKelasPageWali({Key key, this.data}) : super(key: key);
 
   @override
   _DetailKelasPageWaliState createState() => _DetailKelasPageWaliState();
 }
 
 class _DetailKelasPageWaliState extends State<DetailKelasPageWali> {
-  void _sharingKelas(BuildContext context, String id) {
-    showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        context: context,
-        isScrollControlled: true,
-        builder: (builder) {
-          return ModalSharingKelas(
-            id: id,
-          );
-        });
-  }
-
   bool load = false;
   @override
   Widget build(BuildContext context) {
@@ -39,18 +26,18 @@ class _DetailKelasPageWaliState extends State<DetailKelasPageWali> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(padding: EdgeInsets.all(16), child: Text('Data Kelas')),
-                  Config.itemDetail('Nama Siswa', 'Akexandria Angle'),
-                  Config.itemDetail('Nama Guru', 'Jember'),
-                  Config.itemDetail('Mata Pelajaran', 'Calistung'),
-                  Config.itemDetail('SPP', Config.formatRupiah(30000)),
-                  Config.itemDetail('Status', 'Active'),
+                  Config.itemDetail('Nama Siswa', widget.data.data.siswa),
+                  Config.itemDetail('Nama Guru', widget.data.data.guru),
+                  Config.itemDetail('Mata Pelajaran', widget.data.data.mapel),
+                  Config.itemDetail('SPP', Config.formatRupiah(int.parse(widget.data.data.spp))),
+                  Config.itemDetail('Status', widget.data.data.status),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(padding: EdgeInsets.all(16), child: Text('Jadwal')),
                     ],
                   ),
-                  for (var i = 0; i < 2; i++) ...{
+                  for (var i = 0; i < widget.data.hari.length; i++) ...{
                     InkWell(
                       onTap: () {},
                       child: Column(
@@ -61,11 +48,11 @@ class _DetailKelasPageWaliState extends State<DetailKelasPageWali> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Senin'),
+                                Text(widget.data.hari[i].hari),
                                 Row(
                                   children: [
                                     Text(
-                                      '15.00 - 16.00',
+                                      Config.formatJam(widget.data.hari[i].jamMulai)+' - '+Config.formatJam(widget.data.hari[i].jamSelesai),
                                       style: TextStyle(color: Config.textGrey),
                                     ),
                                     SizedBox(

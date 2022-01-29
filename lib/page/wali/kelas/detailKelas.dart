@@ -1,7 +1,12 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/model/detail_model.dart';
+import 'package:bigstars_mobile/model/guru/kelas.dart';
+import 'package:bigstars_mobile/model/kehadiran_model.dart';
 import 'package:bigstars_mobile/page/wali/kelas/pageDetail.dart';
 import 'package:bigstars_mobile/page/wali/kelas/pageKehadiran.dart';
+import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DetailKelasWali extends StatefulWidget {
   final String id;
@@ -13,10 +18,25 @@ class DetailKelasWali extends StatefulWidget {
 
 class _DetailKelasWaliState extends State<DetailKelasWali> with SingleTickerProviderStateMixin {
   TabController controller;
+  List<KehadiranModel> _kehadiran;
+  DetailKelasModel _kelasModel;
+  bool load = true;
+
+  void getData() async {
+    setState(() {
+      load = true;
+    });
+    _kelasModel = await Provider.of<KelasProvider>(context, listen: false).getDetail(widget.id);
+    _kehadiran = await Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.id);
+    setState(() {
+      load = false;
+    });
+  }
 
   @override
   void initState() {
     controller = new TabController(vsync: this, length: 2);
+    getData();
     super.initState();
   }
 
@@ -52,13 +72,15 @@ class _DetailKelasWaliState extends State<DetailKelasWali> with SingleTickerProv
             ],
           ),
         ),
-        body: TabBarView(controller: controller, children: <Widget>[
-          DetailKelasPageWali(
-            id: widget.id,
-          ),
-          KehadiranKelasWali(
-            id: widget.id,
-          ),
-        ]));
+        body: load
+            ? LinearProgressIndicator()
+            : TabBarView(controller: controller, children: <Widget>[
+                DetailKelasPageWali(
+                  data: _kelasModel,
+                ),
+                KehadiranKelasWali(
+                  data: _kehadiran,
+                ),
+              ]));
   }
 }
