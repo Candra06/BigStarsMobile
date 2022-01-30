@@ -32,7 +32,7 @@ class KelasProvider with ChangeNotifier {
 
   Future<List<KelasModel>> getKelas({String filtered}) async {
     try {
-      print(filtered);
+      // print(filtered);
       List<KelasModel> data = await KelasService().getAllKelas(filtered);
       _allKelas = data;
       notifyListeners();
@@ -99,7 +99,7 @@ class KelasProvider with ChangeNotifier {
   Future<bool> addKelas(Map<String, dynamic> data) async {
     try {
       bool status = await KelasService().addKelas(data);
-      _allKelas = await getKelas();
+      getKelas();
 
       notifyListeners();
       return status;

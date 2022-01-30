@@ -68,7 +68,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-Future<bool> editProfilWali({UserModel user}) async {
+  Future<bool> editProfilWali({UserModel user}) async {
     try {
       bool status = await AuthService().updateProfileWali(user: user);
       notifyListeners();
@@ -78,6 +78,7 @@ Future<bool> editProfilWali({UserModel user}) async {
       return false;
     }
   }
+
   Future<List<NotifikasiModel>> getNotif() async {
     try {
       List<NotifikasiModel> list = await AuthService().notifikasiList();
@@ -145,7 +146,7 @@ Future<bool> editProfilWali({UserModel user}) async {
     return "ok";
   }
 
-   Future getDashboardWali() async {
+  Future getDashboardWali() async {
     _dashboardWali = await AuthService().getDashboardWali();
     notifyListeners();
     return _dashboardWali;

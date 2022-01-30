@@ -22,8 +22,8 @@ class KelasService {
     } else {
       url = EndPoint.kelas;
     }
-    print(url);
-    var response = await http.get(Uri.parse(url), headers: {"authorization": token});
+    var response =
+        await http.get(Uri.parse(url), headers: {"authorization": token});
 
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)["data"];
@@ -35,7 +35,8 @@ class KelasService {
 
   Future<List<KehadiranModel>> getKehadiran(String id) async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.kehadiran + id.toString()), headers: {"authorization": token});
+    var response = await http.get(Uri.parse(EndPoint.kehadiran + id.toString()),
+        headers: {"authorization": token});
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)["data"];
       return data.map((e) => KehadiranModel.fromJson(e)).toList();
@@ -47,7 +48,8 @@ class KelasService {
     // print(id);
     var token = await Pref.getToken();
     // print(token);
-    var response = await http.get(Uri.parse(EndPoint.absensi + id), headers: {"authorization": token});
+    var response = await http.get(Uri.parse(EndPoint.absensi + id),
+        headers: {"authorization": token});
     print(EndPoint.absensi + id);
     print(response.body);
     if (response.statusCode == 200) {
@@ -60,7 +62,8 @@ class KelasService {
 
   Future addKehadiran(String id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
-    var response = await http.post(Uri.parse(EndPoint.addKehadiran + id), headers: {'Authorization': token}, body: data);
+    var response = await http.post(Uri.parse(EndPoint.addKehadiran + id),
+        headers: {'Authorization': token}, body: data);
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
@@ -73,7 +76,8 @@ class KelasService {
 
   Future addKelas(Map<String, dynamic> data) async {
     var token = await Pref.getToken();
-    var response = await http.post(Uri.parse(EndPoint.addKelas), headers: {'Authorization': token}, body: data);
+    var response = await http.post(Uri.parse(EndPoint.addKelas),
+        headers: {'Authorization': token}, body: data);
 
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
@@ -87,12 +91,16 @@ class KelasService {
 
   Future<DetailKelasModel> getDetail(String id) async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.kelasDetail + id.toString()), headers: {'Authorization': token});
+    var response = await http.get(
+        Uri.parse(EndPoint.kelasDetail + id.toString()),
+        headers: {'Authorization': token});
 
     if (response.statusCode == 200) {
-      DetailKelasModel detailKelas = DetailKelasModel.fromJson(jsonDecode(response.body));
+      DetailKelasModel detailKelas =
+          DetailKelasModel.fromJson(jsonDecode(response.body));
       List data = jsonDecode(response.body)["hari"];
-      List<JadwalModel> result = data.map((e) => JadwalModel.fromJson(e)).toList();
+      List<JadwalModel> result =
+          data.map((e) => JadwalModel.fromJson(e)).toList();
       // return result;
       return detailKelas;
     }
@@ -101,7 +109,9 @@ class KelasService {
 
   Future<DetailKelasModel> getDetailKelas(int id) async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.kelasDetail + id.toString()), headers: {'Authorization': token});
+    var response = await http.get(
+        Uri.parse(EndPoint.kelasDetail + id.toString()),
+        headers: {'Authorization': token});
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
@@ -114,7 +124,9 @@ class KelasService {
 
   Future deleteJadwal(int id) async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.deleteJadwal + id.toString()), headers: {'Authorization': token});
+    var response = await http.get(
+        Uri.parse(EndPoint.deleteJadwal + id.toString()),
+        headers: {'Authorization': token});
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
@@ -125,7 +137,9 @@ class KelasService {
 
   Future deleteKelas(int id) async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.deleteKelas + id.toString()), headers: {'Authorization': token});
+    var response = await http.get(
+        Uri.parse(EndPoint.deleteKelas + id.toString()),
+        headers: {'Authorization': token});
     if (response.statusCode == 200) {
       return true;
     }
@@ -137,7 +151,10 @@ class KelasService {
     Map<dynamic, String> body;
     // body['status'] = status;
     print(body);
-    var response = await http.post(Uri.parse(EndPoint.updateStatus + id.toString()), body: {'status': status}, headers: {'Authorization': token});
+    var response = await http.post(
+        Uri.parse(EndPoint.updateStatus + id.toString()),
+        body: {'status': status},
+        headers: {'Authorization': token});
     if (response.statusCode == 200) {
       print(response.body);
       return true;
@@ -147,7 +164,10 @@ class KelasService {
 
   Future addJadwal(String id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
-    var response = await http.post(Uri.parse(EndPoint.addJadwal + id.toString()), headers: {'Authorization': token}, body: data);
+    var response = await http.post(
+        Uri.parse(EndPoint.addJadwal + id.toString()),
+        headers: {'Authorization': token},
+        body: data);
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
@@ -158,7 +178,8 @@ class KelasService {
 
   Future filterKelas(String param) async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.filterKelas + param), headers: {'Authorization': token});
+    var response = await http.get(Uri.parse(EndPoint.filterKelas + param),
+        headers: {'Authorization': token});
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)["data"];
       return data.map((e) => KelasModel.fromJson(e)).toList();
@@ -166,16 +187,19 @@ class KelasService {
     return [];
   }
 
-  Future<bool> addKehadiranGuru(String id, Map<String, dynamic> data, File tmpFile) async {
+  Future<bool> addKehadiranGuru(
+      String id, Map<String, dynamic> data, File tmpFile) async {
     var token = await Pref.getToken();
     Map<String, String> headers = {
       'Authorization': token,
     };
-    final request = http.MultipartRequest('POST', Uri.parse(EndPoint.addKehadiranGuru + id));
+    final request = http.MultipartRequest(
+        'POST', Uri.parse(EndPoint.addKehadiranGuru + id));
     request.fields["materi"] = data["materi"];
     request.fields["jurnal"] = data["jurnal"];
     request.fields["status"] = data["status"];
-    request.files.add(await http.MultipartFile.fromPath('file_materi', tmpFile.path));
+    request.files
+        .add(await http.MultipartFile.fromPath('file_materi', tmpFile.path));
     request.headers.addAll(headers);
     request.fields["poin"] = data["poin"];
     var response = await request.send();

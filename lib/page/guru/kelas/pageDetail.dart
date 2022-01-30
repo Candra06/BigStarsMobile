@@ -2,9 +2,11 @@ import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/model/detaiKelas_model.dart';
 import 'package:bigstars_mobile/model/detail_model.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
+import 'package:bigstars_mobile/model/guru_model.dart';
 import 'package:bigstars_mobile/model/jadwal_model.dart';
 import 'package:bigstars_mobile/page/modal/modalSharingKelas.dart';
 import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
+import 'package:bigstars_mobile/provider/guru_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +19,7 @@ class DetailKelasPageGuru extends StatefulWidget {
 }
 
 class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
-  void _sharingKelas(BuildContext context, String id) {
+  void _sharingKelas(BuildContext context, String id, List gurus) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -27,12 +29,15 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
         builder: (builder) {
           return ModalSharingKelas(
             id: id,
+            gurus: gurus,
           );
         });
   }
 
   bool load = false;
   DetailKelasModel detailKelas;
+  List<GuruModel> guruModels;
+  List gurus = [];
   void getData() async {
     setState(() {
       load = true;
@@ -40,6 +45,18 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
     print(widget.id);
     detailKelas = await Provider.of<KelasProvider>(context, listen: false)
         .getDetail(widget.id.toString());
+    guruModels =
+        await Provider.of<GuruProvider>(context, listen: false).getData();
+    // print(widget.gurus.length);
+    int jumlahGuru = guruModels.length;
+    setState(() {
+      for (var i = 0; i < jumlahGuru; i++) {
+        gurus.add({
+          "id": guruModels[i].id,
+          "nama": guruModels[i].nama,
+        });
+      }
+    });
     setState(() {
       load = false;
     });
@@ -73,7 +90,7 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
                     padding: const EdgeInsets.all(16.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        _sharingKelas(context, '1');
+                        _sharingKelas(context, widget.id, gurus);
                       },
                       style: ElevatedButton.styleFrom(
                         fixedSize: Size(MediaQuery.of(context).size.width, 30),
