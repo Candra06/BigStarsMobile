@@ -23,16 +23,29 @@ class ListKelasGuru extends StatefulWidget {
 class _ListKelasGuruState extends State<ListKelasGuru> {
   void _filters(BuildContext context, String id) {
     showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      context: context,
+      isScrollControlled: true,
+      builder: (builder) {
+        return ModalFilterKelas(
+          onsubmit: filtered,
+        );
+      },
+    );
+  }
+
+  void berhasil() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Config.primary,
+        content: Text(
+          "Data Mapel Berhasil ditambah",
+          textAlign: TextAlign.center,
         ),
-        context: context,
-        isScrollControlled: true,
-        builder: (builder) {
-          return ModalFilterKelas(
-            onsubmit: filtered,
-          );
-        });
+      ),
+    );
   }
 
   List<String> filter = [];

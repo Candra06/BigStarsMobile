@@ -19,6 +19,18 @@ class DetailKelasPageGuru extends StatefulWidget {
 }
 
 class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
+  void berhasil() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Config.primary,
+        content: Text(
+          "Data Mapel Berhasil ditambah",
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+
   void _sharingKelas(BuildContext context, String id, List gurus) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -30,6 +42,7 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
           return ModalSharingKelas(
             id: id,
             gurus: gurus,
+            berhasil: berhasil,
           );
         });
   }
