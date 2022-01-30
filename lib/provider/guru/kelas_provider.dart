@@ -127,6 +127,15 @@ class KelasProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> addSharing(String id, String idGuru) async {
+    try {
+      bool status = await KelasService().addSharing(id, idGuru);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future deleteJadwal(int id) async {
     try {
       bool status = await KelasService().deleteJadwal(id);

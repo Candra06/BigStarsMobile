@@ -52,7 +52,7 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
     setState(() {
       for (var i = 0; i < jumlahGuru; i++) {
         gurus.add({
-          "id": guruModels[i].id,
+          "id": guruModels[i].id.toString(),
           "nama": guruModels[i].nama,
         });
       }
