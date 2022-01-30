@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 class ModalFilterKelas extends StatefulWidget {
   final String idWali;
   final void Function(String, String, String) onsubmit;
-  const ModalFilterKelas({Key key, this.idWali, this.onsubmit}) : super(key: key);
+  const ModalFilterKelas({Key key, this.idWali, this.onsubmit})
+      : super(key: key);
 
   @override
   _ModalFilterKelasState createState() => _ModalFilterKelasState();
@@ -142,11 +143,11 @@ class _ModalFilterKelasState extends State<ModalFilterKelas> {
                           } else {
                             status = status;
                           }
-                          widget.onsubmit(guru, siswa, status);
-                          txtNamaGuru.text = '';
-                          txtNamaSiswa.text = '';
-                          status = null;
+                          // txtNamaGuru.text = '';
+                          // txtNamaSiswa.text = '';
+                          // status = null;
                           Navigator.pop(context);
+                          widget.onsubmit(guru, siswa, status);
                         },
                         child: Text('Terapkan',
                             style: TextStyle(

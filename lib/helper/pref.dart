@@ -31,6 +31,18 @@ class Pref {
     return foto;
   }
 
+  static getRole() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String role = preferences.getString('role');
+    return role;
+  }
+
+  static getAlamat() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String alamat = preferences.getString('alamat');
+    return alamat;
+  }
+
   static getUserModel() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String user = preferences.getString('user');

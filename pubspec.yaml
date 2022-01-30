@@ -47,6 +47,7 @@ dependencies:
   firebase_core: ^0.5.0+1
   flutter_local_notifications: ^4.0.1+2
   path_provider: ^1.6.28
+  url_launcher: ^5.7.10
 
 dev_dependencies:
   flutter_test:

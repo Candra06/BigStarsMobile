@@ -43,12 +43,8 @@ class UserModel {
         status: json["status"] == null ? null : json["status"],
         rememberToken: json["remember_token"],
         birthDate: json["birth_date"] == null ? null : DateTime.parse(json["birth_date"]),
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         token: json["token"] == null ? null : json["token"],
       );
 
@@ -66,8 +62,9 @@ class UserModel {
         "token": token == null ? null : token,
       };
 
-  Map<String, dynamic> editProfilAdmin() =>
-      {"phone": phone, "username": username, 'password': password};
-  Map<String, dynamic> editProfilAdminNoPass() =>
-      {"phone": phone, "username": username};
+  Map<String, dynamic> editProfilAdmin() => {"phone": phone, "username": username, 'password': password};
+  Map<String, dynamic> editProfilAdminNoPass() => {"phone": phone, "username": username};
+
+  Map<String, dynamic> editProfilWali() => {"phone": phone, "username": username, 'password': password,'nama':nama,'alamat':alamat};
+  Map<String, dynamic> editProfilWaliNoPass() => {"phone": phone, "username": username,'nama':nama,'alamat':alamat};
 }

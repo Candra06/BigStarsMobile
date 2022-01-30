@@ -114,8 +114,6 @@ class _ListSppMuridState extends State<ListSppMurid> {
     });
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     Widget generateSppbtn() {
@@ -223,7 +221,8 @@ class _ListSppMuridState extends State<ListSppMurid> {
               height: 20,
             ),
             FutureBuilder(
-                future: Provider.of<FinanceProvider>(context, listen: false).getSpp(_filter),
+                future: Provider.of<FinanceProvider>(context, listen: false)
+                    .getSpp(_filter),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(

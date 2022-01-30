@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
@@ -14,8 +15,7 @@ class ModalChangePhotoProfile extends StatefulWidget {
   const ModalChangePhotoProfile({Key key}) : super(key: key);
 
   @override
-  _ModalChangePhotoProfileState createState() =>
-      _ModalChangePhotoProfileState();
+  _ModalChangePhotoProfileState createState() => _ModalChangePhotoProfileState();
 }
 
 class _ModalChangePhotoProfileState extends State<ModalChangePhotoProfile> {
@@ -28,10 +28,9 @@ class _ModalChangePhotoProfileState extends State<ModalChangePhotoProfile> {
   UserModel user;
 
   void edit(BuildContext context) async {
-    AuthProvider authProvider =
-        Provider.of<AuthProvider>(context, listen: false);
-    data = await Provider.of<AuthProvider>(context, listen: false)
-        .editFoto(tmpFile);
+    String role = await Pref.getRole();
+    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+    data = await Provider.of<AuthProvider>(context, listen: false).editFoto(tmpFile);
     user = authProvider.user;
     print(data);
     if (data["status"] == true) {
@@ -41,7 +40,13 @@ class _ModalChangePhotoProfileState extends State<ModalChangePhotoProfile> {
       // pref.setString('user', json.encode(user.toJson()));
       Config.alert(1, 'Berhasil mengubah foto');
 
-      Navigator.pushNamed(context, Routes.PROFILE_ADMIN);
+      if (role == 'Admin') {
+        Navigator.pushNamed(context, Routes.PROFILE_ADMIN);
+      } else if (role == 'Guru') {
+        Navigator.pushNamed(context, Routes.PROFILE_GURU);
+      } else {
+        Navigator.pushNamed(context, Routes.PROFILE_WALI);
+      }
     } else {
       Config.alert(0, 'Gagal mengubah foto');
     }

@@ -5,8 +5,12 @@ import 'package:flutter/material.dart';
 
 class ModalSharingKelas extends StatefulWidget {
   final String id;
-  final List<GuruModel> gurus;
-  const ModalSharingKelas({Key key, this.id, this.gurus}) : super(key: key);
+  final List gurus;
+  const ModalSharingKelas({
+    Key key,
+    this.id,
+    this.gurus,
+  }) : super(key: key);
 
   @override
   _ModalSharingKelasState createState() => _ModalSharingKelasState();
@@ -19,15 +23,9 @@ class _ModalSharingKelasState extends State<ModalSharingKelas> {
   ];
 
   getData() {
-    // print(widget.gurus.length);
-    int jumlahGuru = widget.gurus.length;
-    // for (var i = 0; i < jumlahGuru; i++) {
-    //   // print(i);
-    //   listGuru.add({
-    //     "id": widget.gurus[i].id,
-    //     "nama": widget.gurus[i].nama,
-    //   });
-    // }
+    setState(() {
+      listGuru = widget.gurus;
+    });
   }
 
   @override
@@ -93,7 +91,7 @@ class _ModalSharingKelasState extends State<ModalSharingKelas> {
                   ),
                   isExpanded: true,
                   value: idGuru,
-                  items: listGuru.map((value) {
+                  items: widget.gurus.map((value) {
                     return DropdownMenuItem(
                       child: Text(value["nama"]),
                       value: value["id"],

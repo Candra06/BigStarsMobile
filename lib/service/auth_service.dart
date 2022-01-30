@@ -48,9 +48,31 @@ class AuthService {
     } else {
       body = user.editProfilAdminNoPass();
     }
-    print(body);
-    var response = await http.post(Uri.parse(EndPoint.editProfilAdm), headers: {'Authorization': token}, body: body);
-    print(response.body);
+    var response = await http.post(Uri.parse(EndPoint.editProfilAdm),
+        headers: {'Authorization': token}, body: body);
+
+    if (response.statusCode == 200) {
+      if (jsonDecode(response.body)["message"] == "Success") {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> updateProfileWali({UserModel user}) async {
+    var token = await Pref.getToken();
+    var body;
+
+    if (user.password.isNotEmpty) {
+      body = user.editProfilWali();
+    } else {
+      body = user.editProfilWaliNoPass();
+    }
+    var response = await http.post(Uri.parse(EndPoint.editProfilWali),
+        headers: {'Authorization': token}, body: body);
+
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
@@ -90,7 +112,8 @@ class AuthService {
 
   Future logout() async {
     var token = await Pref.getToken();
-    var response = await http.post(Uri.parse(EndPoint.logout), headers: {'Authorization': token});
+    var response = await http
+        .post(Uri.parse(EndPoint.logout), headers: {'Authorization': token});
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Logged out") {
         return jsonDecode(response.body)["message"];
@@ -145,7 +168,8 @@ class AuthService {
 
   Future<DashboardGuruModel> dashboardGuru() async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.dashboardGuru), headers: {'Authorization': token});
+    var response = await http.get(Uri.parse(EndPoint.dashboardGuru),
+        headers: {'Authorization': token});
     if (response.statusCode == 200) {
       return DashboardGuruModel.fromJson(jsonDecode(response.body)["data"]);
     }
@@ -155,7 +179,8 @@ class AuthService {
 
   Future<DashboardWaliModel> getDashboardWali() async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.dashboardWali), headers: {'Authorization': token});
+    var response = await http.get(Uri.parse(EndPoint.dashboardWali),
+        headers: {'Authorization': token});
     if (response.statusCode == 200) {
       return DashboardWaliModel.fromJson(jsonDecode(response.body));
     }

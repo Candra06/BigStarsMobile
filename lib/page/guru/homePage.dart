@@ -211,30 +211,26 @@ class _HomeGuruState extends State<HomeGuru> {
                         SizedBox(
                           height: 10,
                         ),
-                        if (dashboardGuruModel.kelasToday.isNotEmpty) ...{
-                          Container(
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: dashboardGuruModel.kelasToday.length,
-                              itemBuilder: (BuildContext cotext, int i) {
-                                return ItemKelasTodayGuru(
-                                  data: dashboardGuruModel.kelasToday[i],
-                                );
-                              },
-                            ),
-                          ),
-                        } else ...{
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Center(
-                            child: Text(
-                              'Tidak ada kelas untuk hari ini.',
-                              style: TextStyle(color: Config.textGrey),
-                            ),
-                          )
-                        },
+                        Container(
+                          child: dashboardGuruModel.kelasToday.length == 0
+                              ? Center(child: Text('Tidak ada kelas hari ini'))
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount:
+                                      dashboardGuruModel.kelasToday.length,
+                                  itemBuilder: (BuildContext cotext, int i) {
+                                    print(dashboardGuruModel.kelasToday.length);
+
+                                    if (dashboardGuruModel.kelasToday == []) {
+                                      return Text('Belum ada data kelas');
+                                    } else {
+                                      return ItemKelasTodayGuru(
+                                        data: dashboardGuruModel.kelasToday[i],
+                                      );
+                                    }
+                                  }),
+                        ),
                         SizedBox(
                           height: 10,
                         ),

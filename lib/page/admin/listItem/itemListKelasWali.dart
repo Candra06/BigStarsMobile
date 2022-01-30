@@ -18,7 +18,7 @@ class _ItemKelasWaliState extends State<ItemKelasWali> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.DETAIL_KELAS_WALI);
+        Navigator.pushNamed(context, Routes.DETAIL_KELAS_WALI, arguments: widget.data.id.toString());
       },
       child: Container(
         margin: EdgeInsets.only(top: 8),

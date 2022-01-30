@@ -10,6 +10,7 @@ class EndPoint {
   static final String logout = api + 'logout';
   static final String editProfilAdm = api + 'update-profil-admin';
   static final String editProfilGuru = api + 'update-profil-guru';
+  static final String editProfilWali = api + 'update-profil-wali';
   static final String editFoto = api + 'update-photo';
   static final String notifikasi = api + 'notfikasi/list';
   static final String readNotif = api + 'notfikasi/read/';

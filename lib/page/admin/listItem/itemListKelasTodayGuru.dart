@@ -76,7 +76,9 @@ class _ItemKelasTodayGuruState extends State<ItemKelasTodayGuru> {
                         width: 8,
                       ),
                       Text(
-                        widget.data.jamMulai + '-' + widget.data.jamSelesai,
+                        Config.formatJam(widget.data.jamMulai) +
+                            '-' +
+                            Config.formatJam(widget.data.jamSelesai),
                         style: TextStyle(
                           fontWeight: FontWeight.w900,
                           fontSize: 13,

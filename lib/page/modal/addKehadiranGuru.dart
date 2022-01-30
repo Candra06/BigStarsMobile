@@ -28,6 +28,7 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
   PlatformFile _fileMateri;
   FileUpload _upload = new FileUpload();
   File tmpFile;
+  String nameFile = "";
   String status;
   Map<String, dynamic> data;
   bool isLoading = false;
@@ -45,8 +46,9 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
     );
 
     tmpFile = File(_fileMateri.path);
-
-    // print(value);
+    setState(() {
+      nameFile = tmpFile.path.split("/").last;
+    });
   }
 
   Future addKehadiran() async {
@@ -214,6 +216,24 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
                         getParams();
                       },
                     ),
+                    if (nameFile.isNotEmpty) ...{
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.file_copy),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              nameFile,
+                            ),
+                          ),
+                        ],
+                      ),
+                    }
                   ],
                 ),
               ),

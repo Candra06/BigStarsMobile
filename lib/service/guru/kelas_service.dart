@@ -15,7 +15,9 @@ class KelasService {
   Future<List<KelasModel>> getAllKelas(String filter) async {
     var token = await Pref.getToken();
     String url = '';
-    if (filter != null) {
+    print(filter);
+    if (filter.isNotEmpty) {
+      print('sini');
       url = EndPoint.kelas + '?' + filter;
     } else {
       url = EndPoint.kelas;

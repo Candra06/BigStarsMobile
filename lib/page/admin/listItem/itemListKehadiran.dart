@@ -6,6 +6,7 @@ import 'package:bigstars_mobile/page/modal/addKehadiranGuru.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ItemListKehadiran extends StatefulWidget {
   final KehadiranModel data;
@@ -32,13 +33,14 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
   }
 
   bool isLoading = false;
-  Future<String> getDirectoryPath() async {
+  Future<File> downloadFile(String name) async {
     String appDocDirectory = (await getApplicationDocumentsDirectory()).path;
-    Directory directory =
-        await new Directory(appDocDirectory + '/' + 'bigstars')
-            .create(recursive: true);
-
-    return directory.path;
+    final file = File(appDocDirectory + '/$name');
+    try {
+      // final reponse = await Dio(),
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future _download(String url) async {
@@ -47,7 +49,7 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
     });
     // String dir =
     String fileName = url.substring(url.lastIndexOf("/") + 1);
-    String dir = await getDirectoryPath();
+    // String dir = await getDirectoryPath();
     HttpClient httpClient = new HttpClient();
     File file;
 
@@ -56,8 +58,8 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
       var response = await request.close();
       if (response.statusCode == 200) {
         var bytes = await consolidateHttpClientResponseBytes(response);
-        var filePath = '$dir/$fileName';
-        file = File(filePath);
+        // var filePath = '$dir/$fileName';
+        // file = File(filePath);
         await file.writeAsBytes(bytes);
         print("berhasil");
       }
@@ -144,9 +146,14 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             ),
             if (widget.data.fileMateri != '-') ...{
               ElevatedButton(
-                onPressed: () {
-                  _download(EndPoint.server + widget.data.fileMateri);
-                  // print(widget.data.fileMateri);
+                onPressed: () async {
+                  String url = EndPoint.server + widget.data.fileMateri;
+                  print(url);
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    throw "Could not launch $url";
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(MediaQuery.of(context).size.width, 30),
