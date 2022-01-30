@@ -24,7 +24,7 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
       SnackBar(
         backgroundColor: Config.primary,
         content: Text(
-          "Data Mapel Berhasil ditambah",
+          "Kelas Berhasil disharing.",
           textAlign: TextAlign.center,
         ),
       ),
