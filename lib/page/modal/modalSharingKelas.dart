@@ -1,7 +1,9 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
 import 'package:bigstars_mobile/model/guru_model.dart';
+import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ModalSharingKelas extends StatefulWidget {
   final String id;
@@ -19,13 +21,21 @@ class ModalSharingKelas extends StatefulWidget {
 class _ModalSharingKelasState extends State<ModalSharingKelas> {
   String tglKelas, idGuru, namaGuru;
   List listGuru = [
-    {"id": "1", "nama": "heri"}
+    // {"id": "1", "nama": "heri"}
   ];
+
+  void addSharing() async {
+    await Provider.of<KelasProvider>(context, listen: false)
+        .addSharing(widget.id, idGuru);
+  }
 
   getData() {
     setState(() {
-      listGuru = widget.gurus;
+      // listGuru = widget.gurus;
     });
+    for (var i = 0; i < widget.gurus.length; i++) {
+      listGuru.add(widget.gurus[i]);
+    }
   }
 
   @override
@@ -91,7 +101,7 @@ class _ModalSharingKelasState extends State<ModalSharingKelas> {
                   ),
                   isExpanded: true,
                   value: idGuru,
-                  items: widget.gurus.map((value) {
+                  items: listGuru.map((value) {
                     return DropdownMenuItem(
                       child: Text(value["nama"]),
                       value: value["id"],
@@ -120,14 +130,19 @@ class _ModalSharingKelasState extends State<ModalSharingKelas> {
                         color: Config.primary,
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text('SIMPAN',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Config.textWhite))),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        addSharing();
+                      },
+                      child: Text(
+                        'SIMPAN',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Config.textWhite,
+                        ),
+                      ),
+                    ),
                   ))
                 ],
               )

@@ -214,4 +214,20 @@ class KelasService {
     }
     return false;
   }
+
+  Future<bool> addSharing(String id, String idGuru) async {
+    var token = await Pref.getToken();
+    var response = await http
+        .post(Uri.parse(EndPoint.addSharing + id.toString()), headers: {
+      'Authorization': token,
+    }, body: {
+      "id_guru": idGuru,
+    });
+    if (response.statusCode == 200) {
+      if (jsonDecode(response.body)["message"] == "Success") {
+        return true;
+      }
+    }
+    return false;
+  }
 }
