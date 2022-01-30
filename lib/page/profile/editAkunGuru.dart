@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/helper/pref.dart';
+import 'package:bigstars_mobile/model/user_model.dart';
+import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class EditAkunGuru extends StatefulWidget {
   const EditAkunGuru({Key key}) : super(key: key);
-
   @override
   _EditAkunGuruState createState() => _EditAkunGuruState();
 }
@@ -19,6 +25,20 @@ class _EditAkunGuruState extends State<EditAkunGuru> {
   TextEditingController txtTglLahir = new TextEditingController();
   TextEditingController txtPhone = new TextEditingController();
   TextEditingController txtPassword = new TextEditingController();
+  UserModel userModel;
+
+  @override
+  void initState() {
+    userModel = Provider.of<AuthProvider>(context, listen: false).user;
+    txtUsername.text = userModel.username;
+    txtNama.text = userModel.nama;
+    txtAlamat.text = userModel.alamat;
+    final DateFormat formatter = DateFormat('dd MM yyyy');
+    txtTglLahir.text = formatter.format(userModel.birthDate);
+    txtPhone.text = userModel.phone;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +72,9 @@ class _EditAkunGuruState extends State<EditAkunGuru> {
               Container(
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -67,12 +89,22 @@ class _EditAkunGuruState extends State<EditAkunGuru> {
                                   color: Config.textGrey,
                                 ),
                                 onPressed: () {
-                                  showDatePicker(context: context, initialDate: _dateTime == null ? DateTime.now() : _dateTime, firstDate: DateTime(2020), lastDate: DateTime.now()).then((date) {
+                                  showDatePicker(
+                                          context: context,
+                                          initialDate: _dateTime == null
+                                              ? DateTime.now()
+                                              : _dateTime,
+                                          firstDate: DateTime(2020),
+                                          lastDate: DateTime.now())
+                                      .then((date) {
                                     if (date != null) {
                                       setState(() {
                                         _dateTime = date;
-                                        txtTglLahir.text = Config.formatDateInput(date.toString());
-                                        var tgl = _dateTime.toString().split(' ');
+                                        txtTglLahir.text =
+                                            Config.formatDateInput(
+                                                date.toString());
+                                        var tgl =
+                                            _dateTime.toString().split(' ');
                                         tglLahir = tgl[0].toString();
                                       });
                                     }
@@ -110,7 +142,9 @@ class _EditAkunGuruState extends State<EditAkunGuru> {
               Container(
                 margin: EdgeInsets.only(top: 8),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Config.borderInput)),
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -124,7 +158,9 @@ class _EditAkunGuruState extends State<EditAkunGuru> {
                             fillColor: Colors.black54,
                             suffixIcon: IconButton(
                               color: Config.primary,
-                              icon: obsecured ? Icon(Icons.lock_outline_rounded) : Icon(Icons.lock_open),
+                              icon: obsecured
+                                  ? Icon(Icons.lock_outline_rounded)
+                                  : Icon(Icons.lock_open),
                               onPressed: () {
                                 if (obsecured == true) {
                                   setState(() {
@@ -149,7 +185,8 @@ class _EditAkunGuruState extends State<EditAkunGuru> {
               ),
               Text(
                 'Kosongkan jika tidak ingin merubah password',
-                style: TextStyle(fontStyle: FontStyle.italic, color: Config.textGrey),
+                style: TextStyle(
+                    fontStyle: FontStyle.italic, color: Config.textGrey),
               ),
               SizedBox(height: 20),
               ElevatedButton(
