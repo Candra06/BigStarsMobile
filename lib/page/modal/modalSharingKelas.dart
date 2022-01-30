@@ -8,11 +8,9 @@ import 'package:provider/provider.dart';
 class ModalSharingKelas extends StatefulWidget {
   final String id;
   final List gurus;
-  const ModalSharingKelas({
-    Key key,
-    this.id,
-    this.gurus,
-  }) : super(key: key);
+  final void Function() berhasil;
+  const ModalSharingKelas({Key key, this.id, this.gurus, this.berhasil})
+      : super(key: key);
 
   @override
   _ModalSharingKelasState createState() => _ModalSharingKelasState();
@@ -20,13 +18,12 @@ class ModalSharingKelas extends StatefulWidget {
 
 class _ModalSharingKelasState extends State<ModalSharingKelas> {
   String tglKelas, idGuru, namaGuru;
-  List listGuru = [
-    // {"id": "1", "nama": "heri"}
-  ];
+  List listGuru = [];
 
   void addSharing() async {
     await Provider.of<KelasProvider>(context, listen: false)
         .addSharing(widget.id, idGuru);
+    widget.berhasil();
   }
 
   getData() {
@@ -132,6 +129,7 @@ class _ModalSharingKelasState extends State<ModalSharingKelas> {
                     child: TextButton(
                       onPressed: () {
                         Navigator.pop(context);
+
                         addSharing();
                       },
                       child: Text(
