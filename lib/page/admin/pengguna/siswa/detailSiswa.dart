@@ -199,6 +199,7 @@ class _DetailSiswaState extends State<DetailSiswa> {
           Config.itemDetail('Tanggal Lahir', Config.formatDateInput(widget.siswa.birthDate.toString())),
           Config.itemDetail('Alamat', widget.siswa.alamat),
           Config.itemDetail('Wali Siswa', widget.siswa.wali),
+          Config.itemDetail('Poin Siswa', widget.siswa.poinSiswa.toString()),
           Config.itemDetail('Status', widget.siswa.status),
           Column(
             children: [

@@ -8,6 +8,7 @@ class SiswaModel {
     this.status,
     this.birthDate,
     this.createdAt,
+    this.poinSiswa,
     this.updatedAt,
     this.kodeReferal,
   });
@@ -21,6 +22,7 @@ class SiswaModel {
   String status;
   DateTime birthDate;
   String createdAt;
+  dynamic poinSiswa;
   String updatedAt;
 
   factory SiswaModel.fromJson(Map<String, dynamic> json) => SiswaModel(
@@ -32,8 +34,9 @@ class SiswaModel {
         nama: json["nama"],
         status: json["status"] == null ? null : json["status"],
         birthDate: DateTime.parse(json["birth_date"]),
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
+        createdAt: json["created_at"] == null ? null : json["created_at"],
+        poinSiswa: json["poin_siswa"] == null ? null : json["poin_siswa"],
+        updatedAt: json["updated_at"] == null ? null : json["updated_at"],
       );
 
   Map<String, dynamic> toJson() => {

@@ -3,20 +3,20 @@ import 'dart:convert';
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
 import 'package:bigstars_mobile/helper/loadingButton.dart';
+import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
 import 'package:bigstars_mobile/page/guru/mainPage.dart';
 import 'package:bigstars_mobile/page/wali/mainPage.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/provider/finance_provider.dart';
-import 'package:bigstars_mobile/provider/guru_provider.dart';
 import 'package:bigstars_mobile/provider/mapel_provider.dart';
-import 'package:bigstars_mobile/provider/siswa_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:geolocator/geolocator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -32,6 +32,36 @@ class _LoginPageState extends State<LoginPage> {
   UserModel user;
   TextEditingController txtUsername = new TextEditingController();
   TextEditingController txtPassword = new TextEditingController();
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location permissions are permantly denied, we cannot request permissions.');
+    }
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse && permission != LocationPermission.always) {
+        return Future.error('Location permissions are denied (actual value: $permission).');
+      }
+    }
+
+    return await Geolocator.getCurrentPosition();
+  }
+
+  @override
+  void initState() {
+    _determinePosition();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
         await Provider.of<FinanceProvider>(context, listen: false).getFinance();
         if (authProvider.user.role == 'Admin') {
           await Provider.of<AuthProvider>(context, listen: false).getDashboard();
-          
+
           pref.setString('nama', 'Admin');
           Navigator.pushReplacement(
             context,
@@ -219,6 +249,37 @@ class _LoginPageState extends State<LoginPage> {
               ),
               // signIn(),
               !isLoading ? signIn() : LoadingButton(),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.FORGOT_PASSWORD);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(
+                        bottom: 5, // Space between underline and text
+                      ),
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                        color: Config.primary,
+                        width: 1.0, // Underline thickness
+                      ))),
+                      child: Text(
+                        "Lupa Password?",
+                        style: TextStyle(
+                          color: Config.primary,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
               SizedBox(
                 height: 20,
               ),

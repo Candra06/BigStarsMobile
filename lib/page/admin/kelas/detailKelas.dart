@@ -141,6 +141,14 @@ class _DetailKelasState extends State<DetailKelas> with SingleTickerProviderStat
           actions: [
             IconButton(
                 onPressed: () {
+                  Navigator.pushNamed(context, Routes.EDIT_KELAS, arguments: widget.kelas);
+                },
+                icon: Icon(
+                  Icons.edit,
+                  color: Config.primary,
+                )),
+            IconButton(
+                onPressed: () {
                   _showConfirmHapus(widget.kelas.id);
                 },
                 icon: Icon(

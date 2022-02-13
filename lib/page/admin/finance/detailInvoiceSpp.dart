@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/model/DetailSpp_model.dart';
 import 'package:bigstars_mobile/model/spp_model.dart';
 import 'package:bigstars_mobile/provider/finance_provider.dart';
@@ -18,6 +19,8 @@ class InvoiceSPP extends StatefulWidget {
 class _InvoiceSPPState extends State<InvoiceSPP> {
   DetailSPPModel detailSPPModel;
   bool load = true;
+
+  String role;
 
   void _showSucces() {
     showDialog(
@@ -88,19 +91,19 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
   }
 
   void konfirmasi() async {
-    bool status = await Provider.of<FinanceProvider>(context, listen: false)
-        .konfirmasiSPP(widget.id);
+    bool status = await Provider.of<FinanceProvider>(context, listen: false).konfirmasiSPP(widget.id);
     if (status) {
       _showSucces();
     }
   }
 
   void getData() async {
+    String tmpRole = await Pref.getRole();
     setState(() {
+      role = tmpRole;
       load = true;
     });
-    detailSPPModel = await Provider.of<FinanceProvider>(context, listen: false)
-        .detailSpp(widget.id);
+    detailSPPModel = await Provider.of<FinanceProvider>(context, listen: false).detailSpp(widget.id);
 
     setState(() {
       load = false;
@@ -134,22 +137,23 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
       ),
       body: load
           ? LinearProgressIndicator()
-          : Container(
-              margin: EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Center(
-                    child: Icon(
-                      FontAwesomeIcons.fileInvoiceDollar,
-                      size: 100,
-                      color: Config.primary,
+          : SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Icon(
+                        FontAwesomeIcons.fileInvoiceDollar,
+                        size: 100,
+                        color: Config.primary,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Card(
-                    child: Container(
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
                       width: MediaQuery.of(context).size.width,
                       // padding: EdgeInsets.all(8),
                       child: Column(
@@ -167,10 +171,7 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                                 ),
                                 Text(
                                   detailSPPModel.noInvoice,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Config.primary),
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Config.primary),
                                 ),
                               ],
                             ),
@@ -272,8 +273,7 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                               children: [
                                 Container(),
                                 Text(
-                                  Config.formatRupiah(
-                                      int.parse(detailSPPModel.jumlah)),
+                                  Config.formatRupiah(int.parse(detailSPPModel.jumlah)),
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -285,36 +285,76 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                           SizedBox(
                             height: 20,
                           ),
-                          Container(
-                            margin: EdgeInsets.only(left: 8, right: 8),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                _konfirmasi();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                fixedSize:
-                                    Size(MediaQuery.of(context).size.width, 30),
-                                primary: Config.primary,
-                                onPrimary: Config.textWhite,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
+                          if (role != 'Walimurid') ...{
+                            Container(
+                              margin: EdgeInsets.only(left: 8, right: 8),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  _konfirmasi();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  fixedSize: Size(MediaQuery.of(context).size.width, 30),
+                                  primary: Config.primary,
+                                  onPrimary: Config.textWhite,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                                child: Text(
+                                  "Konfirmasi Tagihan",
+                                  style: TextStyle(color: Colors.white, fontSize: 16),
                                 ),
                               ),
-                              child: Text(
-                                "Konfirmasi Tagihan",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16),
-                              ),
                             ),
-                          ),
+                          },
                           SizedBox(
                             height: 10,
                           ),
                         ],
                       ),
                     ),
-                  )
-                ],
+                    SizedBox(height: 20),
+                    Text('Riwayat Kehadiran'),
+                    SizedBox(height: 20),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: detailSPPModel.historiKehadiran.length,
+                        itemBuilder: (BuildContext bc, int i) {
+                          return Card(
+                            child: Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(detailSPPModel.historiKehadiran[i].mapel),
+                                      Text(detailSPPModel.historiKehadiran[i].nama),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(detailSPPModel.historiKehadiran[i].materi),
+                                      Text(Config.formatRupiah(int.parse(detailSPPModel.historiKehadiran[i].spp))),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(Config.formatDateTime(detailSPPModel.historiKehadiran[i].createdAt) + ' ' + Config.formatDateTimeJam(detailSPPModel.historiKehadiran[i].createdAt))
+                                ],
+                              ),
+                            ),
+                          );
+                        })
+                  ],
+                ),
               ),
             ),
     );

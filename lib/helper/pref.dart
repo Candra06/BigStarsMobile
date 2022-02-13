@@ -7,6 +7,12 @@ class Pref {
     return token;
   }
 
+   static getSetuju() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String setuju = preferences.getString('setuju');
+    return setuju;
+  }
+
   static getNama() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String nama = preferences.getString('nama');

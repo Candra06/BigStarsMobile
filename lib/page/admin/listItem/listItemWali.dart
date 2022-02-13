@@ -16,8 +16,7 @@ class _ItemListWaliState extends State<ItemListWali> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.DETAIL_WALI,
-            arguments: widget.wali);
+        Navigator.pushNamed(context, Routes.DETAIL_WALI, arguments: widget.wali);
       },
       child: Container(
         margin: EdgeInsets.only(top: 8),
@@ -35,8 +34,7 @@ class _ItemListWaliState extends State<ItemListWali> {
                       children: [
                         Text(
                           widget.wali.nama,
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w800),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                         ),
                       ],
                     ),
@@ -45,8 +43,7 @@ class _ItemListWaliState extends State<ItemListWali> {
                       children: [
                         Text(
                           widget.wali.status,
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w800),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                         ),
                       ],
                     )
@@ -61,26 +58,11 @@ class _ItemListWaliState extends State<ItemListWali> {
                       children: [
                         Text(
                           widget.wali.phone,
-                          style:
-                              TextStyle(fontSize: 13, color: Config.textGrey),
+                          style: TextStyle(fontSize: 13, color: Config.textGrey),
                         ),
                       ],
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, Routes.EDIT_WALI,
-                                  arguments: widget.wali);
-                            },
-                            icon: Icon(
-                              Icons.edit,
-                              color: Config.primary,
-                              size: 20,
-                            )),
-                      ],
-                    )
+                    
                   ],
                 ),
               ],

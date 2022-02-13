@@ -101,9 +101,7 @@ class _ListSppMuridState extends State<ListSppMurid> {
       isLoading = true;
     });
 
-    await Provider.of<FinanceProvider>(context, listen: false)
-        .generateSpp()
-        .then((value) {
+    await Provider.of<FinanceProvider>(context, listen: false).generateSpp().then((value) {
       if (value) {
         _showSuccesAdd();
       }
@@ -216,13 +214,9 @@ class _ListSppMuridState extends State<ListSppMurid> {
         //     }),
         child: Column(
           children: [
-            isLoading ? loadGeneratesppbtn() : generateSppbtn(),
-            SizedBox(
-              height: 20,
-            ),
+            // isLoading ? loadGeneratesppbtn() : generateSppbtn(),
             FutureBuilder(
-                future: Provider.of<FinanceProvider>(context, listen: false)
-                    .getSpp(_filter),
+                future: Provider.of<FinanceProvider>(context, listen: false).getSpp(_filter),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(

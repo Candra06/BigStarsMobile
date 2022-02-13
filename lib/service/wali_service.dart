@@ -36,7 +36,7 @@ class WaliService {
   Future addSiswaByWali(String id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
     print(data);
-    var response = await http.post(Uri.parse(EndPoint.wCreate), headers: {'Authorization': token}, body: data);
+    var response = await http.post(Uri.parse(EndPoint.createByWali), headers: {'Authorization': token}, body: data);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     }
@@ -46,6 +46,18 @@ class WaliService {
   Future editWali(String id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
     var response = await http.post(Uri.parse(EndPoint.wUpadate + id), headers: {'Authorization': token}, body: data);
+    print(response.body);
+    if (response.statusCode == 200) {
+      if (jsonDecode(response.body)["message"] == "Success") {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future deleteWali(String id) async {
+    var token = await Pref.getToken();
+    var response = await http.get(Uri.parse(EndPoint.wDelete + id), headers: {'Authorization': token});
     print(response.body);
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {

@@ -70,9 +70,7 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
       isLoading = true;
     });
 
-    await Provider.of<FinanceProvider>(context, listen: false)
-        .generateFEE()
-        .then((value) {
+    await Provider.of<FinanceProvider>(context, listen: false).generateFEE().then((value) {
       if (value) {
         _showSuccesAdd();
       }
@@ -228,13 +226,12 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
         //     }),
         child: Column(
           children: [
-            isLoading ? loadGenerateFeebtn() : generateFeebtn(),
-            SizedBox(
-              height: 20,
-            ),
+            // isLoading ? loadGenerateFeebtn() : generateFeebtn(),
+            // SizedBox(
+            //   height: 20,
+            // ),
             FutureBuilder(
-              future: Provider.of<FinanceProvider>(context, listen: false)
-                  .getFeeGuru(_filter),
+              future: Provider.of<FinanceProvider>(context, listen: false).getFeeGuru(_filter),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(

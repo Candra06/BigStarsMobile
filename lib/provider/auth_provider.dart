@@ -41,8 +41,7 @@ class AuthProvider with ChangeNotifier {
     String password,
   }) async {
     try {
-      UserModel userModel =
-          await AuthService().login(username: username, password: password);
+      UserModel userModel = await AuthService().login(username: username, password: password);
       _user = userModel;
       notifyListeners();
       return {
@@ -130,6 +129,28 @@ class AuthProvider with ChangeNotifier {
     } catch (e) {
       print(e);
       return "Terjadi kesalahan.";
+    }
+  }
+
+  Future<Map<String, dynamic>> forgotPassword({String username}) async {
+    try {
+      Map<String, dynamic> response = await AuthService().lupaPassword(username: username);
+      response['status'] = true;
+      return response;
+    } catch (e) {
+      print(e);
+      return {"status": false, "message": "Username tidak ditemukan, silahkan hubungi pihak admin"};
+    }
+  }
+
+  Future<Map<String, dynamic>> resetPassword({String id, String password}) async {
+    try {
+      Map<String, dynamic> response = await AuthService().resetPassword(id: id, password: password);
+      response['status'] = true;
+      return response;
+    } catch (e) {
+      print(e);
+      return {"status": false, "message": "Gagal mengubah password"};
     }
   }
 

@@ -17,6 +17,18 @@ class SiswaProvider with ChangeNotifier {
     }
   }
 
+   Future<List<SiswaModel>> getSiswaByWali() async {
+    try {
+      List<SiswaModel> data = await SiswaService().getSiswaByWali();
+      _listSiswa = data;
+      notifyListeners();
+      return data;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
   Future<bool> deleteSiswa(String id) async {
     try {
       bool status = await SiswaService().delSiswa(id);

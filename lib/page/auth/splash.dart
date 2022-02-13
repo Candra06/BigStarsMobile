@@ -6,6 +6,7 @@ import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
+import 'package:bigstars_mobile/page/auth/parent_guide.dart';
 import 'package:bigstars_mobile/page/guru/mainPage.dart';
 import 'package:bigstars_mobile/page/maps.dart';
 import 'package:bigstars_mobile/page/wali/mainPage.dart';
@@ -23,8 +24,7 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with TickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _animation;
   String token = '';
@@ -41,8 +41,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (userModel.role == "Admin") {
         await Provider.of<AuthProvider>(context, listen: false).getDashboard();
       } else if (userModel.role == "Guru") {
-        await Provider.of<AuthProvider>(context, listen: false)
-            .getDashboardGuru();
+        await Provider.of<AuthProvider>(context, listen: false).getDashboardGuru();
       }
     }
   }
@@ -50,8 +49,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     getData();
-    _controller = AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this, value: 0.1);
+    _controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this, value: 0.1);
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
 
     _controller.forward();
@@ -60,11 +58,14 @@ class _SplashScreenState extends State<SplashScreen>
       Future.delayed(Duration(seconds: 5), () async {
         // Navigator.of(context).pushReplacement(PageTransition(child: GoogleMapsView(), type: PageTransitionType.fade));
         String token = await Pref.getToken();
-
+        String setuju = await Pref.getSetuju();
+        print(setuju);
         if (token == '' || token == null) {
-          Navigator.of(context, rootNavigator: true).pushReplacement(
-              PageTransition(
-                  child: LoginPage(), type: PageTransitionType.fade));
+          if (setuju == null || setuju == '' || setuju == 'null') {
+            Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(child: SyaratDanKetentuanWali(), type: PageTransitionType.fade));
+          } else {
+            Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(child: LoginPage(), type: PageTransitionType.fade));
+          }
         } else {
           var user = await Pref.getUserModel();
           userModel = UserModel.fromJson(json.decode(user));
@@ -80,9 +81,7 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             );
           } else if (userModel.role == 'Guru') {
-            List<KelasModel> kelas =
-                await Provider.of<KelasProvider>(context, listen: false)
-                    .getKelas();
+            List<KelasModel> kelas = await Provider.of<KelasProvider>(context, listen: false).getKelas();
 
             Navigator.pushReplacement(
               context,

@@ -63,6 +63,10 @@ class _ItemListKehadiranWaliState extends State<ItemListKehadiranWali> {
               widget.data.jurnal,
               maxLines: 3,
             ),
+            SizedBox(height: 8),
+            Text(
+              Config.formatDateTime(widget.data.createdAt.toString()) + ' ' + Config.formatDateTimeJam(widget.data.createdAt.toString()),
+            ),
             SizedBox(
               height: 20,
             ),

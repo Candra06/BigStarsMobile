@@ -198,7 +198,7 @@ class _AddSiswaState extends State<AddSiswa> {
                 height: 10,
               ),
               Text('Username'),
-              formInput(txtUsername, 'Nama Lengkap'),
+              formInput(txtUsername, 'Username login'),
               SizedBox(
                 height: 10,
               ),

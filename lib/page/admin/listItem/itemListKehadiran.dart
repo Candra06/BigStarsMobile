@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:geocoder/geocoder.dart';
 
 class ItemListKehadiran extends StatefulWidget {
   final KehadiranModel data;
@@ -31,6 +32,8 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
           );
         });
   }
+
+  String alamat = '-';
 
   bool isLoading = false;
   Future<File> downloadFile(String name) async {
@@ -69,6 +72,34 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  void getUserLocation(String latitude, String longitude) async {
+    //call this async method from whereever you need
+
+    String error;
+
+    final coordinates = new Coordinates(double.parse(latitude), double.parse(longitude));
+    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+
+    setState(() {
+      alamat =
+          ' ${first.locality.toString()}, ${first.adminArea.toString()},${first.subLocality.toString()}, ${first.subAdminArea.toString()},${first.addressLine.toString()}, ${first.featureName.toString()}';
+    });
+    // return ' ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}';
+  }
+
+  @override
+  void initState() {
+    getUserLocation(widget.data.latitude, widget.data.longitude);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    getUserLocation(widget.data.latitude, widget.data.longitude);
+    super.dispose();
   }
 
   @override
@@ -140,6 +171,20 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             Text(
               widget.data.jurnal,
               maxLines: 3,
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              'Lokasi Absensi',
+            ),
+            Text(
+              alamat,
+              maxLines: 3,
+            ),
+            SizedBox(height: 8),
+            Text(
+              Config.formatDateTime(widget.data.createdAt.toString()) + ' ' + Config.formatDateTimeJam(widget.data.createdAt.toString()),
             ),
             SizedBox(
               height: 20,

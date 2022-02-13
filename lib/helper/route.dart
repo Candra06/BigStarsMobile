@@ -9,6 +9,7 @@ import 'package:bigstars_mobile/page/admin/finance/listSppMurid.dart';
 import 'package:bigstars_mobile/page/admin/finance/reportPage.dart';
 import 'package:bigstars_mobile/page/admin/kelas/addKelas.dart';
 import 'package:bigstars_mobile/page/admin/kelas/detailKelas.dart';
+import 'package:bigstars_mobile/page/admin/kelas/editKelas.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
 import 'package:bigstars_mobile/page/admin/mapel/addMapel.dart';
 import 'package:bigstars_mobile/page/admin/listItem/listMapel.dart';
@@ -19,7 +20,9 @@ import 'package:bigstars_mobile/page/admin/pengguna/siswa/detailSiswa.dart';
 import 'package:bigstars_mobile/page/admin/pengguna/siswa/editSiswa.dart';
 import 'package:bigstars_mobile/page/admin/pengguna/wali/detailWali.dart';
 import 'package:bigstars_mobile/page/admin/pengguna/wali/editWali.dart';
+import 'package:bigstars_mobile/page/auth/forgotPassword.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
+import 'package:bigstars_mobile/page/auth/resetPasseord.dart';
 import 'package:bigstars_mobile/page/auth/splash.dart';
 import 'package:bigstars_mobile/page/guru/kelas/detailKelas.dart';
 import 'package:bigstars_mobile/page/guru/mainPage.dart';
@@ -50,6 +53,8 @@ import 'package:page_transition/page_transition.dart';
 class Routes {
   static const String SPLASH = '/splash';
   static const String LOGIN = '/login';
+  static const String FORGOT_PASSWORD = '/forgot_password';
+  static const String RESET_PASSWORD = '/reset_password';
   static const String HOME_ADMIN = '/home_admin';
   static const String LIST_MAPEL = '/list_mapel';
   static const String ADD_MAPEL = '/add_mapel';
@@ -67,6 +72,7 @@ class Routes {
   static const String LIST_FEE = '/list_fee';
   static const String ADD_KELAS = '/add_kelas';
   static const String DETAIL_KELAS = '/detail_kelas';
+  static const String EDIT_KELAS = '/edit_kelas';
   static const String DETAIL_SPP = '/detail_spp';
   static const String DETAIL_FEE = '/detail_fee';
   static const String FINANCE = '/detail_fee';
@@ -91,6 +97,14 @@ class Routes {
     switch (settings.name) {
       case SPLASH:
         return MaterialPageRoute(builder: (_) => SplashScreen());
+      case FORGOT_PASSWORD:
+        return PageTransition(child: ForgotPassword(), type: PageTransitionType.topToBottom);
+      case RESET_PASSWORD:
+        return PageTransition(
+            child: ResetPassword(
+              id: settings.arguments,
+            ),
+            type: PageTransitionType.topToBottom);
       case HOME_ADMIN:
         return PageTransition(
             child: AdminMain(
@@ -155,6 +169,8 @@ class Routes {
         return PageTransition(child: AddKelasAdmin(), type: PageTransitionType.leftToRight);
       case DETAIL_KELAS:
         return PageTransition(child: DetailKelas(kelas: settings.arguments), type: PageTransitionType.bottomToTop);
+         case EDIT_KELAS:
+        return PageTransition(child: EditKelasAdmin(kelas: settings.arguments), type: PageTransitionType.bottomToTop);
       case PROFILE_ADMIN:
         return PageTransition(child: ProfilAdmin(), type: PageTransitionType.bottomToTop);
       case EDIT_PROFILE_ADMIN:
