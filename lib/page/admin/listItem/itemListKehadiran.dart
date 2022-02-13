@@ -80,16 +80,19 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
 
     String error;
 
-    final coordinates =
-        new Coordinates(double.parse(latitude), double.parse(longitude));
-    var addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    final coordinates = new Coordinates(double.parse(latitude), double.parse(longitude));
+    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
-
+    if (mounted) {
+      setState(() {
+        alamat =
+            ' ${first.locality.toString()}, ${first.adminArea.toString()},${first.subLocality.toString()}, ${first.subAdminArea.toString()},${first.addressLine.toString()}, ${first.featureName.toString()}';
+      });
+    }
     // setState(() {
-    alamat =
-        ' ${first.locality.toString()}, ${first.adminArea.toString()},${first.subLocality.toString()}, ${first.subAdminArea.toString()},${first.addressLine.toString()}, ${first.featureName.toString()}';
+
     // });
+
     // print(alamat);
     // return ' ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}';
   }
@@ -188,9 +191,7 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             ),
             SizedBox(height: 8),
             Text(
-              Config.formatDateTime(widget.data.createdAt.toString()) +
-                  ' ' +
-                  Config.formatDateTimeJam(widget.data.createdAt.toString()),
+              Config.formatDateTime(widget.data.createdAt.toString()) + ' ' + Config.formatDateTimeJam(widget.data.createdAt.toString()),
             ),
             SizedBox(
               height: 20,

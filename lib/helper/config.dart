@@ -210,7 +210,7 @@ class Config {
     }
   }
 
-    static formatBulan(tgl) {
+  static formatBulan(tgl) {
     try {
       var date = tgl.split(" ");
       var bln = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
@@ -231,7 +231,6 @@ class Config {
       String tanggal = bulan[2] + ' ' + bln[int.parse(bulan[1])] + ' ' + bulan[0];
       return tanggal;
     } catch (e) {
-      print(e);
       return tgl.toString();
     }
   }
@@ -241,11 +240,10 @@ class Config {
       print(tgl);
       var date = tgl.toString().split(" ");
       var jam = date[1].toString().split('.');
-      print(jam);
+
       String tanggal = jam[0];
       return tanggal;
     } catch (e) {
-      print(e);
       return tgl.toString();
     }
   }
@@ -257,7 +255,6 @@ class Config {
       String waktu = hour[0] + ':' + hour[1];
       return waktu;
     } catch (e) {
-      print(e);
       return jam.toString();
     }
   }
