@@ -109,7 +109,7 @@ class KelasProvider with ChangeNotifier {
     }
   }
 
-   Future<bool> updateKelas(Map<String, dynamic> data, String id) async {
+  Future<bool> updateKelas(Map<String, dynamic> data, String id) async {
     try {
       bool status = await KelasService().updateKelas(id, data);
       getKelas();
@@ -140,9 +140,9 @@ class KelasProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> addSharing(String id, String idGuru) async {
+  Future<bool> addSharing(String id, var data) async {
     try {
-      bool status = await KelasService().addSharing(id, idGuru);
+      bool status = await KelasService().addSharing(id, data);
       return true;
     } catch (e) {
       return false;

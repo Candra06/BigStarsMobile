@@ -27,7 +27,7 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
       SnackBar(
         backgroundColor: Config.primary,
         content: Text(
-          "Sahring Kelas Berhasil",
+          "Sharing Kelas Berhasil",
           textAlign: TextAlign.center,
         ),
       ),

@@ -229,14 +229,15 @@ class KelasService {
     return false;
   }
 
-  Future<bool> addSharing(String id, String idGuru) async {
+  Future<bool> addSharing(String id, var data) async {
     var token = await Pref.getToken();
-    var response = await http
-        .post(Uri.parse(EndPoint.addSharing + id.toString()), headers: {
-      'Authorization': token,
-    }, body: {
-      "id_guru": idGuru,
-    });
+    var response =
+        await http.post(Uri.parse(EndPoint.addSharing + id.toString()),
+            headers: {
+              'Authorization': token,
+            },
+            body: data);
+    print(response.body);
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
