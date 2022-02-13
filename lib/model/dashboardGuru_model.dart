@@ -10,7 +10,7 @@ class DashboardGuruModel {
     this.sharing,
   });
 
-  int fee;
+  String fee;
   int notifUnread;
   List<KelasTodayGuru> kelasToday;
   int kelasAktif;

@@ -106,14 +106,14 @@ class _EditWaliState extends State<EditWali> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        return Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
+        return Navigator.pushNamed(context, Routes.DETAIL_WALI, arguments: widget.wali);
       },
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Config.textWhite,
           leading: IconButton(
               onPressed: () {
-                return Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
+                return Navigator.pushNamed(context, Routes.DETAIL_WALI, arguments: widget.wali);
               },
               icon: Icon(
                 Icons.arrow_back,

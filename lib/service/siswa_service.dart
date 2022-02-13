@@ -23,6 +23,23 @@ class SiswaService {
     }
   }
 
+   Future<List<SiswaModel>> getSiswaByWali() async {
+    var token = await Pref.getToken();
+    var response = await http.get(
+      Uri.parse(EndPoint.listSiswaByWali),
+      headers: {
+        'Authorization': token,
+      },
+    );
+    if (response.statusCode == 200) {
+      List data = jsonDecode(response.body)["data"];
+      List<SiswaModel> siswas = data.map((item) => SiswaModel.fromJson(item)).toList();
+      return siswas;
+    } else {
+      return [];
+    }
+  }
+
   Future<bool> delSiswa(String id) async {
     var token = await Pref.getToken();
     var response = await http.get(Uri.parse(EndPoint.sDelete + id), headers: {'Authorization': token});

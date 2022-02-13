@@ -109,6 +109,19 @@ class KelasProvider with ChangeNotifier {
     }
   }
 
+   Future<bool> updateKelas(Map<String, dynamic> data, String id) async {
+    try {
+      bool status = await KelasService().updateKelas(id, data);
+      getKelas();
+
+      notifyListeners();
+      return status;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future addKehadiran(String id, Map<String, dynamic> data) async {
     bool status = await KelasService().addKehadiran(id, data);
     _listKehadiranModel = await getKehadiran(id);

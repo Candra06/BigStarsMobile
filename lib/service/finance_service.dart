@@ -67,9 +67,11 @@ class FinanceService {
   }
 
   Future<FinanceModel> indexFinance() async {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
     var token = await Pref.getToken();
     var response = await http.get(
-      Uri.parse(EndPoint.finance + '2022-01-24'),
+      Uri.parse(EndPoint.finance + formattedDate),
       headers: {"authorization": token},
     );
 
@@ -109,11 +111,9 @@ class FinanceService {
 
   Future detailSpp(String id) async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.detailSpp + id),
-        headers: {'Authorization': token});
+    var response = await http.get(Uri.parse(EndPoint.detailSpp + id), headers: {'Authorization': token});
     if (response.statusCode == 200) {
-      DetailSPPModel detailSPPModel =
-          DetailSPPModel.fromJson(jsonDecode(response.body)["data"]);
+      DetailSPPModel detailSPPModel = DetailSPPModel.fromJson(jsonDecode(response.body)["data"]);
       return detailSPPModel;
     }
     return null;
@@ -133,8 +133,7 @@ class FinanceService {
 
   Future<bool> konfirmasiSPP(String id) async {
     var token = await Pref.getToken();
-    var response = await http.post(Uri.parse(EndPoint.konfirmasiSPP + id),
-        headers: {'Authorization': token});
+    var response = await http.post(Uri.parse(EndPoint.konfirmasiSPP + id), headers: {'Authorization': token});
 
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {

@@ -8,6 +8,8 @@ class EndPoint {
   // auth
   static final String login = api + 'login';
   static final String logout = api + 'logout';
+  static final String forgotPassword = api + 'lupa-password';
+  static final String resetPassword = api + 'reset-password';
   static final String editProfilAdm = api + 'update-profil-admin';
   static final String editProfilGuru = api + 'update-profil-guru';
   static final String editProfilWali = api + 'update-profil-wali';
@@ -32,12 +34,15 @@ class EndPoint {
   static final wUpadate = api + 'siswa/update-wali/';
   static final wCreate = api + 'siswa/create-suswa-byWali';
   static final wDetail = api + 'siswa/detail-wali/';
+  static final wDelete = api + 'siswa/delete-wali/';
 
   // siswa
   static final siswa = api + 'siswa/list';
   static final sDelete = api + 'siswa/delete/';
   static final sCreate = api + 'siswa/create-wali';
   static final sUpdate = api + 'siswa/update/';
+  static final listSiswaByWali = api + 'siswa/list-by-wali/';
+  static final createByWali = api + 'siswa/create-suswa-byWali';
 
   // finance
   static final finance = api + 'finance/index/';
@@ -64,4 +69,5 @@ class EndPoint {
   static final absensi = api + 'kelas/absensi/';
   static final filterKelas = api + 'kelas/filter-kelas/';
   static final addKehadiranGuru = api + 'kelas/add-absen-guru/';
+  static final updateKelas = api + 'kelas/updateKelas/';
 }

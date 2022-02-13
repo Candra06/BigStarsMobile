@@ -7,17 +7,16 @@ import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:geolocator/geolocator.dart';
 
 class ModalTambahKehadiranGuru extends StatefulWidget {
   final String id;
   final void Function(bool) onSumbit;
   final String tipe;
-  const ModalTambahKehadiranGuru({Key key, this.id, this.tipe, this.onSumbit})
-      : super(key: key);
+  const ModalTambahKehadiranGuru({Key key, this.id, this.tipe, this.onSumbit}) : super(key: key);
 
   @override
-  _ModalTambahKehadiranGuruState createState() =>
-      _ModalTambahKehadiranGuruState();
+  _ModalTambahKehadiranGuruState createState() => _ModalTambahKehadiranGuruState();
 }
 
 class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
@@ -32,6 +31,17 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
   String status;
   Map<String, dynamic> data;
   bool isLoading = false;
+  Position currentPosition;
+
+  getCurrentLocation() {
+    Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best, forceAndroidLocationManager: true).then((Position position) {
+      setState(() {
+        currentPosition = position;
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
 
   void getParams() async {
     _fileMateri = await _upload.uploadFile(
@@ -56,10 +66,17 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
       "materi": txtMateri.text,
       "jurnal": txtJurnal.text,
       "status": status,
-      "poin": txtPoin.text
+      "poin": txtPoin.text,
+      'latitude': currentPosition.latitude.toString(),
+      'longitude': currentPosition.longitude.toString()
     };
-    bool value = await Provider.of<KelasProvider>(context, listen: false)
-        .addKehadiranGuru(widget.id, data, tmpFile);
+    bool value = await Provider.of<KelasProvider>(context, listen: false).addKehadiranGuru(widget.id, data, tmpFile);
+  }
+
+  @override
+  void initState() {
+    getCurrentLocation();
+    super.initState();
   }
 
   @override
@@ -81,10 +98,7 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
         },
         child: Text(
           'SIMPAN',
-          style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-              color: Config.textWhite),
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Config.textWhite),
         ),
       );
     }
@@ -103,10 +117,7 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
             ),
             Text(
               'LOADING',
-              style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: Config.textWhite),
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Config.textWhite),
             ),
           ],
         ),
@@ -115,13 +126,8 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
 
     return Container(
       // padding: EdgeInsets.all(16),
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      decoration: BoxDecoration(
-          color: Config.background,
-          borderRadius: new BorderRadius.only(
-              topLeft: const Radius.circular(10.0),
-              topRight: const Radius.circular(10.0))),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      decoration: BoxDecoration(color: Config.background, borderRadius: new BorderRadius.only(topLeft: const Radius.circular(10.0), topRight: const Radius.circular(10.0))),
       child: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(16),
@@ -132,14 +138,7 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: [
-                      Text(
-                          widget.tipe == 'Update'
-                              ? 'Update Kehadiran'
-                              : 'Tambah Kehadiran',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold))
-                    ],
+                    children: [Text(widget.tipe == 'Update' ? 'Update Kehadiran' : 'Tambah Kehadiran', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))],
                   ),
                   InkWell(
                     onTap: () {
@@ -175,9 +174,7 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
                 margin: EdgeInsets.only(top: 8, bottom: 10),
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Config.borderInput)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
@@ -207,8 +204,7 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
               ),
               Text('File Materi'),
               Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.075),
+                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.075),
                 child: Column(
                   children: [
                     FormInputFile(
@@ -244,9 +240,7 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
                   Expanded(
                       child: Container(
                     margin: EdgeInsets.only(left: 4, top: 8),
-                    decoration: BoxDecoration(
-                        color: Config.primary,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    decoration: BoxDecoration(color: Config.primary, borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: isLoading ? tombolLoad() : tombolSimpan(),
                   ))
                 ],

@@ -41,11 +41,9 @@ class _HomeGuruState extends State<HomeGuru> {
   void initState() {
     super.initState();
     getData();
-    dashboardGuruModel =
-        Provider.of<AuthProvider>(context, listen: false).dashboardGuruModel;
+    dashboardGuruModel = Provider.of<AuthProvider>(context, listen: false).dashboardGuruModel;
     print(dashboardGuruModel.kelasAktif);
-    listKelasModel =
-        Provider.of<KelasProvider>(context, listen: false).allKelas;
+    listKelasModel = Provider.of<KelasProvider>(context, listen: false).allKelas;
   }
 
   @override
@@ -83,8 +81,7 @@ class _HomeGuruState extends State<HomeGuru> {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, Routes.PROFILE_GURU);
+                                Navigator.pushNamed(context, Routes.PROFILE_GURU);
                               },
                               child: Icon(
                                 Icons.person,
@@ -99,25 +96,18 @@ class _HomeGuruState extends State<HomeGuru> {
                         ),
                         Text(
                           'Selamat Datang',
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w800,
-                              color: Config.textWhite),
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Config.textWhite),
                         ),
                         SizedBox(
                           height: 10,
                         ),
                         Text(
                           userModel.role,
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w800,
-                              color: Config.textWhite),
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Config.textWhite),
                         ),
                         Text(
                           userModel.username,
-                          style:
-                              TextStyle(fontSize: 18, color: Config.textWhite),
+                          style: TextStyle(fontSize: 18, color: Config.textWhite),
                         )
                       ],
                     ),
@@ -126,11 +116,7 @@ class _HomeGuruState extends State<HomeGuru> {
                     height: 10,
                   ),
                   Container(
-                    decoration: BoxDecoration(
-                        color: Config.textWhite,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20))),
+                    decoration: BoxDecoration(color: Config.textWhite, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
                     width: MediaQuery.of(context).size.width,
                     constraints: BoxConstraints(
                       minHeight: MediaQuery.of(context).size.height * 0.3,
@@ -148,26 +134,18 @@ class _HomeGuruState extends State<HomeGuru> {
                             Expanded(
                                 child: Container(
                               margin: EdgeInsets.only(right: 4),
-                              decoration: BoxDecoration(
-                                  color: Config.boxBlue,
-                                  borderRadius: BorderRadius.circular(10)),
+                              decoration: BoxDecoration(color: Config.boxBlue, borderRadius: BorderRadius.circular(10)),
                               padding: EdgeInsets.all(8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Kelas Aktif',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        color: Config.textWhite,
-                                        fontSize: 18),
+                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
                                   ),
                                   Text(
                                     dashboardGuruModel.kelasAktif.toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        color: Config.textWhite,
-                                        fontSize: 20),
+                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 20),
                                   ),
                                 ],
                               ),
@@ -175,26 +153,18 @@ class _HomeGuruState extends State<HomeGuru> {
                             Expanded(
                                 child: Container(
                               margin: EdgeInsets.only(left: 4),
-                              decoration: BoxDecoration(
-                                  color: Config.boxYellow,
-                                  borderRadius: BorderRadius.circular(10)),
+                              decoration: BoxDecoration(color: Config.boxYellow, borderRadius: BorderRadius.circular(10)),
                               padding: EdgeInsets.all(8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Fee Bulan Ini',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        color: Config.textWhite,
-                                        fontSize: 18),
+                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
                                   ),
                                   Text(
-                                    Config.formatRupiah(dashboardGuruModel.fee),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        color: Config.textWhite,
-                                        fontSize: 20),
+                                    Config.formatRupiah(int.parse(dashboardGuruModel.fee)),
+                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 20),
                                   ),
                                 ],
                               ),
@@ -217,8 +187,7 @@ class _HomeGuruState extends State<HomeGuru> {
                               : ListView.builder(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
-                                  itemCount:
-                                      dashboardGuruModel.kelasToday.length,
+                                  itemCount: dashboardGuruModel.kelasToday.length,
                                   itemBuilder: (BuildContext cotext, int i) {
                                     print(dashboardGuruModel.kelasToday.length);
 

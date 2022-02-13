@@ -15,8 +15,6 @@ class ItemListSiswa extends StatefulWidget {
 }
 
 class _ItemListSiswaState extends State<ItemListSiswa> {
-  
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -61,7 +59,7 @@ class _ItemListSiswaState extends State<ItemListSiswa> {
                     //     )),
                     // IconButton(
                     //     onPressed: () {
-                    //       
+                    //
                     //     },
                     //     icon: Icon(
                     //       Icons.delete,

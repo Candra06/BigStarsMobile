@@ -173,11 +173,11 @@ class _HomeWaliState extends State<HomeWali> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Kelas Aktif',
+                                        'Total Kehadiran',
                                         style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
                                       ),
                                       Text(
-                                        '30',
+                                        data.dashboardWaliModel.data.kehadiran,
                                         style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 20),
                                       ),
                                     ],

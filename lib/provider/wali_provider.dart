@@ -24,7 +24,7 @@ class WaliProvider with ChangeNotifier {
 
   Future<DetailWali> getDetail(String id) async {
     try {
-      detailWali= await WaliService().getDetail(id);
+      detailWali = await WaliService().getDetail(id);
       return detailWali;
     } catch (e) {
       print(e);
@@ -40,5 +40,14 @@ class WaliProvider with ChangeNotifier {
     bool status = await WaliService().editWali(id, data);
     getWalis();
     return true;
+  }
+
+  Future deleteWali(String id) async {
+    bool response = await WaliService().deleteWali(id);
+    if (response == true) {
+      return response;
+    } else {
+      return response;
+    }
   }
 }

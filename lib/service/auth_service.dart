@@ -39,6 +39,41 @@ class AuthService {
     }
   }
 
+  Future<Map<String, dynamic>> lupaPassword({
+    String username,
+  }) async {
+    var body = {
+      'username': username,
+    };
+    var response = await http.post(Uri.parse(EndPoint.forgotPassword), body: body);
+    // print(response.body);
+    var data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      print(data);
+      return data;
+    } else {
+      return data;
+    }
+  }
+
+  Future<Map<String, dynamic>> resetPassword({
+    String password,
+    String id,
+  }) async {
+    var body = {
+      'id': id,
+      'password': password,
+    };
+    var response = await http.post(Uri.parse(EndPoint.resetPassword), body: body);
+    var data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      print(data);
+      return data;
+    } else {
+      return data;
+    }
+  }
+
   Future<bool> updateProfileAdmin({UserModel user}) async {
     var token = await Pref.getToken();
     var body;
@@ -48,8 +83,7 @@ class AuthService {
     } else {
       body = user.editProfilAdminNoPass();
     }
-    var response = await http.post(Uri.parse(EndPoint.editProfilAdm),
-        headers: {'Authorization': token}, body: body);
+    var response = await http.post(Uri.parse(EndPoint.editProfilAdm), headers: {'Authorization': token}, body: body);
 
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
@@ -70,8 +104,7 @@ class AuthService {
     } else {
       body = user.editProfilWaliNoPass();
     }
-    var response = await http.post(Uri.parse(EndPoint.editProfilWali),
-        headers: {'Authorization': token}, body: body);
+    var response = await http.post(Uri.parse(EndPoint.editProfilWali), headers: {'Authorization': token}, body: body);
 
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
@@ -112,8 +145,7 @@ class AuthService {
 
   Future logout() async {
     var token = await Pref.getToken();
-    var response = await http
-        .post(Uri.parse(EndPoint.logout), headers: {'Authorization': token});
+    var response = await http.post(Uri.parse(EndPoint.logout), headers: {'Authorization': token});
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Logged out") {
         return jsonDecode(response.body)["message"];
@@ -168,8 +200,8 @@ class AuthService {
 
   Future<DashboardGuruModel> dashboardGuru() async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.dashboardGuru),
-        headers: {'Authorization': token});
+    var response = await http.get(Uri.parse(EndPoint.dashboardGuru), headers: {'Authorization': token});
+    print(response.body);
     if (response.statusCode == 200) {
       return DashboardGuruModel.fromJson(jsonDecode(response.body)["data"]);
     }
@@ -179,8 +211,7 @@ class AuthService {
 
   Future<DashboardWaliModel> getDashboardWali() async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.dashboardWali),
-        headers: {'Authorization': token});
+    var response = await http.get(Uri.parse(EndPoint.dashboardWali), headers: {'Authorization': token});
     if (response.statusCode == 200) {
       return DashboardWaliModel.fromJson(jsonDecode(response.body));
     }

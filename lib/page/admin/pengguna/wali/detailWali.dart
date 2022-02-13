@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/detailWali_model.dart';
 import 'package:bigstars_mobile/model/wali_model.dart';
 import 'package:bigstars_mobile/page/modal/addSiswaByWali.dart';
@@ -29,6 +30,40 @@ class _DetailWaliSiswaState extends State<DetailWaliSiswa> {
         });
   }
 
+  void _konfirmasi() async {
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Apakah anda yakin?'),
+        content: new Text('Ingin menghapus data wali?'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text('Tidak'),
+          ),
+          new FlatButton(
+            onPressed: () {
+              konfirmasi();
+              Navigator.of(context).pop(false);
+            },
+            child: new Text('Iya'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void konfirmasi() async {
+    bool status = await Provider.of<WaliProvider>(context, listen: false).deleteWali(widget.wali.id.toString());
+    if (status) {
+      Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
+      Config.alert(1, 'Berhasil menghapus data wali');
+      // _showSucces();
+    } else {
+      Config.alert(0, 'Gagal menghapus data wali');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +81,26 @@ class _DetailWaliSiswaState extends State<DetailWaliSiswa> {
           'Detail Wali Siswa',
           style: TextStyle(color: Config.primary),
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.EDIT_WALI, arguments: widget.wali);
+              },
+              icon: Icon(
+                Icons.edit,
+                color: Config.primary,
+                size: 20,
+              )),
+          IconButton(
+              onPressed: () {
+                _konfirmasi();
+              },
+              icon: Icon(
+                Icons.delete,
+                color: Config.primary,
+                size: 20,
+              ))
+        ],
       ),
       body: FutureBuilder(
         // future: WaliProvider().getDetail(widget.wali.id.toString()),

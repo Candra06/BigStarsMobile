@@ -2,10 +2,15 @@ import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/network.dart';
 import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/page/admin/listItem/listItemSiswaByWali.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
 import 'package:bigstars_mobile/page/modal/changePhotoProfile.dart';
+import 'package:bigstars_mobile/provider/auth_provider.dart';
+import 'package:bigstars_mobile/provider/siswa_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilWali extends StatefulWidget {
   const ProfilWali({Key key}) : super(key: key);
@@ -16,6 +21,14 @@ class ProfilWali extends StatefulWidget {
 
 class _ProfilWaliState extends State<ProfilWali> {
   String nama = '', username = '', phone = '', foto = '';
+
+  void logOut() async {
+    var status = await Provider.of<AuthProvider>(context, listen: false).logout();
+    print(status);
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+  }
+
   void _logOut() async {
     return await showDialog(
       context: context,
@@ -28,7 +41,10 @@ class _ProfilWaliState extends State<ProfilWali> {
             child: new Text('Tidak'),
           ),
           new FlatButton(
-            onPressed: () => Navigator.pushReplacement(context, PageTransition(child: LoginPage(), type: PageTransitionType.topToBottom)),
+            onPressed: () {
+              logOut();
+              Navigator.pushReplacement(context, PageTransition(child: LoginPage(), type: PageTransitionType.topToBottom));
+            },
             child: new Text('Iya'),
           ),
         ],
@@ -62,6 +78,7 @@ class _ProfilWaliState extends State<ProfilWali> {
         body: Container(
           color: Config.textWhite,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 padding: EdgeInsets.all(16),
@@ -201,7 +218,39 @@ class _ProfilWaliState extends State<ProfilWali> {
                     ],
                   ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Text('Data Siswa'),
+              ),
+              FutureBuilder(
+                future: Provider.of<SiswaProvider>(context, listen: false).getSiswaByWali(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  return Consumer<SiswaProvider>(
+                    builder: (context, data, _) {
+                      return ListView.builder(
+                        itemCount: data.listSiswa.length,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int i) {
+                          return ItemListSiswaByWali(
+                            data: data.listSiswa[i],
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),
