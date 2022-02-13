@@ -129,26 +129,23 @@ class KelasProvider with ChangeNotifier {
     return status;
   }
 
-  Future addKehadiranGuru(
-      String id, Map<String, dynamic> data, File tmpFile) async {
+  Future addKehadiranGuru(String id, Map<String, dynamic> data, String tmpFile) async {
+    print(data);
+    print(tmpFile);
     try {
       bool status = await KelasService().addKehadiranGuru(id, data, tmpFile);
       print(status);
       return status;
     } catch (e) {
+      print(e);
       return false;
     }
   }
 
   Future<bool> addSharing(String id, var data) async {
     try {
-<<<<<<< HEAD
       bool status = await KelasService().addSharing(id, data);
-      return true;
-=======
-      bool status = await KelasService().addSharing(id, idGuru);
       return status;
->>>>>>> fd2864b716b09a882f844a129258636f3a32cfec
     } catch (e) {
       return false;
     }
