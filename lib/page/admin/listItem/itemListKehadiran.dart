@@ -86,10 +86,11 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
 
-    setState(() {
-      alamat =
-          ' ${first.locality.toString()}, ${first.adminArea.toString()},${first.subLocality.toString()}, ${first.subAdminArea.toString()},${first.addressLine.toString()}, ${first.featureName.toString()}';
-    });
+    // setState(() {
+    alamat =
+        ' ${first.locality.toString()}, ${first.adminArea.toString()},${first.subLocality.toString()}, ${first.subAdminArea.toString()},${first.addressLine.toString()}, ${first.featureName.toString()}';
+    // });
+    // print(alamat);
     // return ' ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}';
   }
 

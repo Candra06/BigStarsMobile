@@ -3,6 +3,7 @@ import 'package:bigstars_mobile/helper/input.dart';
 import 'package:bigstars_mobile/model/guru_model.dart';
 import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
 class ModalSharingKelas extends StatefulWidget {
@@ -19,17 +20,40 @@ class ModalSharingKelas extends StatefulWidget {
 class _ModalSharingKelasState extends State<ModalSharingKelas> {
   String tglKelas, idGuru, namaGuru;
   List listGuru = [];
+  bool isLoading = false;
+  Position currentPosition;
+
+  getCurrentLocation() {
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        currentPosition = position;
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
 
   void addSharing() async {
-    await Provider.of<KelasProvider>(context, listen: false)
-        .addSharing(widget.id, idGuru);
-    widget.berhasil();
+    var data = {
+      "id_guru": idGuru,
+      'latitude': currentPosition.latitude.toString(),
+      'longitude': currentPosition.longitude.toString()
+    };
+    bool status = await Provider.of<KelasProvider>(context, listen: false)
+        .addSharing(widget.id, data);
+    if (status) {
+      widget.berhasil();
+    }
   }
 
   getData() {
     setState(() {
       // listGuru = widget.gurus;
     });
+    getCurrentLocation();
     for (var i = 0; i < widget.gurus.length; i++) {
       listGuru.add(widget.gurus[i]);
     }

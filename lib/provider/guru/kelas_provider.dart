@@ -140,10 +140,15 @@ class KelasProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> addSharing(String id, String idGuru) async {
+  Future<bool> addSharing(String id, var data) async {
     try {
+<<<<<<< HEAD
+      bool status = await KelasService().addSharing(id, data);
+      return true;
+=======
       bool status = await KelasService().addSharing(id, idGuru);
       return status;
+>>>>>>> fd2864b716b09a882f844a129258636f3a32cfec
     } catch (e) {
       return false;
     }
