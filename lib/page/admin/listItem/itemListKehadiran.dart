@@ -18,7 +18,7 @@ class ItemListKehadiran extends StatefulWidget {
 }
 
 class _ItemListKehadiranState extends State<ItemListKehadiran> {
-  void _updateKehadiran(BuildContext context, String id) {
+  void _updateKehadiran(BuildContext context, String id, KehadiranModel data) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -29,6 +29,7 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
           return ModalTambahKehadiranGuru(
             id: id,
             tipe: 'Update',
+            data: data,
           );
         });
   }
@@ -79,8 +80,10 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
 
     String error;
 
-    final coordinates = new Coordinates(double.parse(latitude), double.parse(longitude));
-    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    final coordinates =
+        new Coordinates(double.parse(latitude), double.parse(longitude));
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
 
     setState(() {
@@ -184,7 +187,9 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             ),
             SizedBox(height: 8),
             Text(
-              Config.formatDateTime(widget.data.createdAt.toString()) + ' ' + Config.formatDateTimeJam(widget.data.createdAt.toString()),
+              Config.formatDateTime(widget.data.createdAt.toString()) +
+                  ' ' +
+                  Config.formatDateTimeJam(widget.data.createdAt.toString()),
             ),
             SizedBox(
               height: 20,
@@ -220,7 +225,7 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             if (widget.data.status == 'Waiting') ...{
               ElevatedButton(
                 onPressed: () {
-                  _updateKehadiran(context, '1');
+                  _updateKehadiran(context, '1', widget.data);
                 },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(MediaQuery.of(context).size.width, 30),

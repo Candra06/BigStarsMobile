@@ -91,7 +91,7 @@ class _ModalSharingKelasState extends State<ModalSharingKelas> {
                 child: DropdownButton(
                   underline: SizedBox(),
                   hint: Text(
-                    "Pilih Pelajaran",
+                    "Pilih Guru",
                     style: TextStyle(
                       color: Config.textGrey,
                     ),
