@@ -18,7 +18,7 @@ class ItemListKehadiran extends StatefulWidget {
 }
 
 class _ItemListKehadiranState extends State<ItemListKehadiran> {
-  void _updateKehadiran(BuildContext context, String id) {
+  void _updateKehadiran(BuildContext context, String id, KehadiranModel data) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -29,6 +29,7 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
           return ModalTambahKehadiranGuru(
             id: id,
             tipe: 'Update',
+            data: data,
           );
         });
   }
@@ -225,7 +226,7 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             if (widget.data.status == 'Waiting') ...{
               ElevatedButton(
                 onPressed: () {
-                  _updateKehadiran(context, '1');
+                  _updateKehadiran(context, '1', widget.data);
                 },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(MediaQuery.of(context).size.width, 30),

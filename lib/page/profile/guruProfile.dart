@@ -1,9 +1,14 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/network.dart';
+import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
 import 'package:bigstars_mobile/page/modal/changePhotoProfile.dart';
+import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
 class ProfilGuru extends StatefulWidget {
   const ProfilGuru({Key key}) : super(key: key);
@@ -25,12 +30,37 @@ class _ProfilGuruState extends State<ProfilGuru> {
             child: new Text('Tidak'),
           ),
           new FlatButton(
-            onPressed: () => Navigator.pushReplacement(context, PageTransition(child: LoginPage(), type: PageTransitionType.topToBottom)),
+            onPressed: () => Navigator.pushReplacement(
+                context,
+                PageTransition(
+                    child: LoginPage(), type: PageTransitionType.topToBottom)),
             child: new Text('Iya'),
           ),
         ],
       ),
     );
+  }
+
+  String nama = '', username = '', phone = '', foto = '';
+  UserModel userModel;
+  void getData() async {
+    var tmpNama = await Pref.getNama();
+    var tmpFoto = await Pref.getFoto();
+    var tmpUsername = await Pref.getUsername();
+    var tmpPhone = await Pref.getPhone();
+    setState(() {
+      nama = tmpNama;
+      foto = tmpFoto;
+      phone = tmpPhone;
+      username = tmpUsername;
+    });
+  }
+
+  @override
+  void initState() {
+    getData();
+    userModel = Provider.of<AuthProvider>(context, listen: false).user;
+    super.initState();
   }
 
   @override
@@ -44,8 +74,13 @@ class _ProfilGuruState extends State<ProfilGuru> {
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
-                    gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Config.primary, Config.secondary])),
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(50),
+                        bottomRight: Radius.circular(50)),
+                    gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Config.primary, Config.secondary])),
                 child: Column(
                   children: [
                     Row(
@@ -53,7 +88,8 @@ class _ProfilGuruState extends State<ProfilGuru> {
                       children: [
                         InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, Routes.HOME_GURU, arguments: '0');
+                            Navigator.pushNamed(context, Routes.HOME_GURU,
+                                arguments: '0');
                           },
                           child: Icon(
                             Icons.arrow_back,
@@ -78,7 +114,9 @@ class _ProfilGuruState extends State<ProfilGuru> {
                     ),
                     ClipOval(
                       child: Image.network(
-                        "https://www.clipartmax.com/png/middle/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png",
+                        foto == '-' || foto == ''
+                            ? "https://www.clipartmax.com/png/middle/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png"
+                            : EndPoint.server + foto,
                         height: 100,
                         width: 100,
                         fit: BoxFit.cover,
@@ -88,18 +126,21 @@ class _ProfilGuruState extends State<ProfilGuru> {
                       height: 10,
                     ),
                     Text(
-                      'Guru Bigstars',
-                      style: TextStyle(color: Config.textWhite, fontSize: 24, fontWeight: FontWeight.w900),
+                      nama,
+                      style: TextStyle(
+                          color: Config.textWhite,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w900),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
-                      'guru@bigstars.com',
+                      username,
                       style: TextStyle(color: Config.textWhite, fontSize: 18),
                     ),
                     Text(
-                      '087757630094',
+                      phone,
                       style: TextStyle(color: Config.textWhite, fontSize: 16),
                     ),
                   ],

@@ -5,6 +5,7 @@ import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/guru_model.dart';
 import 'package:bigstars_mobile/model/jadwal_model.dart';
 import 'package:bigstars_mobile/page/modal/modalSharingKelas.dart';
+import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:bigstars_mobile/provider/guru_provider.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
       SnackBar(
         backgroundColor: Config.primary,
         content: Text(
-          "Kelas Berhasil disharing.",
+          "Sharing Kelas Berhasil",
           textAlign: TextAlign.center,
         ),
       ),
@@ -47,6 +48,7 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
         });
   }
 
+  String role;
   bool load = false;
   DetailKelasModel detailKelas;
   List<GuruModel> guruModels;
@@ -55,7 +57,7 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
     setState(() {
       load = true;
     });
-    print(widget.id);
+    role = Provider.of<AuthProvider>(context, listen: false).user.role;
     detailKelas = await Provider.of<KelasProvider>(context, listen: false)
         .getDetail(widget.id.toString());
     guruModels =
@@ -99,36 +101,40 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
                   Config.itemDetail('Nama Guru', detailKelas.data.guru),
                   Config.itemDetail('Mata Pelajaran', detailKelas.data.mapel),
                   Config.itemDetail('Status', detailKelas.data.status),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _sharingKelas(context, widget.id, gurus);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(MediaQuery.of(context).size.width, 30),
-                        primary: Config.primary,
-                        onPrimary: Config.textWhite,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                  role == "Guru"
+                      ? Container()
+                      : Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _sharingKelas(context, widget.id, gurus);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              fixedSize:
+                                  Size(MediaQuery.of(context).size.width, 30),
+                              primary: Config.primary,
+                              onPrimary: Config.textWhite,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.share),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Sharing Kelas",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 14),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.share),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Sharing Kelas",
-                            style: TextStyle(color: Colors.white, fontSize: 14),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

@@ -1,5 +1,8 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/model/feeGuru_model.dart';
+import 'package:bigstars_mobile/model/user_model.dart';
+import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/provider/finance_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,6 +19,7 @@ class InvoiceFee extends StatefulWidget {
 }
 
 class _InvoiceFeeState extends State<InvoiceFee> {
+  String role = "";
   void _showSucces() {
     showDialog(
         context: context,
@@ -93,6 +97,7 @@ class _InvoiceFeeState extends State<InvoiceFee> {
 
   @override
   void initState() {
+    role = Provider.of<AuthProvider>(context, listen: false).user.role;
     super.initState();
   }
 
@@ -148,7 +153,10 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                           ),
                           Text(
                             widget.fee.noInvoice,
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Config.primary),
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Config.primary),
                           ),
                         ],
                       ),
@@ -166,7 +174,8 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                             style: TextStyle(),
                           ),
                           Text(
-                            DateFormat("yyyy-MM-dd").format(widget.fee.tagihanBulan),
+                            DateFormat("yyyy-MM-dd")
+                                .format(widget.fee.tagihanBulan),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -262,26 +271,30 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                     SizedBox(
                       height: 20,
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 8, right: 8),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _konfirmasi();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: Size(MediaQuery.of(context).size.width, 30),
-                          primary: Config.primary,
-                          onPrimary: Config.textWhite,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        child: Text(
-                          "Konfirmasi Tagihan",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                      ),
-                    ),
+                    role != "Guru"
+                        ? Container(
+                            margin: EdgeInsets.only(left: 8, right: 8),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _konfirmasi();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                fixedSize:
+                                    Size(MediaQuery.of(context).size.width, 30),
+                                primary: Config.primary,
+                                onPrimary: Config.textWhite,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
+                              child: Text(
+                                "Konfirmasi Tagihan",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                            ),
+                          )
+                        : Container(),
                     SizedBox(
                       height: 10,
                     ),
