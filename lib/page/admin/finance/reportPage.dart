@@ -99,10 +99,9 @@ class _ReportPageState extends State<ReportPage> {
         ),
       ),
       body: Container(
-        margin: EdgeInsets.only(top: 16, bottom: 16),
-        child: Column(
-          children: [
-            FutureBuilder(
+          height: MediaQuery.of(context).size.height,
+          margin: EdgeInsets.only(top: 16, bottom: 0),
+          child: FutureBuilder(
               future: Provider.of<FinanceProvider>(context, listen: false).getReport(_filter),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -110,21 +109,16 @@ class _ReportPageState extends State<ReportPage> {
                     child: CircularProgressIndicator(),
                   );
                 }
-                return Consumer<FinanceProvider>(
-                  builder: (context, data, _) => ListView.builder(
-                      shrinkWrap: true,
+                return Consumer<FinanceProvider>(builder: (context, data, _) {
+                  return ListView.builder(
                       itemCount: data.ListReportModel.length,
                       itemBuilder: (BuildContext bc, int i) {
                         return ItemListReport(
                           report: data.ListReportModel[i],
                         );
-                      }),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+                      });
+                });
+              })),
     );
   }
 }

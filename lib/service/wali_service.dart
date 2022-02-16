@@ -33,14 +33,16 @@ class WaliService {
     }
   }
 
-  Future addSiswaByWali(String id, Map<String, dynamic> data) async {
+  Future<bool> addSiswaByWali(String id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
     print(data);
     var response = await http.post(Uri.parse(EndPoint.createByWali), headers: {'Authorization': token}, body: data);
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      return true;
+    }else{
+      return false;
     }
-    return data;
+    
   }
 
   Future editWali(String id, Map<String, dynamic> data) async {

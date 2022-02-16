@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/helper/route.dart';
@@ -22,24 +20,30 @@ class HomeWali extends StatefulWidget {
 class _HomeWaliState extends State<HomeWali> {
   // Map<String, dynamic> dataUser = user.toJson();
   bool load = true;
-  DashboardWaliModel dashboardWaliModel;
+  DashboardWaliModel dashboardWali;
   UserModel userModel;
   Map<String, dynamic> user;
   String nama = '', username = '';
+  int notifUnread = 0;
   // var user;
   void getData() async {
     var tmpNama = await Pref.getNama();
     var tmpUsername = await Pref.getUsername();
+    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+
     setState(() {
+      dashboardWali = authProvider.dashboardWaliModel;
+      notifUnread = dashboardWali.notifUnread;
       nama = tmpNama;
       username = tmpUsername;
+      load = false;
       // load = true;
     });
   }
 
   void initState() {
-    super.initState();
     getData();
+    super.initState();
   }
 
   @override
@@ -47,17 +51,8 @@ class _HomeWaliState extends State<HomeWali> {
     // print(userModel.role);
     return SafeArea(
         child: Scaffold(
-      backgroundColor: Config.primary,
-      body: FutureBuilder(
-        future: Provider.of<AuthProvider>(context, listen: false).getDashboardWali(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: Config.loader('Memuat data'),
-            );
-          }
-          return Consumer<AuthProvider>(builder: (context, data, _) {
-            return SingleChildScrollView(
+            backgroundColor: Config.primary,
+            body: SingleChildScrollView(
               child: Column(
                 children: [
                   SizedBox(
@@ -85,7 +80,7 @@ class _HomeWaliState extends State<HomeWali> {
                                         size: 30,
                                       ),
                                     ),
-                                    data.dashboardWaliModel.data.notifUnread != 0
+                                    notifUnread != 0
                                         ? Positioned(
                                             right: 13,
                                             top: 11,
@@ -149,104 +144,111 @@ class _HomeWaliState extends State<HomeWali> {
                         height: 10,
                       ),
                       Container(
-                        decoration: BoxDecoration(color: Config.textWhite, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                        width: MediaQuery.of(context).size.width,
-                        constraints: BoxConstraints(
-                          minHeight: MediaQuery.of(context).size.height * 0.3,
-                          maxHeight: MediaQuery.of(context).size.height * 0.8,
-                        ),
-                        padding: EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: Container(
-                                  margin: EdgeInsets.only(right: 4),
-                                  decoration: BoxDecoration(color: Config.boxBlue, borderRadius: BorderRadius.circular(10)),
-                                  padding: EdgeInsets.all(8),
-                                  child: Column(
+                          decoration: BoxDecoration(color: Config.textWhite, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                          width: MediaQuery.of(context).size.width,
+                          constraints: BoxConstraints(
+                            minHeight: MediaQuery.of(context).size.height * 0.3,
+                            maxHeight: MediaQuery.of(context).size.height * 0.8,
+                          ),
+                          padding: EdgeInsets.all(16),
+                          child: FutureBuilder(
+                            future: Provider.of<AuthProvider>(context, listen: false).getDashboardWali(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return Center(child: CircularProgressIndicator());
+                              }
+                              return Consumer<AuthProvider>(
+                                builder: (context, value, child) {
+                                  return Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        'Total Kehadiran',
-                                        style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
+                                      SizedBox(
+                                        height: 10,
                                       ),
-                                      Text(
-                                        data.dashboardWaliModel.data.kehadiran,
-                                        style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 20),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                              child: Container(
+                                            margin: EdgeInsets.only(right: 4),
+                                            decoration: BoxDecoration(color: Config.boxBlue, borderRadius: BorderRadius.circular(10)),
+                                            padding: EdgeInsets.all(8),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Total Kehadiran',
+                                                  style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
+                                                ),
+                                                Text(
+                                                  value.dashboardWaliModel.kehadiran,
+                                                  style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 20),
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+                                          Expanded(
+                                              child: Container(
+                                            margin: EdgeInsets.only(left: 4),
+                                            decoration: BoxDecoration(color: Config.boxYellow, borderRadius: BorderRadius.circular(10)),
+                                            padding: EdgeInsets.all(8),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'SPP Bulan Ini',
+                                                  style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
+                                                ),
+                                                Text(
+                                                  Config.formatRupiah(value.dashboardWaliModel.spp),
+                                                  style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 20),
+                                                ),
+                                              ],
+                                            ),
+                                          ))
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text('Kelas Hari Ini'),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        child: value.dashboardWaliModel.kelasToday.length == 0
+                                            ? Center(child: Text('Tidak ada kelas hari ini'))
+                                            : ListView.builder(
+                                                shrinkWrap: true,
+                                                physics: NeverScrollableScrollPhysics(),
+                                                itemCount: value.dashboardWaliModel.kelasToday.length,
+                                                itemBuilder: (BuildContext cotext, int i) {
+                                                  print(value.dashboardWaliModel.kelasToday.length);
+                                                  // var data = {"id_kelas": 1, "siswa": "Kekeyi", "mapel": "Calistung", "spp": 32000, "jam_mulai": "15.00", "jam_selesai": "16.00", "guru": "Mr. Revo"};
+                                                  if (value.dashboardWaliModel.kelasToday == []) {
+                                                    return Text('Belum ada data kelas');
+                                                  } else {
+                                                    return ItemKelasTodayWali(
+                                                      data: value.dashboardWaliModel.kelasToday[i],
+                                                    );
+                                                  }
+                                                }),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
                                       ),
                                     ],
-                                  ),
-                                )),
-                                Expanded(
-                                    child: Container(
-                                  margin: EdgeInsets.only(left: 4),
-                                  decoration: BoxDecoration(color: Config.boxYellow, borderRadius: BorderRadius.circular(10)),
-                                  padding: EdgeInsets.all(8),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'SPP Bulan Ini',
-                                        style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
-                                      ),
-                                      Text(
-                                        Config.formatRupiah(data.dashboardWaliModel.data.spp),
-                                        style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
-                                ))
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text('Kelas Hari Ini'),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              child: data.dashboardWaliModel.data.kelasToday.length == 0
-                                  ? Center(child: Text('Tidak ada kelas hari ini'))
-                                  : ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: data.dashboardWaliModel.data.kelasToday.length,
-                                      itemBuilder: (BuildContext cotext, int i) {
-                                        print(data.dashboardWaliModel.data.kelasToday.length);
-                                        // var data = {"id_kelas": 1, "siswa": "Kekeyi", "mapel": "Calistung", "spp": 32000, "jam_mulai": "15.00", "jam_selesai": "16.00", "guru": "Mr. Revo"};
-                                        if (data.dashboardWaliModel.data.kelasToday == []) {
-                                          return Text('Belum ada data kelas');
-                                        } else {
-                                          return ItemKelasTodayWali(
-                                            data: data.dashboardWaliModel.data.kelasToday[i],
-                                          );
-                                        }
-                                      }),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        ),
-                      )
+                                  );
+                                },
+                              );
+                            },
+                          ))
                     ],
                   ),
                 ],
               ),
-            );
-          });
-        },
-      ),
-    ));
+            )));
   }
 }

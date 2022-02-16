@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
 import 'package:bigstars_mobile/helper/loadingButton.dart';
+import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
+import 'package:bigstars_mobile/page/auth/parent_guide.dart';
+import 'package:bigstars_mobile/page/auth/teacher_guide.dart';
 import 'package:bigstars_mobile/page/guru/mainPage.dart';
 import 'package:bigstars_mobile/page/wali/mainPage.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
@@ -72,6 +75,8 @@ class _LoginPageState extends State<LoginPage> {
       });
       data = await authProvider.login(username: txtUsername.text, password: txtPassword.text);
       user = authProvider.user;
+
+      String setuju = await Pref.getSetuju();
       print(data);
       if (data["status"]) {
         setState(() {
@@ -104,32 +109,39 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else if (authProvider.user.role == 'Guru') {
-          await Provider.of<AuthProvider>(context, listen: false).getDashboardGuru();
+          // await Provider.of<AuthProvider>(context, listen: false).getDashboardGuru();
           pref.setString('nama', user.nama);
           pref.setString('alamat', user.alamat);
           pref.setString('birthDate', user.birthDate.toString());
-          Navigator.pushReplacement(
-            context,
-            PageTransition(
-              child: GuruMain(
-                indexPage: '0',
+          if (setuju == null || setuju == '' || setuju == 'null') {
+            Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(child: SyaratDanKetentuan(), type: PageTransitionType.fade));
+          } else {
+            Navigator.pushReplacement(
+              context,
+              PageTransition(
+                child: GuruMain(
+                  indexPage: '0',
+                ),
+                type: PageTransitionType.fade,
               ),
-              type: PageTransitionType.fade,
-            ),
-          );
+            );
+          }
         } else {
-          await Provider.of<AuthProvider>(context, listen: false).getDashboardWali();
           pref.setString('nama', user.nama);
           pref.setString('alamat', user.alamat);
-          Navigator.pushReplacement(
-            context,
-            PageTransition(
-              child: WaliMain(
-                indexPage: '0',
+          if (setuju == null || setuju == '' || setuju == 'null') {
+            Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(child: SyaratDanKetentuanWali(), type: PageTransitionType.fade));
+          } else {
+            Navigator.pushReplacement(
+              context,
+              PageTransition(
+                child: WaliMain(
+                  indexPage: '0',
+                ),
+                type: PageTransitionType.fade,
               ),
-              type: PageTransitionType.fade,
-            ),
-          );
+            );
+          }
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

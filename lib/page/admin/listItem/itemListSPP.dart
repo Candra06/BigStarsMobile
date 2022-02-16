@@ -17,8 +17,7 @@ class _ItemListSPPState extends State<ItemListSPP> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.DETAIL_SPP,
-            arguments: widget.data.id.toString());
+        Navigator.pushNamed(context, Routes.DETAIL_SPP, arguments: widget.data.id.toString());
       },
       child: Container(
         color: Config.textWhite,
@@ -76,7 +75,7 @@ class _ItemListSPPState extends State<ItemListSPP> {
                                 ),
                                 Text(
                                   widget.data.status,
-                                  style: TextStyle(color: Colors.green),
+                                  style: TextStyle(color: widget.data.status == 'Lunas' ? Colors.green : Colors.red),
                                 )
                               ],
                             ),

@@ -17,6 +17,14 @@ class DetailWaliSiswa extends StatefulWidget {
 
 class _DetailWaliSiswaState extends State<DetailWaliSiswa> {
   void _addNewSiswa(BuildContext context) {
+    void respon(res) {
+      if (res == true) {
+        setState(() {
+          Navigator.pushNamed(context, Routes.DETAIL_WALI, arguments: widget.wali);
+        });
+      }
+    }
+
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -26,6 +34,7 @@ class _DetailWaliSiswaState extends State<DetailWaliSiswa> {
         builder: (builder) {
           return ModalTambahSiswa(
             idWali: widget.wali.id.toString(),
+            respon: respon,
           );
         });
   }
@@ -71,7 +80,7 @@ class _DetailWaliSiswaState extends State<DetailWaliSiswa> {
         backgroundColor: Config.textWhite,
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
             },
             icon: Icon(
               Icons.arrow_back,

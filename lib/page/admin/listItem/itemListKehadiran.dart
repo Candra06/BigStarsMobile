@@ -80,7 +80,8 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
 
     String error;
 
-    final coordinates = new Coordinates(double.parse(latitude), double.parse(longitude));
+    var coordinates = new Coordinates(double.parse(latitude), double.parse(longitude));
+
     var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
     if (mounted) {
@@ -192,13 +193,15 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             SizedBox(height: 8),
             Text(
               Config.formatDateTime(widget.data.createdAt.toString()) + ' ' + Config.formatDateTimeJam(widget.data.createdAt.toString()),
+              // widget.data.createdAt.toString()
             ),
             SizedBox(
               height: 20,
             ),
-            if (widget.data.fileMateri != '-') ...{
+            if (widget.data.fileMateri != '-' && widget.data.fileMateri.isEmpty) ...{
               ElevatedButton(
                 onPressed: () async {
+                  print(widget.data.fileMateri);
                   String url = EndPoint.server + widget.data.fileMateri;
                   print(url);
                   if (await canLaunch(url)) {

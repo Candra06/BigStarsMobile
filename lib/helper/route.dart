@@ -1,5 +1,7 @@
+import 'package:bigstars_mobile/model/DetailSpp_model.dart';
 import 'package:bigstars_mobile/page/admin/absensi/listAbsensi.dart';
 import 'package:bigstars_mobile/page/admin/absensi/listGuru.dart';
+import 'package:bigstars_mobile/page/admin/finance/historyKehadiranSpp.dart';
 import 'package:bigstars_mobile/page/admin/finance/listFeeGuru.dart';
 import 'package:bigstars_mobile/page/admin/finance/listSppMurid.dart';
 import 'package:bigstars_mobile/page/admin/finance/detailInvoiceFee.dart';
@@ -20,6 +22,8 @@ import 'package:bigstars_mobile/page/admin/pengguna/siswa/detailSiswa.dart';
 import 'package:bigstars_mobile/page/admin/pengguna/siswa/editSiswa.dart';
 import 'package:bigstars_mobile/page/admin/pengguna/wali/detailWali.dart';
 import 'package:bigstars_mobile/page/admin/pengguna/wali/editWali.dart';
+import 'package:bigstars_mobile/page/admin/rules/editRules.dart';
+import 'package:bigstars_mobile/page/admin/rules/listRules.dart';
 import 'package:bigstars_mobile/page/auth/forgotPassword.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
 import 'package:bigstars_mobile/page/auth/resetPasseord.dart';
@@ -74,6 +78,7 @@ class Routes {
   static const String DETAIL_KELAS = '/detail_kelas';
   static const String EDIT_KELAS = '/edit_kelas';
   static const String DETAIL_SPP = '/detail_spp';
+  static const String HISTORY_KEHADIRAN_SPP = '/history_kehadiran_spp';
   static const String DETAIL_FEE = '/detail_fee';
   static const String FINANCE = '/detail_fee';
   static const String REPORT = '/report';
@@ -92,6 +97,10 @@ class Routes {
   static const String PROFILE_WALI = '/profile_wali';
   static const String EDIT_PROFILE_WALI = '/edit_profile_wali';
   static const String DETAIL_KELAS_WALI = '/detail_kelas_wali';
+
+  //rules
+  static const String RULES_SETTING = '/rules_setting';
+  static const String DETAIL_RULES_SETTING = '/edit_rules_setting';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -169,7 +178,7 @@ class Routes {
         return PageTransition(child: AddKelasAdmin(), type: PageTransitionType.leftToRight);
       case DETAIL_KELAS:
         return PageTransition(child: DetailKelas(kelas: settings.arguments), type: PageTransitionType.bottomToTop);
-         case EDIT_KELAS:
+      case EDIT_KELAS:
         return PageTransition(child: EditKelasAdmin(kelas: settings.arguments), type: PageTransitionType.bottomToTop);
       case PROFILE_ADMIN:
         return PageTransition(child: ProfilAdmin(), type: PageTransitionType.bottomToTop);
@@ -191,6 +200,12 @@ class Routes {
         return PageTransition(
             child: InvoiceSPP(
               id: settings.arguments,
+            ),
+            type: PageTransitionType.leftToRight);
+      case HISTORY_KEHADIRAN_SPP:
+        return PageTransition(
+            child: HistoryKehadiranSPP(
+              historiKehadiran: settings.arguments,
             ),
             type: PageTransitionType.leftToRight);
       case DETAIL_FEE:
@@ -223,6 +238,15 @@ class Routes {
         return PageTransition(child: NotificationPage(), type: PageTransitionType.bottomToTop);
       case REPORT:
         return PageTransition(child: ReportPage(), type: PageTransitionType.bottomToTop);
+
+      case RULES_SETTING:
+        return PageTransition(child: ListRulesPage(), type: PageTransitionType.bottomToTop);
+      case DETAIL_RULES_SETTING:
+        return PageTransition(
+            child: EditRules(
+              rules: settings.arguments,
+            ),
+            type: PageTransitionType.bottomToTop);
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

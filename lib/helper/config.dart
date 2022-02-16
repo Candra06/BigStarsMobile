@@ -237,10 +237,9 @@ class Config {
 
   static formatDateTimeJam(tgl) {
     try {
-      print(tgl);
       var date = tgl.toString().split(" ");
       var jam = date[1].toString().split('.');
-
+      print(jam);
       String tanggal = jam[0];
       return tanggal;
     } catch (e) {

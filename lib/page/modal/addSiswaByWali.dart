@@ -1,14 +1,14 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
 import 'package:bigstars_mobile/helper/loadingButton.dart';
-import 'package:bigstars_mobile/provider/siswa_provider.dart';
 import 'package:bigstars_mobile/provider/wali_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ModalTambahSiswa extends StatefulWidget {
   final String idWali;
-  const ModalTambahSiswa({Key key, this.idWali}) : super(key: key);
+  final void Function(bool) respon;
+  const ModalTambahSiswa({Key key, this.idWali, this.respon}) : super(key: key);
 
   @override
   _ModalTambahSiswaState createState() => _ModalTambahSiswaState();
@@ -22,18 +22,28 @@ class _ModalTambahSiswaState extends State<ModalTambahSiswa> {
   bool isloading = false;
 
   dataResquest() async {
-    print(txtNama.text);
-    print(tglLahir);
     setState(() {
       isloading = true;
     });
     Map<String, dynamic> data = {'nama': txtNama.text, 'birth_date': tglLahir, 'id_wali': widget.idWali};
     // print(data);
-    await Provider.of<WaliProvider>(context, listen: false).addSiswaBywali(widget.idWali, data).then((value) => print(value));
+
+    bool respon = await Provider.of<WaliProvider>(context, listen: false).addSiswaBywali(widget.idWali, data);
+    if (respon == true) {
+      Config.alert(1, 'Berhasil menambah siswa');
+      widget.respon(true);
+      // setState(() {
+      //   isloading = false;
+
+      // });
+    } else {
+      Config.alert(0, 'Gagal menambah siswa');
+      setState(() {
+        isloading = false;
+        // Navigator.pop(context);
+      });
+    }
     // print()
-    setState(() {
-      isloading = false;
-    });
   }
 
   @override

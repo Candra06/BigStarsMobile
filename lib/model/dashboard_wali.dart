@@ -1,25 +1,7 @@
+
+
 class DashboardWaliModel {
   DashboardWaliModel({
-    this.statusCode,
-    this.data,
-  });
-
-  int statusCode;
-  Data data;
-
-  factory DashboardWaliModel.fromJson(Map<String, dynamic> json) => DashboardWaliModel(
-        statusCode: json["status_code"] == null ? null : json["status_code"],
-        data: json["data"] == null ? null : Data.fromJson(json["data"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "status_code": statusCode == null ? null : statusCode,
-        "data": data == null ? null : data.toJson(),
-      };
-}
-
-class Data {
-  Data({
     this.spp,
     this.kehadiran,
     this.notifUnread,
@@ -31,7 +13,7 @@ class Data {
   int notifUnread;
   List<KelasTodayWali> kelasToday;
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory DashboardWaliModel.fromJson(Map<String, dynamic> json) => DashboardWaliModel(
         spp: json["spp"] == null ? null : json["spp"],
         kehadiran: json["kehadiran"] == null ? null : json["kehadiran"].toString(),
         notifUnread: json["notif_unread"] == null ? null : json["notif_unread"],

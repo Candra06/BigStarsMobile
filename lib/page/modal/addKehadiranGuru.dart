@@ -73,6 +73,10 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
       'longitude': currentPosition.longitude.toString()
     };
 
+    if (tmpFile == null) {
+      data["file_materi"] = '-';
+    }
+
     bool value = await Provider.of<KelasProvider>(context, listen: false).addKehadiranGuru(widget.id, data, tmpFile == null ? '-' : tmpFile.path.toString());
 
     if (value == true) {

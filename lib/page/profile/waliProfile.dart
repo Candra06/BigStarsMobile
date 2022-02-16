@@ -113,7 +113,7 @@ class _ProfilWaliState extends State<ProfilWali> {
                       ],
                     ),
                     SizedBox(
-                      height: 35,
+                      height: 10,
                     ),
                     ClipOval(
                       child: Image.network(
@@ -145,7 +145,7 @@ class _ProfilWaliState extends State<ProfilWali> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Container(
                 margin: EdgeInsets.all(16),
@@ -226,30 +226,33 @@ class _ProfilWaliState extends State<ProfilWali> {
                 padding: const EdgeInsets.only(left: 16),
                 child: Text('Data Siswa'),
               ),
-              FutureBuilder(
-                future: Provider.of<SiswaProvider>(context, listen: false).getSiswaByWali(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Container(
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  }
-                  return Consumer<SiswaProvider>(
-                    builder: (context, data, _) {
-                      return ListView.builder(
-                        itemCount: data.listSiswa.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int i) {
-                          return ItemListSiswaByWali(
-                            data: data.listSiswa[i],
-                          );
-                        },
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.3,
+                child: FutureBuilder(
+                  future: Provider.of<SiswaProvider>(context, listen: false).getSiswaByWali(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       );
-                    },
-                  );
-                },
+                    }
+                    return Consumer<SiswaProvider>(
+                      builder: (context, data, _) {
+                        return ListView.builder(
+                          itemCount: data.listSiswa.length,
+                          shrinkWrap: true,
+                          itemBuilder: (BuildContext context, int i) {
+                            return ItemListSiswaByWali(
+                              data: data.listSiswa[i],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
             ],
           ),
