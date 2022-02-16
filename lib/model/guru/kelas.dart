@@ -4,6 +4,7 @@ class KelasModel {
     this.guru,
     this.siswa,
     this.mapel,
+    this.jumlahPertemuan,
     this.idMapel,
     this.idGuru,
     this.idSiswa,
@@ -20,6 +21,7 @@ class KelasModel {
   String guru;
   String siswa;
   String mapel;
+  String jumlahPertemuan;
   String idMapel;
   String idGuru;
   String idSiswa;
@@ -36,6 +38,7 @@ class KelasModel {
         guru: json["guru"] == null ? null : json["guru"],
         siswa: json["siswa"] == null ? null : json["siswa"],
         mapel: json["mapel"] == null ? null : json["mapel"],
+        jumlahPertemuan: json["jumlah_pertemuan"] == null ? null : json["jumlah_pertemuan"],
         idMapel: json["id_mapel"] == null ? null : json["id_mapel"],
         idGuru: json["id_guru"] == null ? null : json["id_guru"],
         idSiswa: json["id_siswa"] == null ? null : json["id_siswa"],

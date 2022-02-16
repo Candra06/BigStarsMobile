@@ -130,11 +130,10 @@ class KelasProvider with ChangeNotifier {
   }
 
   Future addKehadiranGuru(String id, Map<String, dynamic> data, String tmpFile) async {
-    print(data);
-    print(tmpFile);
+   
     try {
       bool status = await KelasService().addKehadiranGuru(id, data, tmpFile);
-      print(status);
+      
       return status;
     } catch (e) {
       print(e);

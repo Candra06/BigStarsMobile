@@ -18,7 +18,7 @@ class DashboardGuruModel {
 
   factory DashboardGuruModel.fromJson(Map<String, dynamic> json) =>
       DashboardGuruModel(
-        fee: json["fee"] == null ? null : json["fee"],
+        fee: json["fee"] == null ? null : json["fee"].toString(),
         notifUnread: json["notif_unread"] == null ? null : json["notif_unread"],
         kelasToday: json["kelas_today"] == null
             ? null

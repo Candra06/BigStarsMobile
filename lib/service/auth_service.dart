@@ -211,9 +211,11 @@ class AuthService {
 
   Future<DashboardWaliModel> getDashboardWali() async {
     var token = await Pref.getToken();
-    var response = await http.get(Uri.parse(EndPoint.dashboardWali), headers: {'Authorization': token});
+    http.Response response = await http.get(Uri.parse(EndPoint.dashboardWali), headers: {'Authorization': token});
+    print(response.body);
+    
     if (response.statusCode == 200) {
-      return DashboardWaliModel.fromJson(jsonDecode(response.body));
+      return DashboardWaliModel.fromJson(jsonDecode(response.body)['data']);
     }
     return null;
     // print(response.body);

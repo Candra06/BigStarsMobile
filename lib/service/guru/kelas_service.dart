@@ -182,7 +182,8 @@ class KelasService {
     var token = await Pref.getToken();
 
     if (tmpFile == '-') {
-      var response = await http.post(Uri.parse(EndPoint.addKehadiranGuru + id), body: data, headers: {'Authorization': token});
+      http.Response response = await http.post(Uri.parse(EndPoint.addKehadiranGuru + id), body: data, headers: {'Authorization': token});
+      print(response.body);
       if (response.statusCode == 200) {
         return true;
       } else {

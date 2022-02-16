@@ -7,6 +7,7 @@ import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/mainPage.dart';
 import 'package:bigstars_mobile/page/auth/loginPage.dart';
 import 'package:bigstars_mobile/page/auth/parent_guide.dart';
+import 'package:bigstars_mobile/page/auth/teacher_guide.dart';
 import 'package:bigstars_mobile/page/guru/mainPage.dart';
 import 'package:bigstars_mobile/page/maps.dart';
 import 'package:bigstars_mobile/page/wali/mainPage.dart';
@@ -61,11 +62,11 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         String setuju = await Pref.getSetuju();
         print(setuju);
         if (token == '' || token == null) {
-          if (setuju == null || setuju == '' || setuju == 'null') {
-            Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(child: SyaratDanKetentuanWali(), type: PageTransitionType.fade));
-          } else {
-            Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(child: LoginPage(), type: PageTransitionType.fade));
-          }
+          // if (setuju == null || setuju == '' || setuju == 'null') {
+          //   Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(child: SyaratDanKetentuanWali(), type: PageTransitionType.fade));
+          // } else {
+          Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(child: LoginPage(), type: PageTransitionType.fade));
+          // }
         } else {
           var user = await Pref.getUserModel();
           userModel = UserModel.fromJson(json.decode(user));
@@ -81,27 +82,33 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
               ),
             );
           } else if (userModel.role == 'Guru') {
-            List<KelasModel> kelas = await Provider.of<KelasProvider>(context, listen: false).getKelas();
-
-            Navigator.pushReplacement(
-              context,
-              PageTransition(
-                child: GuruMain(
-                  indexPage: '0',
+            if (setuju == null || setuju == '' || setuju == 'null') {
+              Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(child: SyaratDanKetentuan(), type: PageTransitionType.fade));
+            } else {
+              Navigator.pushReplacement(
+                context,
+                PageTransition(
+                  child: GuruMain(
+                    indexPage: '0',
+                  ),
+                  type: PageTransitionType.fade,
                 ),
-                type: PageTransitionType.fade,
-              ),
-            );
+              );
+            }
           } else {
-            Navigator.pushReplacement(
-              context,
-              PageTransition(
-                child: WaliMain(
-                  indexPage: '0',
+            if (setuju == null || setuju == '' || setuju == 'null') {
+              Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(child: SyaratDanKetentuanWali(), type: PageTransitionType.fade));
+            } else {
+              Navigator.pushReplacement(
+                context,
+                PageTransition(
+                  child: WaliMain(
+                    indexPage: '0',
+                  ),
+                  type: PageTransitionType.fade,
                 ),
-                type: PageTransitionType.fade,
-              ),
-            );
+              );
+            }
           }
         }
       });

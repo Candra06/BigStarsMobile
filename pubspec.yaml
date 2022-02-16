@@ -51,6 +51,7 @@ dependencies:
   flutter_html: ^0.8.2
   geolocator: ^6.2.1
   geocoder: ^0.2.1
+  html_editor: ^1.0.1
 
 dev_dependencies:
   flutter_test:

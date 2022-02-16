@@ -30,25 +30,28 @@ class _HomeGuruState extends State<HomeGuru> {
   Map<String, dynamic> user;
   DashboardGuruModel dashboardGuruModel;
   bool load = false;
+  String name = '', username = '';
+  int notifUnread = 0;
   // var user;
   void getData() async {
-    var userPref = await Pref.getUserModel();
-    if (userPref != null) {
-      user = json.decode(userPref);
-    }
+    var tmpName = await Pref.getNama();
+    var tmpUsername = await Pref.getUsername();
+    setState(() {
+      name = tmpName;
+      username = tmpUsername;
+    });
   }
 
   void initState() {
     super.initState();
     getData();
-    dashboardGuruModel = Provider.of<AuthProvider>(context, listen: false).dashboardGuruModel;
-    print(dashboardGuruModel.kelasAktif);
-    listKelasModel = Provider.of<KelasProvider>(context, listen: false).allKelas;
+    // dashboardGuruModel = Provider.of<AuthProvider>(context, listen: false).dashboardGuruModel;
+
+    // listKelasModel = Provider.of<KelasProvider>(context, listen: false).allKelas;
   }
 
   @override
   Widget build(BuildContext context) {
-    UserModel userModel = Provider.of<AuthProvider>(context).user;
     // print(userModel.role);
     return SafeArea(
       child: Scaffold(
@@ -69,15 +72,44 @@ class _HomeGuruState extends State<HomeGuru> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(context, Routes.NOTIFIKASI);
-                              },
-                              child: Icon(
-                                Icons.notifications,
-                                color: Config.textWhite,
-                                size: 30,
-                              ),
+                            Stack(
+                              children: <Widget>[
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, Routes.NOTIFIKASI);
+                                  },
+                                  icon: Icon(
+                                    Icons.notifications,
+                                    color: Config.textWhite,
+                                    size: 30,
+                                  ),
+                                ),
+                                notifUnread != 0
+                                    ? Positioned(
+                                        right: 13,
+                                        top: 11,
+                                        child: new Container(
+                                          padding: EdgeInsets.all(0),
+                                          decoration: new BoxDecoration(
+                                            color: Config.boxBlue,
+                                            borderRadius: BorderRadius.circular(5),
+                                          ),
+                                          constraints: BoxConstraints(
+                                            minWidth: 10,
+                                            minHeight: 10,
+                                          ),
+                                          child: Text(
+                                            ' ',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 8,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      )
+                                    : new Container()
+                              ],
                             ),
                             InkWell(
                               onTap: () {
@@ -102,11 +134,11 @@ class _HomeGuruState extends State<HomeGuru> {
                           height: 10,
                         ),
                         Text(
-                          userModel.role,
+                          name,
                           style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Config.textWhite),
                         ),
                         Text(
-                          userModel.username,
+                          username,
                           style: TextStyle(fontSize: 18, color: Config.textWhite),
                         )
                       ],
@@ -116,126 +148,140 @@ class _HomeGuruState extends State<HomeGuru> {
                     height: 10,
                   ),
                   Container(
-                    decoration: BoxDecoration(color: Config.textWhite, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                    width: MediaQuery.of(context).size.width,
-                    constraints: BoxConstraints(
-                      minHeight: MediaQuery.of(context).size.height * 0.3,
-                      maxHeight: MediaQuery.of(context).size.height * 0.8,
-                    ),
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Container(
-                              margin: EdgeInsets.only(right: 4),
-                              decoration: BoxDecoration(color: Config.boxBlue, borderRadius: BorderRadius.circular(10)),
-                              padding: EdgeInsets.all(8),
-                              child: Column(
+                      decoration: BoxDecoration(color: Config.textWhite, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                      width: MediaQuery.of(context).size.width,
+                      constraints: BoxConstraints(
+                        minHeight: MediaQuery.of(context).size.height * 0.3,
+                        maxHeight: MediaQuery.of(context).size.height * 0.8,
+                      ),
+                      padding: EdgeInsets.all(16),
+                      child: FutureBuilder(
+                        future: Provider.of<AuthProvider>(context, listen: false).getDashboardGuru(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          return Consumer<AuthProvider>(
+                            builder: (context, value, child) {
+                              notifUnread = value.dashboardGuruModel.notifUnread;
+                              return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Kelas Aktif',
-                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
+                                  SizedBox(
+                                    height: 10,
                                   ),
-                                  Text(
-                                    dashboardGuruModel.kelasAktif.toString(),
-                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 20),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                          child: Container(
+                                        margin: EdgeInsets.only(right: 4),
+                                        decoration: BoxDecoration(color: Config.boxBlue, borderRadius: BorderRadius.circular(10)),
+                                        padding: EdgeInsets.all(8),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Kelas Aktif',
+                                              style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
+                                            ),
+                                            Text(
+                                              value.dashboardGuruModel.kelasAktif.toString(),
+                                              style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 20),
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                      Expanded(
+                                          child: Container(
+                                        margin: EdgeInsets.only(left: 4),
+                                        decoration: BoxDecoration(color: Config.boxYellow, borderRadius: BorderRadius.circular(10)),
+                                        padding: EdgeInsets.all(8),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Fee Bulan Ini',
+                                              style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
+                                            ),
+                                            Text(
+                                              Config.formatRupiah(int.parse(value.dashboardGuruModel.fee)),
+                                              style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 20),
+                                            ),
+                                          ],
+                                        ),
+                                      ))
+                                    ],
                                   ),
-                                ],
-                              ),
-                            )),
-                            Expanded(
-                                child: Container(
-                              margin: EdgeInsets.only(left: 4),
-                              decoration: BoxDecoration(color: Config.boxYellow, borderRadius: BorderRadius.circular(10)),
-                              padding: EdgeInsets.all(8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Fee Bulan Ini',
-                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
+                                  SizedBox(
+                                    height: 10,
                                   ),
-                                  Text(
-                                    Config.formatRupiah(int.parse(dashboardGuruModel.fee)),
-                                    style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 20),
+                                  SizedBox(
+                                    height: 10,
                                   ),
-                                ],
-                              ),
-                            ))
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('Kelas Hari Ini'),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          child: dashboardGuruModel.kelasToday.length == 0
-                              ? Center(child: Text('Tidak ada kelas hari ini'))
-                              : ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: dashboardGuruModel.kelasToday.length,
-                                  itemBuilder: (BuildContext cotext, int i) {
-                                    print(dashboardGuruModel.kelasToday.length);
+                                  Text('Kelas Hari Ini'),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    child: value.dashboardGuruModel.kelasToday.length == 0
+                                        ? Center(child: Text('Tidak ada kelas hari ini'))
+                                        : ListView.builder(
+                                            shrinkWrap: true,
+                                            physics: NeverScrollableScrollPhysics(),
+                                            itemCount: value.dashboardGuruModel.kelasToday.length,
+                                            itemBuilder: (BuildContext cotext, int i) {
+                                              print(value.dashboardGuruModel.kelasToday.length);
 
-                                    if (dashboardGuruModel.kelasToday == []) {
-                                      return Text('Belum ada data kelas');
-                                    } else {
-                                      return ItemKelasTodayGuru(
-                                        data: dashboardGuruModel.kelasToday[i],
-                                      );
-                                    }
-                                  }),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('Sharing Kelas Hari Ini'),
-                        if (dashboardGuruModel.sharing.length > 0) ...{
-                          SizedBox(
-                            height: 10,
-                          ),
-                          // Jika data ada
-                          Container(
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: dashboardGuruModel.sharing.length,
-                              itemBuilder: (BuildContext cotext, int i) {
-                                return ItemKelasTodayGuru(
-                                  data: dashboardGuruModel.sharing[i],
-                                );
-                              },
-                            ),
-                          ),
-                        } else ...{
-                          //Jika data Kosong
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Center(
-                            child: Text(
-                              'Tidak ada kelas yang dibagikan',
-                              style: TextStyle(color: Config.textGrey),
-                            ),
-                          )
+                                              if (value.dashboardGuruModel.kelasToday == []) {
+                                                return Text('Belum ada data kelas');
+                                              } else {
+                                                return ItemKelasTodayGuru(
+                                                  data: value.dashboardGuruModel.kelasToday[i],
+                                                );
+                                              }
+                                            }),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text('Sharing Kelas Hari Ini'),
+                                  if (value.dashboardGuruModel.sharing.length > 0) ...{
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    // Jika data ada
+                                    Container(
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: value.dashboardGuruModel.sharing.length,
+                                        itemBuilder: (BuildContext cotext, int i) {
+                                          return ItemKelasTodayGuru(
+                                            data: value.dashboardGuruModel.sharing[i],
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  } else ...{
+                                    //Jika data Kosong
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Center(
+                                      child: Text(
+                                        'Tidak ada kelas yang dibagikan',
+                                        style: TextStyle(color: Config.textGrey),
+                                      ),
+                                    )
+                                  },
+                                ],
+                              );
+                            },
+                          );
                         },
-                      ],
-                    ),
-                  )
+                      ))
                 ],
               ),
             ],
