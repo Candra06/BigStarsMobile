@@ -62,19 +62,6 @@ class _ListKelasWaliState extends State<ListKelasWali> {
           "Kelas",
           style: TextStyle(color: Config.primary),
         ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                filter = [];
-                _filter = '';
-                filterModal(context);
-              },
-              icon: Icon(
-                FontAwesomeIcons.filter,
-                size: 20,
-                color: Config.primary,
-              )),
-        ],
       ),
       body: FutureBuilder(
         future: Provider.of<KelasProvider>(context, listen: false).getKelas(filtered: _filter),

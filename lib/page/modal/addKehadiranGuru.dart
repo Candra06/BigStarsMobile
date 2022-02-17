@@ -77,13 +77,38 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
       data["file_materi"] = '-';
     }
 
-    bool value = await Provider.of<KelasProvider>(context, listen: false).addKehadiranGuru(widget.id, data, tmpFile == null ? '-' : tmpFile.path.toString());
-
+    bool value = await Provider.of<KelasProvider>(context, listen: false).addKehadiranGuru(widget.id, data, tmpFile == null ? '-' : tmpFile);
+    print(value);
     if (value == true) {
       Config.alert(1, 'Berhasil menambah kehadiran');
-      Navigator.pop(context);
+      // Navigator.pop(context);
     } else {
       Config.alert(0, 'Gagal menambah kehadiran');
+      // Navigator.pop(context);
+    }
+  }
+
+  Future updateKehadiran() async {
+    data = {
+      "materi": txtMateri.text,
+      "jurnal": txtJurnal.text,
+      "status": status,
+      "poin": txtPoin.text,
+      'latitude': currentPosition.latitude.toString(),
+      'longitude': currentPosition.longitude.toString()
+    };
+
+    if (tmpFile == null) {
+      data["file_materi"] = '-';
+    }
+
+    bool value = await Provider.of<KelasProvider>(context, listen: false).updateKehadiranGuru(widget.id, data, tmpFile == null ? '-' : tmpFile.path.toString());
+
+    if (value == true) {
+      Config.alert(1, 'Berhasil memperbarui kehadiran');
+      // Navigator.pop(context);
+    } else {
+      Config.alert(0, 'Gagal memperbarui kehadiran');
       // Navigator.pop(context);
     }
   }
@@ -111,14 +136,18 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
           setState(() {
             isLoading = true;
           });
-          await addKehadiran();
+          if (widget.tipe == "Update") {
+            await updateKehadiran();
+          } else {
+            await addKehadiran();
+          }
+
           setState(() {
             isLoading = false;
-          });
-          Navigator.pop(context);
-          setState(() {
             widget.onSumbit(true);
           });
+         
+          Navigator.pop(context);
         },
         child: Text(
           'SIMPAN',

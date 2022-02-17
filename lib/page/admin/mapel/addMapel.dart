@@ -70,7 +70,7 @@ class _AddMapelState extends State<AddMapel> {
       SnackBar(
         backgroundColor: Config.primary,
         content: Text(
-          "Data Mapel Berhasil ditambah",
+          "Data Mapel Berhasil diubah",
           textAlign: TextAlign.center,
         ),
       ),

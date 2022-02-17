@@ -103,6 +103,7 @@ class _ItemKelasState extends State<ItemKelas> {
                 ),
               ],
             ),
+            Divider(),
             Container(
               margin: EdgeInsets.fromLTRB(8, 8, 8, 8),
               child: Row(

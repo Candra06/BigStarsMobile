@@ -31,42 +31,45 @@ class _SyaratDanKetentuanState extends State<SyaratDanKetentuan> {
               }
               return Consumer<RulesProvider>(
                 builder: (context, value, child) {
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Center(
-                          child: Text(
-                            'Teacher Guide Bigstars Jember',
-                            style: TextStyle(fontSize: 18, color: Config.primary, fontWeight: FontWeight.bold),
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
                           ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Html(data: '''${value.rule.rules}'''),
-                        ElevatedButton(
-                          onPressed: () async {
-                            SharedPreferences pref = await SharedPreferences.getInstance();
-                            pref.setString('setuju', 'true');
-                            Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(child: GuruMain(indexPage: '0',), type: PageTransitionType.fade));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            fixedSize: Size(MediaQuery.of(context).size.width, 50),
-                            primary: Config.primary,
-                            onPrimary: Config.textWhite,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                          Center(
+                            child: Text(
+                              'Teacher Guide Bigstars Jember',
+                              style: TextStyle(fontSize: 18, color: Config.primary, fontWeight: FontWeight.bold),
                             ),
                           ),
-                          child: Text(
-                            "Setuju",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          SizedBox(
+                            height: 20,
                           ),
-                        )
-                      ],
+                          Html(data: '''${value.rule.rules}'''),
+                          ElevatedButton(
+                            onPressed: () async {
+                              SharedPreferences pref = await SharedPreferences.getInstance();
+                              pref.setString('setuju', 'true');
+                              Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(child: GuruMain(indexPage: '0',), type: PageTransitionType.fade));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: Size(MediaQuery.of(context).size.width, 50),
+                              primary: Config.primary,
+                              onPrimary: Config.textWhite,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            child: Text(
+                              "Setuju",
+                              style: TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 },
