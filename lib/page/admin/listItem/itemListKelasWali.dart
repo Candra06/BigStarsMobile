@@ -35,9 +35,9 @@ class _ItemKelasWaliState extends State<ItemKelasWali> {
                     widget.data.siswa,
                     style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
                   ),
-                  Text(
-                    widget.data.mapel,
-                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
+                  Container(
+                    // margin: EdgeInsets.all(8),
+                    child: Config.bedgeStatus(widget.data.status),
                   )
                 ],
               ),
@@ -47,16 +47,64 @@ class _ItemKelasWaliState extends State<ItemKelasWali> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  margin: EdgeInsets.all(8),
+                  margin: EdgeInsets.only(left: 8, top: 8),
+                  child: Text(
+                    'Guru',
+                    style: TextStyle(fontWeight: FontWeight.w200, fontSize: 13),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 8, top: 8),
                   child: Text(
                     widget.data.guru,
+                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
+                  ),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 8, top: 8),
+                  child: Text(
+                    'Mapel',
+                    style: TextStyle(fontWeight: FontWeight.w200, fontSize: 13),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 8, top: 8),
+                  child: Text(
+                    widget.data.mapel,
+                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
+                  ),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 8, top: 8),
+                  child: Text(
+                    'Jumlah Pertemuan ',
+                    style: TextStyle(fontWeight: FontWeight.w200, fontSize: 13),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 8, top: 8),
+                  child: Text(
+                    widget.data.jumlahPertemuan,
                     style: TextStyle(fontWeight: FontWeight.w200, fontSize: 13),
                   ),
                 ),
               ],
             ),
+            Divider(),
             Container(
               margin: EdgeInsets.fromLTRB(8, 0, 8, 8),
               child: Row(

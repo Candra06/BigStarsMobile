@@ -146,6 +146,7 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
       });
     }
 
+    siswa = [];
     for (var i = 0; i < siswaModels.length; i++) {
       siswa.add({
         "id": siswaModels[i].id,

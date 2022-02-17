@@ -21,8 +21,7 @@ class _KehadiranKelasState extends State<KehadiranKelas> {
     void onSubmit(status) {
       if (status) {
         setState(() {
-          Provider.of<KelasProvider>(context, listen: false)
-              .getKehadiran(widget.kelas.id.toString());
+          Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.kelas.id.toString());
         });
       }
     }
@@ -42,9 +41,7 @@ class _KehadiranKelasState extends State<KehadiranKelas> {
   }
 
   void getData() async {
-    List<KehadiranModel> data =
-        await Provider.of<KelasProvider>(context, listen: false)
-            .getKehadiran('1');
+    List<KehadiranModel> data = await Provider.of<KelasProvider>(context, listen: false).getKehadiran('1');
   }
 
   @override
@@ -75,8 +72,7 @@ class _KehadiranKelasState extends State<KehadiranKelas> {
                 top: 16,
               ),
               child: FutureBuilder(
-                future: Provider.of<KelasProvider>(context, listen: false)
-                    .getKehadiran(widget.kelas.id.toString()),
+                future: Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.kelas.id.toString()),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(

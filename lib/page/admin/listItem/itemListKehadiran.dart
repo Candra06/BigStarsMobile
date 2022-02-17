@@ -3,9 +3,11 @@ import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/network.dart';
 import 'package:bigstars_mobile/model/kehadiran_model.dart';
 import 'package:bigstars_mobile/page/modal/addKehadiranGuru.dart';
+import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:geocoder/geocoder.dart';
 
@@ -19,6 +21,14 @@ class ItemListKehadiran extends StatefulWidget {
 
 class _ItemListKehadiranState extends State<ItemListKehadiran> {
   void _updateKehadiran(BuildContext context, String id, KehadiranModel data) {
+    void onSubmit(status) {
+      if (status) {
+        setState(() {
+          // Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.data.id.toString());
+        });
+      }
+    }
+
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -30,6 +40,7 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             id: id,
             tipe: 'Update',
             data: data,
+            onSumbit: onSubmit,
           );
         });
   }
@@ -198,7 +209,7 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             SizedBox(
               height: 20,
             ),
-            if (widget.data.fileMateri != '-' && widget.data.fileMateri.isEmpty) ...{
+            if (widget.data.fileMateri != '-') ...{
               ElevatedButton(
                 onPressed: () async {
                   print(widget.data.fileMateri);
@@ -230,7 +241,7 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             if (widget.data.status == 'Waiting') ...{
               ElevatedButton(
                 onPressed: () {
-                  _updateKehadiran(context, '1', widget.data);
+                  _updateKehadiran(context, widget.data.id.toString(), widget.data);
                 },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(MediaQuery.of(context).size.width, 30),

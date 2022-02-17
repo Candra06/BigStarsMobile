@@ -45,9 +45,7 @@ class SiswaProvider with ChangeNotifier {
     try {
       var hasil = await SiswaService().addSiswa(data);
 
-      List<SiswaModel> temp = await SiswaService().getSiswas();
-      _listSiswa = temp;
-      notifyListeners();
+      // notifyListeners();
       return hasil;
     } catch (e) {
       print(e);

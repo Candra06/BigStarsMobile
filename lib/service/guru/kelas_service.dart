@@ -178,11 +178,51 @@ class KelasService {
     return [];
   }
 
-  Future<bool> addKehadiranGuru(String id, Map<String, dynamic> data, String tmpFile) async {
+  Future<bool> addKehadiranGuru(String id, Map<String, dynamic> data, File tmpFile) async {
+    var token = await Pref.getToken();
+
+    if (tmpFile.toString() == '-') {
+      http.Response response = await http.post(Uri.parse(EndPoint.addKehadiranGuru + id), body: data, headers: {'Authorization': token});
+      print(response.body);
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      print('here');
+      Map<String, String> headers = {
+        'Authorization': token,
+      };
+      final request = http.MultipartRequest('POST', Uri.parse(EndPoint.addKehadiranGuru + id));
+      request.fields["materi"] = data["materi"];
+      request.fields["jurnal"] = data["jurnal"];
+      request.fields["status"] = data["status"];
+      request.fields["poin"] = data["poin"];
+      request.fields["latitude"] = data["latitude"];
+      request.fields["longitude"] = data["longitude"];
+      request.files.add(await http.MultipartFile.fromPath('file_materi', tmpFile.path));
+      request.headers.addAll(headers);
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        response.stream.transform(utf8.decoder).listen((value) {
+          // print(value);
+
+          return true;
+        });
+      } else {
+        return false;
+      }
+    }
+    return true;
+    // if (response.statusCode == 200) {}
+  }
+
+  Future<bool> updateKehadiranGuru(String id, Map<String, dynamic> data, String tmpFile) async {
     var token = await Pref.getToken();
 
     if (tmpFile == '-') {
-      http.Response response = await http.post(Uri.parse(EndPoint.addKehadiranGuru + id), body: data, headers: {'Authorization': token});
+      http.Response response = await http.post(Uri.parse(EndPoint.updateKehadiranGuru + id), body: data, headers: {'Authorization': token});
       print(response.body);
       if (response.statusCode == 200) {
         return true;
@@ -193,27 +233,30 @@ class KelasService {
       Map<String, String> headers = {
         'Authorization': token,
       };
-      final request = http.MultipartRequest('POST', Uri.parse(EndPoint.addKehadiranGuru + id));
+      final request = http.MultipartRequest('POST', Uri.parse(EndPoint.updateKehadiranGuru + id));
       request.fields["materi"] = data["materi"];
       request.fields["jurnal"] = data["jurnal"];
       request.fields["status"] = data["status"];
       request.fields["poin"] = data["poin"];
+      request.fields["latitude"] = data["latitude"];
+      request.fields["longitude"] = data["longitude"];
       request.files.add(await http.MultipartFile.fromPath('file_materi', tmpFile));
       request.headers.addAll(headers);
       var response = await request.send();
-      final respStr = await response.stream.bytesToString();
-      print(respStr);
-      response.stream.transform(utf8.decoder).listen((value) {
-        print(value);
-        Map<String, dynamic> data = jsonDecode(value);
-        print(data);
-        if (data['status_code'] == 200) {
-          print('sini');
+      if (response.statusCode == 200) {
+        response.stream.transform(utf8.decoder).listen((value) {
+          // print(value);
+
           return true;
-        } else {
-          return false;
-        }
-      });
+        });
+      } else {
+        return false;
+      }
+      // response.stream.transform(utf8.decoder).listen((value) {
+      //   print(value);
+      //   print(data);
+
+      // });
     }
     return true;
     // if (response.statusCode == 200) {}
