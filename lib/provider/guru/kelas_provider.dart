@@ -131,22 +131,22 @@ class KelasProvider with ChangeNotifier {
 
 
 
-  Future<bool> addKehadiranGuru(String id, Map<String, dynamic> data, File tmpFile) async {
+  Future<bool> addKehadiranGuru(String id, Map<String, dynamic> data) async {
    
     try {
-      bool status = await KelasService().addKehadiranGuru(id, data, tmpFile);
+      bool status = await KelasService().addKehadiranGuru(id, data);
       
-      return true;
+      return status;
     } catch (e) {
       print(e);
       return false;
     }
   }
 
-    Future<bool> updateKehadiranGuru(String id, Map<String, dynamic> data, String tmpFile) async {
+    Future<bool> updateKehadiranGuru(String id, Map<String, dynamic> data) async {
    
     try {
-      bool status = await KelasService().updateKehadiranGuru(id, data, tmpFile);
+      bool status = await KelasService().updateKehadiranGuru(id, data);
       
       return status;
     } catch (e) {

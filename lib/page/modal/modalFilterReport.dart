@@ -33,7 +33,7 @@ class _ModalFilterReportState extends State<ModalFilterReport> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: [Text('Filter Pembayaran Fee', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))],
+                    children: [Text('Filter Report', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))],
                   ),
                   InkWell(
                     onTap: () {
@@ -47,11 +47,11 @@ class _ModalFilterReportState extends State<ModalFilterReport> {
                 height: 22,
               ),
               SizedBox(height: 8),
-              Text('Nama',
-                  style: TextStyle(
-                    fontSize: 14,
-                  )),
-              formInputType(txtNamaGuru, 'Nama', TextInputType.text),
+              // Text('Nama',
+              //     style: TextStyle(
+              //       fontSize: 14,
+              //     )),
+              // formInputType(txtNamaGuru, 'Nama', TextInputType.text),
               SizedBox(height: 8),
               Text('Bulan',
                   style: TextStyle(

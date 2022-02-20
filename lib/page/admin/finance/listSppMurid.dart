@@ -1,5 +1,6 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/input.dart';
+import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListSPP.dart';
 import 'package:bigstars_mobile/page/modal/modalFilterSPP.dart';
 import 'package:bigstars_mobile/provider/finance_provider.dart';
@@ -114,130 +115,76 @@ class _ListSppMuridState extends State<ListSppMurid> {
 
   @override
   Widget build(BuildContext context) {
-    Widget generateSppbtn() {
-      return Container(
-        margin: EdgeInsets.only(left: 16, right: 16),
-        child: ElevatedButton(
-          onPressed: () {
-            generateSpp();
-          },
-          style: ElevatedButton.styleFrom(
-            fixedSize: Size(MediaQuery.of(context).size.width, 30),
-            primary: Config.primary,
-            onPrimary: Config.textWhite,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-          ),
-          child: Text(
-            "Generate SPP",
-            style: TextStyle(color: Colors.white, fontSize: 16),
-          ),
-        ),
-      );
-    }
-
-    Widget loadGeneratesppbtn() {
-      return Container(
-        margin: EdgeInsets.only(left: 16, right: 16),
-        child: ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            fixedSize: Size(MediaQuery.of(context).size.width, 30),
-            primary: Config.primary,
-            onPrimary: Config.textWhite,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                "Loading",
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: Config.primary,
-          ),
-        ),
-        actions: [
-          IconButton(
+    return WillPopScope(
+      onWillPop: () {
+        return Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '2');
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
             onPressed: () {
-              filter = [];
-              _filter = '';
-              // Navigator.pop(context);
-              modalFilter(context);
+              Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '2');
             },
             icon: Icon(
-              FontAwesomeIcons.filter,
-              size: 20,
+              Icons.arrow_back,
               color: Config.primary,
             ),
           ),
-        ],
-        backgroundColor: Config.textWhite,
-        title: Text(
-          "SPP Murid",
-          style: TextStyle(color: Config.primary),
-        ),
-      ),
-      body: Container(
-        margin: EdgeInsets.only(top: 16, bottom: 16),
-        // child: ListView.builder(
-        //     itemCount: 3,
-        //     itemBuilder: (BuildContext bc, int i) {
-        //       return ItemListSPP();
-        //     }),
-        child: Column(
-          children: [
-            // isLoading ? loadGeneratesppbtn() : generateSppbtn(),
-            FutureBuilder(
-                future: Provider.of<FinanceProvider>(context, listen: false).getSpp(_filter),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  return Consumer<FinanceProvider>(
-                    builder: (context, data, _) {
-                      return ListView.builder(
-                        itemCount: data.ListSppModel.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext bc, int i) {
-                          return ItemListSPP(
-                            data: data.ListSppModel[i],
-                          );
-                        },
-                      );
-                    },
-                  );
-                }),
+          actions: [
+            IconButton(
+              onPressed: () {
+                filter = [];
+                _filter = '';
+                // Navigator.pop(context);
+                modalFilter(context);
+              },
+              icon: Icon(
+                FontAwesomeIcons.filter,
+                size: 20,
+                color: Config.primary,
+              ),
+            ),
           ],
+          backgroundColor: Config.textWhite,
+          title: Text(
+            "SPP Murid",
+            style: TextStyle(color: Config.primary),
+          ),
+        ),
+        body: Container(
+          margin: EdgeInsets.only(top: 16, bottom: 16),
+          // child: ListView.builder(
+          //     itemCount: 3,
+          //     itemBuilder: (BuildContext bc, int i) {
+          //       return ItemListSPP();
+          //     }),
+          child: Column(
+            children: [
+              // isLoading ? loadGeneratesppbtn() : generateSppbtn(),
+              FutureBuilder(
+                  future: Provider.of<FinanceProvider>(context, listen: false).getSpp(_filter),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return Consumer<FinanceProvider>(
+                      builder: (context, data, _) {
+                        return ListView.builder(
+                          itemCount: data.ListSppModel.length,
+                          shrinkWrap: true,
+                          itemBuilder: (BuildContext bc, int i) {
+                            return ItemListSPP(
+                              data: data.ListSppModel[i],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  }),
+            ],
+          ),
         ),
       ),
     );

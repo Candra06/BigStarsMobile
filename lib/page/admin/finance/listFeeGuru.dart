@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListFee.dart';
 import 'package:bigstars_mobile/page/modal/modalFilterFee.dart';
 import 'package:bigstars_mobile/provider/finance_provider.dart';
@@ -127,130 +128,76 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
 
   @override
   Widget build(BuildContext context) {
-    Widget generateFeebtn() {
-      return Container(
-        margin: EdgeInsets.only(left: 16, right: 16),
-        child: ElevatedButton(
-          onPressed: () {
-            generateFee();
-          },
-          style: ElevatedButton.styleFrom(
-            fixedSize: Size(MediaQuery.of(context).size.width, 30),
-            primary: Config.primary,
-            onPrimary: Config.textWhite,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-          ),
-          child: Text(
-            "Generate Fee Guru",
-            style: TextStyle(color: Colors.white, fontSize: 16),
-          ),
-        ),
-      );
-    }
+   
 
-    Widget loadGenerateFeebtn() {
-      return Container(
-        margin: EdgeInsets.only(left: 16, right: 16),
-        child: ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            fixedSize: Size(MediaQuery.of(context).size.width, 30),
-            primary: Config.primary,
-            onPrimary: Config.textWhite,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                "Loading",
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: Config.primary,
-          ),
-        ),
-        actions: [
-          IconButton(
+    return WillPopScope(
+      onWillPop: () => Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '2'),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
             onPressed: () {
-              filter = [];
-              _filter = '';
-              modelFilter(context);
+              Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '2');
             },
             icon: Icon(
-              FontAwesomeIcons.filter,
-              size: 20,
+              Icons.arrow_back,
               color: Config.primary,
             ),
           ),
-        ],
-        backgroundColor: Config.textWhite,
-        title: Text(
-          "Fee Guru",
-          style: TextStyle(color: Config.primary),
-        ),
-      ),
-      body: Container(
-        margin: EdgeInsets.only(top: 16, bottom: 16),
-        // child: ListView.builder(
-        //     itemCount: 3,
-        //     itemBuilder: (BuildContext bc, int i) {
-        //       return ItemListFee();
-        //     }),
-        child: Column(
-          children: [
-            // isLoading ? loadGenerateFeebtn() : generateFeebtn(),
-            // SizedBox(
-            //   height: 20,
-            // ),
-            FutureBuilder(
-              future: Provider.of<FinanceProvider>(context, listen: false).getFeeGuru(_filter),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return Consumer<FinanceProvider>(
-                  builder: (context, data, _) => ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: data.ListFeeGuru.length,
-                      itemBuilder: (BuildContext bc, int i) {
-                        return ItemListFee(
-                          fee: data.ListFeeGuru[i],
-                        );
-                      }),
-                );
+          actions: [
+            IconButton(
+              onPressed: () {
+                filter = [];
+                _filter = '';
+                modelFilter(context);
               },
+              icon: Icon(
+                FontAwesomeIcons.filter,
+                size: 20,
+                color: Config.primary,
+              ),
             ),
           ],
+          backgroundColor: Config.textWhite,
+          title: Text(
+            "Fee Guru",
+            style: TextStyle(color: Config.primary),
+          ),
+        ),
+        body: Container(
+          margin: EdgeInsets.only(top: 16, bottom: 16),
+          // child: ListView.builder(
+          //     itemCount: 3,
+          //     itemBuilder: (BuildContext bc, int i) {
+          //       return ItemListFee();
+          //     }),
+          child: Column(
+            children: [
+              // isLoading ? loadGenerateFeebtn() : generateFeebtn(),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              FutureBuilder(
+                future: Provider.of<FinanceProvider>(context, listen: false).getFeeGuru(_filter),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return Consumer<FinanceProvider>(
+                    builder: (context, data, _) => ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: data.ListFeeGuru.length,
+                        itemBuilder: (BuildContext bc, int i) {
+                          return ItemListFee(
+                            fee: data.ListFeeGuru[i],
+                          );
+                        }),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

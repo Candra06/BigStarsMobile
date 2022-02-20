@@ -55,10 +55,10 @@ class FinanceService {
     } else {
       url = EndPoint.report;
     }
-    print(url);
+
     var response = await http.get(Uri.parse(url), headers: {'Authorization': token});
+    print(response.body);
     if (response.statusCode == 200) {
-      print(response.body);
       List fee = jsonDecode(response.body)["data"];
       return fee.map((e) => ReportModel.fromJson(e)).toList();
     } else {

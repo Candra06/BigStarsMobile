@@ -88,8 +88,7 @@ class _InvoiceFeeState extends State<InvoiceFee> {
   }
 
   void konfirmasi() async {
-    bool status = await Provider.of<FinanceProvider>(context, listen: false)
-        .konfirmasiFee(widget.fee.id.toString());
+    bool status = await Provider.of<FinanceProvider>(context, listen: false).konfirmasiFee(widget.fee.id.toString());
     if (status) {
       _showSucces();
     }
@@ -153,10 +152,7 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                           ),
                           Text(
                             widget.fee.noInvoice,
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Config.primary),
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Config.primary),
                           ),
                         ],
                       ),
@@ -170,12 +166,11 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Tagihan Bulan',
+                            'Fee Bulan',
                             style: TextStyle(),
                           ),
                           Text(
-                            DateFormat("yyyy-MM-dd")
-                                .format(widget.fee.tagihanBulan),
+                            Config.formatBulan(widget.fee.tagihanBulan.toString()),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -226,14 +221,16 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                           Text(
                             'Status',
                           ),
-                          Text(
-                            // 'Lunas',
-                            widget.fee.status,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                // color: Colors.green,
-                                color: Colors.red),
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(color: widget.fee.status == 'Lunas' ? Colors.green : Colors.red, borderRadius: BorderRadius.all(Radius.circular(8))),
+                            child: Text(
+                              // 'Lunas',
+                              widget.fee.status,
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                            ),
                           ),
+                          // Config.bedgeStatus(widget.fee.status)
                         ],
                       ),
                     ),
@@ -271,7 +268,7 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                     SizedBox(
                       height: 20,
                     ),
-                    role != "Guru"
+                    role != "Guru" && widget.fee.status != 'Lunas'
                         ? Container(
                             margin: EdgeInsets.only(left: 8, right: 8),
                             child: ElevatedButton(
@@ -279,8 +276,7 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                                 _konfirmasi();
                               },
                               style: ElevatedButton.styleFrom(
-                                fixedSize:
-                                    Size(MediaQuery.of(context).size.width, 30),
+                                fixedSize: Size(MediaQuery.of(context).size.width, 30),
                                 primary: Config.primary,
                                 onPrimary: Config.textWhite,
                                 shape: RoundedRectangleBorder(
@@ -289,8 +285,7 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                               ),
                               child: Text(
                                 "Konfirmasi Tagihan",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16),
+                                style: TextStyle(color: Colors.white, fontSize: 16),
                               ),
                             ),
                           )

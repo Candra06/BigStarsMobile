@@ -53,7 +53,7 @@ class _SyaratDanKetentuanWaliState extends State<SyaratDanKetentuanWali> {
                             onPressed: () async {
                               SharedPreferences pref = await SharedPreferences.getInstance();
                               pref.setString('setuju', 'true');
-                              Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(
+                              Navigator.of(context).pushReplacement(PageTransition(
                                   child: WaliMain(
                                     indexPage: '0',
                                   ),

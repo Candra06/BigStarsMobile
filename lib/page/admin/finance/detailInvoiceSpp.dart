@@ -153,6 +153,10 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                             padding: EdgeInsets.all(16),
                             child: Column(
                               children: [
+                                Image.asset(
+                                  'assets/images/logoWhite.png',
+                                  height: 125,
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
@@ -386,7 +390,7 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                       ),
                     ),
                   ),
-                  if (role == 'Admin' || detailSPPModel.status != 'Lunas') ...{
+                  if (role == 'Admin' && detailSPPModel.status != 'Lunas') ...{
                     Positioned(
                       bottom: 0,
                       left: 0,

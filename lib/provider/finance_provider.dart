@@ -55,9 +55,8 @@ class FinanceProvider with ChangeNotifier {
     }
   }
 
-  Future<List<ReportModel>> getReport(String filtered) async {
+  Future<List<ReportModel>> getReport({String filtered}) async {
     try {
-      print(filtered);
       List data = await FinanceService().report(filtered);
       _listReport = data;
       notifyListeners();

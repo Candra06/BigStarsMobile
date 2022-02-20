@@ -53,7 +53,15 @@ class _SyaratDanKetentuanState extends State<SyaratDanKetentuan> {
                             onPressed: () async {
                               SharedPreferences pref = await SharedPreferences.getInstance();
                               pref.setString('setuju', 'true');
-                              Navigator.of(context, rootNavigator: true).pushReplacement(PageTransition(child: GuruMain(indexPage: '0',), type: PageTransitionType.fade));
+                              Navigator.pushReplacement(
+                                context,
+                                PageTransition(
+                                  child: GuruMain(
+                                    indexPage: '0',
+                                  ),
+                                  type: PageTransitionType.fade,
+                                ),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               fixedSize: Size(MediaQuery.of(context).size.width, 50),

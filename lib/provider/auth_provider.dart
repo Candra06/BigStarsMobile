@@ -156,20 +156,22 @@ class AuthProvider with ChangeNotifier {
 
   Future<DashboardModel> getDashboard() async {
     _dashboardModel = await AuthService().dahsboardData();
-
+    
     notifyListeners();
     return _dashboardModel;
   }
 
   Future getDashboardGuru() async {
     _dashboardGuruModel = await AuthService().dashboardGuru();
+    DashboardGuruModel dashboard = _dashboardGuruModel;
     notifyListeners();
-    return "ok";
+    return dashboard;
   }
 
   Future getDashboardWali() async {
     _dashboardWali = await AuthService().getDashboardWali();
+    DashboardWaliModel dashboard = _dashboardWali;
     notifyListeners();
-    return _dashboardWali;
+    return dashboard;
   }
 }
