@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListFee.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListReport.dart';
 import 'package:bigstars_mobile/page/modal/modalFilterFee.dart';
@@ -55,14 +56,18 @@ class _ReportPageState extends State<ReportPage> {
         });
   }
 
-  getData() async {
-    await FinanceService().report(_filter);
+  @override
+  void initState() {
+    // getData();
+
+    super.initState();
   }
 
   @override
-  void initState() {
-    getData();
-    super.initState();
+  void dispose() {
+    // Provider.of<FinanceProvider>(context, listen: false).getReport(_filter);
+
+    super.dispose();
   }
 
   @override
@@ -71,7 +76,7 @@ class _ReportPageState extends State<ReportPage> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '2');
           },
           icon: Icon(
             Icons.arrow_back,
@@ -102,7 +107,7 @@ class _ReportPageState extends State<ReportPage> {
           height: MediaQuery.of(context).size.height,
           margin: EdgeInsets.only(top: 16, bottom: 0),
           child: FutureBuilder(
-              future: Provider.of<FinanceProvider>(context, listen: false).getReport(_filter),
+              future: Provider.of<FinanceProvider>(context, listen: false).getReport(filtered: _filter),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(

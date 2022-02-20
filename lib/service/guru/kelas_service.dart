@@ -178,10 +178,10 @@ class KelasService {
     return [];
   }
 
-  Future<bool> addKehadiranGuru(String id, Map<String, dynamic> data, File tmpFile) async {
+  Future<bool> addKehadiranGuru(String id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
 
-    if (tmpFile.toString() == '-') {
+    if (data['file_materi'] == '-') {
       http.Response response = await http.post(Uri.parse(EndPoint.addKehadiranGuru + id), body: data, headers: {'Authorization': token});
       print(response.body);
       if (response.statusCode == 200) {
@@ -201,7 +201,7 @@ class KelasService {
       request.fields["poin"] = data["poin"];
       request.fields["latitude"] = data["latitude"];
       request.fields["longitude"] = data["longitude"];
-      request.files.add(await http.MultipartFile.fromPath('file_materi', tmpFile.path));
+      request.files.add(await http.MultipartFile.fromPath('file_materi', data['file_materi'].path));
       request.headers.addAll(headers);
       var response = await request.send();
       if (response.statusCode == 200) {
@@ -218,10 +218,11 @@ class KelasService {
     // if (response.statusCode == 200) {}
   }
 
-  Future<bool> updateKehadiranGuru(String id, Map<String, dynamic> data, String tmpFile) async {
+  Future<bool> updateKehadiranGuru(String id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
-
-    if (tmpFile == '-') {
+    print(token);
+    if (data['file_materi'] == '-') {
+      print('sini');
       http.Response response = await http.post(Uri.parse(EndPoint.updateKehadiranGuru + id), body: data, headers: {'Authorization': token});
       print(response.body);
       if (response.statusCode == 200) {
@@ -240,7 +241,7 @@ class KelasService {
       request.fields["poin"] = data["poin"];
       request.fields["latitude"] = data["latitude"];
       request.fields["longitude"] = data["longitude"];
-      request.files.add(await http.MultipartFile.fromPath('file_materi', tmpFile));
+      request.files.add(await http.MultipartFile.fromPath('file_materi', data['file_materi'].path));
       request.headers.addAll(headers);
       var response = await request.send();
       if (response.statusCode == 200) {

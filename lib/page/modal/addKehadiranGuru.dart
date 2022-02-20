@@ -75,9 +75,11 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
 
     if (tmpFile == null) {
       data["file_materi"] = '-';
+    }else{
+      data["file_materi"] = tmpFile;
     }
 
-    bool value = await Provider.of<KelasProvider>(context, listen: false).addKehadiranGuru(widget.id, data, tmpFile == null ? '-' : tmpFile);
+    bool value = await Provider.of<KelasProvider>(context, listen: false).addKehadiranGuru(widget.id, data);
     print(value);
     if (value == true) {
       Config.alert(1, 'Berhasil menambah kehadiran');
@@ -100,9 +102,12 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
 
     if (tmpFile == null) {
       data["file_materi"] = '-';
+    }else{
+      data["file_materi"] = tmpFile;
     }
-
-    bool value = await Provider.of<KelasProvider>(context, listen: false).updateKehadiranGuru(widget.id, data, tmpFile == null ? '-' : tmpFile.path.toString());
+    print(data);
+    print(widget.id);
+    bool value = await Provider.of<KelasProvider>(context, listen: false).updateKehadiranGuru(widget.id, data);
 
     if (value == true) {
       Config.alert(1, 'Berhasil memperbarui kehadiran');
@@ -114,6 +119,7 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
   }
 
   getData() {
+    print(widget.id);
     if (widget.tipe == "Update") {
       txtMateri.text = widget.data.materi;
       txtJurnal.text = widget.data.jurnal;
@@ -146,7 +152,7 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
             isLoading = false;
             widget.onSumbit(true);
           });
-         
+
           Navigator.pop(context);
         },
         child: Text(

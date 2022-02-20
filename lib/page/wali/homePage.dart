@@ -30,9 +30,10 @@ class _HomeWaliState extends State<HomeWali> {
     var tmpNama = await Pref.getNama();
     var tmpUsername = await Pref.getUsername();
     AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
-
+   dashboardWali = await authProvider.getDashboardWali();
+    print(dashboardWali.notifUnread);
     setState(() {
-      dashboardWali = authProvider.dashboardWaliModel;
+      
       notifUnread = dashboardWali.notifUnread;
       nama = tmpNama;
       username = tmpUsername;

@@ -204,8 +204,9 @@ class AuthService {
     print(response.body);
     if (response.statusCode == 200) {
       return DashboardGuruModel.fromJson(jsonDecode(response.body)["data"]);
+    } else {
+      return null;
     }
-    return null;
     // print(response.body);
   }
 
@@ -213,11 +214,12 @@ class AuthService {
     var token = await Pref.getToken();
     http.Response response = await http.get(Uri.parse(EndPoint.dashboardWali), headers: {'Authorization': token});
     print(response.body);
-    
+
     if (response.statusCode == 200) {
       return DashboardWaliModel.fromJson(jsonDecode(response.body)['data']);
+    } else {
+      return null;
     }
-    return null;
     // print(response.body);
   }
 }

@@ -23,9 +23,9 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
   void _updateKehadiran(BuildContext context, String id, KehadiranModel data) {
     void onSubmit(status) {
       if (status) {
-        setState(() {
-          // Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.data.id.toString());
-        });
+        // setState(() {
+        //   // Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.data.id.toString());
+        // });
       }
     }
 
