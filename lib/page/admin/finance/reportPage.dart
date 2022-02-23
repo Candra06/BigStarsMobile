@@ -70,60 +70,64 @@ class _ReportPageState extends State<ReportPage> {
     super.dispose();
   }
 
+  Future backPress(BuildContext context) => Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '2');
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '2');
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: Config.primary,
-          ),
-        ),
-        actions: [
-          IconButton(
+    return WillPopScope(
+      onWillPop: () => backPress(context),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
             onPressed: () {
-              filter = [];
-              _filter = '';
-              modelFilter(context);
+              Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '2');
             },
             icon: Icon(
-              FontAwesomeIcons.filter,
-              size: 20,
+              Icons.arrow_back,
               color: Config.primary,
             ),
           ),
-        ],
-        backgroundColor: Config.textWhite,
-        title: Text(
-          "Laporan Keuangan",
-          style: TextStyle(color: Config.primary),
+          actions: [
+            IconButton(
+              onPressed: () {
+                filter = [];
+                _filter = '';
+                modelFilter(context);
+              },
+              icon: Icon(
+                FontAwesomeIcons.filter,
+                size: 20,
+                color: Config.primary,
+              ),
+            ),
+          ],
+          backgroundColor: Config.textWhite,
+          title: Text(
+            "Laporan Keuangan",
+            style: TextStyle(color: Config.primary),
+          ),
         ),
+        body: Container(
+            height: MediaQuery.of(context).size.height,
+            margin: EdgeInsets.only(top: 16, bottom: 0),
+            child: FutureBuilder(
+                future: Provider.of<FinanceProvider>(context, listen: false).getReport(filtered: _filter),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return Consumer<FinanceProvider>(builder: (context, data, _) {
+                    return ListView.builder(
+                        itemCount: data.ListReportModel.length,
+                        itemBuilder: (BuildContext bc, int i) {
+                          return ItemListReport(
+                            report: data.ListReportModel[i],
+                          );
+                        });
+                  });
+                })),
       ),
-      body: Container(
-          height: MediaQuery.of(context).size.height,
-          margin: EdgeInsets.only(top: 16, bottom: 0),
-          child: FutureBuilder(
-              future: Provider.of<FinanceProvider>(context, listen: false).getReport(filtered: _filter),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return Consumer<FinanceProvider>(builder: (context, data, _) {
-                  return ListView.builder(
-                      itemCount: data.ListReportModel.length,
-                      itemBuilder: (BuildContext bc, int i) {
-                        return ItemListReport(
-                          report: data.ListReportModel[i],
-                        );
-                      });
-                });
-              })),
     );
   }
 }

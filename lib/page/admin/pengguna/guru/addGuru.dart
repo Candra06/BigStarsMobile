@@ -162,11 +162,13 @@ class _AddGuruState extends State<AddGuru> {
     super.initState();
   }
 
+  Future backPress(BuildContext context) => Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        return Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
+        return backPress(context);
       },
       child: Scaffold(
         appBar: AppBar(

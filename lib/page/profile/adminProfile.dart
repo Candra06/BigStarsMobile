@@ -82,11 +82,13 @@ class _ProfilAdminState extends State<ProfilAdmin> {
     );
   }
 
+  Future backPress(BuildContext context) => Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '0');
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        return Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '0');
+        return backPress(context);
       },
       child: SafeArea(
         child: Scaffold(
@@ -131,7 +133,7 @@ class _ProfilAdminState extends State<ProfilAdmin> {
                       ),
                       ClipOval(
                         child: Image.network(
-                          foto == null ? "https://www.clipartmax.com/png/middle/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png" : EndPoint.server + '' + foto,
+                          foto == null || foto == '-' ? "https://www.clipartmax.com/png/middle/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png" : EndPoint.server + '' + foto,
                           height: 100,
                           width: 100,
                           fit: BoxFit.cover,

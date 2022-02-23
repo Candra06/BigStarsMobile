@@ -5,6 +5,7 @@ class DetailSPPModel {
     this.tagihanBulan,
     this.jumlah,
     this.status,
+    this.keterangan,
     this.totalPertemuan,
     this.createdAt,
     this.udpatedAt,
@@ -16,6 +17,7 @@ class DetailSPPModel {
   DateTime tagihanBulan;
   String jumlah;
   String status;
+  String keterangan;
   int totalPertemuan;
   DateTime createdAt;
   dynamic udpatedAt;
@@ -27,6 +29,7 @@ class DetailSPPModel {
         tagihanBulan: json["tagihan_bulan"] == null ? null : DateTime.parse(json["tagihan_bulan"]),
         jumlah: json["jumlah"] == null ? null : json["jumlah"],
         status: json["status"] == null ? null : json["status"],
+        keterangan: json["keterangan"] == null ? null : json["keterangan"],
         totalPertemuan: json["total_pertemuan"] == null ? null : json["total_pertemuan"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         udpatedAt: json["udpated_at"],

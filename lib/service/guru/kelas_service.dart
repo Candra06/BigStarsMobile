@@ -32,14 +32,14 @@ class KelasService {
     }
   }
 
-  Future<List<KehadiranModel>> getKehadiran(String id) async {
+  Future<KehadiranModel> getKehadiran(String id) async {
     var token = await Pref.getToken();
     var response = await http.get(Uri.parse(EndPoint.kehadiran + id.toString()), headers: {"authorization": token});
     if (response.statusCode == 200) {
-      List data = jsonDecode(response.body)["data"];
-      return data.map((e) => KehadiranModel.fromJson(e)).toList();
+      KehadiranModel data = KehadiranModel.fromJson(jsonDecode(response.body)["data"]);
+      return data;
     }
-    return [];
+    return null;
   }
 
   Future<List<Absensi>> getAbsensi(String id) async {
@@ -275,6 +275,15 @@ class KelasService {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
       }
+    }
+    return false;
+  }
+
+  Future deleteKehadiran(int id) async {
+    var token = await Pref.getToken();
+    var response = await http.get(Uri.parse(EndPoint.deleteKehadiran + id.toString()), headers: {'Authorization': token});
+    if (response.statusCode == 200) {
+      return true;
     }
     return false;
   }

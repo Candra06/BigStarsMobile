@@ -43,45 +43,77 @@ class _KehadiranKelasGuruState extends State<KehadiranKelasGuru> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Config.primary,
-          onPressed: () {
-            _addNewKehadiran(context, widget.id);
-          },
-          child: Icon(
-            Icons.add,
-            color: Config.textWhite,
-          )),
-      body: load
-          ? LinearProgressIndicator(
-              color: Config.primary,
-              backgroundColor: Config.boxYellowLight,
-            )
-          : Container(
-              margin: EdgeInsets.only(
-                top: 16,
-              ),
-              child: FutureBuilder(
-                future: Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.id),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  return Consumer<KelasProvider>(builder: (context, data, _) {
-                    return ListView.builder(
-                        itemCount: data.listKehadiranModel.length,
-                        itemBuilder: (BuildContext context, int i) {
-                          return ItemListKehadiran(
-                            data: data.listKehadiranModel[i],
-                          );
-                        });
-                  });
-                },
-              ),
-            ),
+    return FutureBuilder(
+      future: Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.id),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return Consumer<KelasProvider>(builder: (context, data, _) {
+          return Scaffold(
+            floatingActionButton: data.kehadiranModel.aksesAdd == true
+                ? FloatingActionButton(
+                    backgroundColor: Config.primary,
+                    onPressed: () {
+                      _addNewKehadiran(context, widget.id);
+                    },
+                    child: Icon(
+                      Icons.add,
+                      color: Config.textWhite,
+                    ))
+                : Container(),
+            body: ListView.builder(
+                itemCount: data.kehadiranModel.dataKehadiran.length,
+                itemBuilder: (BuildContext context, int i) {
+                  return ItemListKehadiran(
+                    data: data.kehadiranModel.dataKehadiran[i],
+                  );
+                }),
+          );
+        });
+      },
     );
+    // return Scaffold(
+    //   floatingActionButton: FloatingActionButton(
+    //       backgroundColor: Config.primary,
+    //       onPressed: () {
+    //         _addNewKehadiran(context, widget.id);
+    //       },
+    //       child: Icon(
+    //         Icons.add,
+    //         color: Config.textWhite,
+    //       )),
+    //   body: load
+    //       ? LinearProgressIndicator(
+    //           color: Config.primary,
+    //           backgroundColor: Config.boxYellowLight,
+    //         )
+    //       : Container(
+    //           margin: EdgeInsets.only(
+    //             top: 16,
+    //           ),
+    //           child: FutureBuilder(
+    //             future: Provider.of<KelasProvider>(context, listen: false).getKehadiran(widget.id),
+    //             builder: (context, snapshot) {
+    //               if (snapshot.connectionState == ConnectionState.waiting) {
+    //                 return Center(
+    //                   child: CircularProgressIndicator(),
+    //                 );
+    //               }
+    //               return Consumer<KelasProvider>(builder: (context, data, _) {
+    //                 return ListView.builder(
+    //                     itemCount: data.kehadiranModel.dataKehadiran.length,
+    //                     itemBuilder: (BuildContext context, int i) {
+    //                       return ItemListKehadiran(
+    //                         data: data.kehadiranModel.dataKehadiran[i],
+    //                       );
+    //                     });
+    //               });
+    //             },
+    //           ),
+    //         ),
+    // );
   }
 }

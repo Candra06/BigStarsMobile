@@ -126,12 +126,12 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
     super.initState();
   }
 
+  Future backPress(BuildContext context) => Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '2');
+
   @override
   Widget build(BuildContext context) {
-   
-
     return WillPopScope(
-      onWillPop: () => Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '2'),
+      onWillPop: () => backPress(context),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -170,33 +170,24 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
           //     itemBuilder: (BuildContext bc, int i) {
           //       return ItemListFee();
           //     }),
-          child: Column(
-            children: [
-              // isLoading ? loadGenerateFeebtn() : generateFeebtn(),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              FutureBuilder(
-                future: Provider.of<FinanceProvider>(context, listen: false).getFeeGuru(_filter),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  return Consumer<FinanceProvider>(
-                    builder: (context, data, _) => ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: data.ListFeeGuru.length,
-                        itemBuilder: (BuildContext bc, int i) {
-                          return ItemListFee(
-                            fee: data.ListFeeGuru[i],
-                          );
-                        }),
-                  );
-                },
-              ),
-            ],
+          child: FutureBuilder(
+            future: Provider.of<FinanceProvider>(context, listen: false).getFeeGuru(_filter),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return Consumer<FinanceProvider>(
+                builder: (context, data, _) => ListView.builder(
+                    itemCount: data.ListFeeGuru.length,
+                    itemBuilder: (BuildContext bc, int i) {
+                      return ItemListFee(
+                        fee: data.ListFeeGuru[i],
+                      );
+                    }),
+              );
+            },
           ),
         ),
       ),

@@ -26,11 +26,11 @@ class _InvoiceFeeState extends State<InvoiceFee> {
         builder: (BuildContext context) {
           return AlertDialog(
             content: Container(
-              // height: 400,
+              height: 300,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Lottie.asset('assets/lottie/success-delete.json'),
+                  Lottie.asset('assets/lottie/success.json'),
                   SizedBox(
                     height: 10,
                   ),
@@ -115,7 +115,7 @@ class _InvoiceFeeState extends State<InvoiceFee> {
         ),
         backgroundColor: Config.textWhite,
         title: Text(
-          "Inovice Pembayaran Fee",
+          "Invoice Pembayaran Fee",
           style: TextStyle(color: Config.primary),
         ),
       ),
@@ -196,23 +196,23 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Jumlah Pertemuan',
-                          ),
-                          Text(
-                            widget.fee.jumlah.toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       Text(
+                    //         'Jumlah Pertemuan',
+                    //       ),
+                    //       Text(
+                    //         widget.fee.jumlah.toString(),
+                    //         style: TextStyle(
+                    //           fontWeight: FontWeight.bold,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(

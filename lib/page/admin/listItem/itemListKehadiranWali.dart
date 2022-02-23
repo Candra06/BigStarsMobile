@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 
 class ItemListKehadiranWali extends StatefulWidget {
-  final KehadiranModel data;
+  final ListKehadiran data;
   const ItemListKehadiranWali({Key key, this.data}) : super(key: key);
 
   @override

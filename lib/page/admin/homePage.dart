@@ -177,262 +177,257 @@ class _HomeAdminState extends State<HomeAdmin> {
                           ? Center(
                               child: CircularProgressIndicator(),
                             )
-                          : SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          child: Container(
-                                        margin: EdgeInsets.only(right: 4),
-                                        decoration: BoxDecoration(color: Config.boxGreen, borderRadius: BorderRadius.circular(10)),
-                                        padding: EdgeInsets.all(8),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Siswa',
-                                              style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
-                                            ),
-                                            Text(
-                                              dashboardModel.siswa.toString(),
-                                              style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 24),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                      Expanded(
-                                          child: Container(
-                                        margin: EdgeInsets.only(left: 4),
-                                        decoration: BoxDecoration(color: Config.boxRed, borderRadius: BorderRadius.circular(10)),
-                                        padding: EdgeInsets.all(8),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Kelas',
-                                              style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
-                                            ),
-                                            Text(
-                                              dashboardModel.kelas.toString(),
-                                              style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 24),
-                                            ),
-                                          ],
-                                        ),
-                                      ))
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          child: Container(
-                                        margin: EdgeInsets.only(right: 4),
-                                        decoration: BoxDecoration(color: Config.boxBlue, borderRadius: BorderRadius.circular(10)),
-                                        padding: EdgeInsets.all(8),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Guru',
-                                              style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
-                                            ),
-                                            Text(
-                                              dashboardModel.guru.toString(),
-                                              style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 24),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                      Expanded(
-                                          child: Container(
-                                        margin: EdgeInsets.only(left: 4),
-                                        decoration: BoxDecoration(color: Config.boxYellow, borderRadius: BorderRadius.circular(10)),
-                                        padding: EdgeInsets.all(8),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Kelas Aktif',
-                                              style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
-                                            ),
-                                            Text(
-                                              dashboardModel.kelasAktif.toString(),
-                                              style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 24),
-                                            ),
-                                          ],
-                                        ),
-                                      ))
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  GridView.count(
-                                    crossAxisCount: 3,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, Routes.LIST_MAPEL);
-                                        },
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
                                         child: Container(
-                                            height: 90,
-                                            margin: EdgeInsets.all(4),
-                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset('assets/images/icons/iconMapel.png'),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text('Mapel')
-                                              ],
-                                            )),
+                                      margin: EdgeInsets.only(right: 4),
+                                      decoration: BoxDecoration(color: Config.boxGreen, borderRadius: BorderRadius.circular(10)),
+                                      padding: EdgeInsets.all(8),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Siswa',
+                                            style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
+                                          ),
+                                          Text(
+                                            dashboardModel.siswa.toString(),
+                                            style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 24),
+                                          ),
+                                        ],
                                       ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, Routes.LIST_SPP);
-                                        },
+                                    )),
+                                    Expanded(
                                         child: Container(
-                                            height: 90,
-                                            margin: EdgeInsets.all(4),
-                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset('assets/images/icons/iconSPP.png'),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text('SPP Murid')
-                                              ],
-                                            )),
+                                      margin: EdgeInsets.only(left: 4),
+                                      decoration: BoxDecoration(color: Config.boxRed, borderRadius: BorderRadius.circular(10)),
+                                      padding: EdgeInsets.all(8),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Kelas',
+                                            style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
+                                          ),
+                                          Text(
+                                            dashboardModel.kelas.toString(),
+                                            style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 24),
+                                          ),
+                                        ],
                                       ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, Routes.LIST_FEE);
-                                        },
+                                    ))
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
                                         child: Container(
-                                            height: 90,
-                                            margin: EdgeInsets.all(4),
-                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset('assets/images/icons/iconFee.png'),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text('Fee Guru')
-                                              ],
-                                            )),
+                                      margin: EdgeInsets.only(right: 4),
+                                      decoration: BoxDecoration(color: Config.boxBlue, borderRadius: BorderRadius.circular(10)),
+                                      padding: EdgeInsets.all(8),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Guru',
+                                            style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
+                                          ),
+                                          Text(
+                                            dashboardModel.guru.toString(),
+                                            style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 24),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  GridView.count(
-                                    crossAxisCount: 3,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, Routes.DATA_GURU_ABSENSI);
-                                        },
+                                    )),
+                                    Expanded(
                                         child: Container(
-                                            height: 90,
-                                            margin: EdgeInsets.all(4),
-                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset('assets/images/icons/iconAbsensi.png'),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text('Absensi')
-                                              ],
-                                            )),
+                                      margin: EdgeInsets.only(left: 4),
+                                      decoration: BoxDecoration(color: Config.boxYellow, borderRadius: BorderRadius.circular(10)),
+                                      padding: EdgeInsets.all(8),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Wali',
+                                            style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
+                                          ),
+                                          Text(
+                                            dashboardModel.wali.toString(),
+                                            style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 24),
+                                          ),
+                                        ],
                                       ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, Routes.RULES_SETTING);
-                                        },
-                                        child: Container(
-                                            height: 90,
-                                            margin: EdgeInsets.all(4),
-                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset('assets/images/icons/iconAbsensi.png'),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  'Pengaturan Rules',
-                                                  textAlign: TextAlign.center,
-                                                )
-                                              ],
-                                            )),
-                                      ),
-                                    ],
-                                  ),
+                                    ))
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                GridView.count(
+                                  crossAxisCount: 3,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(context, Routes.LIST_MAPEL);
+                                      },
+                                      child: Container(
+                                          height: 90,
+                                          margin: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset('assets/images/icons/iconMapel.png'),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text('Mapel')
+                                            ],
+                                          )),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(context, Routes.LIST_SPP);
+                                      },
+                                      child: Container(
+                                          height: 90,
+                                          margin: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset('assets/images/icons/iconSPP.png'),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text('SPP Murid')
+                                            ],
+                                          )),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(context, Routes.LIST_FEE);
+                                      },
+                                      child: Container(
+                                          height: 90,
+                                          margin: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset('assets/images/icons/iconFee.png'),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text('Fee Guru')
+                                            ],
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                                GridView.count(
+                                  crossAxisCount: 3,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(context, Routes.DATA_GURU_ABSENSI);
+                                      },
+                                      child: Container(
+                                          height: 90,
+                                          margin: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset('assets/images/icons/iconAbsensi.png'),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text('Absensi')
+                                            ],
+                                          )),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(context, Routes.RULES_SETTING);
+                                      },
+                                      child: Container(
+                                          height: 90,
+                                          margin: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Config.borderInput, width: 1)),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset('assets/images/icons/iconAbsensi.png'),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                'Pengaturan Rules',
+                                                textAlign: TextAlign.center,
+                                              )
+                                            ],
+                                          )),
+                                    ),
+                                  ],
+                                ),
 
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text('Kelas Hari Ini'),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  // Container(
-                                  //   child: ListView(
-                                  //     children: [
-                                  //       for (var i = 0; i < todayKelas.length; i++) ...{
-                                  //         ItemKelasToday(data: todayKelas[i]),
-                                  //       }
-                                  //     ],
-                                  //   ),
-                                  // ),
-                                  if (dashboardModel.kelasToday.length == 0) ...{
-                                    Center(
-                                      child: Text('Tidak ada kelas hari ini'),
-                                    )
-                                  } else ...{
-                                    Container(
-                                      margin: EdgeInsets.only(bottom: 10),
-                                      constraints: BoxConstraints(minHeight: 100, maxHeight: 250),
-                                      child: ListView.builder(
-                                          shrinkWrap: true,
-                                          physics: NeverScrollableScrollPhysics(),
-                                          itemCount: dashboardModel.kelasToday.length,
-                                          itemBuilder: (BuildContext cotext, int i) {
-                                            if (dashboardModel.kelasToday.isEmpty) {
-                                              return Center(
-                                                child: Text('Tidak ada kelas hari ini'),
-                                              );
-                                            } else {
-                                              return Container(
-                                                margin: i == (dashboardModel.kelasToday.length - 1) ? EdgeInsets.only(bottom: 30) : EdgeInsets.only(bottom: 0),
-                                                child: ItemKelasToday(
-                                                  data: dashboardModel.kelasToday[i],
-                                                ),
-                                              );
-                                            }
-                                          }),
-                                    )
-                                  }
-                                ],
-                              ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text('Kelas Hari Ini'),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                // Container(
+                                //   child: ListView(
+                                //     children: [
+                                //       for (var i = 0; i < todayKelas.length; i++) ...{
+                                //         ItemKelasToday(data: todayKelas[i]),
+                                //       }
+                                //     ],
+                                //   ),
+                                // ),
+                                if (dashboardModel.kelasToday.length == 0) ...{
+                                  Center(
+                                    child: Text('Tidak ada kelas hari ini'),
+                                  )
+                                } else ...{
+                                  Container(
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    constraints: BoxConstraints(minHeight: 200, maxHeight: 325),
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        // physics: NeverScrollableScrollPhysics(),
+                                        itemCount: dashboardModel.kelasToday.length,
+                                        itemBuilder: (BuildContext cotext, int i) {
+                                          if (dashboardModel.kelasToday.isEmpty) {
+                                            return Center(
+                                              child: Text('Tidak ada kelas hari ini'),
+                                            );
+                                          } else {
+                                            return Container(
+                                              margin: i == (dashboardModel.kelasToday.length - 1) ? EdgeInsets.only(bottom: 30) : EdgeInsets.only(bottom: 0),
+                                              child: ItemKelasToday(
+                                                data: dashboardModel.kelasToday[i],
+                                              ),
+                                            );
+                                          }
+                                        }),
+                                  )
+                                }
+                              ],
                             ),
                     )
                   ],

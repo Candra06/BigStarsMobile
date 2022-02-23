@@ -1,4 +1,5 @@
 import 'package:bigstars_mobile/helper/config.dart';
+import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/model/guru/kelas.dart';
 import 'package:bigstars_mobile/model/kehadiran_model.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListKehadiran.dart';
@@ -17,6 +18,7 @@ class KehadiranKelas extends StatefulWidget {
 
 class _KehadiranKelasState extends State<KehadiranKelas> {
   bool load = false;
+  String role = '';
   void _addNewKehadiran(BuildContext context, String id) {
     void onSubmit(status) {
       if (status) {
@@ -40,13 +42,16 @@ class _KehadiranKelasState extends State<KehadiranKelas> {
         });
   }
 
-  void getData() async {
-    List<KehadiranModel> data = await Provider.of<KelasProvider>(context, listen: false).getKehadiran('1');
+  void fetRole() async {
+    var tmpRole = await Pref.getRole();
+    setState(() {
+      role = tmpRole;
+    });
   }
 
   @override
   void initState() {
-    getData();
+    fetRole();
     super.initState();
   }
 
@@ -79,12 +84,14 @@ class _KehadiranKelasState extends State<KehadiranKelas> {
                       child: CircularProgressIndicator(),
                     );
                   }
+
                   return Consumer<KelasProvider>(builder: (context, data, _) {
                     return ListView.builder(
-                        itemCount: data.listKehadiranModel.length,
+                        itemCount: data.kehadiranModel.dataKehadiran.length,
                         itemBuilder: (BuildContext context, int i) {
                           return ItemListKehadiran(
-                            data: data.listKehadiranModel[i],
+                            role: role,
+                            data: data.kehadiranModel.dataKehadiran[i],
                           );
                         });
                   });

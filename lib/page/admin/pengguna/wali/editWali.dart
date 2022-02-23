@@ -102,12 +102,12 @@ class _EditWaliState extends State<EditWali> {
     insertval();
   }
 
+  Future backPress(BuildContext context) => Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () {
-        return Navigator.pushNamed(context, Routes.DETAIL_WALI, arguments: widget.wali);
-      },
+      onWillPop: () => backPress(context),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Config.textWhite,
