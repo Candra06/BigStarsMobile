@@ -117,7 +117,7 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
                         await Provider.of<KelasProvider>(context, listen: false).deleteKehadiran(widget.data.id, widget.data.idKelas).then((value) {
                           print(value);
                           if (value == true) {
-                            Config.alert(1, 'Berhasil menghapus kelas');
+                            Config.alert(1, 'Berhasil menghapus kehadiran');
                             Navigator.pop(context);
                             Navigator.pop(context);
                             return true;
