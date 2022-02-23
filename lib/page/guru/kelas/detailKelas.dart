@@ -12,8 +12,7 @@ class DetailKelasGuru extends StatefulWidget {
   _DetailKelasGuruState createState() => _DetailKelasGuruState();
 }
 
-class _DetailKelasGuruState extends State<DetailKelasGuru>
-    with SingleTickerProviderStateMixin {
+class _DetailKelasGuruState extends State<DetailKelasGuru> with SingleTickerProviderStateMixin {
   TabController controller;
 
   @override

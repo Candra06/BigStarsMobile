@@ -91,11 +91,11 @@ class _EditSiswaState extends State<EditSiswa> {
     super.initState();
   }
 
+  Future backPress(BuildContext context) => Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
+
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () {
-        return Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
-      },
+      onWillPop: () => backPress(context),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Config.textWhite,

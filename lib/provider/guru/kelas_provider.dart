@@ -14,7 +14,6 @@ class KelasProvider with ChangeNotifier {
   List<KelasModel> _allKelas = [];
 
   List<Absensi> _absensiList = [];
-  List<KehadiranModel> _listKehadiranModel = [];
   DetailKelasModel _detailKelasModel;
   KelasModel _kelasModel;
   KehadiranModel _kehadiranModel;
@@ -24,7 +23,7 @@ class KelasProvider with ChangeNotifier {
   DetailKelasModel get detailKelasModel => _detailKelasModel;
   KelasModel get kelasModel => _kelasModel;
   List<KelasModel> get allKelas => _allKelas;
-  List<KehadiranModel> get listKehadiranModel => _listKehadiranModel;
+  KehadiranModel get kehadiranModel => _kehadiranModel;
 
   List<Absensi> get listAbsensi => _absensiList;
 
@@ -56,13 +55,15 @@ class KelasProvider with ChangeNotifier {
     }
   }
 
-  Future<List<KehadiranModel>> getKehadiran(String id) async {
+  Future<KehadiranModel> getKehadiran(String id) async {
     try {
-      _listKehadiranModel = await KelasService().getKehadiran(id);
+      _kehadiranModel = await KelasService().getKehadiran(id);
+
       notifyListeners();
-      return _listKehadiranModel;
+      return _kehadiranModel;
     } catch (e) {
-      return [];
+      print(e);
+      return null;
     }
   }
 
@@ -124,18 +125,15 @@ class KelasProvider with ChangeNotifier {
 
   Future addKehadiran(String id, Map<String, dynamic> data) async {
     bool status = await KelasService().addKehadiran(id, data);
-    _listKehadiranModel = await getKehadiran(id);
+    _kehadiranModel = await getKehadiran(id);
     notifyListeners();
     return status;
   }
 
-
-
   Future<bool> addKehadiranGuru(String id, Map<String, dynamic> data) async {
-   
     try {
       bool status = await KelasService().addKehadiranGuru(id, data);
-      
+
       return status;
     } catch (e) {
       print(e);
@@ -143,11 +141,10 @@ class KelasProvider with ChangeNotifier {
     }
   }
 
-    Future<bool> updateKehadiranGuru(String id, Map<String, dynamic> data) async {
-   
+  Future<bool> updateKehadiranGuru(String id, Map<String, dynamic> data) async {
     try {
       bool status = await KelasService().updateKehadiranGuru(id, data);
-      
+
       return status;
     } catch (e) {
       print(e);
@@ -205,5 +202,17 @@ class KelasProvider with ChangeNotifier {
     bool status = await KelasService().addJadwal(id, data);
     getDetail(id);
     return status;
+  }
+
+  Future deleteKehadiran(int id, String idKelas) async {
+    try {
+      bool status = await KelasService().deleteKehadiran(id);
+      getKehadiran(idKelas.toString());
+      notifyListeners();
+      return status;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 }

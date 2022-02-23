@@ -18,7 +18,7 @@ class DetailKelasWali extends StatefulWidget {
 
 class _DetailKelasWaliState extends State<DetailKelasWali> with SingleTickerProviderStateMixin {
   TabController controller;
-  List<KehadiranModel> _kehadiran;
+  KehadiranModel _kehadiran;
   DetailKelasModel _kelasModel;
   bool load = true;
 

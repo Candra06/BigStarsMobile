@@ -180,6 +180,7 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                                       width: MediaQuery.of(context).size.width,
                                       // padding: EdgeInsets.all(8),
                                       child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
@@ -233,6 +234,23 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                                                 ),
                                                 Text(
                                                   detailSPPModel.totalPertemuan.toString(),
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Keterangan',
+                                                ),
+                                                Text(
+                                                  detailSPPModel.keterangan ?? '-',
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                   ),

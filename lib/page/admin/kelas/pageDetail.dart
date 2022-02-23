@@ -187,10 +187,7 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                       onPressed: () async {
                         Navigator.pop(context);
                         // handleHapus();
-                        var ids = await Provider.of<KelasProvider>(context,
-                                listen: false)
-                            .deleteJadwal(id)
-                            .then((value) {
+                        var ids = await Provider.of<KelasProvider>(context, listen: false).deleteJadwal(id).then((value) {
                           if (value) {
                             _showSuccesHapus();
                             getData();
@@ -230,8 +227,7 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                     height: 10,
                   ),
                   Center(
-                    child:
-                        Text('Apakah anda yakin akan mengubah status kelas ?'),
+                    child: Text('Apakah anda yakin akan mengubah status kelas ?'),
                   ),
                 ],
               ),
@@ -280,10 +276,7 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                         // print(status);
                         Navigator.pop(context);
                         // // handleHapus();
-                        var ids = await Provider.of<KelasProvider>(context,
-                                listen: false)
-                            .updateStatusKelas(id, status)
-                            .then((value) {
+                        var ids = await Provider.of<KelasProvider>(context, listen: false).updateStatusKelas(id, status).then((value) {
                           // _showSuccesHapus();
                           // print(value);
                           Config.alert(1, 'Berhasil mengubah status kelas');
@@ -312,10 +305,8 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
     setState(() {
       load = true;
     });
-    detailKelas = await Provider.of<KelasProvider>(context, listen: false)
-        .getDetailAdmin(widget.kelas.id);
-    guruModels =
-        await Provider.of<GuruProvider>(context, listen: false).getData();
+    detailKelas = await Provider.of<KelasProvider>(context, listen: false).getDetailAdmin(widget.kelas.id);
+    guruModels = await Provider.of<GuruProvider>(context, listen: false).getData();
     // print(widget.gurus.length);
     int jumlahGuru = guruModels.length;
     setState(() {
@@ -351,59 +342,37 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                      padding: EdgeInsets.all(16), child: Text('Data Kelas')),
-                  Config.itemDetail(
-                      'Nama Siswa', detailKelas.data.siswa ?? '-'),
+                  Container(padding: EdgeInsets.all(16), child: Text('Data Kelas')),
+                  Config.itemDetail('Nama Siswa', detailKelas.data.siswa ?? '-'),
                   Config.itemDetail('Nama Guru', detailKelas.data.guru ?? '-'),
-                  Config.itemDetail(
-                      'Mata Pelajaran', detailKelas.data.mapel ?? '-'),
-                  Config.itemDetail(
-                      'SPP',
-                      detailKelas.data.spp == null
-                          ? '-'
-                          : Config.formatRupiah(
-                              int.parse(detailKelas.data.spp))),
-                  Config.itemDetail(
-                      'Fee Guru',
-                      detailKelas.data.feeGuru == null
-                          ? '-'
-                          : Config.formatRupiah(
-                              int.parse(detailKelas.data.feeGuru))),
+                  Config.itemDetail('Mata Pelajaran', detailKelas.data.mapel ?? '-'),
+                  Config.itemDetail('SPP', detailKelas.data.spp == null ? '-' : Config.formatRupiah(int.parse(detailKelas.data.spp))),
+                  Config.itemDetail('Fee Guru', detailKelas.data.feeGuru == null ? '-' : Config.formatRupiah(int.parse(detailKelas.data.feeGuru))),
                   Config.itemDetail('Status', detailKelas.data.status ?? '-'),
                   InkWell(
                     onTap: () {
                       String tmpStatus;
-                      tmpStatus = detailKelas.data.status == 'Active'
-                          ? 'Inactive'
-                          : 'Active';
+                      tmpStatus = detailKelas.data.status == 'Active' ? 'Inactive' : 'Active';
                       _showConfirmUpdate(detailKelas.data.id, tmpStatus);
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.all(8),
                       padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: detailKelas.data.status == 'Active'
-                              ? Config.textRed
-                              : Config.boxGreen),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: detailKelas.data.status == 'Active' ? Config.textRed : Config.boxGreen),
                       child: Center(
                         child: Text(
-                          detailKelas.data.status == 'Active'
-                              ? 'Nonaktifkan Kelas'
-                              : 'Aktifkan Kelas',
+                          detailKelas.data.status == 'Active' ? 'Nonaktifkan Kelas' : 'Aktifkan Kelas',
                           style: TextStyle(color: Config.textWhite),
                         ),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        _sharingKelas(
-                            context, widget.kelas.id.toString(), gurus);
+                        _sharingKelas(context, widget.kelas.id.toString(), gurus);
                       },
                       style: ElevatedButton.styleFrom(
                         fixedSize: Size(MediaQuery.of(context).size.width, 30),
@@ -413,31 +382,32 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.share),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Sharing Kelas",
-                            style: TextStyle(color: Colors.white, fontSize: 14),
-                          ),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.share),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Sharing Kelas",
+                              style: TextStyle(color: Colors.white, fontSize: 14),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                          padding: EdgeInsets.all(16), child: Text('Jadwal')),
+                      Container(padding: EdgeInsets.all(16), child: Text('Jadwal')),
                       InkWell(
                         onTap: () {
-                          _addNewJadwal(
-                              context, detailKelas.data.id.toString(), '0');
+                          _addNewJadwal(context, detailKelas.data.id.toString(), '0');
                         },
                         child: Container(
                             padding: EdgeInsets.all(16),
@@ -459,8 +429,7 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                   for (var i = 0; i < detailKelas.hari.length; i++) ...{
                     InkWell(
                       onTap: () {
-                        _addNewJadwal(context, detailKelas.data.id.toString(),
-                            i.toString());
+                        _addNewJadwal(context, detailKelas.data.id.toString(), i.toString());
                       },
                       child: Column(
                         children: [
@@ -474,11 +443,7 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                                 Row(
                                   children: [
                                     Text(
-                                      Config.formatJam(
-                                              detailKelas.hari[i].jamMulai) +
-                                          ' - ' +
-                                          Config.formatJam(
-                                              detailKelas.hari[i].jamSelesai),
+                                      Config.formatJam(detailKelas.hari[i].jamMulai) + ' - ' + Config.formatJam(detailKelas.hari[i].jamSelesai),
                                       style: TextStyle(color: Config.textBlack),
                                     ),
                                     SizedBox(
@@ -487,8 +452,7 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                                     InkWell(
                                       onTap: () {
                                         // aksi delete
-                                        _showConfirmHapus(
-                                            detailKelas.hari[i].id);
+                                        _showConfirmHapus(detailKelas.hari[i].id);
                                       },
                                       child: Icon(
                                         Icons.delete_forever,

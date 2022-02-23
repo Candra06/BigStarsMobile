@@ -25,10 +25,12 @@ class _ListMapelState extends State<ListMapel> {
     super.initState();
   }
 
+  Future backPress(BuildContext context) => Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '0');
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '0'),
+      onWillPop: () => backPress(context),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Config.textWhite,

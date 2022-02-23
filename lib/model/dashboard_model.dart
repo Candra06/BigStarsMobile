@@ -4,7 +4,7 @@ class DashboardModel {
     this.siswa,
     this.guru,
     this.notifUnread,
-    this.kelasAktif,
+    this.wali,
     this.kelasToday,
   });
 
@@ -12,7 +12,7 @@ class DashboardModel {
   int notifUnread;
   int siswa;
   int guru;
-  int kelasAktif;
+  int wali;
   List<KelasToday> kelasToday;
 
   factory DashboardModel.fromJson(Map<String, dynamic> json) => DashboardModel(
@@ -20,7 +20,7 @@ class DashboardModel {
         siswa: json["siswa"],
         notifUnread: json["notif_unread"],
         guru: json["guru"],
-        kelasAktif: json["kelas_aktif"],
+        wali: json["wali"],
         kelasToday: json["kelas_today"] == null
             ? null
             : List<KelasToday>.from(
@@ -31,7 +31,7 @@ class DashboardModel {
         "kelas": kelas,
         "siswa": siswa,
         "guru": guru,
-        "kelas_aktif": kelasAktif,
+        "kelas_aktif": wali,
         "kelas_today": List<KelasToday>.from(kelasToday.map((x) => x)),
       };
 }

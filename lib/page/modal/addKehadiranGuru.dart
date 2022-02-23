@@ -12,7 +12,7 @@ import 'package:geolocator/geolocator.dart';
 
 class ModalTambahKehadiranGuru extends StatefulWidget {
   final String id;
-  final KehadiranModel data;
+  final ListKehadiran data;
   final void Function(bool) onSumbit;
   final String tipe;
   const ModalTambahKehadiranGuru({Key key, this.id, this.data, this.tipe, this.onSumbit}) : super(key: key);

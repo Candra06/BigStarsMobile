@@ -113,11 +113,13 @@ class _ListSppMuridState extends State<ListSppMurid> {
     });
   }
 
+  Future backPress(BuildContext context) => Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '2');
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        return Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '2');
+        return backPress(context);
       },
       child: Scaffold(
         appBar: AppBar(
@@ -158,33 +160,28 @@ class _ListSppMuridState extends State<ListSppMurid> {
           //     itemBuilder: (BuildContext bc, int i) {
           //       return ItemListSPP();
           //     }),
-          child: Column(
-            children: [
-              // isLoading ? loadGeneratesppbtn() : generateSppbtn(),
-              FutureBuilder(
-                  future: Provider.of<FinanceProvider>(context, listen: false).getSpp(_filter),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    return Consumer<FinanceProvider>(
-                      builder: (context, data, _) {
-                        return ListView.builder(
-                          itemCount: data.ListSppModel.length,
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext bc, int i) {
-                            return ItemListSPP(
-                              data: data.ListSppModel[i],
-                            );
-                          },
+          child: FutureBuilder(
+              future: Provider.of<FinanceProvider>(context, listen: false).getSpp(_filter),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Consumer<FinanceProvider>(
+                  builder: (context, data, _) {
+                    return ListView.builder(
+                      itemCount: data.ListSppModel.length,
+                      
+                      itemBuilder: (BuildContext bc, int i) {
+                        return ItemListSPP(
+                          data: data.ListSppModel[i],
                         );
                       },
                     );
-                  }),
-            ],
-          ),
+                  },
+                );
+              }),
         ),
       ),
     );

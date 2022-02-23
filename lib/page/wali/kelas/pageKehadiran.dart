@@ -6,7 +6,7 @@ import 'package:bigstars_mobile/page/modal/addKehadiranGuru.dart';
 import 'package:flutter/material.dart';
 
 class KehadiranKelasWali extends StatefulWidget {
-  final List<KehadiranModel> data;
+  final KehadiranModel data;
   const KehadiranKelasWali({Key key, this.data}) : super(key: key);
 
   @override
@@ -29,10 +29,10 @@ class _KehadiranKelasWaliState extends State<KehadiranKelasWali> {
                 top: 16,
               ),
               child: ListView.builder(
-                  itemCount: widget.data.length,
+                  itemCount: widget.data.dataKehadiran.length,
                   itemBuilder: (BuildContext context, int i) {
                     return ItemListKehadiranWali(
-                      data: widget.data[i],
+                      data: widget.data.dataKehadiran[i],
                     );
                   }),
             ),

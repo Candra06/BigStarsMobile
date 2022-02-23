@@ -71,6 +71,7 @@ class EndPoint {
   static final addKehadiranGuru = api + 'kelas/add-absen-guru/';
   static final updateKehadiranGuru = api + 'kelas/updateKehadiran/';
   static final updateKelas = api + 'kelas/updateKelas/';
+  static final deleteKehadiran = api + 'kelas/deleteKehadiran/';
 
   //rules
   static final listRules = api + 'rules/list';
