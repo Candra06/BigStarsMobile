@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
         pref.setString('user', json.encode(user.toJson()));
         setState(() {
           Provider.of<MapelProvider>(context, listen: false).getMapels();
-          Config.alert(1, 'Login berhaasil');
+          Config.alert(1, 'Login berhasil');
         });
         await Provider.of<FinanceProvider>(context, listen: false).getFinance();
         if (authProvider.user.role == 'Admin') {

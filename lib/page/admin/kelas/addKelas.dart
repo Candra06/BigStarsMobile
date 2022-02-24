@@ -105,7 +105,7 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
       "jam_mulai": txtMulai.text,
       "jam_selesai": txtSelesai.text,
     };
-    print(data);
+
     await Provider.of<KelasProvider>(context, listen: false).addKelas(data).then((value) {
       if (value) {
         _showSuccesAdd();

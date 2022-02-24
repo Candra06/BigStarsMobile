@@ -132,7 +132,7 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
         ),
         backgroundColor: Config.textWhite,
         title: Text(
-          "Inovice SPP",
+          "Invoice SPP",
           style: TextStyle(color: Config.primary),
         ),
       ),

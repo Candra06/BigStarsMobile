@@ -79,13 +79,13 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
       data["file_materi"] = tmpFile;
     }
 
-    bool value = await Provider.of<KelasProvider>(context, listen: false).addKehadiranGuru(widget.id, data);
+    Map<String, dynamic> value = await Provider.of<KelasProvider>(context, listen: false).addKehadiranGuru(widget.id, data);
     print(value);
-    if (value == true) {
-      Config.alert(1, 'Berhasil menambah kehadiran');
+    if (value['status'] == true) {
+      Config.alert(1, value['message']);
       // Navigator.pop(context);
     } else {
-      Config.alert(0, 'Gagal menambah kehadiran');
+      Config.alert(0, value['message']);
       // Navigator.pop(context);
     }
   }
@@ -107,13 +107,13 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
     }
     print(data);
     print(widget.id);
-    bool value = await Provider.of<KelasProvider>(context, listen: false).updateKehadiranGuru(widget.id, data);
+    Map<String, dynamic> value = await Provider.of<KelasProvider>(context, listen: false).updateKehadiranGuru(widget.id, data);
 
-    if (value == true) {
-      Config.alert(1, 'Berhasil memperbarui kehadiran');
+  if (value['status'] == true) {
+      Config.alert(1, value['message']);
       // Navigator.pop(context);
     } else {
-      Config.alert(0, 'Gagal memperbarui kehadiran');
+      Config.alert(0, value['message']);
       // Navigator.pop(context);
     }
   }

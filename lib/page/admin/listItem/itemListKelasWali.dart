@@ -129,7 +129,7 @@ class _ItemKelasWaliState extends State<ItemKelasWali> {
                       ),
                     ],
                   ),
-                  Config.bedgeStatus(widget.data.status)
+                  // Config.bedgeStatus(widget.data.status)
                 ],
               ),
             ),

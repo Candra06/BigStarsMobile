@@ -406,7 +406,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                                 } else ...{
                                   Container(
                                     margin: EdgeInsets.only(bottom: 10),
-                                    constraints: BoxConstraints(minHeight: 200, maxHeight: 325),
+                                    constraints: BoxConstraints(minHeight: 200, maxHeight: 250),
                                     child: ListView.builder(
                                         shrinkWrap: true,
                                         // physics: NeverScrollableScrollPhysics(),

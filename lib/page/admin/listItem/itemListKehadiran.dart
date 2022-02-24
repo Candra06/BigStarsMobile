@@ -341,17 +341,16 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             SizedBox(
               height: 8,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Jurnal',
-                ),
-                Text(
-                  widget.data.jurnal,
-                ),
-              ],
+            Text(
+              'Jurnal',
             ),
+            Text(
+              widget.data.jurnal,
+            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [],
+            // ),
 
             SizedBox(
               height: 8,

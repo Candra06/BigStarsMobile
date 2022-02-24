@@ -33,10 +33,10 @@ class _EditRulesState extends State<EditRules> {
 
     if (request == true) {
       Navigator.pushNamed(context, Routes.RULES_SETTING);
-      Config.alert(1, 'Berhasil megubah rules');
+      Config.alert(1, 'Berhasil mengubah rules');
     } else {
       Navigator.pop(context);
-      Config.alert(0, 'Gagal megubah rules');
+      Config.alert(0, 'Gagal mengubah rules');
     }
 
     // print(data);
