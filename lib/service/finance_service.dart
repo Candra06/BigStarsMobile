@@ -66,13 +66,18 @@ class FinanceService {
     }
   }
 
-  Future<FinanceModel> indexFinance() async {
+  Future<FinanceModel> indexFinance(String filtered) async {
     DateTime now = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    String bulan = DateFormat('MM').format(now);
+    String tahun = DateFormat('yyyy').format(now);
+     String url = '';
+    if (filtered != '') {
+      url = EndPoint.finance + '?' + filtered;
+    } else {
+      url = EndPoint.finance +'?bulan='+bulan+'&tahun='+tahun;
+    }
     var token = await Pref.getToken();
-    var response = await http.get(
-      Uri.parse(EndPoint.finance + formattedDate),
-      headers: {"authorization": token},
+    var response = await http.get(Uri.parse(url), headers: {"authorization": token},
     );
 
     if (response.statusCode == 200) {

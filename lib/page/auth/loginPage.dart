@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
           Provider.of<MapelProvider>(context, listen: false).getMapels();
           Config.alert(1, 'Login berhasil');
         });
-        await Provider.of<FinanceProvider>(context, listen: false).getFinance();
+        await Provider.of<FinanceProvider>(context, listen: false).getFinance('');
         if (authProvider.user.role == 'Admin') {
           await Provider.of<AuthProvider>(context, listen: false).getDashboard();
 

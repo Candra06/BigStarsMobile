@@ -1,9 +1,11 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/finance_model.dart';
+import 'package:bigstars_mobile/page/modal/modalFilterReport.dart';
 import 'package:bigstars_mobile/provider/finance_provider.dart';
 import 'package:bigstars_mobile/service/finance_service.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class FinancePage extends StatefulWidget {
@@ -19,6 +21,40 @@ class _FinancePageState extends State<FinancePage> {
   int laba;
   int totalSpp;
   int totalFee;
+  List<String> filter = [];
+  String _filter = '';
+
+  void modelFilter(BuildContext context) {
+    void filtered(nama, bulan, tahun) async {
+     
+      if (bulan != '') {
+        filter.removeWhere((element) => element.startsWith('bulan'));
+        filter.add('bulan=' + bulan);
+      }
+      if (tahun != '') {
+        filter.removeWhere((element) => element.startsWith('tahun'));
+        filter.add('tahun=' + tahun);
+      }
+      setState(() {
+        _filter = filter.join('&').toString();
+        getData();
+      });
+    }
+
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        context: context,
+        isScrollControlled: true,
+        builder: (builder) {
+          return ModalFilterReport(
+            // id: id,
+            onsubmit: filtered,
+          );
+        });
+  }
+
   getData() async {
     setState(() {
       load = true;
@@ -27,7 +63,7 @@ class _FinancePageState extends State<FinancePage> {
     //     Provider.of<FinanceProvider>(context, listen: false);
     // financeModel = financeProvider.Finance;
 
-    financeModel = await Provider.of<FinanceProvider>(context, listen: false).getFinance();
+    financeModel = await Provider.of<FinanceProvider>(context, listen: false).getFinance(_filter);
     setState(() {
       load = false;
     });
@@ -45,6 +81,20 @@ class _FinancePageState extends State<FinancePage> {
       appBar: AppBar(
         backgroundColor: Config.textWhite,
         automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            onPressed: () {
+              filter = [];
+              _filter = '';
+              modelFilter(context);
+            },
+            icon: Icon(
+              FontAwesomeIcons.filter,
+              size: 20,
+              color: Config.primary,
+            ),
+          ),
+        ],
         title: Text(
           "Keuangan",
           style: TextStyle(color: Config.primary),

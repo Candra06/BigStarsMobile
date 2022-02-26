@@ -23,8 +23,8 @@ class FinanceProvider with ChangeNotifier {
   List<ReportModel> get ListReportModel => _listReport;
   get ListFeeGuru => _listFeeGuru;
 
-  Future getFinance() async {
-    FinanceModel finance = await FinanceService().indexFinance();
+  Future getFinance(String filtered) async {
+    FinanceModel finance = await FinanceService().indexFinance(filtered);
     _finance = finance;
     notifyListeners();
     return _finance;

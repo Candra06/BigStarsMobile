@@ -33,7 +33,7 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Lottie.asset('assets/lottie/success-delete.json'),
+                  Lottie.asset('assets/lottie/success.json'),
                   SizedBox(
                     height: 10,
                   ),

@@ -36,7 +36,7 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
   String valHari;
 
   List<bool> checkHari = [false, false, false, false, false, false, false];
-  List<String> dataHari = ["Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu", "Minggu"];
+  List<String> dataHari = ["Senin", "Selasa", "Rabu", "Kamis", "Jum`at", "Sabtu", "Minggu"];
 
   bool load = false;
 
@@ -50,7 +50,7 @@ class _AddKelasAdminState extends State<AddKelasAdmin> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Lottie.asset('assets/lottie/success-delete.json'),
+                  Lottie.asset('assets/lottie/success.json'),
                   SizedBox(
                     height: 10,
                   ),
