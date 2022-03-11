@@ -29,7 +29,7 @@ class _DetailKelasPageWaliState extends State<DetailKelasPageWali> {
                   Config.itemDetail('Nama Siswa', widget.data.data.siswa),
                   Config.itemDetail('Nama Guru', widget.data.data.guru),
                   Config.itemDetail('Mata Pelajaran', widget.data.data.mapel),
-                  Config.itemDetail('SPP', Config.formatRupiah(int.parse(widget.data.data.spp))),
+                  Config.itemDetail('SPP', Config.formatRupiah(int.parse(widget.data.data.spp.toString()))),
                   Config.itemDetail('Status', widget.data.data.status),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -52,7 +52,7 @@ class _DetailKelasPageWaliState extends State<DetailKelasPageWali> {
                                 Row(
                                   children: [
                                     Text(
-                                      Config.formatJam(widget.data.hari[i].jamMulai)+' - '+Config.formatJam(widget.data.hari[i].jamSelesai),
+                                      Config.formatJam(widget.data.hari[i].jamMulai) + ' - ' + Config.formatJam(widget.data.hari[i].jamSelesai),
                                       style: TextStyle(color: Config.textGrey),
                                     ),
                                     SizedBox(

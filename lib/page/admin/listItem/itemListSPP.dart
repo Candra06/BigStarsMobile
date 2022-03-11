@@ -56,7 +56,7 @@ class _ItemListSPPState extends State<ItemListSPP> {
                                 ),
                               ),
                               Text(
-                                Config.formatRupiah(int.parse(widget.data.jumlah)),
+                                Config.formatRupiah(int.parse(widget.data.jumlah.toString())),
                                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                               ),
                             ],

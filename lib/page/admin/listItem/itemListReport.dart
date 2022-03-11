@@ -59,7 +59,7 @@ class _ItemListReportState extends State<ItemListReport> {
                                 ),
                               ),
                               Text(
-                                Config.formatRupiah(int.parse(widget.report.nominal)),
+                                Config.formatRupiah(int.parse(widget.report.nominal.toString())),
                                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                               ),
                             ],

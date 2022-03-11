@@ -58,10 +58,8 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
       load = true;
     });
     role = Provider.of<AuthProvider>(context, listen: false).user.role;
-    detailKelas = await Provider.of<KelasProvider>(context, listen: false)
-        .getDetail(widget.id.toString());
-    guruModels =
-        await Provider.of<GuruProvider>(context, listen: false).getData();
+    detailKelas = await Provider.of<KelasProvider>(context, listen: false).getDetail(widget.id.toString());
+    guruModels = await Provider.of<GuruProvider>(context, listen: false).getData();
     // print(widget.gurus.length);
     int jumlahGuru = guruModels.length;
     setState(() {
@@ -95,11 +93,11 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                      padding: EdgeInsets.all(16), child: Text('Data Kelas')),
+                  Container(padding: EdgeInsets.all(16), child: Text('Data Kelas')),
                   Config.itemDetail('Nama Siswa', detailKelas.data.siswa),
                   Config.itemDetail('Nama Guru', detailKelas.data.guru),
                   Config.itemDetail('Mata Pelajaran', detailKelas.data.mapel),
+                  Config.itemDetail('Fee Guru', detailKelas.data.feeGuru == null ? '-' : Config.formatRupiah(int.parse(detailKelas.data.feeGuru.toString()))),
                   Config.itemDetail('Status', detailKelas.data.status),
                   role == "Guru"
                       ? Container()
@@ -110,8 +108,7 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
                               _sharingKelas(context, widget.id, gurus);
                             },
                             style: ElevatedButton.styleFrom(
-                              fixedSize:
-                                  Size(MediaQuery.of(context).size.width, 30),
+                              fixedSize: Size(MediaQuery.of(context).size.width, 30),
                               primary: Config.primary,
                               onPrimary: Config.textWhite,
                               shape: RoundedRectangleBorder(
@@ -128,8 +125,7 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
                                 ),
                                 Text(
                                   "Sharing Kelas",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 14),
+                                  style: TextStyle(color: Colors.white, fontSize: 14),
                                 ),
                               ],
                             ),
@@ -138,8 +134,7 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                          padding: EdgeInsets.all(16), child: Text('Jadwal')),
+                      Container(padding: EdgeInsets.all(16), child: Text('Jadwal')),
                     ],
                   ),
                   for (var i = 0; i < detailKelas.hari.length; i++) ...{
@@ -157,9 +152,7 @@ class _DetailKelasPageGuruState extends State<DetailKelasPageGuru> {
                                 Row(
                                   children: [
                                     Text(
-                                      detailKelas.hari[i].jamMulai +
-                                          ' - ' +
-                                          detailKelas.hari[i].jamSelesai,
+                                      detailKelas.hari[i].jamMulai + ' - ' + detailKelas.hari[i].jamSelesai,
                                       style: TextStyle(color: Config.textGrey),
                                     ),
                                     SizedBox(

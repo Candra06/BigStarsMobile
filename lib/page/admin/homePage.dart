@@ -37,7 +37,8 @@ class _HomeAdminState extends State<HomeAdmin> {
     dashboardModel = authProvider.dashboardModel;
     // userModel = authProvider.user;
     setState(() {
-      notifUnread = dashboardModel.notifUnread;
+      notifUnread = dashboardModel.notifUnread ?? 0;
+      ;
       name = tmpName;
       username = tmpUsername;
       load = false;

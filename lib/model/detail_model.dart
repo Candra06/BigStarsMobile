@@ -47,11 +47,11 @@ class Data {
     String guru;
     String mapel;
     int id;
-    String idMapel;
-    String idGuru;
-    String idSiswa;
-    String spp;
-    String feeGuru;
+    int idMapel;
+    int idGuru;
+    int idSiswa;
+    int spp;
+    int feeGuru;
     String status;
     DateTime createdAt;
     DateTime updatedAt;
@@ -99,7 +99,7 @@ class Hari {
     });
 
     int id;
-    String idKelas;
+    int idKelas;
     String hari;
     String jamMulai;
     String jamSelesai;

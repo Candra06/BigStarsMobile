@@ -42,7 +42,7 @@ class KelasTodayWali {
   String siswa;
   String guru;
   String mapel;
-  String idKelas;
+  int idKelas;
   String status;
   String jamMulai;
   String jamSelesai;

@@ -1,5 +1,6 @@
 class EndPoint {
-  static final String server = 'https://bigstars.waserdajaya.store/';
+  static final String server = 'https://v2.bigstartsjember.my.id/';
+  // static final String server = 'https://bigstars.waserdajaya.store/';
   static final String api = server + 'api/';
   // dashboard
   static final String dashboard = api + 'dashboard-admin';

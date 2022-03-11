@@ -6,9 +6,11 @@ import 'package:bigstars_mobile/helper/input.dart';
 import 'package:bigstars_mobile/model/kehadiran_model.dart';
 import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 class ModalTambahKehadiranGuru extends StatefulWidget {
   final String id;
@@ -35,13 +37,60 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
   bool isLoading = false;
   Position currentPosition;
 
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location permissions are permantly denied, we cannot request permissions.');
+    }
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse && permission != LocationPermission.always) {
+        return Future.error('Location permissions are denied (actual value: $permission).');
+      }
+    }
+
+    return await Geolocator.getCurrentPosition();
+  }
+
+  cekPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    permission = await Geolocator.checkPermission();
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      Config.alert(0, 'Akses lokasi tidak aktif, silahkan aktifkan akses lokasi anda');
+      return '0';
+    } else if (permission == LocationPermission.deniedForever) {
+      Config.alert(0, 'Akses lokasi tidak aktif, silahkan aktifkan akses lokasi anda');
+      return '0';
+    } else if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse && permission != LocationPermission.always) {
+        Config.alert(0, 'Akses lokasi tidak aktif, silahkan aktifkan akses lokasi anda');
+        return '0';
+      }
+    } else {
+      return '1';
+    }
+  }
+
   getCurrentLocation() {
     Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best, forceAndroidLocationManager: true).then((Position position) {
       setState(() {
         currentPosition = position;
       });
     }).catchError((e) {
-      print(e);
+      // print(e);
     });
   }
 
@@ -64,71 +113,80 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
   }
 
   Future addKehadiran() async {
-    data = {
-      "materi": txtMateri.text,
-      "jurnal": txtJurnal.text,
-      "status": status,
-      "poin": txtPoin.text,
-      'latitude': currentPosition.latitude.toString(),
-      'longitude': currentPosition.longitude.toString()
-    };
-
-    if (tmpFile == null) {
-      data["file_materi"] = '-';
-    }else{
-      data["file_materi"] = tmpFile;
-    }
-
-    Map<String, dynamic> value = await Provider.of<KelasProvider>(context, listen: false).addKehadiranGuru(widget.id, data);
-    print(value);
-    if (value['status'] == true) {
-      Config.alert(1, value['message']);
-      // Navigator.pop(context);
+    await Firebase.initializeApp();
+    if (currentPosition.latitude.toString().isEmpty || currentPosition.longitude.toString().isEmpty) {
+      Config.alert(0, 'Gagal mendapatkan lokasi anda saat ini');
     } else {
-      Config.alert(0, value['message']);
-      // Navigator.pop(context);
+      data = {
+        "materi": txtMateri.text,
+        "jurnal": txtJurnal.text,
+        "status": status,
+        "poin": txtPoin.text,
+        'latitude': currentPosition.latitude.toString(),
+        'longitude': currentPosition.longitude.toString()
+      };
+
+      if (tmpFile == null) {
+        data["file_materi"] = '-';
+      } else {
+        data["file_materi"] = tmpFile;
+      }
+
+      Map<String, dynamic> value = await Provider.of<KelasProvider>(context, listen: false).addKehadiranGuru(widget.id, data);
+      if (mounted) {
+        if (value['status'] == true) {
+          Config.alert(1, value['message']);
+          // Navigator.pop(context);
+        } else {
+          FirebaseCrashlytics.instance.crash();
+          Config.alert(0, value['message']);
+          // Navigator.pop(context);
+        }
+      }
     }
   }
 
   Future updateKehadiran() async {
-    data = {
-      "materi": txtMateri.text,
-      "jurnal": txtJurnal.text,
-      "status": status,
-      "poin": txtPoin.text,
-      'latitude': currentPosition.latitude.toString(),
-      'longitude': currentPosition.longitude.toString()
-    };
-
-    if (tmpFile == null) {
-      data["file_materi"] = '-';
-    }else{
-      data["file_materi"] = tmpFile;
-    }
-    print(data);
-    print(widget.id);
-    Map<String, dynamic> value = await Provider.of<KelasProvider>(context, listen: false).updateKehadiranGuru(widget.id, data);
-
-  if (value['status'] == true) {
-      Config.alert(1, value['message']);
-      // Navigator.pop(context);
+    if (currentPosition.latitude.toString() == '' || currentPosition.longitude.toString() == '') {
+      Config.alert(0, 'Gagal mendapatkan lokasi anda saat ini');
     } else {
-      Config.alert(0, value['message']);
-      // Navigator.pop(context);
+      data = {
+        "materi": txtMateri.text,
+        "jurnal": txtJurnal.text,
+        "status": status,
+        "poin": txtPoin.text,
+        'latitude': currentPosition.latitude.toString(),
+        'longitude': currentPosition.longitude.toString()
+      };
+
+      if (tmpFile == null) {
+        data["file_materi"] = '-';
+      } else {
+        data["file_materi"] = tmpFile;
+      }
+      Map<String, dynamic> value = await Provider.of<KelasProvider>(context, listen: false).updateKehadiranGuru(widget.id, data);
+
+      if (value['status'] == true) {
+        Config.alert(1, value['message']);
+        // Navigator.pop(context);
+      } else {
+        Config.alert(0, value['message']);
+        // Navigator.pop(context);
+      }
     }
   }
 
   getData() {
-    print(widget.id);
     if (widget.tipe == "Update") {
       txtMateri.text = widget.data.materi;
       txtJurnal.text = widget.data.jurnal;
-      txtPoin.text = widget.data.poinSiswa;
+      txtPoin.text = widget.data.poinSiswa.toString();
     }
   }
 
   @override
   void initState() {
+    _determinePosition();
     getData();
     getCurrentLocation();
     super.initState();
@@ -142,18 +200,23 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
           setState(() {
             isLoading = true;
           });
-          if (widget.tipe == "Update") {
-            await updateKehadiran();
+          var lokasi = cekPermission();
+          if (lokasi.toString() == '0') {
+            Config.alert(0, 'Tidak dapat menambah absensi');
           } else {
-            await addKehadiran();
+            if (widget.tipe == "Update") {
+              await updateKehadiran();
+            } else {
+              await addKehadiran();
+            }
+
+            setState(() {
+              isLoading = false;
+              widget.onSumbit(true);
+            });
+
+            Navigator.pop(context);
           }
-
-          setState(() {
-            isLoading = false;
-            widget.onSumbit(true);
-          });
-
-          Navigator.pop(context);
         },
         child: Text(
           'SIMPAN',
@@ -164,7 +227,9 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
 
     Widget tombolLoad() {
       return TextButton(
-        onPressed: () async {},
+        onPressed: () async {
+          Navigator.pop(context);
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -253,7 +318,6 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
                   onChanged: (value) {
                     setState(() {
                       status = value;
-                      print(status);
                     });
                   },
                 ),

@@ -1,6 +1,5 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
-import 'package:bigstars_mobile/page/admin/listItem/listItemGuru.dart';
 import 'package:bigstars_mobile/provider/guru_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

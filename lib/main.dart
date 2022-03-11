@@ -1,5 +1,4 @@
-import 'dart:convert';
-import 'dart:io';
+// import 'dart:convert';
 import 'package:bigstars_mobile/helper/appConfig.dart';
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/route.dart';
@@ -106,32 +105,32 @@ class _MyAppState extends State<MyApp> {
   }
 
   //menampilkan baloon notifikasi dari flutter_locacl_notification
-  Future _showNotificationWithDefaultSound(Map<String, dynamic> message, var tipe) async {
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-      '329382938298',
-      'your channel name',
-      'your channel description',
-      importance: Importance.max,
-      priority: Priority.high,
-      styleInformation: BigTextStyleInformation(''),
-    );
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-    var platformChannelSpecifics = new NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
-    // // key dan nilai untuk action click
-    String kontenpay = json.encode(message).toString();
-    if (tipe == "onResume") {
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      preferences.setString('onNotification', kontenpay);
-    } else {
-      await flutterLocalNotificationsPlugin.show(
-        0,
-        message["notification"]["title"],
-        message["notification"]["body"],
-        platformChannelSpecifics,
-        payload: kontenpay,
-      );
-    }
-  }
+  // Future _showNotificationWithDefaultSound(Map<String, dynamic> message, var tipe) async {
+  //   var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+  //     '329382938298',
+  //     'your channel name',
+  //     'your channel description',
+  //     importance: Importance.max,
+  //     priority: Priority.high,
+  //     styleInformation: BigTextStyleInformation(''),
+  //   );
+  //   var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+  //   var platformChannelSpecifics = new NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+  //   // // key dan nilai untuk action click
+  //   String kontenpay = json.encode(message).toString();
+  //   if (tipe == "onResume") {
+  //     SharedPreferences preferences = await SharedPreferences.getInstance();
+  //     preferences.setString('onNotification', kontenpay);
+  //   } else {
+  //     await flutterLocalNotificationsPlugin.show(
+  //       0,
+  //       message["notification"]["title"],
+  //       message["notification"]["body"],
+  //       platformChannelSpecifics,
+  //       payload: kontenpay,
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

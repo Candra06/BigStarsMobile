@@ -56,7 +56,7 @@ class Detail {
     });
 
     int id;
-    String idUsers;
+    int idUsers;
     String nama;
     String alamat;
     DateTime createdAt;

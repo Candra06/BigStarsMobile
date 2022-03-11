@@ -187,10 +187,13 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                             'Nama Guru',
                             style: TextStyle(),
                           ),
-                          Text(
-                            widget.fee.nama,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                          Flexible(
+                            child: Text(
+                              widget.fee.nama,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -256,7 +259,7 @@ class _InvoiceFeeState extends State<InvoiceFee> {
                         children: [
                           Container(),
                           Text(
-                            Config.formatRupiah(int.parse(widget.fee.jumlah)),
+                            Config.formatRupiah(int.parse(widget.fee.jumlah.toString())),
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

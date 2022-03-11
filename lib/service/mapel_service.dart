@@ -17,6 +17,7 @@ class MapelService {
     var response = await http.get(Uri.parse(urlMapel), headers: {
       "Authorization": token,
     });
+    print(response.body);
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)["data"];
       List<MapelModel> listMapel = [];
@@ -37,8 +38,7 @@ class MapelService {
     Map<String, String> header = {
       "Authorization": token,
     };
-    var response =
-        await http.post(Uri.parse(urlCreate), headers: header, body: body);
+    var response = await http.post(Uri.parse(urlCreate), headers: header, body: body);
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -49,8 +49,7 @@ class MapelService {
   Future<bool> hapusMapel(String id) async {
     var token = await Pref.getToken();
 
-    var response = await http.get(Uri.parse(EndPoint.mDelete + id),
-        headers: {'Authorization': token});
+    var response = await http.get(Uri.parse(EndPoint.mDelete + id), headers: {'Authorization': token});
 
     if (response.statusCode == 200) {
       return true;
@@ -61,12 +60,10 @@ class MapelService {
 
   Future<MapelModel> detail(String id) async {
     var token = await Pref.getToken();
-    var response =
-        await http.get(urlDetail + id, headers: {'Authorization': token});
+    var response = await http.get(urlDetail + id, headers: {'Authorization': token});
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["data"] != null) {
-        MapelModel mapelModel =
-            MapelModel.fromJson(jsonDecode(response.body)["data"]);
+        MapelModel mapelModel = MapelModel.fromJson(jsonDecode(response.body)["data"]);
         return mapelModel;
       } else {
         throw Exception("data kosong");
@@ -79,10 +76,8 @@ class MapelService {
   Future<bool> updateMapel(String id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
 
-    var response = await http.post(Uri.parse(urlUpdate + id),
-        headers: {'Authorization': token}, body: data);
-    if (response.statusCode == 200 &&
-        jsonDecode(response.body)["message"] == "Success") {
+    var response = await http.post(Uri.parse(urlUpdate + id), headers: {'Authorization': token}, body: data);
+    if (response.statusCode == 200 && jsonDecode(response.body)["message"] == "Success") {
       return true;
     } else {
       return false;

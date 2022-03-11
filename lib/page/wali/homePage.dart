@@ -30,11 +30,10 @@ class _HomeWaliState extends State<HomeWali> {
     var tmpNama = await Pref.getNama();
     var tmpUsername = await Pref.getUsername();
     AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
-   dashboardWali = await authProvider.getDashboardWali();
+    dashboardWali = await authProvider.getDashboardWali();
     print(dashboardWali.notifUnread);
     setState(() {
-      
-      notifUnread = dashboardWali.notifUnread;
+      notifUnread = dashboardWali.notifUnread ?? 0;
       nama = tmpNama;
       username = tmpUsername;
       load = false;
@@ -45,6 +44,12 @@ class _HomeWaliState extends State<HomeWali> {
   void initState() {
     getData();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    getData();
+    super.dispose();
   }
 
   @override

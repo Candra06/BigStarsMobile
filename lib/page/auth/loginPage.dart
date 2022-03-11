@@ -36,33 +36,8 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController txtUsername = new TextEditingController();
   TextEditingController txtPassword = new TextEditingController();
 
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error('Location permissions are permantly denied, we cannot request permissions.');
-    }
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission != LocationPermission.whileInUse && permission != LocationPermission.always) {
-        return Future.error('Location permissions are denied (actual value: $permission).');
-      }
-    }
-
-    return await Geolocator.getCurrentPosition();
-  }
-
   @override
   void initState() {
-    _determinePosition();
     super.initState();
   }
 
@@ -146,9 +121,9 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: Config.alertColor,
+            backgroundColor: Config.textRed,
             content: Text(
-              "gagal login, cek ulang inputan !",
+              "Login gagal, cek kembali inputan !",
               textAlign: TextAlign.center,
             ),
           ),

@@ -114,7 +114,7 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
                     child: TextButton(
                       onPressed: () async {
                         // handleHapus();
-                        await Provider.of<KelasProvider>(context, listen: false).deleteKehadiran(widget.data.id, widget.data.idKelas).then((value) {
+                        await Provider.of<KelasProvider>(context, listen: false).deleteKehadiran(widget.data.id, widget.data.idKelas.toString()).then((value) {
                           print(value);
                           if (value == true) {
                             Config.alert(1, 'Berhasil menghapus kehadiran');

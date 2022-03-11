@@ -13,15 +13,15 @@ class SppModel {
     this.updatedAt,
   });
 
-  String idSiswa;
+  int idSiswa;
   String nama;
   int id;
   String noInvoice;
   DateTime tagihanBulan;
-  String jumlah;
+  int jumlah;
   String status;
-  String createdBy;
-  String updatedBy;
+  int createdBy;
+  int updatedBy;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -30,19 +30,13 @@ class SppModel {
         nama: json["nama"] == null ? null : json["nama"],
         id: json["id"] == null ? null : json["id"],
         noInvoice: json["no_invoice"] == null ? null : json["no_invoice"],
-        tagihanBulan: json["tagihan_bulan"] == null
-            ? null
-            : DateTime.parse(json["tagihan_bulan"]),
+        tagihanBulan: json["tagihan_bulan"] == null ? null : DateTime.parse(json["tagihan_bulan"]),
         jumlah: json["jumlah"] == null ? null : json["jumlah"],
         status: json["status"] == null ? null : json["status"],
         createdBy: json["created_by"] == null ? null : json["created_by"],
         updatedBy: json["updated_by"] == null ? null : json["updated_by"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -50,9 +44,8 @@ class SppModel {
         "nama": nama == null ? null : nama,
         "id": id == null ? null : id,
         "no_invoice": noInvoice == null ? null : noInvoice,
-        "tagihan_bulan": tagihanBulan == null
-            ? null
-            : "${tagihanBulan.year.toString().padLeft(4, '0')}-${tagihanBulan.month.toString().padLeft(2, '0')}-${tagihanBulan.day.toString().padLeft(2, '0')}",
+        "tagihan_bulan":
+            tagihanBulan == null ? null : "${tagihanBulan.year.toString().padLeft(4, '0')}-${tagihanBulan.month.toString().padLeft(2, '0')}-${tagihanBulan.day.toString().padLeft(2, '0')}",
         "jumlah": jumlah == null ? null : jumlah,
         "status": status == null ? null : status,
         "created_by": createdBy == null ? null : createdBy,

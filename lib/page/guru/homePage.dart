@@ -41,25 +41,32 @@ class _HomeGuruState extends State<HomeGuru> {
     var tmpUsername = await Pref.getUsername();
     AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
     dashboardGuruModel = await authProvider.getDashboardGuru();
-    setState(() {
-      notifUnread = dashboardGuruModel.notifUnread ?? 0;
-      name = tmpName;
-      username = tmpUsername;
-      load = false;
-    });
+    if (mounted) {
+      setState(() {
+        notifUnread = dashboardGuruModel.notifUnread ?? 0;
+        name = tmpName;
+        username = tmpUsername;
+        load = false;
+      });
+    }
   }
 
   void initState() {
-    getData();
     super.initState();
+    getData();
     // dashboardGuruModel = Provider.of<AuthProvider>(context, listen: false).dashboardGuruModel;
 
     // listKelasModel = Provider.of<KelasProvider>(context, listen: false).allKelas;
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    getData();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // print(userModel.role);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Config.primary,
@@ -222,7 +229,7 @@ class _HomeGuruState extends State<HomeGuru> {
                                           style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
                                         ),
                                         Text(
-                                          Config.formatRupiah(int.parse(dashboardGuruModel.fee)),
+                                          Config.formatRupiah(dashboardGuruModel.fee),
                                           style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 20),
                                         ),
                                       ],
@@ -248,8 +255,6 @@ class _HomeGuruState extends State<HomeGuru> {
                                         physics: NeverScrollableScrollPhysics(),
                                         itemCount: dashboardGuruModel.kelasToday.length,
                                         itemBuilder: (BuildContext cotext, int i) {
-                                          print(dashboardGuruModel.kelasToday.length);
-
                                           if (dashboardGuruModel.kelasToday == []) {
                                             return Text('Belum ada data kelas');
                                           } else {

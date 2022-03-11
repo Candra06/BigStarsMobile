@@ -12,7 +12,7 @@ class WaliModel {
   });
 
   int id;
-  String idUsers;
+  int idUsers;
   String nama;
   String alamat;
   dynamic createdAt;

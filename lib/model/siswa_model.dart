@@ -17,7 +17,7 @@ class SiswaModel {
   String alamat;
   int id;
   String kodeReferal;
-  String idWali;
+  int idWali;
   String nama;
   String status;
   DateTime birthDate;

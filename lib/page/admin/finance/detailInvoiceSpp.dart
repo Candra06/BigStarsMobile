@@ -187,9 +187,13 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Text(
-                                                  detailSPPModel.nama,
-                                                  style: TextStyle(color: Config.primary, fontSize: 18, fontWeight: FontWeight.bold),
+                                                Flexible(
+                                                  child: Text(
+                                                    detailSPPModel.nama,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                    style: TextStyle(color: Config.primary, fontSize: 18, fontWeight: FontWeight.bold),
+                                                  ),
                                                 ),
                                                 Container(
                                                   padding: EdgeInsets.all(8),
@@ -277,7 +281,7 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                                               children: [
                                                 Container(),
                                                 Text(
-                                                  Config.formatRupiah(int.parse(detailSPPModel.jumlah)),
+                                                  Config.formatRupiah(int.parse(detailSPPModel.jumlah.toString())),
                                                   style: TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.bold,
@@ -382,7 +386,7 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     Text(detailSPPModel.historiKehadiran[i].materi),
-                                                    Text(Config.formatRupiah(int.parse(detailSPPModel.historiKehadiran[i].spp))),
+                                                    Text(Config.formatRupiah(detailSPPModel.historiKehadiran[i].spp)),
                                                   ],
                                                 ),
                                                 SizedBox(

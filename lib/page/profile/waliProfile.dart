@@ -22,11 +22,23 @@ class ProfilWali extends StatefulWidget {
 class _ProfilWaliState extends State<ProfilWali> {
   String nama = '', username = '', phone = '', foto = '';
 
-  void logOut() async {
+  void unauthenticated() async {
     var status = await Provider.of<AuthProvider>(context, listen: false).logout();
     print(status);
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.clear();
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.getKeys();
+    for (String key in pref.getKeys()) {
+      if (key != "setuju") {
+        pref.remove(key);
+      }
+    }
+    Navigator.pushReplacement(
+      context,
+      PageTransition(
+        child: LoginPage(),
+        type: PageTransitionType.topToBottom,
+      ),
+    );
   }
 
   void _logOut() async {
@@ -42,8 +54,8 @@ class _ProfilWaliState extends State<ProfilWali> {
           ),
           new FlatButton(
             onPressed: () {
-              logOut();
-              Navigator.pushReplacement(context, PageTransition(child: LoginPage(), type: PageTransitionType.topToBottom));
+              unauthenticated();
+              // Navigator.pushReplacement(context, PageTransition(child: LoginPage(), type: PageTransitionType.topToBottom));
             },
             child: new Text('Iya'),
           ),
@@ -128,6 +140,7 @@ class _ProfilWaliState extends State<ProfilWali> {
                     ),
                     Text(
                       nama,
+                      textAlign: TextAlign.center,
                       style: TextStyle(color: Config.textWhite, fontSize: 24, fontWeight: FontWeight.w900),
                     ),
                     SizedBox(
@@ -135,10 +148,12 @@ class _ProfilWaliState extends State<ProfilWali> {
                     ),
                     Text(
                       username,
+                      textAlign: TextAlign.center,
                       style: TextStyle(color: Config.textWhite, fontSize: 18),
                     ),
                     Text(
                       phone,
+                      textAlign: TextAlign.center,
                       style: TextStyle(color: Config.textWhite, fontSize: 16),
                     ),
                   ],

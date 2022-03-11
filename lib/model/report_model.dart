@@ -16,7 +16,7 @@ class ReportModel {
   String invoice;
   String nama;
   String status;
-  String nominal;
+  int nominal;
   DateTime tagihanBulan;
   DateTime createdAt;
   DateTime updatedAt;

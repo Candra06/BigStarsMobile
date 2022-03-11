@@ -60,6 +60,7 @@ class KelasService {
   Future addKehadiran(String id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
     var response = await http.post(Uri.parse(EndPoint.addKehadiran + id), headers: {'Authorization': token}, body: data);
+    print(response.body);
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
@@ -181,7 +182,7 @@ class KelasService {
 
   Future<Map<String, dynamic>> addKehadiranGuru(String id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
-    Map<String, dynamic> hasil = {};
+    Map<String, dynamic> hasil = {'status': true, 'message': 'Berhasil menambahkan kehadiran'};
     if (data['file_materi'] == '-') {
       http.Response response = await http.post(Uri.parse(EndPoint.addKehadiranGuru + id), body: data, headers: {'Authorization': token});
       print(response.body);
@@ -232,7 +233,7 @@ class KelasService {
   Future<Map<String, dynamic>> updateKehadiranGuru(String id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
     print(token);
-    Map<String, dynamic> hasil = {};
+    Map<String, dynamic> hasil = {'status': true, 'message': 'Berhasil menambahkan kehadiran'};
     if (data['file_materi'] == '-') {
       print('sini');
       http.Response response = await http.post(Uri.parse(EndPoint.updateKehadiranGuru + id), body: data, headers: {'Authorization': token});
@@ -280,25 +281,36 @@ class KelasService {
 
       // });
     }
-    
+
     return hasil;
     // if (response.statusCode == 200) {}
   }
 
-  Future<bool> addSharing(String id, var data) async {
+  Future<Map<String, dynamic>> addSharing(String id, var data) async {
     var token = await Pref.getToken();
     var response = await http.post(Uri.parse(EndPoint.addSharing + id.toString()),
         headers: {
           'Authorization': token,
         },
         body: data);
+    Map<String, dynamic> hasil = {};
     print(response.body);
+    var respon = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      if (jsonDecode(response.body)["message"] == "Success") {
-        return true;
+      if (respon['message'] == "Success") {
+        hasil['status'] = true;
+        hasil['message'] = "Sharing kelas berhasil";
+        return hasil;
+      } else {
+        hasil['status'] = false;
+        hasil['message'] = respon['message'];
+        return hasil;
       }
+    } else {
+      hasil['status'] = false;
+      hasil['status'] = respon['message'];
+      return hasil;
     }
-    return false;
   }
 
   Future deleteKehadiran(int id) async {

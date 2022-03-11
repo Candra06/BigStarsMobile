@@ -70,7 +70,7 @@ class _HistoryKehadiranSPPState extends State<HistoryKehadiranSPP> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(widget.historiKehadiran[i].materi),
-                        Text(Config.formatRupiah(int.parse(widget.historiKehadiran[i].spp))),
+                        Text(Config.formatRupiah(widget.historiKehadiran[i].spp)),
                       ],
                     ),
                     SizedBox(

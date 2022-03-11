@@ -124,6 +124,7 @@ class KelasProvider with ChangeNotifier {
   }
 
   Future addKehadiran(String id, Map<String, dynamic> data) async {
+    print(data);
     bool status = await KelasService().addKehadiran(id, data);
     _kehadiranModel = await getKehadiran(id);
     notifyListeners();
@@ -132,13 +133,12 @@ class KelasProvider with ChangeNotifier {
 
   Future<Map<String, dynamic>> addKehadiranGuru(String id, Map<String, dynamic> data) async {
     Map<String, dynamic> status = await KelasService().addKehadiranGuru(id, data);
-    return status;
-    // try {
-
-    // } catch (e) {
-    //   print(e);
-    //   return false;
-    // }
+    try {
+      return status;
+    } catch (e) {
+      print(e);
+      return status;
+    }
   }
 
   Future<Map<String, dynamic>> updateKehadiranGuru(String id, Map<String, dynamic> data) async {
@@ -147,12 +147,15 @@ class KelasProvider with ChangeNotifier {
     return status;
   }
 
-  Future<bool> addSharing(String id, var data) async {
+  Future<Map<String, dynamic>> addSharing(String id, var data) async {
     try {
-      bool status = await KelasService().addSharing(id, data);
+      Map<String, dynamic> status = await KelasService().addSharing(id, data);
       return status;
     } catch (e) {
-      return false;
+      Map<String, dynamic> data = {};
+      data['status'] = false;
+      data['messsage'] = e.toString();
+      return data;
     }
   }
 
