@@ -19,7 +19,7 @@ class _ItemListFeeState extends State<ItemListFee> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.DETAIL_FEE, arguments: widget.fee);
+        Navigator.pushNamed(context, Routes.DETAIL_FEE, arguments: widget.fee.id.toString());
         // print('tapped');
       },
       child: Container(
