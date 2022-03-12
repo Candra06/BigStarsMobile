@@ -1,6 +1,6 @@
-
 import 'package:bigstars_mobile/page/admin/absensi/listAbsensi.dart';
 import 'package:bigstars_mobile/page/admin/absensi/listGuru.dart';
+import 'package:bigstars_mobile/page/admin/finance/historyKehadiranFee.dart';
 import 'package:bigstars_mobile/page/admin/finance/historyKehadiranSpp.dart';
 import 'package:bigstars_mobile/page/admin/finance/listFeeGuru.dart';
 import 'package:bigstars_mobile/page/admin/finance/listSppMurid.dart';
@@ -77,6 +77,7 @@ class Routes {
   static const String EDIT_KELAS = '/edit_kelas';
   static const String DETAIL_SPP = '/detail_spp';
   static const String HISTORY_KEHADIRAN_SPP = '/history_kehadiran_spp';
+  static const String HISTORY_KEHADIRAN_FEE = '/history_kehadiran_fee';
   static const String DETAIL_FEE = '/detail_fee';
   static const String FINANCE = '/detail_fee';
   static const String REPORT = '/report';
@@ -203,6 +204,12 @@ class Routes {
       case HISTORY_KEHADIRAN_SPP:
         return PageTransition(
             child: HistoryKehadiranSPP(
+              historiKehadiran: settings.arguments,
+            ),
+            type: PageTransitionType.leftToRight);
+      case HISTORY_KEHADIRAN_FEE:
+        return PageTransition(
+            child: HistoryKehadiranFee(
               historiKehadiran: settings.arguments,
             ),
             type: PageTransitionType.leftToRight);

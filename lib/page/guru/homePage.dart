@@ -62,7 +62,6 @@ class _HomeGuruState extends State<HomeGuru> {
   @override
   void dispose() {
     super.dispose();
-    getData();
   }
 
   @override

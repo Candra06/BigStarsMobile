@@ -20,6 +20,7 @@ class _ItemListFeeState extends State<ItemListFee> {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, Routes.DETAIL_FEE, arguments: widget.fee);
+        // print('tapped');
       },
       child: Container(
         color: Config.textWhite,
@@ -58,7 +59,7 @@ class _ItemListFeeState extends State<ItemListFee> {
                                   height: 8,
                                 ),
                                 Text(
-                                  Config.formatBulan(widget.fee.tagihanBulan.toString()),
+                                  Config.formatBulan(widget.fee.feeBulan.toString()),
                                   style: TextStyle(color: Config.textGrey),
                                 )
                               ],

@@ -8,6 +8,7 @@ import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -114,14 +115,16 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
 
   Future addKehadiran() async {
     await Firebase.initializeApp();
-    if (currentPosition.latitude.toString().isEmpty || currentPosition.longitude.toString().isEmpty) {
+    // print(currentPosition.latitude.toString());
+    // print(currentPosition.longitude.toString());
+    if (currentPosition == null || currentPosition == null) {
       Config.alert(0, 'Gagal mendapatkan lokasi anda saat ini');
     } else {
       data = {
         "materi": txtMateri.text,
         "jurnal": txtJurnal.text,
         "status": status,
-        "poin": txtPoin.text,
+        "poin": txtPoin.text ?? 0,
         'latitude': currentPosition.latitude.toString(),
         'longitude': currentPosition.longitude.toString()
       };
@@ -136,7 +139,7 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
       if (mounted) {
         if (value['status'] == true) {
           Config.alert(1, value['message']);
-          // Navigator.pop(context);
+          Navigator.pop(context);
         } else {
           FirebaseCrashlytics.instance.crash();
           Config.alert(0, value['message']);
@@ -147,14 +150,14 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
   }
 
   Future updateKehadiran() async {
-    if (currentPosition.latitude.toString() == '' || currentPosition.longitude.toString() == '') {
+    if (currentPosition == null || currentPosition == null) {
       Config.alert(0, 'Gagal mendapatkan lokasi anda saat ini');
     } else {
       data = {
         "materi": txtMateri.text,
         "jurnal": txtJurnal.text,
         "status": status,
-        "poin": txtPoin.text,
+        "poin": txtPoin.text ?? 0,
         'latitude': currentPosition.latitude.toString(),
         'longitude': currentPosition.longitude.toString()
       };
@@ -168,7 +171,7 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
 
       if (value['status'] == true) {
         Config.alert(1, value['message']);
-        // Navigator.pop(context);
+        Navigator.pop(context);
       } else {
         Config.alert(0, value['message']);
         // Navigator.pop(context);
@@ -214,8 +217,6 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
               isLoading = false;
               widget.onSumbit(true);
             });
-
-            Navigator.pop(context);
           }
         },
         child: Text(
@@ -275,7 +276,28 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
               Divider(
                 height: 22,
               ),
-              SizedBox(height: 8),
+              if (currentPosition == null || currentPosition == null) ...{
+                Row(
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.exclamationTriangle,
+                      color: Colors.yellow,
+                    ),
+                    Container(margin: EdgeInsets.only(left: 20), child: Text('Lokasi belum didapatkan'))
+                  ],
+                )
+              } else ...{
+                Row(
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.checkCircle,
+                      color: Colors.green,
+                    ),
+                    Container(margin: EdgeInsets.only(left: 20), child: Text('Lokasi berhasil didapatkan'))
+                  ],
+                )
+              },
+              SizedBox(height: 16),
               Text('Materi',
                   style: TextStyle(
                     fontSize: 14,

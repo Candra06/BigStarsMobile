@@ -42,8 +42,7 @@ class _FinancePageGuruState extends State<FinancePageGuru> {
       body: Container(
         margin: EdgeInsets.only(top: 16, bottom: 16),
         child: FutureBuilder(
-          future: Provider.of<FinanceProvider>(context, listen: false)
-              .getFeeGuru(''),
+          future: Provider.of<FinanceProvider>(context, listen: false).getFeeGuru(''),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -53,10 +52,10 @@ class _FinancePageGuruState extends State<FinancePageGuru> {
             return Consumer<FinanceProvider>(
               builder: (context, data, _) => ListView.builder(
                   shrinkWrap: true,
-                  itemCount: data.ListFeeGuru.length,
+                  itemCount: data.listFeeGuru.length,
                   itemBuilder: (BuildContext bc, int i) {
                     return ItemListFee(
-                      fee: data.ListFeeGuru[i],
+                      fee: data.listFeeGuru[i],
                     );
                   }),
             );

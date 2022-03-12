@@ -20,7 +20,11 @@ class _ItemListReportState extends State<ItemListReport> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.DETAIL_FEE, arguments: widget.report);
+        if (widget.report.tipe == 'FEE') {
+          Navigator.pushNamed(context, Routes.DETAIL_FEE, arguments: widget.report.id.toString());
+        } else {
+          Navigator.pushNamed(context, Routes.DETAIL_SPP, arguments: widget.report.id.toString());
+        }
       },
       child: Container(
         color: Config.textWhite,

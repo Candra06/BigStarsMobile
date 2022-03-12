@@ -26,7 +26,6 @@ class _FinancePageState extends State<FinancePage> {
 
   void modelFilter(BuildContext context) {
     void filtered(nama, bulan, tahun) async {
-     
       if (bulan != '') {
         filter.removeWhere((element) => element.startsWith('bulan'));
         filter.add('bulan=' + bulan);

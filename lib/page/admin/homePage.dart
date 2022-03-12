@@ -36,13 +36,15 @@ class _HomeAdminState extends State<HomeAdmin> {
 
     dashboardModel = authProvider.dashboardModel;
     // userModel = authProvider.user;
-    setState(() {
-      notifUnread = dashboardModel.notifUnread ?? 0;
-      ;
-      name = tmpName;
-      username = tmpUsername;
-      load = false;
-    });
+    if (mounted) {
+      setState(() {
+        notifUnread = dashboardModel.notifUnread == null ? 0 : dashboardModel.notifUnread;
+
+        name = tmpName;
+        username = tmpUsername;
+        load = false;
+      });
+    }
   }
 
   void initState() {

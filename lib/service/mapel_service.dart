@@ -17,7 +17,7 @@ class MapelService {
     var response = await http.get(Uri.parse(urlMapel), headers: {
       "Authorization": token,
     });
-    print(response.body);
+    
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)["data"];
       List<MapelModel> listMapel = [];

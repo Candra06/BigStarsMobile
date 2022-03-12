@@ -1,16 +1,16 @@
 import 'package:bigstars_mobile/helper/config.dart';
-import 'package:bigstars_mobile/model/DetailSpp_model.dart';
+import 'package:bigstars_mobile/model/DetailFee_model.dart';
 import 'package:flutter/material.dart';
 
-class HistoryKehadiranSPP extends StatefulWidget {
-  final List<HistoriKehadiran> historiKehadiran;
-  const HistoryKehadiranSPP({Key key, this.historiKehadiran}) : super(key: key);
+class HistoryKehadiranFee extends StatefulWidget {
+  final List<HistoriKehadiranGuru> historiKehadiran;
+  const HistoryKehadiranFee({Key key, this.historiKehadiran}) : super(key: key);
 
   @override
-  _HistoryKehadiranSPPState createState() => _HistoryKehadiranSPPState();
+  _HistoryKehadiranFeeState createState() => _HistoryKehadiranFeeState();
 }
 
-class _HistoryKehadiranSPPState extends State<HistoryKehadiranSPP> {
+class _HistoryKehadiranFeeState extends State<HistoryKehadiranFee> {
   bool load = true;
 
   String role;
@@ -63,14 +63,27 @@ class _HistoryKehadiranSPPState extends State<HistoryKehadiranSPP> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(widget.historiKehadiran[i].materi),
-                        Text(Config.formatRupiah(widget.historiKehadiran[i].spp)),
+                        Flexible(
+                          child: Text(
+                            widget.historiKehadiran[i].materi,
+                            maxLines: 1,
+                            softWrap: true,
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
+                        Text(Config.formatRupiah(widget.historiKehadiran[i].feePengajar)),
                       ],
                     ),
                     SizedBox(
                       height: 8,
                     ),
-                    Text(Config.formatDateTime(widget.historiKehadiran[i].createdAt) + ' ' + Config.formatDateTimeJam(widget.historiKehadiran[i].createdAt)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(Config.formatDateTime(widget.historiKehadiran[i].createdAt) + ' ' + Config.formatDateTimeJam(widget.historiKehadiran[i].createdAt)),
+                        Text(widget.historiKehadiran[i].tipe),
+                      ],
+                    ),
                     SizedBox(
                       height: 4,
                     ),
