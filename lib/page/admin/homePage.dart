@@ -34,9 +34,10 @@ class _HomeAdminState extends State<HomeAdmin> {
     var tmpUsername = await Pref.getUsername();
     AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
 
-    dashboardModel = authProvider.dashboardModel;
+    dashboardModel = await authProvider.getDashboard();
     // userModel = authProvider.user;
     if (mounted) {
+      print(dashboardModel.notifUnread);
       setState(() {
         notifUnread = dashboardModel.notifUnread == null ? 0 : dashboardModel.notifUnread;
 

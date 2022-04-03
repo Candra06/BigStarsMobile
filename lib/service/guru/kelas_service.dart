@@ -35,6 +35,7 @@ class KelasService {
   Future<KehadiranModel> getKehadiran(String id) async {
     var token = await Pref.getToken();
     var response = await http.get(Uri.parse(EndPoint.kehadiran + id.toString()), headers: {"authorization": token});
+    // print(response.body);
     if (response.statusCode == 200) {
       KehadiranModel data = KehadiranModel.fromJson(jsonDecode(response.body)["data"]);
       return data;

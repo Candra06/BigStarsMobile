@@ -132,9 +132,9 @@ class _ModalSharingKelasState extends State<ModalSharingKelas> {
                     decoration: BoxDecoration(color: Config.primary, borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
 
                         addSharing();
+                        Navigator.pop(context);
                       },
                       child: Text(
                         'SIMPAN',

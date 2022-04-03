@@ -35,8 +35,9 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
   String nameFile = "";
   String status;
   Map<String, dynamic> data;
-  bool isLoading = false;
+  bool isLoading = false, loadLocation = false;
   Position currentPosition;
+  String lat = '', long = '';
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -86,12 +87,23 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
   }
 
   getCurrentLocation() {
-    Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best, forceAndroidLocationManager: true).then((Position position) {
-      setState(() {
-        currentPosition = position;
-      });
+    setState(() {
+      loadLocation = true;
+    });
+    Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high, timeLimit: Duration(seconds: 10)).then((Position position) {
+      if (mounted) {
+        setState(() {
+          currentPosition = position;
+
+          lat = currentPosition.latitude.toString();
+          long = currentPosition.longitude.toString();
+
+          loadLocation = false;
+        });
+      }
     }).catchError((e) {
-      // print(e);
+      Config.alert(0, 'Gagal mendapatkan lokasi');
+      print(e);
     });
   }
 
@@ -117,17 +129,10 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
     await Firebase.initializeApp();
     // print(currentPosition.latitude.toString());
     // print(currentPosition.longitude.toString());
-    if (currentPosition == null || currentPosition == null) {
+    if (currentPosition == null) {
       Config.alert(0, 'Gagal mendapatkan lokasi anda saat ini');
     } else {
-      data = {
-        "materi": txtMateri.text,
-        "jurnal": txtJurnal.text,
-        "status": status,
-        "poin": txtPoin.text ?? 0,
-        'latitude': currentPosition.latitude.toString(),
-        'longitude': currentPosition.longitude.toString()
-      };
+      data = {"materi": txtMateri.text, "jurnal": txtJurnal.text, "status": status, "poin": txtPoin.text ?? 0, 'latitude': lat.toString(), 'longitude': long.toString()};
 
       if (tmpFile == null) {
         data["file_materi"] = '-';
@@ -153,14 +158,7 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
     if (currentPosition == null || currentPosition == null) {
       Config.alert(0, 'Gagal mendapatkan lokasi anda saat ini');
     } else {
-      data = {
-        "materi": txtMateri.text,
-        "jurnal": txtJurnal.text,
-        "status": status,
-        "poin": txtPoin.text ?? 0,
-        'latitude': currentPosition.latitude.toString(),
-        'longitude': currentPosition.longitude.toString()
-      };
+      data = {"materi": txtMateri.text, "jurnal": txtJurnal.text, "status": status, "poin": txtPoin.text ?? 0, 'latitude': lat.toString(), 'longitude': long.toString()};
 
       if (tmpFile == null) {
         data["file_materi"] = '-';
@@ -179,19 +177,32 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
     }
   }
 
-  getData() {
+  getData() async {
     if (widget.tipe == "Update") {
       txtMateri.text = widget.data.materi;
       txtJurnal.text = widget.data.jurnal;
       txtPoin.text = widget.data.poinSiswa.toString();
     }
+    currentPosition = await Geolocator.getLastKnownPosition();
+    // Geolocator.currentLocation(accuracy: LocationAccuracy.best).listen((result) {
+    //   if (result.isSuccessful) {
+    //     setState(() {
+    //       // latitude = result.location.latitude.toString();
+    //       // longitude = result.location.longitude.toString();
+    //     });
+    //   }
+    // });
+    setState(() {
+      lat = currentPosition.latitude.toString();
+      long = currentPosition.longitude.toString();
+    });
   }
 
   @override
   void initState() {
     _determinePosition();
     getData();
-    getCurrentLocation();
+    // getCurrentLocation();
     super.initState();
   }
 
@@ -276,24 +287,48 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
               Divider(
                 height: 22,
               ),
-              if (currentPosition == null || currentPosition == null) ...{
+              if (loadLocation == true) ...{
                 Row(
+                  children: [CircularProgressIndicator(), Container(margin: EdgeInsets.only(left: 20), child: Text('mencari lokasi'))],
+                ),
+              } else if (lat != null || long != null) ...{
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(
-                      FontAwesomeIcons.exclamationTriangle,
-                      color: Colors.yellow,
+                    Row(
+                      children: [
+                        Icon(
+                          FontAwesomeIcons.checkCircle,
+                          color: Colors.green,
+                        ),
+                        Container(margin: EdgeInsets.only(left: 20), child: Text('Lokasi berhasil didapatkan'))
+                      ],
                     ),
-                    Container(margin: EdgeInsets.only(left: 20), child: Text('Lokasi belum didapatkan'))
+                    IconButton(
+                        onPressed: () {
+                          getCurrentLocation();
+                        },
+                        icon: Icon(Icons.refresh))
                   ],
                 )
-              } else ...{
+              } else if (lat == null || long == null || currentPosition == null) ...{
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(
-                      FontAwesomeIcons.checkCircle,
-                      color: Colors.green,
+                    Row(
+                      children: [
+                        Icon(
+                          FontAwesomeIcons.exclamationTriangle,
+                          color: Colors.yellow,
+                        ),
+                        Container(margin: EdgeInsets.only(left: 20), child: Text('Lokasi belum didapatkan'))
+                      ],
                     ),
-                    Container(margin: EdgeInsets.only(left: 20), child: Text('Lokasi berhasil didapatkan'))
+                    IconButton(
+                        onPressed: () {
+                          getCurrentLocation();
+                        },
+                        icon: Icon(Icons.refresh))
                   ],
                 )
               },

@@ -31,14 +31,16 @@ class _HomeWaliState extends State<HomeWali> {
     var tmpUsername = await Pref.getUsername();
     AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
     dashboardWali = await authProvider.getDashboardWali();
-    print(dashboardWali.notifUnread);
-    setState(() {
-      notifUnread = dashboardWali.notifUnread ?? 0;
-      nama = tmpNama;
-      username = tmpUsername;
-      load = false;
-      // load = true;
-    });
+    if (mounted) {
+      print(dashboardWali.notifUnread);
+      setState(() {
+        notifUnread = dashboardWali.notifUnread ?? 0;
+        nama = tmpNama;
+        username = tmpUsername;
+        load = false;
+        // load = true;
+      });
+    }
   }
 
   void initState() {

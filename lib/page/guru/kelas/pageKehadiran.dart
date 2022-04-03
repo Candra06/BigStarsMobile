@@ -52,6 +52,7 @@ class _KehadiranKelasGuruState extends State<KehadiranKelasGuru> {
           );
         }
         return Consumer<KelasProvider>(builder: (context, data, _) {
+          print(data.kehadiranModel.aksesAdd);
           return Scaffold(
             floatingActionButton: data.kehadiranModel.aksesAdd == true
                 ? FloatingActionButton(

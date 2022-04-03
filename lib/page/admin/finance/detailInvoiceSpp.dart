@@ -317,7 +317,7 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                                   RichText(
                                     textAlign: TextAlign.end,
                                     text: TextSpan(
-                                      text: 'BCA 200843566 ',
+                                      text: 'BCA 2000843566 ',
                                       style: TextStyle(color: Config.textWhite, fontSize: 18, fontWeight: FontWeight.bold),
                                       children: [
                                         TextSpan(text: 'a/n \n', style: TextStyle(fontSize: 16)),

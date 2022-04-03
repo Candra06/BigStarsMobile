@@ -13,9 +13,15 @@ class ItemNotifikasi extends StatefulWidget {
 }
 
 class _ItemNotifikasiState extends State<ItemNotifikasi> {
+  bool load = false;
   readNotif(String id) {
+    setState(() {
+      load = true;
+    });
     Provider.of<AuthProvider>(context, listen: false).readNotif(id: widget.data.id.toString()).then((value) {
-      print(value);
+      setState(() {
+        load = false;
+      });
     });
   }
 
@@ -28,7 +34,7 @@ class _ItemNotifikasiState extends State<ItemNotifikasi> {
         }
       },
       child: Container(
-        color: Config.textWhite,
+        color: widget.data.status != 'Read' ? Colors.blue[50] : Config.textWhite,
         width: MediaQuery.of(context).size.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,56 +54,18 @@ class _ItemNotifikasiState extends State<ItemNotifikasi> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              widget.data.judul,
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
-                                            ),
-                                            widget.data.status != 'Read'
-                                                ? new Container(
-                                                    padding: EdgeInsets.all(0),
-                                                    decoration: new BoxDecoration(
-                                                      color: Config.boxBlue,
-                                                      borderRadius: BorderRadius.circular(5),
-                                                    ),
-                                                    constraints: BoxConstraints(
-                                                      minWidth: 10,
-                                                      minHeight: 10,
-                                                    ),
-                                                    child: Text(
-                                                      ' ',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 8,
-                                                      ),
-                                                      textAlign: TextAlign.center,
-                                                    ),
-                                                  )
-                                                : new Container()
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                              Flexible(
+                                child: Text(
+                                  widget.data.judul ?? '-',
+                                  maxLines: 1,
+                                  softWrap: true,
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                                 ),
                               ),
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      Config.formatDateInput(widget.data.createdAt.toString()),
-                                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
-                                    ),
-                                  ],
-                                ),
+                              Text(
+                                Config.formatDateInput(widget.data.createdAt.toString()),
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                               )
                             ],
                           ),
@@ -108,10 +76,13 @@ class _ItemNotifikasiState extends State<ItemNotifikasi> {
                 ],
               ),
             ),
+            if (load == true) ...{
+              LinearProgressIndicator(),
+            },
             Padding(
                 padding: EdgeInsets.fromLTRB(16, 4, 16, 12),
                 child: Text(
-                  widget.data.konten,
+                  widget.data.konten ?? '-',
                   maxLines: 2,
                   overflow: TextOverflow.clip,
                   style: TextStyle(color: Config.textGrey),
