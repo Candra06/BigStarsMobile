@@ -22,11 +22,11 @@ class KelasModel {
   String siswa;
   String mapel;
   String jumlahPertemuan;
-  String idMapel;
-  String idGuru;
-  String idSiswa;
-  String spp;
-  String feeGuru;
+  int idMapel;
+  int idGuru;
+  int idSiswa;
+  int spp;
+  int feeGuru;
   String status;
   String jamMulai;
   String jamSelesai;

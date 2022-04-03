@@ -9,7 +9,6 @@ import 'package:bigstars_mobile/page/auth/loginPage.dart';
 import 'package:bigstars_mobile/page/auth/parent_guide.dart';
 import 'package:bigstars_mobile/page/auth/teacher_guide.dart';
 import 'package:bigstars_mobile/page/guru/mainPage.dart';
-import 'package:bigstars_mobile/page/maps.dart';
 import 'package:bigstars_mobile/page/wali/mainPage.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:bigstars_mobile/provider/finance_provider.dart';
@@ -35,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     var tmpToken = await Pref.getToken();
     var user = await Pref.getUserModel();
     // print(jsonDecode(user));
-    // print(tmpToken);
+    print(tmpToken);
     if (tmpToken != null) {
       userModel = UserModel.fromJson(json.decode(user));
       Provider.of<AuthProvider>(context, listen: false).setUser(userModel);

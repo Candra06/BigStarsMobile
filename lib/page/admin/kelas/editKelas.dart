@@ -113,8 +113,8 @@ class _EditKelasAdminState extends State<EditKelasAdmin> {
     List<MapelModel> mapelModels = await Provider.of<MapelProvider>(context, listen: false).getMapels();
     List<GuruModel> guruModels = await Provider.of<GuruProvider>(context, listen: false).getData();
     List<SiswaModel> siswaModels = await Provider.of<SiswaProvider>(context, listen: false).getSiswa();
-    txtFee.text = widget.kelas.feeGuru;
-    txtSpp.text = widget.kelas.spp;
+    txtFee.text = widget.kelas.feeGuru.toString();
+    txtSpp.text = widget.kelas.spp.toString();
     valGuru = int.parse(widget.kelas.idGuru.toString());
     valMapel = int.parse(widget.kelas.idMapel.toString());
     valSiswa = int.parse(widget.kelas.idSiswa.toString());

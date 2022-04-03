@@ -14,7 +14,7 @@ class GuruModel {
   String username;
   String phone;
   int id;
-  String idUsers;
+  int idUsers;
   String nama;
   String alamat;
   DateTime birthDate;

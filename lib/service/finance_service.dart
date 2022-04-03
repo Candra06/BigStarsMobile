@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bigstars_mobile/helper/network.dart';
 import 'package:bigstars_mobile/helper/pref.dart';
+import 'package:bigstars_mobile/model/DetailFee_model.dart';
 import 'package:bigstars_mobile/model/DetailSpp_model.dart';
 import 'package:bigstars_mobile/model/feeGuru_model.dart';
 import 'package:bigstars_mobile/model/finance_model.dart';
@@ -18,9 +19,9 @@ class FinanceService {
     } else {
       url = EndPoint.fee;
     }
-    print(url);
     var token = await Pref.getToken();
     var response = await http.get(Uri.parse(url), headers: {'Authorization': token});
+    print(response.body);
     if (response.statusCode == 200) {
       List fee = jsonDecode(response.body)["data"];
       return fee.map((e) => FeeGuruModel.fromJson(e)).toList();
@@ -66,12 +67,19 @@ class FinanceService {
     }
   }
 
-  Future<FinanceModel> indexFinance() async {
+  Future<FinanceModel> indexFinance(String filtered) async {
     DateTime now = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    String bulan = DateFormat('MM').format(now);
+    String tahun = DateFormat('yyyy').format(now);
+    String url = '';
+    if (filtered != '') {
+      url = EndPoint.finance + '?' + filtered;
+    } else {
+      url = EndPoint.finance + '?bulan=' + bulan + '&tahun=' + tahun;
+    }
     var token = await Pref.getToken();
     var response = await http.get(
-      Uri.parse(EndPoint.finance + formattedDate),
+      Uri.parse(url),
       headers: {"authorization": token},
     );
 
@@ -117,6 +125,18 @@ class FinanceService {
       return detailSPPModel;
     }
     return null;
+  }
+
+  Future detailFee(String id) async {
+    var token = await Pref.getToken();
+    var response = await http.get(Uri.parse(EndPoint.detailFee + id), headers: {'Authorization': token});
+    if (response.statusCode == 200) {
+      
+      DetailFeeModel detailFee = DetailFeeModel.fromJson(jsonDecode(response.body)["data"]);
+      return detailFee;
+    } else {
+      return null;
+    }
   }
 
   Future<bool> konfirmasiFee(String id) async {

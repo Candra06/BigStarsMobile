@@ -34,14 +34,18 @@ class _HomeAdminState extends State<HomeAdmin> {
     var tmpUsername = await Pref.getUsername();
     AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
 
-    dashboardModel = authProvider.dashboardModel;
+    dashboardModel = await authProvider.getDashboard();
     // userModel = authProvider.user;
-    setState(() {
-      notifUnread = dashboardModel.notifUnread;
-      name = tmpName;
-      username = tmpUsername;
-      load = false;
-    });
+    if (mounted) {
+      print(dashboardModel.notifUnread);
+      setState(() {
+        notifUnread = dashboardModel.notifUnread == null ? 0 : dashboardModel.notifUnread;
+
+        name = tmpName;
+        username = tmpUsername;
+        load = false;
+      });
+    }
   }
 
   void initState() {
@@ -406,7 +410,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                                 } else ...{
                                   Container(
                                     margin: EdgeInsets.only(bottom: 10),
-                                    constraints: BoxConstraints(minHeight: 200, maxHeight: 325),
+                                    constraints: BoxConstraints(minHeight: 200, maxHeight: 250),
                                     child: ListView.builder(
                                         shrinkWrap: true,
                                         // physics: NeverScrollableScrollPhysics(),

@@ -1,56 +1,46 @@
 class FeeGuruModel {
   FeeGuruModel({
-    this.idGuru,
+    this.noInvoice,
     this.nama,
     this.id,
-    this.noInvoice,
-    this.tagihanBulan,
+    this.feeBulan,
     this.jumlah,
     this.status,
-    this.createdBy,
-    this.updatedBy,
+    this.totalPertemuan,
     this.createdAt,
-    this.updatedAt,
+    this.udpatedAt,
   });
 
-  String idGuru;
-  String nama;
-  int id;
   String noInvoice;
-  DateTime tagihanBulan;
-  String jumlah;
+  String nama;
+  DateTime feeBulan;
+  int jumlah;
+  int id;
   String status;
-  String createdBy;
-  String updatedBy;
+  int totalPertemuan;
   DateTime createdAt;
-  DateTime updatedAt;
+  dynamic udpatedAt;
 
   factory FeeGuruModel.fromJson(Map<String, dynamic> json) => FeeGuruModel(
-        idGuru: json["id_guru"],
-        nama: json["nama"],
-        id: json["id"],
-        noInvoice: json["no_invoice"],
-        tagihanBulan: DateTime.parse(json["tagihan_bulan"]),
-        jumlah: json["jumlah"],
-        status: json["status"],
-        createdBy: json["created_by"],
-        updatedBy: json["updated_by"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        id: json["id"] == null ? null : json["id"],
+        noInvoice: json["no_invoice"] == null ? null : json["no_invoice"],
+        nama: json["nama"] == null ? null : json["nama"],
+        feeBulan: json["tagihan_bulan"] == null ? null : DateTime.parse(json["tagihan_bulan"]),
+        jumlah: json["jumlah"] == null ? null : json["jumlah"],
+        status: json["status"] == null ? null : json["status"],
+        totalPertemuan: json["total_pertemuan"] == null ? null : json["total_pertemuan"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        udpatedAt: json["udpated_at"] == null ? null : DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "id_guru": idGuru,
-        "nama": nama,
-        "id": id,
-        "no_invoice": noInvoice,
-        "tagihan_bulan":
-            "${tagihanBulan.year.toString().padLeft(4, '0')}-${tagihanBulan.month.toString().padLeft(2, '0')}-${tagihanBulan.day.toString().padLeft(2, '0')}",
-        "jumlah": jumlah,
-        "status": status,
-        "created_by": createdBy,
-        "updated_by": updatedBy,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "no_invoice": noInvoice == null ? null : noInvoice,
+        "nama": nama == null ? null : nama,
+        "fee_bulan": feeBulan == null ? null : "${feeBulan.year.toString().padLeft(4, '0')}-${feeBulan.month.toString().padLeft(2, '0')}-${feeBulan.day.toString().padLeft(2, '0')}",
+        "jumlah": jumlah == null ? null : jumlah,
+        "status": status == null ? null : status,
+        "total_pertemuan": totalPertemuan == null ? null : totalPertemuan,
+        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
+        "udpated_at": udpatedAt,
       };
 }

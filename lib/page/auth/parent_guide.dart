@@ -41,7 +41,7 @@ class _SyaratDanKetentuanWaliState extends State<SyaratDanKetentuanWali> {
                           ),
                           Center(
                             child: Text(
-                              'Teacher Guide Bigstars Jember',
+                              'Parents Guide Bigstars Jember',
                               style: TextStyle(fontSize: 18, color: Config.primary, fontWeight: FontWeight.bold),
                             ),
                           ),

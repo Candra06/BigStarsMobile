@@ -9,6 +9,7 @@ import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilGuru extends StatefulWidget {
   const ProfilGuru({Key key}) : super(key: key);
@@ -18,6 +19,24 @@ class ProfilGuru extends StatefulWidget {
 }
 
 class _ProfilGuruState extends State<ProfilGuru> {
+  void unauthenticated() async {
+    var status = await Provider.of<AuthProvider>(context, listen: false).logout();
+    print(status);
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.getKeys();
+    for (String key in pref.getKeys()) {
+      if (key != "setuju") {
+        pref.remove(key);
+      }
+    }
+    Navigator.pushReplacement(
+      context,
+      PageTransition(
+        child: LoginPage(),
+        type: PageTransitionType.topToBottom,
+      ),
+    );
+  }
   void _logOut() async {
     return await showDialog(
       context: context,
@@ -30,10 +49,7 @@ class _ProfilGuruState extends State<ProfilGuru> {
             child: new Text('Tidak'),
           ),
           new FlatButton(
-            onPressed: () => Navigator.pushReplacement(
-                context,
-                PageTransition(
-                    child: LoginPage(), type: PageTransitionType.topToBottom)),
+            onPressed: () => unauthenticated(),
             child: new Text('Iya'),
           ),
         ],
@@ -127,6 +143,7 @@ class _ProfilGuruState extends State<ProfilGuru> {
                     ),
                     Text(
                       nama,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Config.textWhite,
                           fontSize: 24,
@@ -137,10 +154,12 @@ class _ProfilGuruState extends State<ProfilGuru> {
                     ),
                     Text(
                       username,
+                      textAlign: TextAlign.center,
                       style: TextStyle(color: Config.textWhite, fontSize: 18),
                     ),
                     Text(
                       phone,
+                      textAlign: TextAlign.center,
                       style: TextStyle(color: Config.textWhite, fontSize: 16),
                     ),
                   ],

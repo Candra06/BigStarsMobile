@@ -73,99 +73,104 @@ class _DetailWaliSiswaState extends State<DetailWaliSiswa> {
     }
   }
 
+  Future backPress(BuildContext context) => Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Config.textWhite,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: Config.primary,
-            )),
-        title: Text(
-          'Detail Wali Siswa',
-          style: TextStyle(color: Config.primary),
-        ),
-        actions: [
-          IconButton(
+    return WillPopScope(
+      onWillPop: () => backPress(context),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Config.textWhite,
+          leading: IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, Routes.EDIT_WALI, arguments: widget.wali);
+                Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
               },
               icon: Icon(
-                Icons.edit,
+                Icons.arrow_back,
                 color: Config.primary,
-                size: 20,
               )),
-          IconButton(
-              onPressed: () {
-                _konfirmasi();
-              },
-              icon: Icon(
-                Icons.delete,
-                color: Config.primary,
-                size: 20,
-              ))
-        ],
-      ),
-      body: FutureBuilder(
-        // future: WaliProvider().getDetail(widget.wali.id.toString()),
-        future: Provider.of<WaliProvider>(context, listen: false).getDetail(widget.wali.id.toString()),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return LinearProgressIndicator();
-          }
-          return Consumer<WaliProvider>(builder: (context, data, _) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(padding: EdgeInsets.all(16), child: Text('Data Wali Siswa')),
-                Config.itemDetail('Nama', data.detailWali.detail.nama ?? '-'),
-                Config.itemDetail('Alamat', data.detailWali.detail.alamat ?? '-'),
-                Config.itemDetail('Status', data.detailWali.detail.status ?? '-'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(padding: EdgeInsets.all(16), child: Text('Data Akun')),
-                  ],
-                ),
-                Config.itemDetail('Username', data.detailWali.detail.username ?? '-'),
-                Config.itemDetail('Phone', data.detailWali.detail.phone ?? '-'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(padding: EdgeInsets.all(16), child: Text('Data Siswa')),
-                    InkWell(
-                      onTap: () {
-                        _addNewSiswa(context);
-                      },
-                      child: Container(
-                          padding: EdgeInsets.all(16),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.add,
-                                color: Config.primary,
-                              ),
-                              Text('Tambah Siswa',
-                                  style: TextStyle(
-                                    color: Config.primary,
-                                  )),
-                            ],
-                          )),
-                    ),
-                  ],
-                ),
-                for (var i = 0; i < data.detailWali.siswa.length; i++) ...{
-                  Config.itemDetail(data.detailWali.siswa[i].nama, Config.formatDateInput(data.detailWali.siswa[i].birthDate.toString())),
-                }
-              ],
-            );
-          });
-        },
+          title: Text(
+            'Detail Wali Siswa',
+            style: TextStyle(color: Config.primary),
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.EDIT_WALI, arguments: widget.wali);
+                },
+                icon: Icon(
+                  Icons.edit,
+                  color: Config.primary,
+                  size: 20,
+                )),
+            IconButton(
+                onPressed: () {
+                  _konfirmasi();
+                },
+                icon: Icon(
+                  Icons.delete,
+                  color: Config.primary,
+                  size: 20,
+                ))
+          ],
+        ),
+        body: FutureBuilder(
+          // future: WaliProvider().getDetail(widget.wali.id.toString()),
+          future: Provider.of<WaliProvider>(context, listen: false).getDetail(widget.wali.id.toString()),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return LinearProgressIndicator();
+            }
+            return Consumer<WaliProvider>(builder: (context, data, _) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(padding: EdgeInsets.all(16), child: Text('Data Wali Siswa')),
+                  Config.itemDetail('Nama', data.detailWali.detail.nama ?? '-'),
+                  Config.itemDetail('Alamat', data.detailWali.detail.alamat ?? '-'),
+                  Config.itemDetail('Status', data.detailWali.detail.status ?? '-'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(padding: EdgeInsets.all(16), child: Text('Data Akun')),
+                    ],
+                  ),
+                  Config.itemDetail('Username', data.detailWali.detail.username ?? '-'),
+                  Config.itemDetail('Phone', data.detailWali.detail.phone ?? '-'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(padding: EdgeInsets.all(16), child: Text('Data Siswa')),
+                      InkWell(
+                        onTap: () {
+                          _addNewSiswa(context);
+                        },
+                        child: Container(
+                            padding: EdgeInsets.all(16),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.add,
+                                  color: Config.primary,
+                                ),
+                                Text('Tambah Siswa',
+                                    style: TextStyle(
+                                      color: Config.primary,
+                                    )),
+                              ],
+                            )),
+                      ),
+                    ],
+                  ),
+                  for (var i = 0; i < data.detailWali.siswa.length; i++) ...{
+                    Config.itemDetail(data.detailWali.siswa[i].nama, Config.formatDateInput(data.detailWali.siswa[i].birthDate.toString())),
+                  }
+                ],
+              );
+            });
+          },
+        ),
       ),
     );
   }

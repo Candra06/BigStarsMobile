@@ -1,6 +1,3 @@
-import 'package:bigstars_mobile/model/dashboard_model.dart';
-import 'package:bigstars_mobile/model/guru/kelas.dart';
-
 class DashboardGuruModel {
   DashboardGuruModel({
     this.fee,
@@ -10,7 +7,7 @@ class DashboardGuruModel {
     this.sharing,
   });
 
-  String fee;
+  int fee;
   int notifUnread;
   List<KelasTodayGuru> kelasToday;
   int kelasAktif;
@@ -18,7 +15,7 @@ class DashboardGuruModel {
 
   factory DashboardGuruModel.fromJson(Map<String, dynamic> json) =>
       DashboardGuruModel(
-        fee: json["fee"] == null ? null : json["fee"].toString(),
+        fee: json["fee"] == null ? null : json["fee"],
         notifUnread: json["notif_unread"] == null ? null : json["notif_unread"],
         kelasToday: json["kelas_today"] == null
             ? null
@@ -57,7 +54,7 @@ class KelasTodayGuru {
   String siswa;
   String guru;
   String mapel;
-  String idKelas;
+  int idKelas;
   String status;
   String jamMulai;
   String jamSelesai;

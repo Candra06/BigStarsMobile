@@ -37,20 +37,25 @@ class _NotificationPageState extends State<NotificationPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return LinearProgressIndicator();
           }
-          return Container(
-            margin: EdgeInsets.only(top: 16, bottom: 16),
-            child: Consumer<AuthProvider>(
-              builder: (context, data, _) {
-                return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: data.listNotif.length,
-                    itemBuilder: (BuildContext bc, int i) {
-                      return ItemNotifikasi(
-                        data: data.listNotif[i],
-                      );
-                      // return Container();
-                    });
-              },
+          return RefreshIndicator(
+            onRefresh: () {
+              return Provider.of<AuthProvider>(context, listen: false).getNotif();
+            },
+            child: Container(
+              margin: EdgeInsets.only(top: 16, bottom: 16),
+              child: Consumer<AuthProvider>(
+                builder: (context, data, _) {
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: data.listNotif.length,
+                      itemBuilder: (BuildContext bc, int i) {
+                        return ItemNotifikasi(
+                          data: data.listNotif[i],
+                        );
+                        // return Container();
+                      });
+                },
+              ),
             ),
           );
         },

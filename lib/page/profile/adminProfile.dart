@@ -24,6 +24,25 @@ class _ProfilAdminState extends State<ProfilAdmin> {
   UserModel userModel;
   String nama, username, phone, foto;
 
+  void unauthenticated() async {
+    var status = await Provider.of<AuthProvider>(context, listen: false).logout();
+    print(status);
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.getKeys();
+    for (String key in pref.getKeys()) {
+      if (key != "setuju") {
+        pref.remove(key);
+      }
+    }
+    Navigator.pushReplacement(
+      context,
+      PageTransition(
+        child: LoginPage(),
+        type: PageTransitionType.topToBottom,
+      ),
+    );
+  }
+
   void logOut() async {
     var status = await Provider.of<AuthProvider>(context, listen: false).logout();
     print(status);
@@ -65,15 +84,7 @@ class _ProfilAdminState extends State<ProfilAdmin> {
           ),
           new FlatButton(
             onPressed: () {
-              logOut();
-
-              Navigator.pushReplacement(
-                context,
-                PageTransition(
-                  child: LoginPage(),
-                  type: PageTransitionType.topToBottom,
-                ),
-              );
+              unauthenticated();
             },
             child: new Text('Iya'),
           ),
@@ -144,6 +155,7 @@ class _ProfilAdminState extends State<ProfilAdmin> {
                       ),
                       Text(
                         nama ?? '-',
+                        textAlign: TextAlign.center,
                         style: TextStyle(color: Config.textWhite, fontSize: 24, fontWeight: FontWeight.w900),
                       ),
                       SizedBox(
@@ -151,10 +163,12 @@ class _ProfilAdminState extends State<ProfilAdmin> {
                       ),
                       Text(
                         username ?? '-',
+                        textAlign: TextAlign.center,
                         style: TextStyle(color: Config.textWhite, fontSize: 18),
                       ),
                       Text(
                         phone ?? '-',
+                        textAlign: TextAlign.center,
                         style: TextStyle(color: Config.textWhite, fontSize: 16),
                       ),
                     ],

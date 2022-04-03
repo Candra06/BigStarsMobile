@@ -1,12 +1,6 @@
 import 'package:bigstars_mobile/helper/config.dart';
-import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/model/DetailSpp_model.dart';
-import 'package:bigstars_mobile/model/spp_model.dart';
-import 'package:bigstars_mobile/provider/finance_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 
 class HistoryKehadiranSPP extends StatefulWidget {
   final List<HistoriKehadiran> historiKehadiran;
@@ -70,7 +64,7 @@ class _HistoryKehadiranSPPState extends State<HistoryKehadiranSPP> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(widget.historiKehadiran[i].materi),
-                        Text(Config.formatRupiah(int.parse(widget.historiKehadiran[i].spp))),
+                        Text(Config.formatRupiah(widget.historiKehadiran[i].spp)),
                       ],
                     ),
                     SizedBox(

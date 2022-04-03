@@ -180,10 +180,10 @@ class _ListFeeGuruState extends State<ListFeeGuru> {
               }
               return Consumer<FinanceProvider>(
                 builder: (context, data, _) => ListView.builder(
-                    itemCount: data.ListFeeGuru.length,
+                    itemCount: data.listFeeGuru.length,
                     itemBuilder: (BuildContext bc, int i) {
                       return ItemListFee(
-                        fee: data.ListFeeGuru[i],
+                        fee: data.listFeeGuru[i],
                       );
                     }),
               );

@@ -20,7 +20,11 @@ class _ItemListReportState extends State<ItemListReport> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.DETAIL_FEE, arguments: widget.report);
+        if (widget.report.tipe == 'FEE') {
+          Navigator.pushNamed(context, Routes.DETAIL_FEE, arguments: widget.report.id.toString());
+        } else {
+          Navigator.pushNamed(context, Routes.DETAIL_SPP, arguments: widget.report.id.toString());
+        }
       },
       child: Container(
         color: Config.textWhite,
@@ -44,51 +48,94 @@ class _ItemListReportState extends State<ItemListReport> {
                   Expanded(
                     child: Container(
                       constraints: BoxConstraints(minWidth: 120, maxWidth: 310),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Column(
                         children: [
-                          Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Text(
                                   widget.report.nama,
+                                  maxLines: 1,
+                                  softWrap: true,
+                                  overflow: TextOverflow.clip,
                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                                 ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  Config.formatBulan(widget.report.tagihanBulan.toString()),
-                                  style: TextStyle(color: Config.textGrey),
-                                )
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    Config.formatRupiah(int.parse(widget.report.nominal.toString())),
-                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    widget.report.status,
-                                    style: TextStyle(color: widget.report.status == 'Lunas' ? Colors.green : Colors.red),
-                                  )
-                                ],
                               ),
-                            ),
-                          )
+                              Text(
+                                Config.formatRupiah(int.parse(widget.report.nominal.toString())),
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                Config.formatBulan(widget.report.tagihanBulan.toString()),
+                                style: TextStyle(color: Config.textGrey),
+                              ),
+                              Text(
+                                widget.report.status,
+                                style: TextStyle(color: widget.report.status == 'Lunas' ? Colors.green : Colors.red),
+                              )
+                            ],
+                          ),
                         ],
                       ),
                     ),
                   )
+                  // Expanded(
+                  //   child: Container(
+                  //     constraints: BoxConstraints(minWidth: 120, maxWidth: 310),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         Container(
+                  //           child: Column(
+                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                  //             children: [
+                  //               Text(
+                  //                 widget.report.nama,
+                  //                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                  //               ),
+                  //               SizedBox(
+                  //                 height: 8,
+                  //               ),
+                  //               Text(
+                  //                 Config.formatBulan(widget.report.tagihanBulan.toString()),
+                  //                 style: TextStyle(color: Config.textGrey),
+                  //               )
+                  //             ],
+                  //           ),
+                  //         ),
+                  //         Expanded(
+                  //           child: Container(
+                  //             child: Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.end,
+                  //               children: [
+                  //                 Text(
+                  //                   Config.formatRupiah(int.parse(widget.report.nominal.toString())),
+                  //                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                  //                 ),
+                  //                 SizedBox(
+                  //                   height: 8,
+                  //                 ),
+                  //                 Text(
+                  //                   widget.report.status,
+                  //                   style: TextStyle(color: widget.report.status == 'Lunas' ? Colors.green : Colors.red),
+                  //                 )
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         )
+                  //       ],
+                  //     ),
+                  //   ),
+                  // )
                 ],
               ),
             ),

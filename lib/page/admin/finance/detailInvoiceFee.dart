@@ -1,17 +1,14 @@
 import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/pref.dart';
-import 'package:bigstars_mobile/model/feeGuru_model.dart';
-import 'package:bigstars_mobile/model/user_model.dart';
-import 'package:bigstars_mobile/provider/auth_provider.dart';
+import 'package:bigstars_mobile/helper/route.dart';
+import 'package:bigstars_mobile/model/DetailFee_model.dart';
 import 'package:bigstars_mobile/provider/finance_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class InvoiceFee extends StatefulWidget {
-  final FeeGuruModel fee;
+  final String fee;
   const InvoiceFee({Key key, this.fee}) : super(key: key);
 
   @override
@@ -20,6 +17,9 @@ class InvoiceFee extends StatefulWidget {
 
 class _InvoiceFeeState extends State<InvoiceFee> {
   String role = "";
+  DetailFeeModel detailFee;
+  // DetailFeeModel detailFee;
+  bool load = true;
   void _showSucces() {
     showDialog(
         context: context,
@@ -88,16 +88,36 @@ class _InvoiceFeeState extends State<InvoiceFee> {
   }
 
   void konfirmasi() async {
-    bool status = await Provider.of<FinanceProvider>(context, listen: false).konfirmasiFee(widget.fee.id.toString());
+    bool status = await Provider.of<FinanceProvider>(context, listen: false).konfirmasiFee(widget.fee);
     if (status) {
       _showSucces();
     }
   }
 
+  void getData() async {
+    String tmpRole = await Pref.getRole();
+    setState(() {
+      role = tmpRole;
+      load = true;
+    });
+    detailFee = await Provider.of<FinanceProvider>(context, listen: false).detailFee(widget.fee);
+
+    setState(() {
+      print(detailFee.noInvoice);
+      load = false;
+    });
+  }
+
   @override
   void initState() {
-    role = Provider.of<AuthProvider>(context, listen: false).user.role;
+    getData();
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -119,187 +139,286 @@ class _InvoiceFeeState extends State<InvoiceFee> {
           style: TextStyle(color: Config.primary),
         ),
       ),
-      body: Container(
-        margin: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Center(
-              child: Icon(
-                FontAwesomeIcons.fileInvoiceDollar,
-                size: 100,
-                color: Config.primary,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Card(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                // padding: EdgeInsets.all(8),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: load
+          ? LinearProgressIndicator()
+          : Container(
+              color: Config.background,
+              // margin: EdgeInsets.all(16),
+              child: Stack(
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: SingleChildScrollView(
+                      child: Column(
                         children: [
-                          Text(
-                            'Nomor Invoice',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            widget.fee.noInvoice,
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Config.primary),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Divider(
-                      height: 1,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Fee Bulan',
-                            style: TextStyle(),
-                          ),
-                          Text(
-                            Config.formatBulan(widget.fee.tagihanBulan.toString()),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Nama Guru',
-                            style: TextStyle(),
-                          ),
-                          Text(
-                            widget.fee.nama,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(8.0),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: [
-                    //       Text(
-                    //         'Jumlah Pertemuan',
-                    //       ),
-                    //       Text(
-                    //         widget.fee.jumlah.toString(),
-                    //         style: TextStyle(
-                    //           fontWeight: FontWeight.bold,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Status',
-                          ),
                           Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(color: widget.fee.status == 'Lunas' ? Colors.green : Colors.red, borderRadius: BorderRadius.all(Radius.circular(8))),
-                            child: Text(
-                              // 'Lunas',
-                              widget.fee.status,
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                            ),
-                          ),
-                          // Config.bedgeStatus(widget.fee.status)
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Total Tagihan',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container()
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(),
-                          Text(
-                            Config.formatRupiah(int.parse(widget.fee.jumlah)),
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    role != "Guru" && widget.fee.status != 'Lunas'
-                        ? Container(
-                            margin: EdgeInsets.only(left: 8, right: 8),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                _konfirmasi();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                fixedSize: Size(MediaQuery.of(context).size.width, 30),
-                                primary: Config.primary,
-                                onPrimary: Config.textWhite,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
+                            color: Config.primary,
+                            padding: EdgeInsets.all(16),
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  'assets/images/logoWhite.png',
+                                  height: 125,
                                 ),
-                              ),
-                              child: Text(
-                                "Konfirmasi Tagihan",
-                                style: TextStyle(color: Colors.white, fontSize: 16),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Nomor Invoice',
+                                        style: TextStyle(fontWeight: FontWeight.bold, color: Config.textWhite),
+                                      ),
+                                      Text(
+                                        detailFee.noInvoice ?? '-',
+                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Config.textWhite),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Card(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      // padding: EdgeInsets.all(8),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Flexible(
+                                                  child: Text(
+                                                    detailFee.nama,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                    style: TextStyle(color: Config.primary, fontSize: 18, fontWeight: FontWeight.bold),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.all(8),
+                                                  decoration: BoxDecoration(color: detailFee.status == 'Lunas' ? Colors.green : Colors.red, borderRadius: BorderRadius.all(Radius.circular(8))),
+                                                  child: Text(
+                                                    // 'Lunas',
+                                                    detailFee.status,
+                                                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Divider(
+                                            height: 1,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Tagihan Bulan',
+                                                  style: TextStyle(),
+                                                ),
+                                                Text(
+                                                  Config.formatBulan(detailFee.tagihanBulan.toString()),
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Jumlah Pertemuan',
+                                                ),
+                                                Text(
+                                                  detailFee.totalPertemuan.toString(),
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          // Padding(
+                                          //   padding: const EdgeInsets.all(8.0),
+                                          //   child: Column(
+                                          //     crossAxisAlignment: CrossAxisAlignment.start,
+                                          //     children: [
+                                          //       Text(
+                                          //         'Keterangan',
+                                          //       ),
+                                          //       Text(
+                                          //         detailFee.keterangan ?? '-',
+                                          //         style: TextStyle(
+                                          //           fontWeight: FontWeight.bold,
+                                          //         ),
+                                          //       ),
+                                          //     ],
+                                          //   ),
+                                          // ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Container(),
+                                                Text(
+                                                  'Total Tagihan',
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Container(),
+                                                Text(
+                                                  Config.formatRupiah(int.parse(detailFee.jumlah.toString())),
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 8,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SingleChildScrollView(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Riwayat Kehadiran',
+                                          style: TextStyle(color: Config.textGrey),
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.pushNamed(context, Routes.HISTORY_KEHADIRAN_FEE, arguments: detailFee.historiKehadiranGuru);
+                                          },
+                                          child: Text(
+                                            'Lihat Semua',
+                                            style: TextStyle(color: Config.textGrey),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 15),
+                                  SizedBox(
+                                    // height: MediaQuery.of(context).size.height * 0.35,
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: detailFee.historiKehadiranGuru.length > 3 ? 3 : detailFee.historiKehadiranGuru.length,
+                                        itemBuilder: (BuildContext bc, int i) {
+                                          return Container(
+                                            color: Config.textWhite,
+                                            padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text(detailFee.historiKehadiranGuru[i].mapel),
+                                                    Text(detailFee.historiKehadiranGuru[i].nama),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 8,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Flexible(
+                                                      child: Text(
+                                                        detailFee.historiKehadiranGuru[i].materi,
+                                                        maxLines: 1,
+                                                        softWrap: true,
+                                                        overflow: TextOverflow.clip,
+                                                      ),
+                                                    ),
+                                                    Text(Config.formatRupiah(detailFee.historiKehadiranGuru[i].feePengajar)),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 8,
+                                                ),
+                                                Text(Config.formatDateTime(detailFee.historiKehadiranGuru[i].createdAt) + ' ' + Config.formatDateTimeJam(detailFee.historiKehadiranGuru[i].createdAt)),
+                                                SizedBox(
+                                                  height: 4,
+                                                ),
+                                                Divider()
+                                              ],
+                                            ),
+                                          );
+                                        }),
+                                  )
+                                ],
                               ),
                             ),
-                          )
-                        : Container(),
-                    SizedBox(
-                      height: 10,
+                          ),
+                          SizedBox(height: 50),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  if (role == 'Admin' && detailFee.status != 'Lunas') ...{
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: InkWell(
+                        onTap: () {
+                          _konfirmasi();
+                        },
+                        child: Container(
+                          color: Config.primary,
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.fromLTRB(0, 16, 0, 16),
+                          child: Text(
+                            "KONFIRMASI",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    )
+                  },
+                ],
               ),
-            )
-          ],
-        ),
-      ),
+            ),
     );
   }
 }

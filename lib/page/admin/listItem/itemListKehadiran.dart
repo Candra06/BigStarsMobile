@@ -114,7 +114,7 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
                     child: TextButton(
                       onPressed: () async {
                         // handleHapus();
-                        await Provider.of<KelasProvider>(context, listen: false).deleteKehadiran(widget.data.id, widget.data.idKelas).then((value) {
+                        await Provider.of<KelasProvider>(context, listen: false).deleteKehadiran(widget.data.id, widget.data.idKelas.toString()).then((value) {
                           print(value);
                           if (value == true) {
                             Config.alert(1, 'Berhasil menghapus kehadiran');
@@ -341,17 +341,16 @@ class _ItemListKehadiranState extends State<ItemListKehadiran> {
             SizedBox(
               height: 8,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Jurnal',
-                ),
-                Text(
-                  widget.data.jurnal,
-                ),
-              ],
+            Text(
+              'Jurnal',
             ),
+            Text(
+              widget.data.jurnal,
+            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [],
+            // ),
 
             SizedBox(
               height: 8,

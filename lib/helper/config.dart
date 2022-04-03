@@ -1,5 +1,4 @@
 import 'package:bigstars_mobile/helper/hexcolor.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -239,7 +238,6 @@ class Config {
     try {
       var date = tgl.toString().split(" ");
       var jam = date[1].toString().split('.');
-      print(jam);
       String tanggal = jam[0];
       return tanggal;
     } catch (e) {

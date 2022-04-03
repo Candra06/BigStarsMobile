@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:bigstars_mobile/helper/network.dart';
 import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/model/guru_model.dart';
-import 'package:bigstars_mobile/model/wali_model.dart';
 import 'package:http/http.dart' as http;
 
 class GuruService {

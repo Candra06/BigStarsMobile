@@ -35,6 +35,7 @@ class KelasService {
   Future<KehadiranModel> getKehadiran(String id) async {
     var token = await Pref.getToken();
     var response = await http.get(Uri.parse(EndPoint.kehadiran + id.toString()), headers: {"authorization": token});
+    // print(response.body);
     if (response.statusCode == 200) {
       KehadiranModel data = KehadiranModel.fromJson(jsonDecode(response.body)["data"]);
       return data;
@@ -60,6 +61,7 @@ class KelasService {
   Future addKehadiran(String id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
     var response = await http.post(Uri.parse(EndPoint.addKehadiran + id), headers: {'Authorization': token}, body: data);
+    print(response.body);
     if (response.statusCode == 200) {
       if (jsonDecode(response.body)["message"] == "Success") {
         return true;
@@ -85,6 +87,7 @@ class KelasService {
 
   Future addKelas(Map<String, dynamic> data) async {
     var token = await Pref.getToken();
+    print(data);
     var response = await http.post(Uri.parse(EndPoint.addKelas), headers: {'Authorization': token}, body: data);
 
     if (response.statusCode == 200) {
@@ -114,7 +117,7 @@ class KelasService {
   Future<DetailKelasModel> getDetailKelas(int id) async {
     var token = await Pref.getToken();
     var response = await http.get(Uri.parse(EndPoint.kelasDetail + id.toString()), headers: {'Authorization': token});
-
+    print(response.body);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       DetailKelasModel detailKelas = DetailKelasModel.fromJson(data);
@@ -178,16 +181,22 @@ class KelasService {
     return [];
   }
 
-  Future<bool> addKehadiranGuru(String id, Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>> addKehadiranGuru(String id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
-
+    Map<String, dynamic> hasil = {'status': true, 'message': 'Berhasil menambahkan kehadiran'};
     if (data['file_materi'] == '-') {
       http.Response response = await http.post(Uri.parse(EndPoint.addKehadiranGuru + id), body: data, headers: {'Authorization': token});
       print(response.body);
+      var respon = json.decode(response.body);
       if (response.statusCode == 200) {
-        return true;
+        respon['status'] = true;
+        return respon;
+      } else if (respon['status_code'] == 402) {
+        respon['status'] = false;
+        return respon;
       } else {
-        return false;
+        respon['status'] = false;
+        return respon;
       }
     } else {
       print('here');
@@ -204,31 +213,42 @@ class KelasService {
       request.files.add(await http.MultipartFile.fromPath('file_materi', data['file_materi'].path));
       request.headers.addAll(headers);
       var response = await request.send();
+      print(response.statusCode);
       if (response.statusCode == 200) {
         response.stream.transform(utf8.decoder).listen((value) {
-          // print(value);
-
-          return true;
+          print(value);
+          var respon = json.decode(value);
+          hasil = respon;
+          return respon;
         });
-      } else {
-        return false;
-      }
+      } else if (response.statusCode == 402) {
+        var tmp = {'status': false, 'message': 'Waktu absensi sudah ditutup, silahkan menghubungi admin'};
+        hasil = tmp;
+        return tmp;
+      } else {}
     }
-    return true;
+    return hasil;
     // if (response.statusCode == 200) {}
   }
 
-  Future<bool> updateKehadiranGuru(String id, Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>> updateKehadiranGuru(String id, Map<String, dynamic> data) async {
     var token = await Pref.getToken();
     print(token);
+    Map<String, dynamic> hasil = {'status': true, 'message': 'Berhasil menambahkan kehadiran'};
     if (data['file_materi'] == '-') {
       print('sini');
       http.Response response = await http.post(Uri.parse(EndPoint.updateKehadiranGuru + id), body: data, headers: {'Authorization': token});
       print(response.body);
+      var respon = json.decode(response.body);
       if (response.statusCode == 200) {
-        return true;
+        respon['status'] = true;
+        return respon;
+      } else if (respon['status_code'] == 402) {
+        respon['status'] = false;
+        return respon;
       } else {
-        return false;
+        respon['status'] = false;
+        return respon;
       }
     } else {
       Map<String, String> headers = {
@@ -246,37 +266,52 @@ class KelasService {
       var response = await request.send();
       if (response.statusCode == 200) {
         response.stream.transform(utf8.decoder).listen((value) {
-          // print(value);
-
-          return true;
+          print(value);
+          var respon = json.decode(value);
+          hasil = respon;
+          return respon;
         });
-      } else {
-        return false;
-      }
+      } else if (response.statusCode == 402) {
+        var tmp = {'status': false, 'message': 'Waktu absensi sudah ditutup, silahkan menghubungi admin'};
+        hasil = tmp;
+        return tmp;
+      } else {}
       // response.stream.transform(utf8.decoder).listen((value) {
       //   print(value);
       //   print(data);
 
       // });
     }
-    return true;
+
+    return hasil;
     // if (response.statusCode == 200) {}
   }
 
-  Future<bool> addSharing(String id, var data) async {
+  Future<Map<String, dynamic>> addSharing(String id, var data) async {
     var token = await Pref.getToken();
     var response = await http.post(Uri.parse(EndPoint.addSharing + id.toString()),
         headers: {
           'Authorization': token,
         },
         body: data);
+    Map<String, dynamic> hasil = {};
     print(response.body);
+    var respon = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      if (jsonDecode(response.body)["message"] == "Success") {
-        return true;
+      if (respon['message'] == "Success") {
+        hasil['status'] = true;
+        hasil['message'] = "Sharing kelas berhasil";
+        return hasil;
+      } else {
+        hasil['status'] = false;
+        hasil['message'] = respon['message'];
+        return hasil;
       }
+    } else {
+      hasil['status'] = false;
+      hasil['status'] = respon['message'];
+      return hasil;
     }
-    return false;
   }
 
   Future deleteKehadiran(int id) async {

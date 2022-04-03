@@ -5,12 +5,9 @@ import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/model/dashboardGuru_model.dart';
 import 'package:bigstars_mobile/model/dashboard_model.dart';
 import 'package:bigstars_mobile/model/dashboard_wali.dart';
-import 'package:bigstars_mobile/model/kelasToday_model.dart';
 import 'package:bigstars_mobile/model/notif_model.dart';
-import 'package:bigstars_mobile/provider/auth_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:bigstars_mobile/model/user_model.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:async/async.dart';
 
@@ -29,7 +26,6 @@ class AuthService {
       if (data["status_code"] == 200) {
         UserModel userModel = UserModel.fromJson(data["data"]);
         userModel.token = data["token_type"] + " " + data["access_token"];
-        print(userModel.toJson());
         return userModel;
       } else {
         throw Exception('username dan password salah');
@@ -49,7 +45,6 @@ class AuthService {
     // print(response.body);
     var data = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      print(data);
       return data;
     } else {
       return data;
@@ -67,7 +62,6 @@ class AuthService {
     var response = await http.post(Uri.parse(EndPoint.resetPassword), body: body);
     var data = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      print(data);
       return data;
     } else {
       return data;
@@ -161,7 +155,6 @@ class AuthService {
       headers: {'Authorization': token},
     );
     if (response.statusCode == 200) {
-      print(response.body);
       return DashboardModel.fromJson(jsonDecode(response.body)["data"]);
     } else {
       return null;
@@ -188,7 +181,6 @@ class AuthService {
       Uri.parse(EndPoint.readNotif + id),
       headers: {'Authorization': token},
     );
-    print(response.body);
     if (response.statusCode == 200) {
       // List data = jsonDecode(response.body)["data"];
 
@@ -201,7 +193,6 @@ class AuthService {
   Future<DashboardGuruModel> dashboardGuru() async {
     var token = await Pref.getToken();
     var response = await http.get(Uri.parse(EndPoint.dashboardGuru), headers: {'Authorization': token});
-    print(response.body);
     if (response.statusCode == 200) {
       return DashboardGuruModel.fromJson(jsonDecode(response.body)["data"]);
     } else {
@@ -213,7 +204,6 @@ class AuthService {
   Future<DashboardWaliModel> getDashboardWali() async {
     var token = await Pref.getToken();
     http.Response response = await http.get(Uri.parse(EndPoint.dashboardWali), headers: {'Authorization': token});
-    print(response.body);
 
     if (response.statusCode == 200) {
       return DashboardWaliModel.fromJson(jsonDecode(response.body)['data']);

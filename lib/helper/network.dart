@@ -1,5 +1,6 @@
 class EndPoint {
-  static final String server = 'https://bigstars.waserdajaya.store/';
+  static final String server = 'https://v2.bigstartsjember.my.id/';
+  // static final String server = 'https://bigstars.waserdajaya.store/';
   static final String api = server + 'api/';
   // dashboard
   static final String dashboard = api + 'dashboard-admin';
@@ -54,7 +55,7 @@ class EndPoint {
   static final konfirmasiFee = api + 'finance/confirm-fee/';
   static final konfirmasiSPP = api + 'finance/confirm-spp/';
   static final detailSpp = api + 'finance/detail-spp/';
-  static final filterSpp = api + 'finance/filter-spp/';
+  static final detailFee = api + 'finance/detail-fee/';
   // kelas
   static final kelas = api + 'kelas/list-all';
   static final addKelas = api + 'kelas/create';

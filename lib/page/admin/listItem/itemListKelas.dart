@@ -119,7 +119,7 @@ class _ItemKelasState extends State<ItemKelas> {
                         width: 8,
                       ),
                       Text(
-                        Config.formatRupiah(int.parse(widget.data.spp)),
+                        Config.formatRupiah(int.parse(widget.data.spp.toString())),
                         style: TextStyle(
                           fontWeight: FontWeight.w900,
                           fontSize: 13,

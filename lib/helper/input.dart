@@ -6,9 +6,7 @@ Widget formInput(TextEditingController controller, label) {
   return Container(
     margin: EdgeInsets.only(top: 8),
     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: Config.borderInput)),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: Config.borderInput)),
     child: Column(
       children: <Widget>[
         Container(
@@ -71,8 +69,9 @@ Widget formInputMultiline(TextEditingController controller, label) {
           child: TextFormField(
               style: TextStyle(color: Colors.black54),
               obscureText: false,
-              keyboardType: TextInputType.text,
+              keyboardType: TextInputType.multiline,
               controller: controller,
+              textInputAction: TextInputAction.newline,
               maxLines: 3,
               decoration: InputDecoration(
                 alignLabelWithHint: true,

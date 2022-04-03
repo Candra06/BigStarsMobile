@@ -41,45 +41,42 @@ class _ItemListSPPState extends State<ItemListSPP> {
                   Expanded(
                     child: Container(
                       constraints: BoxConstraints(minWidth: 120, maxWidth: 310),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Column(
                         children: [
-                          Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Text(
                                   widget.data.nama,
+                                  maxLines: 1,
+                                  softWrap: true,
+                                  overflow: TextOverflow.clip,
                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                                 ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  Config.formatBulan(widget.data.tagihanBulan.toString()),
-                                  style: TextStyle(color: Config.textGrey),
-                                )
-                              ],
-                            ),
+                              ),
+                              Text(
+                                Config.formatRupiah(int.parse(widget.data.jumlah.toString())),
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                              ),
+                            ],
                           ),
-                          Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  Config.formatRupiah(int.parse(widget.data.jumlah)),
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  widget.data.status,
-                                  style: TextStyle(color: widget.data.status == 'Lunas' ? Colors.green : Colors.red),
-                                )
-                              ],
-                            ),
-                          )
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                Config.formatBulan(widget.data.tagihanBulan.toString()),
+                                style: TextStyle(color: Config.textGrey),
+                              ),
+                              Text(
+                                widget.data.status,
+                                style: TextStyle(color: widget.data.status == 'Lunas' ? Colors.green : Colors.red),
+                              )
+                            ],
+                          ),
                         ],
                       ),
                     ),

@@ -32,7 +32,7 @@ class _ModalTambahKehadiranState extends State<ModalTambahKehadiran> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Lottie.asset('assets/lottie/success-delete.json'),
+                  Lottie.asset('assets/lottie/success.json'),
                   SizedBox(
                     height: 10,
                   ),
@@ -80,6 +80,7 @@ class _ModalTambahKehadiranState extends State<ModalTambahKehadiran> {
     Provider.of<KelasProvider>(context, listen: false).addKehadiran(
       widget.id,
       {"materi": txtMateri.text, "jurnal": txtJurnal.text, "tglKelas": tglKelas},
+      
     ).then((value) => {
           if (value) {success()}
         });
@@ -160,6 +161,7 @@ class _ModalTambahKehadiranState extends State<ModalTambahKehadiran> {
                                         txtTanggalKelas.text = Config.formatDateInput(date.toString());
                                         var tgl = _dateTime.toString().split(' ');
                                         tglKelas = tgl[0].toString();
+                                        print(tglKelas);
                                       });
                                     }
                                   });

@@ -3,12 +3,14 @@
 
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<application android.name=".Application" android:label="BigStars App" android:icon="@mipmap/launcher_icon">
+	<application android.name=".Application" android:label="BigStars App" android:icon="@mipmap/ic_launcher">
 		<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBR06stz21DY5PazymBQe0oc7I9fpwd-v0" />
+		<meta-data
+  android:name="firebase_crashlytics_collection_enabled"
+  android:value="enable" />
 		<activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
 			<!--
 			Specifies an Android theme to apply to this Activity as soon as

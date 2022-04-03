@@ -26,47 +26,32 @@ class _ItemListSiswaState extends State<ItemListSiswa> {
         child: Card(
           child: Container(
             margin: EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       widget.data.nama,
                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                     ),
                     Text(
-                      widget.data.alamat,
+                      widget.data.status,
                       style: TextStyle(fontSize: 13, color: Config.textGrey),
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Text(
-                      widget.data.status,
-                      style: TextStyle(fontSize: 13, color: Config.textGrey),
-                    ),
-                    // IconButton(
-                    //     onPressed: () {
-                    //       Navigator.pushNamed(context, Routes.EDIT_SISWA,
-                    //           arguments: widget.data);
-                    //     },
-                    //     icon: Icon(
-                    //       Icons.edit,
-                    //       color: Config.primary,
-                    //     )),
-                    // IconButton(
-                    //     onPressed: () {
-                    //
-                    //     },
-                    //     icon: Icon(
-                    //       Icons.delete,
-                    //       color: Config.textRed,
-                    //     ))
-                  ],
-                )
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  widget.data.alamat,
+                  maxLines: 1,
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 13, color: Config.textGrey),
+                ),
               ],
             ),
           ),

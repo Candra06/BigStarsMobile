@@ -17,12 +17,12 @@ class Absensi {
   });
 
   int id;
-  String idGuru;
-  String idKelas;
+  int idGuru;
+  int idKelas;
   String tipe;
-  String spp;
-  String feePengajar;
-  String poinSiswa;
+  int spp;
+  int feePengajar;
+  int poinSiswa;
   String status;
   String materi;
   String fileMateri;

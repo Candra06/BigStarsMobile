@@ -30,21 +30,28 @@ class _HomeWaliState extends State<HomeWali> {
     var tmpNama = await Pref.getNama();
     var tmpUsername = await Pref.getUsername();
     AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
-   dashboardWali = await authProvider.getDashboardWali();
-    print(dashboardWali.notifUnread);
-    setState(() {
-      
-      notifUnread = dashboardWali.notifUnread;
-      nama = tmpNama;
-      username = tmpUsername;
-      load = false;
-      // load = true;
-    });
+    dashboardWali = await authProvider.getDashboardWali();
+    if (mounted) {
+      print(dashboardWali.notifUnread);
+      setState(() {
+        notifUnread = dashboardWali.notifUnread ?? 0;
+        nama = tmpNama;
+        username = tmpUsername;
+        load = false;
+        // load = true;
+      });
+    }
   }
 
   void initState() {
     getData();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    getData();
+    super.dispose();
   }
 
   @override

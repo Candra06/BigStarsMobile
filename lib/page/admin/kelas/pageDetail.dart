@@ -346,8 +346,8 @@ class _DetailKelasPageState extends State<DetailKelasPage> {
                   Config.itemDetail('Nama Siswa', detailKelas.data.siswa ?? '-'),
                   Config.itemDetail('Nama Guru', detailKelas.data.guru ?? '-'),
                   Config.itemDetail('Mata Pelajaran', detailKelas.data.mapel ?? '-'),
-                  Config.itemDetail('SPP', detailKelas.data.spp == null ? '-' : Config.formatRupiah(int.parse(detailKelas.data.spp))),
-                  Config.itemDetail('Fee Guru', detailKelas.data.feeGuru == null ? '-' : Config.formatRupiah(int.parse(detailKelas.data.feeGuru))),
+                  Config.itemDetail('SPP', detailKelas.data.spp == null ? '-' : Config.formatRupiah(detailKelas.data.spp)),
+                  Config.itemDetail('Fee Guru', detailKelas.data.feeGuru == null ? '-' : Config.formatRupiah(detailKelas.data.feeGuru)),
                   Config.itemDetail('Status', detailKelas.data.status ?? '-'),
                   InkWell(
                     onTap: () {

@@ -2,10 +2,8 @@ import 'package:bigstars_mobile/helper/config.dart';
 import 'package:bigstars_mobile/helper/pref.dart';
 import 'package:bigstars_mobile/helper/route.dart';
 import 'package:bigstars_mobile/model/DetailSpp_model.dart';
-import 'package:bigstars_mobile/model/spp_model.dart';
 import 'package:bigstars_mobile/provider/finance_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +31,7 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Lottie.asset('assets/lottie/success-delete.json'),
+                  Lottie.asset('assets/lottie/success.json'),
                   SizedBox(
                     height: 10,
                   ),
@@ -132,7 +130,7 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
         ),
         backgroundColor: Config.textWhite,
         title: Text(
-          "Inovice SPP",
+          "Invoice SPP",
           style: TextStyle(color: Config.primary),
         ),
       ),
@@ -187,9 +185,13 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Text(
-                                                  detailSPPModel.nama,
-                                                  style: TextStyle(color: Config.primary, fontSize: 18, fontWeight: FontWeight.bold),
+                                                Flexible(
+                                                  child: Text(
+                                                    detailSPPModel.nama,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                    style: TextStyle(color: Config.primary, fontSize: 18, fontWeight: FontWeight.bold),
+                                                  ),
                                                 ),
                                                 Container(
                                                   padding: EdgeInsets.all(8),
@@ -277,7 +279,7 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                                               children: [
                                                 Container(),
                                                 Text(
-                                                  Config.formatRupiah(int.parse(detailSPPModel.jumlah)),
+                                                  Config.formatRupiah(int.parse(detailSPPModel.jumlah.toString())),
                                                   style: TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.bold,
@@ -315,7 +317,7 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                                   RichText(
                                     textAlign: TextAlign.end,
                                     text: TextSpan(
-                                      text: 'BCA 200843566 ',
+                                      text: 'BCA 2000843566 ',
                                       style: TextStyle(color: Config.textWhite, fontSize: 18, fontWeight: FontWeight.bold),
                                       children: [
                                         TextSpan(text: 'a/n \n', style: TextStyle(fontSize: 16)),
@@ -382,7 +384,7 @@ class _InvoiceSPPState extends State<InvoiceSPP> {
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     Text(detailSPPModel.historiKehadiran[i].materi),
-                                                    Text(Config.formatRupiah(int.parse(detailSPPModel.historiKehadiran[i].spp))),
+                                                    Text(Config.formatRupiah(detailSPPModel.historiKehadiran[i].spp)),
                                                   ],
                                                 ),
                                                 SizedBox(

@@ -1,9 +1,8 @@
+import 'package:bigstars_mobile/model/DetailFee_model.dart';
 import 'package:bigstars_mobile/model/DetailSpp_model.dart';
 import 'package:bigstars_mobile/model/finance_model.dart';
 import 'package:bigstars_mobile/model/report_model.dart';
 import 'package:bigstars_mobile/model/spp_model.dart';
-import 'package:bigstars_mobile/page/admin/finance/financePage.dart';
-import 'package:bigstars_mobile/page/admin/finance/listFeeGuru.dart';
 import 'package:bigstars_mobile/service/finance_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:bigstars_mobile/model/feeGuru_model.dart';
@@ -12,6 +11,7 @@ class FinanceProvider with ChangeNotifier {
   FeeGuruModel _feeGuru;
   SppModel _sppModel;
   DetailSPPModel _detailSPPModel;
+  DetailFeeModel _detailFeeModel;
   FinanceModel _finance;
   get Finance => _finance;
   List<FeeGuruModel> _listFeeGuru;
@@ -19,12 +19,13 @@ class FinanceProvider with ChangeNotifier {
   List<ReportModel> _listReport;
 
   DetailSPPModel get detailSPPModel => _detailSPPModel;
+  DetailFeeModel get detailFeeModel => _detailFeeModel;
   List<SppModel> get ListSppModel => _listSppModel;
   List<ReportModel> get ListReportModel => _listReport;
-  get ListFeeGuru => _listFeeGuru;
+  List<FeeGuruModel> get listFeeGuru => _listFeeGuru;
 
-  Future getFinance() async {
-    FinanceModel finance = await FinanceService().indexFinance();
+  Future getFinance(String filtered) async {
+    FinanceModel finance = await FinanceService().indexFinance(filtered);
     _finance = finance;
     notifyListeners();
     return _finance;
@@ -90,6 +91,13 @@ class FinanceProvider with ChangeNotifier {
     _detailSPPModel = detailSPPModel;
     notifyListeners();
     return _detailSPPModel;
+  }
+
+  Future detailFee(String id) async {
+    DetailFeeModel detailFeeModel = await FinanceService().detailFee(id);
+    _detailFeeModel = detailFeeModel;
+    notifyListeners();
+    return _detailFeeModel;
   }
 
   Future<bool> konfirmasiFee(String id) async {
