@@ -29,7 +29,7 @@ class _HomeWaliState extends State<HomeWali> {
   void getData() async {
     var tmpNama = await Pref.getNama();
     var tmpUsername = await Pref.getUsername();
-    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+    AuthProvider authProvider = Provider.of<AuthProvider>(  context, listen: false);
     dashboardWali = await authProvider.getDashboardWali();
     if (mounted) {
       print(dashboardWali.notifUnread);

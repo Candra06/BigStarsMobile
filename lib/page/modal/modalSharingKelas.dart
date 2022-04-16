@@ -22,31 +22,21 @@ class _ModalSharingKelasState extends State<ModalSharingKelas> {
   bool isLoading = false;
   Position currentPosition;
 
-  getCurrentLocation() {
-    Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best, forceAndroidLocationManager: true).then((Position position) {
-      setState(() {
-        currentPosition = position;
-      });
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
   void addSharing() async {
-    var data = {"id_guru": idGuru, 'latitude': currentPosition.latitude.toString(), 'longitude': currentPosition.longitude.toString()};
+    var data = {"id_guru": idGuru};
     Map<String, dynamic> status = await Provider.of<KelasProvider>(context, listen: false).addSharing(widget.id, data);
     if (status['status'] == true) {
       widget.berhasil();
     } else {
       Config.alert(0, status['message']);
     }
+    Navigator.pop(context);
   }
 
   getData() {
     setState(() {
       // listGuru = widget.gurus;
     });
-    getCurrentLocation();
     for (var i = 0; i < widget.gurus.length; i++) {
       listGuru.add(widget.gurus[i]);
     }
@@ -113,7 +103,6 @@ class _ModalSharingKelasState extends State<ModalSharingKelas> {
                   onChanged: (value) {
                     setState(() {
                       idGuru = value;
-                      print(idGuru);
                     });
                   },
                 ),
@@ -132,9 +121,11 @@ class _ModalSharingKelasState extends State<ModalSharingKelas> {
                     decoration: BoxDecoration(color: Config.primary, borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: TextButton(
                       onPressed: () {
-
-                        addSharing();
-                        Navigator.pop(context);
+                        if (idGuru == null) {
+                          Config.alert(0, 'Harap pilih guru');
+                        } else {
+                          addSharing();
+                        }
                       },
                       child: Text(
                         'SIMPAN',

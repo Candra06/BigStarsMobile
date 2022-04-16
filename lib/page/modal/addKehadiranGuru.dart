@@ -11,8 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-
 class ModalTambahKehadiranGuru extends StatefulWidget {
   final String id;
   final ListKehadiran data;
@@ -146,7 +144,6 @@ class _ModalTambahKehadiranGuruState extends State<ModalTambahKehadiranGuru> {
           Config.alert(1, value['message']);
           Navigator.pop(context);
         } else {
-          FirebaseCrashlytics.instance.crash();
           Config.alert(0, value['message']);
           // Navigator.pop(context);
         }
