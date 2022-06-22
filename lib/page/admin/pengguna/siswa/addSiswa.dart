@@ -104,6 +104,7 @@ class _AddSiswaState extends State<AddSiswa> {
       isloading = false;
     });
   }
+
   Future backPress(BuildContext context) => Navigator.pushNamed(context, Routes.HOME_ADMIN, arguments: '3');
 
   @override
