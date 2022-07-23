@@ -78,27 +78,21 @@ class _WaliMainState extends State<WaliMain> {
               fixedColor: Config.primary,
               items: [
                 BottomNavigationBarItem(
-                    icon: FaIcon(
-                      FontAwesomeIcons.home,
-                    ),
-                    title: new Text(
-                      'Beranda',
-                      style: TextStyle(),
-                    )),
+                  icon: FaIcon(
+                    FontAwesomeIcons.home,
+                  ),
+                  label: 'Beranda',
+                ),
                 BottomNavigationBarItem(
-                    icon: FaIcon(
-                      FontAwesomeIcons.graduationCap,
-                    ),
-                    title: new Text(
-                      'Kelas',
-                      style: TextStyle(),
-                    )),
+                  icon: FaIcon(
+                    FontAwesomeIcons.graduationCap,
+                  ),
+                  label: 'Kelas',
+                ),
                 BottomNavigationBarItem(
-                    icon: FaIcon(FontAwesomeIcons.fileInvoiceDollar),
-                    title: new Text(
-                      'Finance',
-                      style: TextStyle(),
-                    )),
+                  icon: FaIcon(FontAwesomeIcons.fileInvoiceDollar),
+                  label: 'Finance',
+                ),
               ],
               onTap: (index) {
                 setState(() {

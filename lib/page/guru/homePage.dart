@@ -12,8 +12,8 @@ import 'package:bigstars_mobile/model/user_model.dart';
 import 'package:bigstars_mobile/page/admin/listItem/itemListKelasTodayGuru.dart';
 // import 'package:bigstars_mobile/page/guru/kelas/listItem.dart';
 import 'package:bigstars_mobile/provider/auth_provider.dart';
-import 'package:bigstars_mobile/provider/guru/kelas_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class HomeGuru extends StatefulWidget {
@@ -39,7 +39,8 @@ class _HomeGuruState extends State<HomeGuru> {
     });
     var tmpName = await Pref.getNama();
     var tmpUsername = await Pref.getUsername();
-    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
     dashboardGuruModel = await authProvider.getDashboardGuru();
     if (mounted) {
       setState(() {
@@ -89,7 +90,8 @@ class _HomeGuruState extends State<HomeGuru> {
                               children: <Widget>[
                                 IconButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, Routes.NOTIFIKASI);
+                                    Navigator.pushNamed(
+                                        context, Routes.NOTIFIKASI);
                                   },
                                   icon: Icon(
                                     Icons.notifications,
@@ -105,7 +107,8 @@ class _HomeGuruState extends State<HomeGuru> {
                                           padding: EdgeInsets.all(0),
                                           decoration: new BoxDecoration(
                                             color: Config.boxBlue,
-                                            borderRadius: BorderRadius.circular(5),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
                                           ),
                                           constraints: BoxConstraints(
                                             minWidth: 10,
@@ -126,7 +129,8 @@ class _HomeGuruState extends State<HomeGuru> {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.pushNamed(context, Routes.PROFILE_GURU);
+                                Navigator.pushNamed(
+                                    context, Routes.PROFILE_GURU);
                               },
                               child: Icon(
                                 Icons.person,
@@ -141,18 +145,25 @@ class _HomeGuruState extends State<HomeGuru> {
                         ),
                         Text(
                           'Selamat Datang',
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Config.textWhite),
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w800,
+                              color: Config.textWhite),
                         ),
                         SizedBox(
                           height: 10,
                         ),
                         Text(
                           name ?? '-',
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Config.textWhite),
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w800,
+                              color: Config.textWhite),
                         ),
                         Text(
                           username ?? '-',
-                          style: TextStyle(fontSize: 18, color: Config.textWhite),
+                          style:
+                              TextStyle(fontSize: 18, color: Config.textWhite),
                         )
                       ],
                     ),
@@ -161,29 +172,17 @@ class _HomeGuruState extends State<HomeGuru> {
                     height: 10,
                   ),
                   Container(
-                    decoration: BoxDecoration(color: Config.textWhite, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                    decoration: BoxDecoration(
+                        color: Config.textWhite,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))),
                     width: MediaQuery.of(context).size.width,
                     constraints: BoxConstraints(
                       minHeight: MediaQuery.of(context).size.height * 0.3,
                       maxHeight: MediaQuery.of(context).size.height * 0.8,
                     ),
                     padding: EdgeInsets.all(16),
-                    // child: FutureBuilder(
-                    //   future: Provider.of<AuthProvider>(context, listen: false).getDashboardGuru(),
-                    //   builder: (context, snapshot) {
-                    //     if (snapshot.connectionState == ConnectionState.waiting) {
-                    //       return Center(
-                    //         child: CircularProgressIndicator(),
-                    //       );
-                    //     }
-                    //     return Consumer<AuthProvider>(
-                    //       builder: (context, value, child) {
-                    //         notifUnread = value.dashboardGuruModel.notifUnread;
-                    //         return ;
-                    //       },
-                    //     );
-                    //   },
-                    // )
                     child: load
                         ? Center(
                             child: CircularProgressIndicator(),
@@ -199,18 +198,29 @@ class _HomeGuruState extends State<HomeGuru> {
                                   Expanded(
                                       child: Container(
                                     margin: EdgeInsets.only(right: 4),
-                                    decoration: BoxDecoration(color: Config.boxBlue, borderRadius: BorderRadius.circular(10)),
+                                    decoration: BoxDecoration(
+                                        color: Config.boxBlue,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
                                     padding: EdgeInsets.all(8),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Kelas Aktif',
-                                          style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              color: Config.textWhite,
+                                              fontSize: 18),
                                         ),
                                         Text(
-                                          dashboardGuruModel.kelasAktif.toString(),
-                                          style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 20),
+                                          dashboardGuruModel.kelasAktif
+                                              .toString(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              color: Config.textWhite,
+                                              fontSize: 20),
                                         ),
                                       ],
                                     ),
@@ -218,18 +228,29 @@ class _HomeGuruState extends State<HomeGuru> {
                                   Expanded(
                                       child: Container(
                                     margin: EdgeInsets.only(left: 4),
-                                    decoration: BoxDecoration(color: Config.boxYellow, borderRadius: BorderRadius.circular(10)),
+                                    decoration: BoxDecoration(
+                                        color: Config.boxYellow,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
                                     padding: EdgeInsets.all(8),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Fee Bulan Ini',
-                                          style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 18),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              color: Config.textWhite,
+                                              fontSize: 18),
                                         ),
                                         Text(
-                                          Config.formatRupiah(dashboardGuruModel.fee),
-                                          style: TextStyle(fontWeight: FontWeight.w800, color: Config.textWhite, fontSize: 20),
+                                          Config.formatRupiah(
+                                              dashboardGuruModel.fee),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              color: Config.textWhite,
+                                              fontSize: 20),
                                         ),
                                       ],
                                     ),
@@ -247,20 +268,138 @@ class _HomeGuruState extends State<HomeGuru> {
                                 height: 10,
                               ),
                               Container(
+                                constraints: BoxConstraints(
+                                    minHeight:
+                                        dashboardGuruModel.kelasToday.length > 0
+                                            ? 200
+                                            : 20,
+                                    maxHeight:
+                                        dashboardGuruModel.kelasToday.length > 0
+                                            ? MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.3
+                                            : 50),
                                 child: dashboardGuruModel.kelasToday.length == 0
-                                    ? Center(child: Text('Tidak ada kelas hari ini'))
+                                    ? Center(
+                                        child: Text('Tidak ada kelas hari ini'))
                                     : ListView.builder(
                                         shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: dashboardGuruModel.kelasToday.length,
-                                        itemBuilder: (BuildContext cotext, int i) {
-                                          if (dashboardGuruModel.kelasToday == []) {
+                                        // physics: NeverScrollableScrollPhysics(),
+                                        itemCount: dashboardGuruModel
+                                            .kelasToday.length,
+                                        // itemCount: 12,
+                                        itemBuilder:
+                                            (BuildContext cotext, int i) {
+                                          if (dashboardGuruModel.kelasToday ==
+                                              []) {
                                             return Text('Belum ada data kelas');
                                           } else {
                                             return ItemKelasTodayGuru(
-                                              data: dashboardGuruModel.kelasToday[i],
+                                              data: dashboardGuruModel
+                                                  .kelasToday[i],
                                             );
                                           }
+                                          // return Container(
+                                          //   margin: EdgeInsets.only(top: 8),
+                                          //   decoration: BoxDecoration(
+                                          //       border: Border.all(
+                                          //           width: 1,
+                                          //           color: Config.borderInput),
+                                          //       borderRadius:
+                                          //           BorderRadius.circular(10)),
+                                          //   child: Column(
+                                          //     crossAxisAlignment:
+                                          //         CrossAxisAlignment.start,
+                                          //     children: [
+                                          //       Container(
+                                          //         margin: EdgeInsets.all(8),
+                                          //         child: Row(
+                                          //           mainAxisAlignment:
+                                          //               MainAxisAlignment
+                                          //                   .spaceBetween,
+                                          //           children: [
+                                          //             Text(
+                                          //               ' widget.data.siswa',
+                                          //               style: TextStyle(
+                                          //                   fontWeight:
+                                          //                       FontWeight.w900,
+                                          //                   fontSize: 13),
+                                          //             ),
+                                          //             Text(
+                                          //               'widget.data.mapel',
+                                          //               style: TextStyle(
+                                          //                   fontWeight:
+                                          //                       FontWeight.w900,
+                                          //                   fontSize: 13),
+                                          //             )
+                                          //           ],
+                                          //         ),
+                                          //       ),
+                                          //       Divider(
+                                          //         height: 1,
+                                          //       ),
+                                          //       Row(
+                                          //         mainAxisAlignment:
+                                          //             MainAxisAlignment
+                                          //                 .spaceBetween,
+                                          //         children: [
+                                          //           Container(
+                                          //             margin: EdgeInsets.all(8),
+                                          //             child: Text(
+                                          //               'widget.data.guru',
+                                          //               style: TextStyle(
+                                          //                   fontWeight:
+                                          //                       FontWeight.w200,
+                                          //                   fontSize: 13),
+                                          //             ),
+                                          //           ),
+                                          //         ],
+                                          //       ),
+                                          //       Container(
+                                          //         margin: EdgeInsets.fromLTRB(
+                                          //             8, 0, 8, 8),
+                                          //         child: Row(
+                                          //           mainAxisAlignment:
+                                          //               MainAxisAlignment
+                                          //                   .spaceBetween,
+                                          //           children: [
+                                          //             Row(
+                                          //               children: [
+                                          //                 FaIcon(
+                                          //                   FontAwesomeIcons
+                                          //                       .clock,
+                                          //                   color: Config
+                                          //                       .boxYellow,
+                                          //                 ),
+                                          //                 SizedBox(
+                                          //                   width: 8,
+                                          //                 ),
+                                          //                 Text(
+                                          //                   Config.formatJam(
+                                          //                           '10.00') +
+                                          //                       '-' +
+                                          //                       Config.formatJam(
+                                          //                           '12.00'),
+                                          //                   style: TextStyle(
+                                          //                     fontWeight:
+                                          //                         FontWeight
+                                          //                             .w900,
+                                          //                     fontSize: 13,
+                                          //                     color: Config
+                                          //                         .boxYellow,
+                                          //                   ),
+                                          //                 ),
+                                          //               ],
+                                          //             ),
+                                          //             Config.bedgeStatus(
+                                          //                 'sharing')
+                                          //           ],
+                                          //         ),
+                                          //       ),
+                                          //     ],
+                                          //   ),
+                                          // );
                                         }),
                               ),
                               SizedBox(
@@ -273,10 +412,24 @@ class _HomeGuruState extends State<HomeGuru> {
                                 ),
                                 // Jika data ada
                                 Container(
+                                  constraints: BoxConstraints(
+                                      minHeight:
+                                          dashboardGuruModel.sharing.length > 0
+                                              ? 200
+                                              : 20,
+                                      maxHeight:
+                                          dashboardGuruModel.sharing.length > 0
+                                              ? MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.3
+                                              : 50),
                                   child: ListView.builder(
                                     shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: dashboardGuruModel.sharing.length,
+                                    // itemCount: 20,
+                                    // physics: NeverScrollableScrollPhysics(),
+                                    itemCount:
+                                        dashboardGuruModel.sharing.length,
                                     itemBuilder: (BuildContext cotext, int i) {
                                       return ItemKelasTodayGuru(
                                         data: dashboardGuruModel.sharing[i],
